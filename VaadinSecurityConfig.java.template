@@ -1,0 +1,69 @@
+package com.quizz.examplefeature.security;
+
+import com.vaadin.flow.spring.security.VaadinWebSecurity;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+/**
+ * Configuration de sécurité pour l'application Quiz avec support OAuth2
+ *
+ * IMPORTANT: Ce fichier nécessite Java 17 ou supérieur pour compiler.
+ *
+ * Une fois Java 21 installé:
+ * 1. Copier ce fichier dans src/main/java/com/quizz/examplefeature/security/
+ * 2. Renommer en VaadinSecurityConfig.java
+ * 3. Supprimer le fichier SecurityConfig.java actuel
+ * 4. Recompiler le projet
+ *
+ * Ce fichier configure:
+ * - OAuth2 Login avec Google, Facebook et LinkedIn
+ * - La page de connexion personnalisée
+ * - Les redirections après connexion/erreur
+ * - La sécurité Vaadin
+ */
+@Configuration
+@EnableWebSecurity
+public class VaadinSecurityConfigTemplate extends VaadinWebSecurity {
+
+    /**
+     * Configure la sécurité HTTP avec OAuth2
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // Configure OAuth2 Login
+        http.oauth2Login(oauth2 -> oauth2
+            // Page de connexion personnalisée
+            .loginPage("/login")
+
+            // Redirection vers la page d'accueil après connexion réussie
+            .defaultSuccessUrl("/", true)
+
+            // Redirection vers la page de connexion avec erreur en cas d'échec
+            .failureUrl("/login?error")
+
+            // Gestion du succès de connexion (optionnel, pour traitement personnalisé)
+            // .successHandler((request, response, authentication) -> {
+            //     // Logique personnalisée après connexion réussie
+            //     response.sendRedirect("/");
+            // })
+        );
+
+        // Configure la sécurité Vaadin
+        super.configure(http);
+
+        // Définit la vue de connexion
+        setLoginView(http, LoginView.class);
+    }
+
+    /**
+     * NOTE: Le PasswordEncoder est déjà configuré dans SecurityConfig.java
+     * Si vous supprimez SecurityConfig.java, décommentez ci-dessous:
+     *
+     * @Bean
+     * public PasswordEncoder passwordEncoder() {
+     *     return new BCryptPasswordEncoder();
+     * }
+     */
+}
+

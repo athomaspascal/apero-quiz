@@ -76,5 +76,39 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Transactional
+    public User createOrUpdateOAuthUser(String provider, String providerId, String name, String email) {
+        // Check if user already exists with this OAuth provider
+        Optional<User> existingUser = userRepository.findByOauthProviderAndOauthProviderId(provider, providerId);
+
+        if (existingUser.isPresent()) {
+            // Update existing user
+            User user = existingUser.get();
+            user.setName(name);
+            user.setEmail(email);
+            return userRepository.saveAndFlush(user);
+        }
+
+        // Check if user exists with this email
+        Optional<User> userByEmail = userRepository.findByEmail(email);
+        if (userByEmail.isPresent()) {
+            // Link OAuth to existing account
+            User user = userByEmail.get();
+            user.setOauthProvider(provider);
+            user.setOauthProviderId(providerId);
+            return userRepository.saveAndFlush(user);
+        }
+
+        // Create new user
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setEmail(email);
+        newUser.setTelephone("");
+        newUser.setPassword(""); // OAuth users don't need password
+        newUser.setOauthProvider(provider);
+        newUser.setOauthProviderId(providerId);
+        return userRepository.saveAndFlush(newUser);
+    }
 }
 

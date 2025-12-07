@@ -23,11 +23,17 @@ public class User {
     @Column(name = "email", nullable = false, unique = true, length = EMAIL_MAX_LENGTH)
     private String email = "";
 
-    @Column(name = "telephone", nullable = false, length = TELEPHONE_MAX_LENGTH)
+    @Column(name = "telephone", length = TELEPHONE_MAX_LENGTH)
     private String telephone = "";
 
-    @Column(name = "password", nullable = false, length = PASSWORD_MAX_LENGTH)
+    @Column(name = "password", length = PASSWORD_MAX_LENGTH)
     private String password = "";
+
+    @Column(name = "oauth_provider", length = 50)
+    private String oauthProvider;
+
+    @Column(name = "oauth_provider_id", length = 255)
+    private String oauthProviderId;
 
     protected User() { // To keep Hibernate happy
     }
@@ -81,10 +87,26 @@ public class User {
     }
 
     public void setPassword(String password) {
-        if (password.length() > PASSWORD_MAX_LENGTH) {
+        if (password != null && password.length() > PASSWORD_MAX_LENGTH) {
             throw new IllegalArgumentException("Password length exceeds " + PASSWORD_MAX_LENGTH);
         }
         this.password = password;
+    }
+
+    public String getOauthProvider() {
+        return oauthProvider;
+    }
+
+    public void setOauthProvider(String oauthProvider) {
+        this.oauthProvider = oauthProvider;
+    }
+
+    public String getOauthProviderId() {
+        return oauthProviderId;
+    }
+
+    public void setOauthProviderId(String oauthProviderId) {
+        this.oauthProviderId = oauthProviderId;
     }
 
     @Override

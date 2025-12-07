@@ -1,6 +1,7 @@
 package com.quizz.examplefeature.ui;
 
 import com.quizz.examplefeature.*;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
@@ -9,14 +10,24 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 @Route("quiz-questions/:quizId")
 @PageTitle("Quiz Questions")
 class  QuizQuestionView extends Main implements BeforeEnterObserver {
+
+    private static final int MAX_QUESTIONS = 5; // Limit to 5 questions
+    private static final int TIME_LIMIT_SECONDS = 60; // 1 minute time limit
 
     private final QuizQuestionService quizQuestionService;
     private final QuizService quizService;
@@ -27,6 +38,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private QuizQuestion currentQuestion;
     private int correctAnswers = 0;
     private int totalQuestions = 0;
+    private List<QuizQuestion> randomQuestions = new ArrayList<>();
 
     private final H2 questionTitle;
     private final H3 questionText;
@@ -35,6 +47,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private final Button previousButton;
     private final Paragraph progressText;
     private final Div answerFeedback;
+
+    // Timer components
+    private final ProgressBar timeProgressBar;
+    private final Paragraph timeLabel;
+    private Timer timer;
+    private long startTime;
+    private int elapsedSeconds = 0;
 
     QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
                      QuizSessionService sessionService) {
@@ -58,6 +77,24 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         answerFeedback.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
         answerFeedback.setVisible(false);
 
+        // Timer components
+        timeProgressBar = new ProgressBar();
+        timeProgressBar.setMin(0);
+        timeProgressBar.setMax(TIME_LIMIT_SECONDS);
+        timeProgressBar.setValue(0);
+        timeProgressBar.setWidth("100%");
+        timeProgressBar.getStyle().set("--lumo-primary-color", "#1976d2");
+
+        timeLabel = new Paragraph("Time: 0s / 60s");
+        timeLabel.getStyle()
+            .set("font-weight", "bold")
+            .set("text-align", "center")
+            .set("margin", "0");
+
+        Div timerContainer = new Div();
+        timerContainer.addClassNames(LumoUtility.Margin.Bottom.LARGE);
+        timerContainer.add(timeLabel, timeProgressBar);
+
         previousButton = new Button("Previous", event -> showPreviousQuestion());
         previousButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
@@ -77,6 +114,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         buttonLayout.addClassNames(LumoUtility.Display.FLEX, LumoUtility.Gap.MEDIUM);
 
         VerticalLayout content = new VerticalLayout(
+            timerContainer,
             questionTitle,
             questionText,
             optionsGroup,
@@ -115,19 +153,110 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 event.rerouteTo("");
                 return;
             }
-            // Initialize total questions count
-            this.totalQuestions = quizQuestionService.getTotalQuestionsByQuizId(quizId);
+
+            // Load all questions and select 5 randomly
+            int totalAvailableQuestions = quizQuestionService.getTotalQuestionsByQuizId(quizId);
+            List<QuizQuestion> allQuestions = new ArrayList<>();
+            for (int i = 0; i < totalAvailableQuestions; i++) {
+                QuizQuestion question = quizQuestionService.getQuestionByQuizIdAndIndex(quizId, i);
+                if (question != null) {
+                    allQuestions.add(question);
+                }
+            }
+
+            // Shuffle and take only MAX_QUESTIONS (5)
+            Collections.shuffle(allQuestions);
+            this.randomQuestions = allQuestions.stream()
+                .limit(MAX_QUESTIONS)
+                .toList();
+
+            // Set total questions to the number we're actually showing
+            this.totalQuestions = Math.min(MAX_QUESTIONS, this.randomQuestions.size());
+
             // Load first question
             displayQuestion();
+
+            // Start the timer
+            startTimer();
         } catch (NumberFormatException e) {
             event.rerouteTo("");
         }
     }
 
-    private void displayQuestion() {
-        currentQuestion = quizQuestionService.getQuestionByQuizIdAndIndex(quizId, currentQuestionIndex);
+    private void startTimer() {
+        startTime = System.currentTimeMillis();
+        elapsedSeconds = 0;
 
-        if (currentQuestion != null) {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                UI ui = getUI().orElse(null);
+                if (ui != null) {
+                    ui.access(() -> {
+                        elapsedSeconds++;
+
+                        // Update progress bar and label
+                        timeProgressBar.setValue(elapsedSeconds);
+                        timeLabel.setText("Time: " + elapsedSeconds + "s / " + TIME_LIMIT_SECONDS + "s");
+
+                        // Change color based on time remaining
+                        if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.8) {
+                            timeProgressBar.getStyle().set("--lumo-primary-color", "#d32f2f");
+                        } else if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.5) {
+                            timeProgressBar.getStyle().set("--lumo-primary-color", "#ff9800");
+                        }
+
+                        // Time's up!
+                        if (elapsedSeconds >= TIME_LIMIT_SECONDS) {
+                            stopTimer();
+                            finishQuizTimeUp();
+                        }
+                    });
+                }
+            }
+        }, 1000, 1000); // Update every second
+    }
+
+    private void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    private void finishQuizTimeUp() {
+        // Disable all interactions
+        optionsGroup.setEnabled(false);
+        nextButton.setEnabled(false);
+        previousButton.setEnabled(false);
+
+        // Show time's up message
+        answerFeedback.setText("⏰ Time's up! Quiz finished.");
+        answerFeedback.getStyle()
+            .set("color", "var(--lumo-error-text-color)")
+            .set("font-weight", "bold")
+            .set("padding", "var(--lumo-space-m)")
+            .set("background-color", "var(--lumo-error-color-10pct)")
+            .set("border-radius", "var(--lumo-border-radius-m)");
+        answerFeedback.setVisible(true);
+
+        // Show final score after a short delay
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                UI ui = getUI().orElse(null);
+                if (ui != null) {
+                    ui.access(() -> showFinalScore());
+                }
+            }
+        }, 2000);
+    }
+
+    private void displayQuestion() {
+        if (currentQuestionIndex < randomQuestions.size()) {
+            currentQuestion = randomQuestions.get(currentQuestionIndex);
+
             questionTitle.setText("Question " + (currentQuestionIndex + 1));
             questionText.setText(currentQuestion.getQuestion());
             optionsGroup.setItems(currentQuestion.getOptions());
@@ -135,13 +264,12 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             answerFeedback.setVisible(false);
             answerFeedback.setText("");
 
-            int total = quizQuestionService.getTotalQuestionsByQuizId(quizId);
-            progressText.setText("Question " + (currentQuestionIndex + 1) + " of " + total);
+            progressText.setText("Question " + (currentQuestionIndex + 1) + " of " + totalQuestions);
 
             previousButton.setEnabled(currentQuestionIndex > 0);
             nextButton.setEnabled(false); // Disable next button until an answer is selected
 
-            if (currentQuestionIndex >= total - 1) {
+            if (currentQuestionIndex >= totalQuestions - 1) {
                 nextButton.setText("Finish");
             } else {
                 nextButton.setText("Next");
@@ -176,11 +304,18 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     }
 
     private void displayFinalScore() {
+        // Stop the timer
+        stopTimer();
+
+        showFinalScore();
+    }
+
+    private void showFinalScore() {
         questionTitle.setText("Quiz Completed!");
 
         double percentage = (totalQuestions > 0) ? ((double) correctAnswers / totalQuestions) * 100 : 0;
-        String scoreMessage = String.format("Your Score: %d/%d (%.1f%%)",
-            correctAnswers, totalQuestions, percentage);
+        String scoreMessage = String.format("Your Score: %d/%d (%.1f%%) - Time: %ds",
+            correctAnswers, totalQuestions, percentage, elapsedSeconds);
 
         questionText.setText(scoreMessage);
 
@@ -261,4 +396,3 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         }
     }
 }
-

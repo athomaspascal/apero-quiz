@@ -1,10 +1,15 @@
 package com.quizz.examplefeature.security;
 
 import com.quizz.examplefeature.User;
-import com.quizz.examplefeature.UserService;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -13,22 +18,20 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import jakarta.annotation.security.PermitAll;
 
 @Route("login")
 @PageTitle("Login | Quiz Application")
 @AnonymousAllowed
+@PermitAll
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm loginForm = new LoginForm();
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationService authenticationService;
 
-    public LoginView(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
+    public LoginView(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
 
         addClassName("login-view");
         setSizeFull();
@@ -56,6 +59,41 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("text-align", "center")
             .set("margin-top", "var(--lumo-space-s)");
 
+        // OAuth2 section
+        Hr divider = new Hr();
+        divider.getStyle()
+            .set("width", "100%")
+            .set("margin", "var(--lumo-space-m) 0");
+
+        Span orText = new Span("Or sign in with");
+        orText.getStyle()
+            .set("color", "var(--lumo-secondary-text-color)")
+            .set("font-size", "var(--lumo-font-size-s)")
+            .set("text-align", "center")
+            .set("display", "block")
+            .set("margin", "var(--lumo-space-m) 0");
+
+        Button googleButton = createOAuthButton("Google", "#4285F4", VaadinIcon.GOOGLE_PLUS);
+        googleButton.addClickListener(e ->
+            getUI().ifPresent(ui -> ui.getPage().setLocation("/oauth2/authorization/google"))
+        );
+
+        Button facebookButton = createOAuthButton("Facebook", "#1877F2", VaadinIcon.FACEBOOK);
+        facebookButton.addClickListener(e ->
+            getUI().ifPresent(ui -> ui.getPage().setLocation("/oauth2/authorization/facebook"))
+        );
+
+        Button linkedinButton = createOAuthButton("LinkedIn", "#0A66C2", VaadinIcon.CONNECT);
+        linkedinButton.addClickListener(e ->
+            getUI().ifPresent(ui -> ui.getPage().setLocation("/oauth2/authorization/linkedin"))
+        );
+
+        VerticalLayout oauthButtons = new VerticalLayout();
+        oauthButtons.setSpacing(true);
+        oauthButtons.setPadding(false);
+        oauthButtons.setWidthFull();
+        oauthButtons.add(googleButton, facebookButton, linkedinButton);
+
         Div loginContainer = new Div();
         loginContainer.getStyle()
             .set("background", "var(--lumo-base-color)")
@@ -69,7 +107,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         content.setSpacing(false);
         content.setPadding(false);
         content.setAlignItems(Alignment.CENTER);
-        content.add(title, subtitle, loginForm, registerLink);
+        content.add(title, subtitle, loginForm, divider, orText, oauthButtons, registerLink);
 
         loginContainer.add(content);
         add(loginContainer);
@@ -88,22 +126,41 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     private void handleLogin(String email, String password) {
-        User user = userService.getByEmail(email);
+        boolean authenticated = authenticationService.authenticate(email, password);
 
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            // Store user in session
-            VaadinSession.getCurrent().setAttribute(User.class, user);
+        if (authenticated) {
+            // Get the authenticated user
+            User user = authenticationService.getCurrentUser();
 
-            // Redirect to main page
-            getUI().ifPresent(ui -> ui.navigate(""));
+            if (user != null) {
+                Notification.show("Welcome back, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
+                    .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }
 
-            Notification.show("Welcome back, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
-                .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            // Navigate to main page - use navigate() instead of setLocation() to stay in Vaadin context
+            getUI().ifPresent(ui -> {
+                // Force a page reload to ensure security context is updated
+                ui.getPage().setLocation("/");
+            });
         } else {
             loginForm.setError(true);
             Notification.show("Invalid email or password", 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
+    }
+
+    private Button createOAuthButton(String providerName, String color, VaadinIcon icon) {
+        Button button = new Button(providerName);
+        button.setIcon(new Icon(icon));
+        button.setWidthFull();
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        button.getStyle()
+            .set("background-color", color)
+            .set("border", "none")
+            .set("color", "white")
+            .set("font-weight", "500")
+            .set("text-transform", "none");
+        return button;
     }
 }
 

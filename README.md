@@ -13,16 +13,34 @@ La méthode recommandée est de lancer l'application depuis **IntelliJ IDEA** :
 
 ## ✨ Fonctionnalités
 
+### 🔐 Authentification OAuth2
+- ✅ Connexion avec Google
+- ✅ Connexion avec Facebook
+- ✅ Connexion avec LinkedIn
+- ✅ Création automatique d'utilisateurs
+- ✅ Liaison de comptes OAuth2 existants
+
+### 👤 Gestion des Utilisateurs
+- ✅ Entité User avec nom, email, téléphone, password
+- ✅ Page de connexion classique (Sign-in)
+- ✅ Page d'inscription (Sign-up)
+- ✅ Mot de passe oublié
+- ✅ Stockage sécurisé des mots de passe (BCrypt)
+
 ### 📝 Gestion des Quiz
 - ✅ Créer des quiz avec un nom
 - ✅ Lister tous les quiz disponibles
 - ✅ Jouer à un quiz spécifique
+- ✅ 8 quiz pré-chargés (General Knowledge, Second Quiz, Painting Quiz, etc.)
+- ✅ Partage de sessions de quiz avec QR code
+- ✅ Affichage des scores de tous les participants
 
 ### ❓ Système de Questions
 - ✅ Questions liées à un quiz (relation ManyToOne)
 - ✅ Affichage des questions une par une
-- ✅ Choix multiples avec RadioButton
-- ✅ 10 questions pré-chargées depuis JSON au démarrage
+- ✅ Choix multiples avec RadioButton colorés
+- ✅ Questions chargées depuis JSON selon le nom du quiz
+- ✅ Affichage du score final après la dernière question
 
 ### 🎮 Interface Utilisateur
 - ✅ Navigation intuitive
@@ -30,6 +48,7 @@ La méthode recommandée est de lancer l'application depuis **IntelliJ IDEA** :
 - ✅ Feedback immédiat (✓ Correct / ✗ Incorrect)
 - ✅ Navigation Previous/Next entre les questions
 - ✅ Affichage de la progression (Question X sur Y)
+- ✅ Boutons colorés pour les options de réponse
 
 ### 💾 Persistance
 - ✅ Base de données H2 en mémoire
@@ -139,12 +158,38 @@ Au premier démarrage, un quiz "General Knowledge Quiz" avec 10 questions est au
 
 ## ⚙️ Configuration
 
+### Configuration de base
+
 Le fichier `application.properties` contient :
 ```properties
 vaadin.frontend.hotdeploy=false
 vaadin.productionMode=true
 spring.jpa.hibernate.ddl-auto=update
 ```
+
+### 🔐 Configuration OAuth2
+
+**Pour configurer OAuth2 (Google, Facebook, LinkedIn), consultez le fichier [OAUTH2_CONFIGURATION.md](OAUTH2_CONFIGURATION.md)**
+
+Étapes rapides :
+1. Créer des applications OAuth2 sur Google Cloud Console, Facebook Developers, LinkedIn Developers
+2. Copier les Client ID et Client Secret
+3. Mettre à jour `src/main/resources/application.properties` avec vos identifiants
+4. Démarrer l'application avec Java 21 :
+   ```bash
+   start-with-java21.bat
+   ```
+
+### Java 21
+
+L'application nécessite **Java 21** (Azul Zulu 21.0.9) installé dans :
+```
+C:\Users\athom\.jdks\azul-21.0.9
+```
+
+Scripts disponibles :
+- `compile-java21.bat` : Compiler le projet avec Java 21
+- `start-with-java21.bat` : Démarrer l'application avec Java 21
 
 ## 🐛 Problèmes connus
 

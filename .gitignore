@@ -12,3 +12,9 @@
 node_modules/
 src/main/frontend/generated/
 vite.generated.ts
+
+# OAuth2 credentials - NEVER commit these files
+oauth2-credentials.properties
+**/application-secrets.properties
+**/application-local.properties
+
