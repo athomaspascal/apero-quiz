@@ -98,7 +98,7 @@ Ouvrir http://localhost:8080
 ## 📋 Configuration Complète Finale
 
 ```java
-package com.quizz.examplefeature.security;
+package com.quizz.core.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -117,7 +117,7 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     public SecurityConfig(CustomOAuth2UserService customOAuth2UserService,
-                         OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
+                          OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.customOAuth2UserService = customOAuth2UserService;
         this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
@@ -129,26 +129,26 @@ public class SecurityConfig {
 
         // Let Vaadin handle view security with annotations
         http.authorizeHttpRequests(auth -> auth
-            .anyRequest().permitAll()
+                .anyRequest().permitAll()
         );
 
         // Configure OAuth2 login
         http.oauth2Login(oauth2 -> oauth2
-            .loginPage("/login")
-            .userInfoEndpoint(userInfo -> userInfo
-                .userService(customOAuth2UserService)
-            )
-            .successHandler(oAuth2LoginSuccessHandler)
-            .permitAll()
+                .loginPage("/login")
+                .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOAuth2UserService)
+                )
+                .successHandler(oAuth2LoginSuccessHandler)
+                .permitAll()
         );
 
         // Configure logout
         http.logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/login")
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
-            .permitAll()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
         );
 
         return http.build();

@@ -83,7 +83,7 @@ Le projet utilise Vaadin 24.9.6 qui nécessite Java 17 minimum. Sans cela, le pr
 **Fichier :** `src/main/java/com/quizz/examplefeature/security/VaadinSecurityConfig.java`
 
 ```java
-package com.quizz.examplefeature.security;
+package com.quizz.core.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Configuration;
@@ -98,11 +98,11 @@ public class VaadinSecurityConfig extends VaadinWebSecurity {
     protected void configure(HttpSecurity http) throws Exception {
         // Configure OAuth2 login
         http.oauth2Login(oauth2 -> oauth2
-            .loginPage("/login")
-            .defaultSuccessUrl("/", true)
-            .failureUrl("/login?error")
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error")
         );
-        
+
         // Configure Vaadin security
         super.configure(http);
         setLoginView(http, LoginView.class);

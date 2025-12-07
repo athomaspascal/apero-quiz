@@ -5,6 +5,7 @@
             "questions": [
                 {
                     "id": 1,
+                    "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
                     "question": "What is the capital of France?",
                     "options": [
                         "Berlin",
@@ -23,7 +24,8 @@
                         "Jupiter",
                         "Saturn"
                     ],
-                    "answer": "Mars"
+                    "answer": "Mars",
+                    "uuid": "32cf5fb0-8a5e-4aa3-846f-81e7b45897c2"
                 },
                 {
                     "id": 3,
@@ -34,7 +36,8 @@
                         "Arctic Ocean",
                         "Pacific Ocean"
                     ],
-                    "answer": "Pacific Ocean"
+                    "answer": "Pacific Ocean",
+                    "uuid": "e6c8f770-e259-4119-bceb-dcf8fbfc5325"
                 },
                 {
                     "id": 4,
@@ -45,7 +48,8 @@
                         "Jane Austen",
                         "Mark Twain"
                     ],
-                    "answer": "William Shakespeare"
+                    "answer": "William Shakespeare",
+                    "uuid": "8a2a7db9-8f6e-4f83-b317-7d77c9f62d79"
                 },
                 {
                     "id": 5,
@@ -56,7 +60,8 @@
                         "2",
                         "3"
                     ],
-                    "answer": "2"
+                    "answer": "2",
+                    "uuid": "26c4da24-7447-41ee-a2fd-30970d43f1de"
                 },
                 {
                     "id": 6,
@@ -67,7 +72,8 @@
                         "Osmium",
                         "Silver"
                     ],
-                    "answer": "Oxygen"
+                    "answer": "Oxygen",
+                    "uuid": "e8602fac-eba3-447b-a738-498586d64969"
                 },
                 {
                     "id": 7,
@@ -78,7 +84,8 @@
                         "1945",
                         "1946"
                     ],
-                    "answer": "1945"
+                    "answer": "1945",
+                    "uuid": "bb9c581e-8efe-4178-8220-88529f5e7948"
                 },
                 {
                     "id": 8,
@@ -89,7 +96,8 @@
                         "500,000 km/s",
                         "1,000,000 km/s"
                     ],
-                    "answer": "299,792 km/s"
+                    "answer": "299,792 km/s",
+                    "uuid": "046bbc27-7200-4956-b039-7f3cff9dac1b"
                 },
                 {
                     "id": 9,
@@ -100,7 +108,8 @@
                         "Australia",
                         "Brazil"
                     ],
-                    "answer": "Australia"
+                    "answer": "Australia",
+                    "uuid": "59e32e72-be7c-4f35-8f93-5135dbd1746b"
                 },
                 {
                     "id": 10,
@@ -111,7 +120,8 @@
                         "Neptune",
                         "Uranus"
                     ],
-                    "answer": "Jupiter"
+                    "answer": "Jupiter",
+                    "uuid": "03f68ee9-7552-4732-8056-ddce41e0a4d5"
                 }
             ]
         },
@@ -127,7 +137,8 @@
                         "Watt",
                         "Pascal"
                     ],
-                    "answer": "Newton"
+                    "answer": "Newton",
+                    "uuid": "2ce016a0-5666-483d-a6f4-7ffcf45b18de"
                 },
                 {
                     "id": 2,
@@ -138,7 +149,8 @@
                         "10.2 m/s²",
                         "11.5 m/s²"
                     ],
-                    "answer": "9.8 m/s²"
+                    "answer": "9.8 m/s²",
+                    "uuid": "5c9132f1-fe16-4d7a-93c6-a77955cbd2a3"
                 },
                 {
                     "id": 3,
@@ -149,7 +161,8 @@
                         "Galileo Galilei",
                         "Nikola Tesla"
                     ],
-                    "answer": "Isaac Newton"
+                    "answer": "Isaac Newton",
+                    "uuid": "72245b39-7ed9-476b-a992-a212284099f8"
                 },
                 {
                     "id": 4,
@@ -160,7 +173,8 @@
                         "F = ma",
                         "P = mv"
                     ],
-                    "answer": "KE = ½mv²"
+                    "answer": "KE = ½mv²",
+                    "uuid": "e97ce6fd-7faa-4061-864f-5dd8f3122ddd"
                 },
                 {
                     "id": 5,
@@ -171,7 +185,8 @@
                         "Potential energy",
                         "Nuclear energy"
                     ],
-                    "answer": "Potential energy"
+                    "answer": "Potential energy",
+                    "uuid": "6a0a4dee-3795-43ad-83e2-5b976019ce3f"
                 },
                 {
                     "id": 6,
@@ -182,7 +197,8 @@
                         "443 m/s",
                         "543 m/s"
                     ],
-                    "answer": "343 m/s"
+                    "answer": "343 m/s",
+                    "uuid": "e96257f4-5a20-4a71-af8c-48e8b4eb6d1c"
                 },
                 {
                     "id": 7,
@@ -193,7 +209,8 @@
                         "F = ma",
                         "P = IV"
                     ],
-                    "answer": "V = IR"
+                    "answer": "V = IR",
+                    "uuid": "e69d5f4f-91aa-4cf9-9313-fb6147811005"
                 },
                 {
                     "id": 8,
@@ -204,7 +221,8 @@
                         "Law of heat transfer",
                         "Law of motion"
                     ],
-                    "answer": "Law of conservation of energy"
+                    "answer": "Law of conservation of energy",
+                    "uuid": "66f387c5-dfa1-4acb-923b-4aff7c01accf"
                 },
                 {
                     "id": 9,
@@ -215,7 +233,8 @@
                         "Electrons",
                         "Photons"
                     ],
-                    "answer": "Electrons"
+                    "answer": "Electrons",
+                    "uuid": "9cc2a282-a2e4-4922-afcf-d122d0919aff"
                 },
                 {
                     "id": 10,
@@ -226,7 +245,1213 @@
                         "Watt",
                         "Ampere"
                     ],
-                    "answer": "Watt"
+                    "answer": "Watt",
+                    "uuid": "fedafc29-32d2-4dd8-aa88-1ff5d2577377"
+                }
+            ]
+        },
+        {
+            "name": "US Civil War Quiz",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "In what year did the American Civil War begin?",
+                    "options": [
+                        "1860",
+                        "1861",
+                        "1862",
+                        "1863"
+                    ],
+                    "answer": "1861",
+                    "uuid": "2e4fc65d-9afd-412f-85ab-13bead89aff2"
+                },
+                {
+                    "id": 2,
+                    "question": "Which fort's attack marked the beginning of the Civil War?",
+                    "options": [
+                        "Fort Monroe",
+                        "Fort Sumter",
+                        "Fort McHenry",
+                        "Fort Ticonderoga"
+                    ],
+                    "answer": "Fort Sumter",
+                    "uuid": "80eca4b8-7fbd-457f-a646-a4755e39c3b6"
+                },
+                {
+                    "id": 3,
+                    "question": "Who was the President of the Confederate States?",
+                    "options": [
+                        "Robert E. Lee",
+                        "Jefferson Davis",
+                        "Stonewall Jackson",
+                        "James Longstreet"
+                    ],
+                    "answer": "Jefferson Davis",
+                    "uuid": "c9b5f3ff-3512-4012-ab3a-13b6cf3e7be1"
+                },
+                {
+                    "id": 4,
+                    "question": "Who was the Union President during the Civil War?",
+                    "options": [
+                        "Andrew Johnson",
+                        "Ulysses S. Grant",
+                        "Abraham Lincoln",
+                        "James Buchanan"
+                    ],
+                    "answer": "Abraham Lincoln",
+                    "uuid": "1b85ce66-18a1-44d4-9d91-f88e3c3bd92f"
+                },
+                {
+                    "id": 5,
+                    "question": "Which state was the first to secede from the Union?",
+                    "options": [
+                        "Georgia",
+                        "South Carolina",
+                        "Virginia",
+                        "Texas"
+                    ],
+                    "answer": "South Carolina",
+                    "uuid": "d726d2c6-b56f-47e3-8a8d-5dea3ce65031"
+                },
+                {
+                    "id": 6,
+                    "question": "What was the bloodiest single day of the Civil War?",
+                    "options": [
+                        "Battle of Gettysburg",
+                        "Battle of Antietam",
+                        "Battle of Shiloh",
+                        "Battle of Chancellorsville"
+                    ],
+                    "answer": "Battle of Antietam",
+                    "uuid": "4da9793d-07c8-4415-b3ea-e5bd1b333b3e"
+                },
+                {
+                    "id": 7,
+                    "question": "Who was the commanding general of the Confederate Army?",
+                    "options": [
+                        "Stonewall Jackson",
+                        "Robert E. Lee",
+                        "Jefferson Davis",
+                        "P.G.T. Beauregard"
+                    ],
+                    "answer": "Robert E. Lee",
+                    "uuid": "0960cc31-fc43-45f4-9d5c-52f47e489842"
+                },
+                {
+                    "id": 8,
+                    "question": "In what year did the Civil War end?",
+                    "options": [
+                        "1863",
+                        "1864",
+                        "1865",
+                        "1866"
+                    ],
+                    "answer": "1865",
+                    "uuid": "53c44f53-4a8f-4c72-8d42-47e15ce6b39c"
+                },
+                {
+                    "id": 9,
+                    "question": "Where did General Lee surrender to General Grant?",
+                    "options": [
+                        "Gettysburg",
+                        "Appomattox Court House",
+                        "Richmond",
+                        "Atlanta"
+                    ],
+                    "answer": "Appomattox Court House",
+                    "uuid": "2ba3df93-d1de-41ed-98f9-7363483fb5ad"
+                },
+                {
+                    "id": 10,
+                    "question": "What was the Emancipation Proclamation?",
+                    "options": [
+                        "A peace treaty",
+                        "A declaration freeing slaves in Confederate states",
+                        "A war declaration",
+                        "A constitutional amendment"
+                    ],
+                    "answer": "A declaration freeing slaves in Confederate states",
+                    "uuid": "94e6fe63-6f39-4255-939c-ed7e5b5ddff2"
+                },
+                {
+                    "id": 11,
+                    "question": "Who delivered the Gettysburg Address?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "Robert E. Lee",
+                        "Abraham Lincoln",
+                        "Jefferson Davis"
+                    ],
+                    "answer": "Abraham Lincoln",
+                    "uuid": "7afe6b79-6c4f-4a6a-a85b-3f714e7dc0f3"
+                },
+                {
+                    "id": 12,
+                    "question": "Which battle is considered the turning point of the Civil War?",
+                    "options": [
+                        "Battle of Antietam",
+                        "Battle of Gettysburg",
+                        "Battle of Bull Run",
+                        "Battle of Vicksburg"
+                    ],
+                    "answer": "Battle of Gettysburg",
+                    "uuid": "f029e335-239e-40b5-a7c5-22fdf51fe457"
+                },
+                {
+                    "id": 13,
+                    "question": "What was the nickname of Confederate General Thomas Jackson?",
+                    "options": [
+                        "Stonewall",
+                        "Ironclad",
+                        "Bulldog",
+                        "Fighting"
+                    ],
+                    "answer": "Stonewall",
+                    "uuid": "4ccb2349-e865-4720-9189-b9b3ae60106c"
+                },
+                {
+                    "id": 14,
+                    "question": "Who led Sherman's March to the Sea?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "William Tecumseh Sherman",
+                        "George McClellan",
+                        "Philip Sheridan"
+                    ],
+                    "answer": "William Tecumseh Sherman",
+                    "uuid": "094412e5-602e-4d49-a6f1-a9e6f1b2d71c"
+                },
+                {
+                    "id": 15,
+                    "question": "How many states seceded to form the Confederacy?",
+                    "options": [
+                        "9",
+                        "11",
+                        "13",
+                        "15"
+                    ],
+                    "answer": "11",
+                    "uuid": "581e4747-0f91-4f90-9627-07c0e5d3c2d0"
+                },
+                {
+                    "id": 16,
+                    "question": "What was the capital of the Confederacy?",
+                    "options": [
+                        "Atlanta",
+                        "Charleston",
+                        "Richmond",
+                        "Montgomery"
+                    ],
+                    "answer": "Richmond",
+                    "uuid": "567b743b-ac7f-41ed-958e-24b162eff906"
+                },
+                {
+                    "id": 17,
+                    "question": "Which amendment abolished slavery?",
+                    "options": [
+                        "12th",
+                        "13th",
+                        "14th",
+                        "15th"
+                    ],
+                    "answer": "13th",
+                    "uuid": "8b37c5fc-b513-402b-b066-494d1ddaea71"
+                },
+                {
+                    "id": 18,
+                    "question": "What was the first major battle of the Civil War?",
+                    "options": [
+                        "Battle of Antietam",
+                        "Battle of Shiloh",
+                        "First Battle of Bull Run",
+                        "Battle of Gettysburg"
+                    ],
+                    "answer": "First Battle of Bull Run",
+                    "uuid": "82bd87b5-cc16-489d-a33a-d6d520987130"
+                },
+                {
+                    "id": 19,
+                    "question": "Who assassinated President Lincoln?",
+                    "options": [
+                        "John Wilkes Booth",
+                        "Lee Harvey Oswald",
+                        "Charles Guiteau",
+                        "Leon Czolgosz"
+                    ],
+                    "answer": "John Wilkes Booth",
+                    "uuid": "2276fa72-f8ef-4c3a-bc43-43c334010abf"
+                },
+                {
+                    "id": 20,
+                    "question": "Where was Lincoln assassinated?",
+                    "options": [
+                        "White House",
+                        "Ford's Theatre",
+                        "Capitol Building",
+                        "Union Station"
+                    ],
+                    "answer": "Ford's Theatre",
+                    "uuid": "8ee775ba-1325-4e61-804e-71d67ce789a7"
+                },
+                {
+                    "id": 21,
+                    "question": "What was the South's economy primarily based on?",
+                    "options": [
+                        "Manufacturing",
+                        "Mining",
+                        "Agriculture",
+                        "Trade"
+                    ],
+                    "answer": "Agriculture",
+                    "uuid": "6e6149c7-9564-4d16-9d38-0b0dcfb7cda3"
+                },
+                {
+                    "id": 22,
+                    "question": "Which side had more industrial resources?",
+                    "options": [
+                        "The Union",
+                        "The Confederacy",
+                        "Both equal",
+                        "Neither"
+                    ],
+                    "answer": "The Union",
+                    "uuid": "a89dc036-2347-431f-b1f8-751040bd3892"
+                },
+                {
+                    "id": 23,
+                    "question": "What was the main cash crop of the South?",
+                    "options": [
+                        "Tobacco",
+                        "Rice",
+                        "Cotton",
+                        "Wheat"
+                    ],
+                    "answer": "Cotton",
+                    "uuid": "adff7e23-eb43-493f-9023-da7defebaaf9"
+                },
+                {
+                    "id": 24,
+                    "question": "Who was the Union general known for his aggressive tactics?",
+                    "options": [
+                        "George McClellan",
+                        "Ulysses S. Grant",
+                        "Ambrose Burnside",
+                        "Joseph Hooker"
+                    ],
+                    "answer": "Ulysses S. Grant",
+                    "uuid": "ef7dd230-b4d8-45b8-80f1-f87a69ce785b"
+                },
+                {
+                    "id": 25,
+                    "question": "What was the Anaconda Plan?",
+                    "options": [
+                        "A Confederate strategy",
+                        "A Union blockade strategy",
+                        "A peace treaty",
+                        "A battle formation"
+                    ],
+                    "answer": "A Union blockade strategy",
+                    "uuid": "6920df84-6feb-4eb1-bd56-28c66eeb0b04"
+                },
+                {
+                    "id": 26,
+                    "question": "Which battle occurred in July 1863 in Pennsylvania?",
+                    "options": [
+                        "Battle of Antietam",
+                        "Battle of Gettysburg",
+                        "Battle of Fredericksburg",
+                        "Battle of Chancellorsville"
+                    ],
+                    "answer": "Battle of Gettysburg",
+                    "uuid": "88ba82c4-eb91-4584-ad6a-0cfadcfcfbe6"
+                },
+                {
+                    "id": 27,
+                    "question": "How many days did the Battle of Gettysburg last?",
+                    "options": [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                    ],
+                    "answer": "3",
+                    "uuid": "ef0f78fe-76d1-4cf7-a0e1-1b216a6b22c7"
+                },
+                {
+                    "id": 28,
+                    "question": "What was Pickett's Charge?",
+                    "options": [
+                        "A Union cavalry attack",
+                        "A Confederate infantry assault at Gettysburg",
+                        "A naval battle",
+                        "A siege tactic"
+                    ],
+                    "answer": "A Confederate infantry assault at Gettysburg",
+                    "uuid": "aacfb279-2eb9-47b0-a531-294be7d0108b"
+                },
+                {
+                    "id": 29,
+                    "question": "Which side won the Battle of Gettysburg?",
+                    "options": [
+                        "The Union",
+                        "The Confederacy",
+                        "Draw",
+                        "Neither"
+                    ],
+                    "answer": "The Union",
+                    "uuid": "3fdb7ec7-cf09-440d-825a-6952c3820274"
+                },
+                {
+                    "id": 30,
+                    "question": "What was the Underground Railroad?",
+                    "options": [
+                        "A subway system",
+                        "A secret network helping slaves escape",
+                        "A military supply route",
+                        "A train company"
+                    ],
+                    "answer": "A secret network helping slaves escape",
+                    "uuid": "f8a9fe5b-8b97-41ec-81bc-5a3a5cd19e58"
+                },
+                {
+                    "id": 31,
+                    "question": "Who was Harriet Tubman?",
+                    "options": [
+                        "A Confederate spy",
+                        "An Underground Railroad conductor",
+                        "A Union general",
+                        "A plantation owner"
+                    ],
+                    "answer": "An Underground Railroad conductor",
+                    "uuid": "6a47bbbd-2d56-4a92-b31f-9c78d49de118"
+                },
+                {
+                    "id": 32,
+                    "question": "When was the Emancipation Proclamation issued?",
+                    "options": [
+                        "January 1, 1861",
+                        "January 1, 1863",
+                        "January 1, 1864",
+                        "January 1, 1865"
+                    ],
+                    "answer": "January 1, 1863",
+                    "uuid": "1fe1b70f-cc26-4919-89b1-260f67cd5542"
+                },
+                {
+                    "id": 33,
+                    "question": "Which state remained in the Union despite being a slave state?",
+                    "options": [
+                        "Kentucky",
+                        "Tennessee",
+                        "Arkansas",
+                        "North Carolina"
+                    ],
+                    "answer": "Kentucky",
+                    "uuid": "9290e15b-dc7c-4ae3-bc56-c934a97cd886"
+                },
+                {
+                    "id": 34,
+                    "question": "What were border states?",
+                    "options": [
+                        "States on the coast",
+                        "Slave states that stayed in the Union",
+                        "States on the Canadian border",
+                        "Neutral states"
+                    ],
+                    "answer": "Slave states that stayed in the Union",
+                    "uuid": "2b8d64b1-103f-4ecf-9dc4-0d1b2ecfa131"
+                },
+                {
+                    "id": 35,
+                    "question": "Who was the Union general defeated at First Bull Run?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "George McClellan",
+                        "Irvin McDowell",
+                        "Ambrose Burnside"
+                    ],
+                    "answer": "Irvin McDowell",
+                    "uuid": "f22649d9-1093-4526-b0a6-fe0a234f057d"
+                },
+                {
+                    "id": 36,
+                    "question": "What was the bloodiest battle of the war?",
+                    "options": [
+                        "Battle of Antietam",
+                        "Battle of Gettysburg",
+                        "Battle of Shiloh",
+                        "Battle of Chickamauga"
+                    ],
+                    "answer": "Battle of Gettysburg",
+                    "uuid": "7a46416a-cca0-49f7-9e01-2e296d81f171"
+                },
+                {
+                    "id": 37,
+                    "question": "Which city did Sherman capture in 1864?",
+                    "options": [
+                        "Richmond",
+                        "Charleston",
+                        "Atlanta",
+                        "Savannah"
+                    ],
+                    "answer": "Atlanta",
+                    "uuid": "3412073d-58eb-4250-97cf-88f22511766b"
+                },
+                {
+                    "id": 38,
+                    "question": "What was total war?",
+                    "options": [
+                        "War using all available weapons",
+                        "War targeting civilian infrastructure",
+                        "War with no rules",
+                        "War on all fronts"
+                    ],
+                    "answer": "War targeting civilian infrastructure",
+                    "uuid": "d3e0960b-af9a-4f9d-ae18-7488064fba1d"
+                },
+                {
+                    "id": 39,
+                    "question": "Who was the first general to command the Army of the Potomac?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "George McClellan",
+                        "Ambrose Burnside",
+                        "Joseph Hooker"
+                    ],
+                    "answer": "George McClellan",
+                    "uuid": "de8fcc53-c560-4d1e-8b1f-7d1d804fe0ac"
+                },
+                {
+                    "id": 40,
+                    "question": "What did the term 'Copperhead' refer to?",
+                    "options": [
+                        "A type of snake",
+                        "Northern Democrats who opposed the war",
+                        "Confederate soldiers",
+                        "Union spies"
+                    ],
+                    "answer": "Northern Democrats who opposed the war",
+                    "uuid": "0c488e09-f300-4be9-a898-caa960a392db"
+                },
+                {
+                    "id": 41,
+                    "question": "Which battle was fought in April 1862 in Tennessee?",
+                    "options": [
+                        "Battle of Shiloh",
+                        "Battle of Chattanooga",
+                        "Battle of Nashville",
+                        "Battle of Stones River"
+                    ],
+                    "answer": "Battle of Shiloh",
+                    "uuid": "d3a96c7c-6955-400c-b491-f26ba2735d97"
+                },
+                {
+                    "id": 42,
+                    "question": "Who was the Confederate general at Fort Sumter?",
+                    "options": [
+                        "Robert E. Lee",
+                        "Stonewall Jackson",
+                        "P.G.T. Beauregard",
+                        "James Longstreet"
+                    ],
+                    "answer": "P.G.T. Beauregard",
+                    "uuid": "70d03f91-1f37-404b-b9f4-442dd91df3b1"
+                },
+                {
+                    "id": 43,
+                    "question": "What was the Monitor?",
+                    "options": [
+                        "A newspaper",
+                        "An ironclad warship",
+                        "A fort",
+                        "A cavalry unit"
+                    ],
+                    "answer": "An ironclad warship",
+                    "uuid": "ac1e4c84-f004-489a-9946-a6dd64b226e6"
+                },
+                {
+                    "id": 44,
+                    "question": "Which Confederate ironclad fought the Monitor?",
+                    "options": [
+                        "CSS Alabama",
+                        "CSS Virginia",
+                        "CSS Tennessee",
+                        "CSS Arkansas"
+                    ],
+                    "answer": "CSS Virginia",
+                    "uuid": "8b500d9f-d770-4f89-962b-a6ae6dda198f"
+                },
+                {
+                    "id": 45,
+                    "question": "What was the draft called during the Civil War?",
+                    "options": [
+                        "Selective Service",
+                        "Conscription",
+                        "Enlistment",
+                        "Recruitment"
+                    ],
+                    "answer": "Conscription",
+                    "uuid": "e6752477-5dd1-4d78-a385-4d6d1275a850"
+                },
+                {
+                    "id": 46,
+                    "question": "Which battle occurred on September 17, 1862?",
+                    "options": [
+                        "Battle of Antietam",
+                        "Battle of Shiloh",
+                        "Battle of Fredericksburg",
+                        "Battle of Chancellorsville"
+                    ],
+                    "answer": "Battle of Antietam",
+                    "uuid": "c42c0450-38bd-4b17-9238-69af0e29798a"
+                },
+                {
+                    "id": 47,
+                    "question": "Who was Clara Barton?",
+                    "options": [
+                        "A Union spy",
+                        "A nurse who founded the Red Cross",
+                        "A Confederate general's wife",
+                        "A journalist"
+                    ],
+                    "answer": "A nurse who founded the Red Cross",
+                    "uuid": "31e041a5-a325-44dd-adc6-aa7302fda3b3"
+                },
+                {
+                    "id": 48,
+                    "question": "What was the Wilderness Campaign?",
+                    "options": [
+                        "A naval battle",
+                        "A series of battles in Virginia",
+                        "A western campaign",
+                        "A siege"
+                    ],
+                    "answer": "A series of battles in Virginia",
+                    "uuid": "0a152dfa-52c1-4f60-87ee-725bc03dd703"
+                },
+                {
+                    "id": 49,
+                    "question": "Who succeeded Lincoln as president?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "Andrew Johnson",
+                        "Rutherford Hayes",
+                        "James Garfield"
+                    ],
+                    "answer": "Andrew Johnson",
+                    "uuid": "6cd70b71-9a96-447d-a59d-2f3733a5d347"
+                },
+                {
+                    "id": 50,
+                    "question": "What year did West Virginia become a state?",
+                    "options": [
+                        "1861",
+                        "1862",
+                        "1863",
+                        "1864"
+                    ],
+                    "answer": "1863",
+                    "uuid": "6f740651-c032-48ab-ac2b-1aa9ddb508f0"
+                },
+                {
+                    "id": 51,
+                    "question": "Which Confederate general was accidentally shot by his own troops?",
+                    "options": [
+                        "Robert E. Lee",
+                        "Stonewall Jackson",
+                        "J.E.B. Stuart",
+                        "James Longstreet"
+                    ],
+                    "answer": "Stonewall Jackson",
+                    "uuid": "e0b2f42c-66ef-489e-87f3-3eaa853f6362"
+                },
+                {
+                    "id": 52,
+                    "question": "Where was Stonewall Jackson mortally wounded?",
+                    "options": [
+                        "Gettysburg",
+                        "Antietam",
+                        "Chancellorsville",
+                        "Bull Run"
+                    ],
+                    "answer": "Chancellorsville",
+                    "uuid": "19980fbd-2e8f-4952-bb14-02e2646b4ef8"
+                },
+                {
+                    "id": 53,
+                    "question": "What was the Battle of Vicksburg significant for?",
+                    "options": [
+                        "It was the bloodiest battle",
+                        "It gave the Union control of the Mississippi River",
+                        "It ended the war",
+                        "It was the first battle"
+                    ],
+                    "answer": "It gave the Union control of the Mississippi River",
+                    "uuid": "dbb4ac17-70d2-4a68-bfd4-90ad2fa7a890"
+                },
+                {
+                    "id": 54,
+                    "question": "Who commanded the Confederacy at Vicksburg?",
+                    "options": [
+                        "Robert E. Lee",
+                        "Stonewall Jackson",
+                        "John C. Pemberton",
+                        "Braxton Bragg"
+                    ],
+                    "answer": "John C. Pemberton",
+                    "uuid": "19fd2e22-1d1f-48ef-810f-5e258e42821a"
+                },
+                {
+                    "id": 55,
+                    "question": "What was the purpose of the Gettysburg Address?",
+                    "options": [
+                        "To declare war",
+                        "To dedicate a cemetery",
+                        "To free the slaves",
+                        "To announce victory"
+                    ],
+                    "answer": "To dedicate a cemetery",
+                    "uuid": "a82a645f-ebab-402c-8487-bc936e5c3d92"
+                },
+                {
+                    "id": 56,
+                    "question": "How long was the Gettysburg Address?",
+                    "options": [
+                        "About 2 minutes",
+                        "About 10 minutes",
+                        "About 30 minutes",
+                        "About 1 hour"
+                    ],
+                    "answer": "About 2 minutes",
+                    "uuid": "e915a203-4fa6-4cf9-92a1-4b5a2fea46b3"
+                },
+                {
+                    "id": 57,
+                    "question": "What was the main Union strategy in the West?",
+                    "options": [
+                        "Attack Richmond",
+                        "Control the Mississippi River",
+                        "Invade Texas",
+                        "Blockade ports"
+                    ],
+                    "answer": "Control the Mississippi River",
+                    "uuid": "068b6362-7a0d-4b22-9cbd-c3ef92db2ec2"
+                },
+                {
+                    "id": 58,
+                    "question": "Who was the famous Confederate cavalry commander?",
+                    "options": [
+                        "Nathan Bedford Forrest",
+                        "J.E.B. Stuart",
+                        "Philip Sheridan",
+                        "Both A and B"
+                    ],
+                    "answer": "Both A and B",
+                    "uuid": "a2291a84-4cd7-48a0-af1f-39f97cf2267a"
+                },
+                {
+                    "id": 59,
+                    "question": "What was Sherman's strategy in Georgia?",
+                    "options": [
+                        "Siege warfare",
+                        "Guerrilla tactics",
+                        "Total war",
+                        "Diplomatic negotiation"
+                    ],
+                    "answer": "Total war",
+                    "uuid": "56b5e9cc-8faa-4db0-bf2e-eee8732616be"
+                },
+                {
+                    "id": 60,
+                    "question": "Which battle is also known as the Battle of Manassas?",
+                    "options": [
+                        "Battle of Antietam",
+                        "Battle of Bull Run",
+                        "Battle of Shiloh",
+                        "Battle of Gettysburg"
+                    ],
+                    "answer": "Battle of Bull Run",
+                    "uuid": "6606928e-cc59-4085-89af-46cbadea5c95"
+                },
+                {
+                    "id": 61,
+                    "question": "How many soldiers died in the Civil War approximately?",
+                    "options": [
+                        "200,000",
+                        "400,000",
+                        "620,000",
+                        "800,000"
+                    ],
+                    "answer": "620,000",
+                    "uuid": "f2377264-68db-4e7f-8e89-93ee85f31584"
+                },
+                {
+                    "id": 62,
+                    "question": "What was Reconstruction?",
+                    "options": [
+                        "Rebuilding after the war",
+                        "A military strategy",
+                        "A peace treaty",
+                        "A political party"
+                    ],
+                    "answer": "Rebuilding after the war",
+                    "uuid": "595e9e22-9bac-447e-b83d-4261278ff8bd"
+                },
+                {
+                    "id": 63,
+                    "question": "Which amendment gave former slaves citizenship?",
+                    "options": [
+                        "13th",
+                        "14th",
+                        "15th",
+                        "16th"
+                    ],
+                    "answer": "14th",
+                    "uuid": "b62337bc-9a92-4f37-b3c8-f7901264b9bb"
+                },
+                {
+                    "id": 64,
+                    "question": "Which amendment gave African American men the right to vote?",
+                    "options": [
+                        "13th",
+                        "14th",
+                        "15th",
+                        "16th"
+                    ],
+                    "answer": "15th",
+                    "uuid": "1dc526ae-dcca-4c8a-a431-765325e5d2e0"
+                },
+                {
+                    "id": 65,
+                    "question": "What was the Battle of Cold Harbor known for?",
+                    "options": [
+                        "Union victory",
+                        "Confederate victory",
+                        "Grant's costly frontal assault",
+                        "Naval warfare"
+                    ],
+                    "answer": "Grant's costly frontal assault",
+                    "uuid": "c1247802-2eca-45a7-9b94-3ad0f1a87275"
+                },
+                {
+                    "id": 66,
+                    "question": "Who was the commanding general of Union forces at the end of the war?",
+                    "options": [
+                        "George McClellan",
+                        "Ulysses S. Grant",
+                        "William Sherman",
+                        "Philip Sheridan"
+                    ],
+                    "answer": "Ulysses S. Grant",
+                    "uuid": "a510dd07-aa4a-4873-b62f-bfc8d3a5c74e"
+                },
+                {
+                    "id": 67,
+                    "question": "What was the Confederate capital before Richmond?",
+                    "options": [
+                        "Atlanta",
+                        "Charleston",
+                        "Montgomery",
+                        "Nashville"
+                    ],
+                    "answer": "Montgomery",
+                    "uuid": "21ebb9e3-5f6d-4d1e-8339-10a9ae6a80d6"
+                },
+                {
+                    "id": 68,
+                    "question": "Who was the photographer famous for Civil War images?",
+                    "options": [
+                        "Ansel Adams",
+                        "Mathew Brady",
+                        "Alfred Stieglitz",
+                        "Edward Weston"
+                    ],
+                    "answer": "Mathew Brady",
+                    "uuid": "1ddb6149-47d3-4b48-80d5-43fd51579de6"
+                },
+                {
+                    "id": 69,
+                    "question": "What was the Battle of Fredericksburg known for?",
+                    "options": [
+                        "Union victory",
+                        "Confederate defensive victory",
+                        "Turning point",
+                        "First battle"
+                    ],
+                    "answer": "Confederate defensive victory",
+                    "uuid": "68346e90-30d6-47f2-a54b-49648b8f5745"
+                },
+                {
+                    "id": 70,
+                    "question": "Who replaced McClellan as commander of the Army of the Potomac after Antietam?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "Ambrose Burnside",
+                        "Joseph Hooker",
+                        "George Meade"
+                    ],
+                    "answer": "Ambrose Burnside",
+                    "uuid": "054f7c1e-8f41-44b9-b297-27eb5e399527"
+                },
+                {
+                    "id": 71,
+                    "question": "What was the Crater during the Siege of Petersburg?",
+                    "options": [
+                        "A natural formation",
+                        "A Union attempt to blow up Confederate lines",
+                        "A Confederate fort",
+                        "A supply depot"
+                    ],
+                    "answer": "A Union attempt to blow up Confederate lines",
+                    "uuid": "ac8f4282-afe2-4e48-a84c-90c8975c525c"
+                },
+                {
+                    "id": 72,
+                    "question": "Which battle had the famous 'rebel yell'?",
+                    "options": [
+                        "Only at Gettysburg",
+                        "Only at Bull Run",
+                        "At many Confederate charges",
+                        "Never documented"
+                    ],
+                    "answer": "At many Confederate charges",
+                    "uuid": "2d69f840-0ecc-42d4-a533-877e8b2ee117"
+                },
+                {
+                    "id": 73,
+                    "question": "What was the main cause of death during the Civil War?",
+                    "options": [
+                        "Gunshot wounds",
+                        "Artillery",
+                        "Disease",
+                        "Starvation"
+                    ],
+                    "answer": "Disease",
+                    "uuid": "69418b35-72c7-45e8-8ab5-00d84e2ec32d"
+                },
+                {
+                    "id": 74,
+                    "question": "What was hardtack?",
+                    "options": [
+                        "A weapon",
+                        "A military strategy",
+                        "A hard biscuit soldiers ate",
+                        "A type of uniform"
+                    ],
+                    "answer": "A hard biscuit soldiers ate",
+                    "uuid": "31767f1f-a67d-4456-9afb-bcca16978ee5"
+                },
+                {
+                    "id": 75,
+                    "question": "Who was the Union admiral who captured New Orleans?",
+                    "options": [
+                        "David Farragut",
+                        "David Porter",
+                        "Andrew Foote",
+                        "Samuel Du Pont"
+                    ],
+                    "answer": "David Farragut",
+                    "uuid": "402fac35-358b-48c8-8201-07ae081c9a02"
+                },
+                {
+                    "id": 76,
+                    "question": "What was the name of Lee's horse?",
+                    "options": [
+                        "Traveller",
+                        "Old Whitey",
+                        "Cincinnati",
+                        "Little Sorrel"
+                    ],
+                    "answer": "Traveller",
+                    "uuid": "0a44b7f4-24da-4c50-b805-93b67c218f8e"
+                },
+                {
+                    "id": 77,
+                    "question": "What was the name of Grant's horse?",
+                    "options": [
+                        "Traveller",
+                        "Old Whitey",
+                        "Cincinnati",
+                        "Little Sorrel"
+                    ],
+                    "answer": "Cincinnati",
+                    "uuid": "f56b7c35-cb95-462f-b650-5ca1c2a1dbde"
+                },
+                {
+                    "id": 78,
+                    "question": "Which Confederate prison was notorious for its harsh conditions?",
+                    "options": [
+                        "Libby Prison",
+                        "Andersonville",
+                        "Castle Thunder",
+                        "Salisbury"
+                    ],
+                    "answer": "Andersonville",
+                    "uuid": "7196abe1-5fcc-4c43-91b3-a9877c53b6a9"
+                },
+                {
+                    "id": 79,
+                    "question": "What was the Battle of Mobile Bay famous for?",
+                    "options": [
+                        "Grant's victory",
+                        "Sherman's march",
+                        "Farragut's 'Damn the torpedoes'",
+                        "Lee's surrender"
+                    ],
+                    "answer": "Farragut's 'Damn the torpedoes'",
+                    "uuid": "d38c01f1-d954-4a0d-8686-15d6f9be4d5d"
+                },
+                {
+                    "id": 80,
+                    "question": "Who was the youngest general in the Union Army?",
+                    "options": [
+                        "George Custer",
+                        "Philip Sheridan",
+                        "Wesley Merritt",
+                        "Galusha Pennypacker"
+                    ],
+                    "answer": "Galusha Pennypacker",
+                    "uuid": "5077a87b-def5-4d5b-8703-8c6f4f43dc5d"
+                },
+                {
+                    "id": 81,
+                    "question": "What was the Battle of Spotsylvania known for?",
+                    "options": [
+                        "Quick Union victory",
+                        "Prolonged, brutal fighting",
+                        "Naval warfare",
+                        "Cavalry charge"
+                    ],
+                    "answer": "Prolonged, brutal fighting",
+                    "uuid": "90dd5c7c-2cf2-4778-9902-4a8f851f345f"
+                },
+                {
+                    "id": 82,
+                    "question": "Who commanded Confederate forces in the Trans-Mississippi?",
+                    "options": [
+                        "Robert E. Lee",
+                        "Edmund Kirby Smith",
+                        "Braxton Bragg",
+                        "Joseph Johnston"
+                    ],
+                    "answer": "Edmund Kirby Smith",
+                    "uuid": "d87b8693-a511-46b2-aa0d-4581deb49ec3"
+                },
+                {
+                    "id": 83,
+                    "question": "What was the 'March to the Sea'?",
+                    "options": [
+                        "A Union naval campaign",
+                        "Sherman's march from Atlanta to Savannah",
+                        "A Confederate retreat",
+                        "Grant's final campaign"
+                    ],
+                    "answer": "Sherman's march from Atlanta to Savannah",
+                    "uuid": "701b0dcc-b2e7-4bc5-9b93-d4b8822ac038"
+                },
+                {
+                    "id": 84,
+                    "question": "How wide was Sherman's path of destruction?",
+                    "options": [
+                        "10 miles",
+                        "30 miles",
+                        "60 miles",
+                        "100 miles"
+                    ],
+                    "answer": "60 miles",
+                    "uuid": "202e9d7d-d643-4187-9123-7d4f3c0a553d"
+                },
+                {
+                    "id": 85,
+                    "question": "What was the Battle of Stones River also called?",
+                    "options": [
+                        "Battle of Murfreesboro",
+                        "Battle of Nashville",
+                        "Battle of Chattanooga",
+                        "Battle of Knoxville"
+                    ],
+                    "answer": "Battle of Murfreesboro",
+                    "uuid": "be12dafd-3624-4f0e-900a-a2b519fcf0ca"
+                },
+                {
+                    "id": 86,
+                    "question": "Who was the Confederate general known as 'Old Pete'?",
+                    "options": [
+                        "Robert E. Lee",
+                        "Stonewall Jackson",
+                        "James Longstreet",
+                        "A.P. Hill"
+                    ],
+                    "answer": "James Longstreet",
+                    "uuid": "3b4a0575-e251-4e60-b2e8-ab322317a00b"
+                },
+                {
+                    "id": 87,
+                    "question": "What was the Battle of Five Forks?",
+                    "options": [
+                        "A naval battle",
+                        "The last major battle before Lee's surrender",
+                        "The first battle",
+                        "A cavalry skirmish"
+                    ],
+                    "answer": "The last major battle before Lee's surrender",
+                    "uuid": "871fe84c-5b84-4234-8f1b-fa0eba9daa1f"
+                },
+                {
+                    "id": 88,
+                    "question": "Who commanded Union cavalry in the Shenandoah Valley?",
+                    "options": [
+                        "George Custer",
+                        "Philip Sheridan",
+                        "John Buford",
+                        "Alfred Pleasonton"
+                    ],
+                    "answer": "Philip Sheridan",
+                    "uuid": "937dc95c-d76d-460c-a3b1-bb77b919e045"
+                },
+                {
+                    "id": 89,
+                    "question": "What was the Battle of Chickamauga?",
+                    "options": [
+                        "A Union victory",
+                        "A Confederate victory",
+                        "A draw",
+                        "A naval battle"
+                    ],
+                    "answer": "A Confederate victory",
+                    "uuid": "1b1f1586-7b19-42b2-bea9-5c409cd39080"
+                },
+                {
+                    "id": 90,
+                    "question": "Who was known as the 'Rock of Chickamauga'?",
+                    "options": [
+                        "Ulysses S. Grant",
+                        "William Sherman",
+                        "George Thomas",
+                        "Philip Sheridan"
+                    ],
+                    "answer": "George Thomas",
+                    "uuid": "c5c1cab7-c3c9-4a63-a010-4cc3b5241580"
+                },
+                {
+                    "id": 91,
+                    "question": "What did the term 'seeing the elephant' mean?",
+                    "options": [
+                        "Visiting a zoo",
+                        "Experiencing combat for the first time",
+                        "Seeing an officer",
+                        "Witnessing a retreat"
+                    ],
+                    "answer": "Experiencing combat for the first time",
+                    "uuid": "d48c4ef8-ab0e-4584-8658-6d439bbdc2b9"
+                },
+                {
+                    "id": 92,
+                    "question": "What was the CSS Alabama?",
+                    "options": [
+                        "An ironclad",
+                        "A Confederate commerce raider",
+                        "A fort",
+                        "A prison"
+                    ],
+                    "answer": "A Confederate commerce raider",
+                    "uuid": "1ee81847-e9d5-4555-84fe-faebae066719"
+                },
+                {
+                    "id": 93,
+                    "question": "Who sank the CSS Alabama?",
+                    "options": [
+                        "USS Monitor",
+                        "USS Kearsarge",
+                        "USS Hartford",
+                        "USS Merrimack"
+                    ],
+                    "answer": "USS Kearsarge",
+                    "uuid": "3e93e1e7-ecd5-4698-bd3c-fc99663e2e89"
+                },
+                {
+                    "id": 94,
+                    "question": "What was the last battle of the Civil War?",
+                    "options": [
+                        "Battle of Appomattox",
+                        "Battle of Palmito Ranch",
+                        "Battle of Five Forks",
+                        "Battle of Bentonville"
+                    ],
+                    "answer": "Battle of Palmito Ranch",
+                    "uuid": "017da16e-120c-499a-997e-d7e603a89455"
+                },
+                {
+                    "id": 95,
+                    "question": "When did the last Confederate general surrender?",
+                    "options": [
+                        "April 1865",
+                        "May 1865",
+                        "June 1865",
+                        "July 1865"
+                    ],
+                    "answer": "June 1865",
+                    "uuid": "2b6c67d9-ffa1-48ac-b9d2-ea2bde86bc4a"
+                },
+                {
+                    "id": 96,
+                    "question": "What was the Siege of Petersburg?",
+                    "options": [
+                        "A quick Union victory",
+                        "A 9-month siege",
+                        "A naval blockade",
+                        "A cavalry raid"
+                    ],
+                    "answer": "A 9-month siege",
+                    "uuid": "ac6ec373-1432-4996-b83e-6a7c6f014654"
+                },
+                {
+                    "id": 97,
+                    "question": "Who was the Union general at Chattanooga?",
+                    "options": [
+                        "William Sherman",
+                        "Ulysses S. Grant",
+                        "George Thomas",
+                        "All of the above"
+                    ],
+                    "answer": "All of the above",
+                    "uuid": "978344c8-adab-4b7d-ab36-1532675081e3"
+                },
+                {
+                    "id": 98,
+                    "question": "What was the Battle Above the Clouds?",
+                    "options": [
+                        "An air battle",
+                        "Battle of Lookout Mountain",
+                        "A mountain raid",
+                        "A balloon observation"
+                    ],
+                    "answer": "Battle of Lookout Mountain",
+                    "uuid": "1c2be6e8-de0e-4ed8-b603-bd8ad2d9db11"
+                },
+                {
+                    "id": 99,
+                    "question": "Who wrote 'Battle Hymn of the Republic'?",
+                    "options": [
+                        "Julia Ward Howe",
+                        "Harriet Beecher Stowe",
+                        "Clara Barton",
+                        "Louisa May Alcott"
+                    ],
+                    "answer": "Julia Ward Howe",
+                    "uuid": "ac27de11-ddec-43df-a505-fa3e82e99a97"
+                },
+                {
+                    "id": 100,
+                    "question": "What did Lincoln say the Civil War tested?",
+                    "options": [
+                        "Military strength",
+                        "Economic power",
+                        "Whether a nation conceived in liberty could endure",
+                        "Industrial capacity"
+                    ],
+                    "answer": "Whether a nation conceived in liberty could endure",
+                    "uuid": "cd47ff5a-0517-4a88-8d8d-58245ac127d8"
                 }
             ]
         },
@@ -242,7 +1467,8 @@
                         "Raphael",
                         "Donatello"
                     ],
-                    "answer": "Leonardo da Vinci"
+                    "answer": "Leonardo da Vinci",
+                    "uuid": "9712f848-9f68-4c25-bf94-42d08ddffecb"
                 },
                 {
                     "id": 2,
@@ -253,7 +1479,8 @@
                         "Vincent van Gogh",
                         "Paul Gauguin"
                     ],
-                    "answer": "Vincent van Gogh"
+                    "answer": "Vincent van Gogh",
+                    "uuid": "512ad463-cc10-4163-bbf2-6ff32f15a1e0"
                 },
                 {
                     "id": 3,
@@ -264,7 +1491,8 @@
                         "Cubism",
                         "Surrealism"
                     ],
-                    "answer": "Pointillism"
+                    "answer": "Pointillism",
+                    "uuid": "dafa47aa-2a99-4fce-b403-ec924ff5d152"
                 },
                 {
                     "id": 4,
@@ -275,7 +1503,8 @@
                         "Edgar Degas",
                         "Pierre-Auguste Renoir"
                     ],
-                    "answer": "Vincent van Gogh"
+                    "answer": "Vincent van Gogh",
+                    "uuid": "6ae481ba-4bcf-4864-a4e5-47cedbb3a7f7"
                 },
                 {
                     "id": 5,
@@ -286,7 +1515,8 @@
                         "Cubism",
                         "Romanticism"
                     ],
-                    "answer": "Cubism"
+                    "answer": "Cubism",
+                    "uuid": "409046f6-b4b5-4cc5-8fe9-48fad10f3656"
                 },
                 {
                     "id": 6,
@@ -297,7 +1527,8 @@
                         "Michelangelo",
                         "Caravaggio"
                     ],
-                    "answer": "Michelangelo"
+                    "answer": "Michelangelo",
+                    "uuid": "24620c08-2380-45bf-929b-0e6c6ca5eaa1"
                 },
                 {
                     "id": 7,
@@ -308,7 +1539,8 @@
                         "Guernica",
                         "The Birth of Venus"
                     ],
-                    "answer": "The Persistence of Memory"
+                    "answer": "The Persistence of Memory",
+                    "uuid": "6c4bf441-c600-4b6c-940c-56ab5cf85aeb"
                 },
                 {
                     "id": 8,
@@ -319,7 +1551,8 @@
                         "Frans Hals",
                         "Jan Steen"
                     ],
-                    "answer": "Johannes Vermeer"
+                    "answer": "Johannes Vermeer",
+                    "uuid": "189af292-221d-4d18-a299-0b7306940951"
                 },
                 {
                     "id": 9,
@@ -330,7 +1563,8 @@
                         "Renaissance",
                         "Abstract Expressionism"
                     ],
-                    "answer": "Impressionism"
+                    "answer": "Impressionism",
+                    "uuid": "f7c39156-e7bc-4f99-9d71-eb23f486ce1d"
                 },
                 {
                     "id": 10,
@@ -341,7 +1575,8 @@
                         "Titian",
                         "Caravaggio"
                     ],
-                    "answer": "Sandro Botticelli"
+                    "answer": "Sandro Botticelli",
+                    "uuid": "f960df7c-9d0a-4c5d-8b0d-f39be218acd4"
                 }
             ]
         }

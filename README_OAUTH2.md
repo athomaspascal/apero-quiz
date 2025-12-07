@@ -106,7 +106,7 @@ spring.security.oauth2.client.registration.linkedin.client-secret=VOTRE_CLIENT_S
 Créer `src/main/java/com/quizz/examplefeature/security/VaadinSecurityConfig.java` :
 
 ```java
-package com.quizz.examplefeature.security;
+package com.quizz.core.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Configuration;
@@ -120,11 +120,11 @@ public class VaadinSecurityConfig extends VaadinWebSecurity {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.oauth2Login(oauth2 -> oauth2
-            .loginPage("/login")
-            .defaultSuccessUrl("/", true)
-            .failureUrl("/login?error")
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error")
         );
-        
+
         super.configure(http);
         setLoginView(http, LoginView.class);
     }
