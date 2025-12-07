@@ -1,4 +1,4 @@
-package com.quizz.examplefeature;
+package com.quizz.trash;
 
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;

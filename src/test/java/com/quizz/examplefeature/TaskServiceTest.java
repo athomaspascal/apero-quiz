@@ -1,5 +1,7 @@
 package com.quizz.examplefeature;
 
+import com.quizz.trash.Task;
+import com.quizz.trash.TaskService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

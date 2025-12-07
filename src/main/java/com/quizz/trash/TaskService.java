@@ -1,4 +1,4 @@
-package com.quizz.examplefeature;
+package com.quizz.trash;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;

@@ -1,0 +1,349 @@
+{
+    "quizzes": [
+        {
+            "name": "General Knowledge Quiz",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "What is the capital of France?",
+                    "options": [
+                        "Berlin",
+                        "Madrid",
+                        "Paris",
+                        "Rome"
+                    ],
+                    "answer": "Paris"
+                },
+                {
+                    "id": 2,
+                    "question": "Which planet is known as the Red Planet?",
+                    "options": [
+                        "Earth",
+                        "Mars",
+                        "Jupiter",
+                        "Saturn"
+                    ],
+                    "answer": "Mars"
+                },
+                {
+                    "id": 3,
+                    "question": "What is the largest ocean on Earth?",
+                    "options": [
+                        "Atlantic Ocean",
+                        "Indian Ocean",
+                        "Arctic Ocean",
+                        "Pacific Ocean"
+                    ],
+                    "answer": "Pacific Ocean"
+                },
+                {
+                    "id": 4,
+                    "question": "Who wrote 'Romeo and Juliet'?",
+                    "options": [
+                        "Charles Dickens",
+                        "William Shakespeare",
+                        "Jane Austen",
+                        "Mark Twain"
+                    ],
+                    "answer": "William Shakespeare"
+                },
+                {
+                    "id": 5,
+                    "question": "What is the smallest prime number?",
+                    "options": [
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                    ],
+                    "answer": "2"
+                },
+                {
+                    "id": 6,
+                    "question": "Which element has the chemical symbol 'O'?",
+                    "options": [
+                        "Gold",
+                        "Oxygen",
+                        "Osmium",
+                        "Silver"
+                    ],
+                    "answer": "Oxygen"
+                },
+                {
+                    "id": 7,
+                    "question": "In which year did World War II end?",
+                    "options": [
+                        "1943",
+                        "1944",
+                        "1945",
+                        "1946"
+                    ],
+                    "answer": "1945"
+                },
+                {
+                    "id": 8,
+                    "question": "What is the speed of light in vacuum?",
+                    "options": [
+                        "299,792 km/s",
+                        "150,000 km/s",
+                        "500,000 km/s",
+                        "1,000,000 km/s"
+                    ],
+                    "answer": "299,792 km/s"
+                },
+                {
+                    "id": 9,
+                    "question": "Which country is home to the kangaroo?",
+                    "options": [
+                        "New Zealand",
+                        "South Africa",
+                        "Australia",
+                        "Brazil"
+                    ],
+                    "answer": "Australia"
+                },
+                {
+                    "id": 10,
+                    "question": "What is the largest planet in our solar system?",
+                    "options": [
+                        "Saturn",
+                        "Jupiter",
+                        "Neptune",
+                        "Uranus"
+                    ],
+                    "answer": "Jupiter"
+                }
+            ]
+        },
+        {
+            "name": "Second Quiz",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "What is the SI unit of force?",
+                    "options": [
+                        "Joule",
+                        "Newton",
+                        "Watt",
+                        "Pascal"
+                    ],
+                    "answer": "Newton"
+                },
+                {
+                    "id": 2,
+                    "question": "What is the acceleration due to gravity on Earth?",
+                    "options": [
+                        "8.9 m/s²",
+                        "9.8 m/s²",
+                        "10.2 m/s²",
+                        "11.5 m/s²"
+                    ],
+                    "answer": "9.8 m/s²"
+                },
+                {
+                    "id": 3,
+                    "question": "Who formulated the three laws of motion?",
+                    "options": [
+                        "Albert Einstein",
+                        "Isaac Newton",
+                        "Galileo Galilei",
+                        "Nikola Tesla"
+                    ],
+                    "answer": "Isaac Newton"
+                },
+                {
+                    "id": 4,
+                    "question": "What is the formula for kinetic energy?",
+                    "options": [
+                        "E = mc²",
+                        "KE = ½mv²",
+                        "F = ma",
+                        "P = mv"
+                    ],
+                    "answer": "KE = ½mv²"
+                },
+                {
+                    "id": 5,
+                    "question": "What type of energy is stored in a stretched spring?",
+                    "options": [
+                        "Kinetic energy",
+                        "Thermal energy",
+                        "Potential energy",
+                        "Nuclear energy"
+                    ],
+                    "answer": "Potential energy"
+                },
+                {
+                    "id": 6,
+                    "question": "What is the speed of sound in air at room temperature?",
+                    "options": [
+                        "243 m/s",
+                        "343 m/s",
+                        "443 m/s",
+                        "543 m/s"
+                    ],
+                    "answer": "343 m/s"
+                },
+                {
+                    "id": 7,
+                    "question": "What does Ohm's Law state?",
+                    "options": [
+                        "V = IR",
+                        "E = mc²",
+                        "F = ma",
+                        "P = IV"
+                    ],
+                    "answer": "V = IR"
+                },
+                {
+                    "id": 8,
+                    "question": "What is the first law of thermodynamics also known as?",
+                    "options": [
+                        "Law of entropy",
+                        "Law of conservation of energy",
+                        "Law of heat transfer",
+                        "Law of motion"
+                    ],
+                    "answer": "Law of conservation of energy"
+                },
+                {
+                    "id": 9,
+                    "question": "What particle carries electric current in a metal wire?",
+                    "options": [
+                        "Protons",
+                        "Neutrons",
+                        "Electrons",
+                        "Photons"
+                    ],
+                    "answer": "Electrons"
+                },
+                {
+                    "id": 10,
+                    "question": "What is the SI unit of power?",
+                    "options": [
+                        "Joule",
+                        "Newton",
+                        "Watt",
+                        "Ampere"
+                    ],
+                    "answer": "Watt"
+                }
+            ]
+        },
+        {
+            "name": "Painting Quiz",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Who painted the Mona Lisa?",
+                    "options": [
+                        "Michelangelo",
+                        "Leonardo da Vinci",
+                        "Raphael",
+                        "Donatello"
+                    ],
+                    "answer": "Leonardo da Vinci"
+                },
+                {
+                    "id": 2,
+                    "question": "Which artist is famous for cutting off his own ear?",
+                    "options": [
+                        "Pablo Picasso",
+                        "Claude Monet",
+                        "Vincent van Gogh",
+                        "Paul Gauguin"
+                    ],
+                    "answer": "Vincent van Gogh"
+                },
+                {
+                    "id": 3,
+                    "question": "What painting technique uses small dots of color?",
+                    "options": [
+                        "Impressionism",
+                        "Pointillism",
+                        "Cubism",
+                        "Surrealism"
+                    ],
+                    "answer": "Pointillism"
+                },
+                {
+                    "id": 4,
+                    "question": "Who painted 'The Starry Night'?",
+                    "options": [
+                        "Vincent van Gogh",
+                        "Claude Monet",
+                        "Edgar Degas",
+                        "Pierre-Auguste Renoir"
+                    ],
+                    "answer": "Vincent van Gogh"
+                },
+                {
+                    "id": 5,
+                    "question": "Which artistic movement did Pablo Picasso co-found?",
+                    "options": [
+                        "Impressionism",
+                        "Expressionism",
+                        "Cubism",
+                        "Romanticism"
+                    ],
+                    "answer": "Cubism"
+                },
+                {
+                    "id": 6,
+                    "question": "Who painted the ceiling of the Sistine Chapel?",
+                    "options": [
+                        "Leonardo da Vinci",
+                        "Raphael",
+                        "Michelangelo",
+                        "Caravaggio"
+                    ],
+                    "answer": "Michelangelo"
+                },
+                {
+                    "id": 7,
+                    "question": "What is the name of the famous melting clocks painting by Salvador Dalí?",
+                    "options": [
+                        "The Scream",
+                        "The Persistence of Memory",
+                        "Guernica",
+                        "The Birth of Venus"
+                    ],
+                    "answer": "The Persistence of Memory"
+                },
+                {
+                    "id": 8,
+                    "question": "Which Dutch artist is known for painting Girl with a Pearl Earring?",
+                    "options": [
+                        "Rembrandt",
+                        "Johannes Vermeer",
+                        "Frans Hals",
+                        "Jan Steen"
+                    ],
+                    "answer": "Johannes Vermeer"
+                },
+                {
+                    "id": 9,
+                    "question": "What art movement is Claude Monet associated with?",
+                    "options": [
+                        "Baroque",
+                        "Impressionism",
+                        "Renaissance",
+                        "Abstract Expressionism"
+                    ],
+                    "answer": "Impressionism"
+                },
+                {
+                    "id": 10,
+                    "question": "Who painted 'The Birth of Venus'?",
+                    "options": [
+                        "Leonardo da Vinci",
+                        "Sandro Botticelli",
+                        "Titian",
+                        "Caravaggio"
+                    ],
+                    "answer": "Sandro Botticelli"
+                }
+            ]
+        }
+    ]
+}

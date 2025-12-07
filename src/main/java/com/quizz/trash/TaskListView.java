@@ -1,8 +1,6 @@
-package com.quizz.examplefeature.ui;
+package com.quizz.trash;
 
 import com.quizz.base.ui.component.ViewToolbar;
-import com.quizz.examplefeature.Task;
-import com.quizz.examplefeature.TaskService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -11,9 +9,6 @@ import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Menu;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.time.ZoneId;
@@ -23,9 +18,9 @@ import java.util.Optional;
 
 import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRequest;
 
-@Route("")
-@PageTitle("Task List")
-@Menu(order = 0, icon = "vaadin:clipboard-check", title = "Task List")
+//@Route("")
+//@PageTitle("Task List")
+//@Menu(order = 0, icon = "vaadin:clipboard-check", title = "Task List")
 class TaskListView extends Main {
 
     private final TaskService taskService;
