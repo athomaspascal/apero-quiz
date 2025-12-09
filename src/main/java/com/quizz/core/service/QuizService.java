@@ -34,5 +34,10 @@ public class QuizService {
         return quizRepository.findById(id).orElse(null);
     }
 
+    @Transactional
+    public Quiz save(Quiz quiz) {
+        return quizRepository.save(quiz);
+    }
+
 }
 

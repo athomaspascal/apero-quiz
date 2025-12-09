@@ -1,7 +1,8 @@
 {
     "quizzes": [
         {
-            "name": "General Knowledge Quiz",
+            "name": "General Knowledge",
+            "imageFileName": "knowledge.svg",
             "questions": [
                 {
                     "id": 1,
@@ -126,7 +127,8 @@
             ]
         },
         {
-            "name": "Second Quiz",
+            "name": "Physics",
+            "imageFileName": "physics.svg",
             "questions": [
                 {
                     "id": 1,
@@ -251,7 +253,8 @@
             ]
         },
         {
-            "name": "US Civil War Quiz",
+            "name": "US Civil War",
+            "imageFileName": "civilwar.svg",
             "questions": [
                 {
                     "id": 1,
@@ -1456,7 +1459,8 @@
             ]
         },
         {
-            "name": "Painting Quiz",
+            "name": "Painting",
+            "imageFileName": "painting.svg",
             "questions": [
                 {
                     "id": 1,

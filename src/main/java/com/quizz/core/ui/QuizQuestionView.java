@@ -52,9 +52,11 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private QuizParticipant currentParticipant = null;
     private List<String> userAnswers = new ArrayList<>(); // Store user's answers
 
-    private final H2 questionTitle;
+    //private final H2 questionTitle;
     private final H3 questionText;
-    private final RadioButtonGroup<String> optionsGroup;
+    private final VerticalLayout optionsContainer;
+    private String selectedAnswer = null;
+    private List<Button> optionButtons = new ArrayList<>();
     private final Button nextButton;
     private final Button previousButton;
     private final Button stopButton;
@@ -78,17 +80,16 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         this.sessionService = sessionService;
         this.answerService = answerService;
 
-        questionTitle = new H2();
-        questionTitle.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
+        //questionTitle = new H2();
+        //questionTitle.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
 
         questionText = new H3();
         questionText.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
 
-        optionsGroup = new RadioButtonGroup<>();
-        optionsGroup.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
-        optionsGroup.getStyle().set("--lumo-primary-color", "#1976d2");
-        optionsGroup.getStyle().set("--lumo-primary-color-50pct", "rgba(25, 118, 210, 0.5)");
-        optionsGroup.getStyle().set("--lumo-primary-color-10pct", "rgba(25, 118, 210, 0.1)");
+        optionsContainer = new VerticalLayout();
+        optionsContainer.setPadding(false);
+        optionsContainer.setSpacing(true);
+        optionsContainer.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
 
         answerFeedback = new Div();
         answerFeedback.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
@@ -123,10 +124,6 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         stopButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         stopButton.getStyle().set("margin-left", "auto");
 
-        // Enable next button when an answer is selected
-        optionsGroup.addValueChangeListener(event ->
-            nextButton.setEnabled(event.getValue() != null)
-        );
 
         progressText = new Paragraph();
         progressText.addClassNames(LumoUtility.Margin.Top.MEDIUM);
@@ -136,9 +133,9 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
         VerticalLayout content = new VerticalLayout(
             timerContainer,
-            questionTitle,
+            //questionTitle,
             questionText,
-            optionsGroup,
+            optionsContainer,
             answerFeedback,
             buttonLayout,
             progressText
@@ -265,7 +262,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
     private void finishQuizTimeUp() {
         // Disable all interactions
-        optionsGroup.setEnabled(false);
+        optionButtons.forEach(btn -> btn.setEnabled(false));
         nextButton.setEnabled(false);
         previousButton.setEnabled(false);
 
@@ -295,10 +292,64 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         if (currentQuestionIndex < randomQuestions.size()) {
             currentQuestion = randomQuestions.get(currentQuestionIndex);
 
-            questionTitle.setText("Question " + (currentQuestionIndex + 1));
+            //questionTitle.setText("Question " + (currentQuestionIndex + 1));
             questionText.setText(currentQuestion.getQuestion());
-            optionsGroup.setItems(currentQuestion.getOptions());
-            optionsGroup.setValue(null);
+
+            // Clear previous options
+            optionsContainer.removeAll();
+            optionButtons.clear();
+            selectedAnswer = null;
+
+            // Create large buttons for each option
+            for (String option : currentQuestion.getOptions()) {
+                Button optionButton = new Button(option);
+                optionButton.setWidth("100%");
+                optionButton.getStyle()
+                    .set("height", "60px")
+                    .set("text-align", "left")
+                    .set("font-size", "16px")
+                    .set("padding", "0 20px")
+                    .set("white-space", "normal")
+                    .set("background-color", "white")
+                    .set("color", "var(--lumo-body-text-color)")
+                    .set("border", "2px solid var(--lumo-contrast-20pct)");
+
+                optionButton.addClickListener(event -> {
+                    // Toggle selection
+                    if (selectedAnswer != null && selectedAnswer.equals(option)) {
+                        // Deselect
+                        selectedAnswer = null;
+                        optionButton.getStyle()
+                            .set("background-color", "white")
+                            .set("color", "var(--lumo-body-text-color)")
+                            .set("border", "2px solid var(--lumo-contrast-20pct)");
+                        nextButton.setEnabled(false);
+                    } else {
+                        // Select this option, deselect others
+                        selectedAnswer = option;
+
+                        // Reset all buttons
+                        for (Button btn : optionButtons) {
+                            btn.getStyle()
+                                .set("background-color", "white")
+                                .set("color", "var(--lumo-body-text-color)")
+                                .set("border", "2px solid var(--lumo-contrast-20pct)");
+                        }
+
+                        // Highlight selected button in green
+                        optionButton.getStyle()
+                            .set("background-color", "#4caf50")
+                            .set("color", "white")
+                            .set("border", "2px solid #4caf50");
+
+                        nextButton.setEnabled(true);
+                    }
+                });
+
+                optionButtons.add(optionButton);
+                optionsContainer.add(optionButton);
+            }
+
             answerFeedback.setVisible(false);
             answerFeedback.setText("");
 
@@ -317,8 +368,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
     private void showNextQuestion() {
         // Check answer and update score if an option is selected
-        if (optionsGroup.getValue() != null) {
-            String selectedAnswer = optionsGroup.getValue();
+        if (selectedAnswer != null) {
             boolean isCorrect = selectedAnswer.equals(currentQuestion.getAnswer());
 
             // Store the user's answer
@@ -369,7 +419,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     }
 
     private void showFinalScore() {
-        questionTitle.setText("Quiz Completed!");
+        //questionTitle.setText("Quiz Completed!");
 
         double percentage = (totalQuestions > 0) ? ((double) correctAnswers / totalQuestions) * 100 : 0;
         String scoreMessage = String.format("Your Score: %d/%d (%.1f%%) - Time: %ds",
@@ -395,7 +445,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         answerFeedback.getStyle().set("font-weight", "bold");
         answerFeedback.setVisible(true);
 
-        optionsGroup.setVisible(false);
+        optionsContainer.setVisible(false);
         previousButton.setVisible(false);
         stopButton.setVisible(false);
         progressText.setVisible(false);
@@ -463,8 +513,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         stopTimer();
 
         // Save the current answer if one was selected
-        if (optionsGroup.getValue() != null) {
-            String selectedAnswer = optionsGroup.getValue();
+        if (selectedAnswer != null) {
             boolean isCorrect = selectedAnswer.equals(currentQuestion.getAnswer());
 
             // Store the user's answer

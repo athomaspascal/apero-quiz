@@ -17,6 +17,9 @@ public class Quiz {
     @Column(name = "name", nullable = false, length = NAME_MAX_LENGTH)
     private String name = "";
 
+    @Column(name = "image_file_name", length = 255)
+    private String imageFileName;
+
     protected Quiz() { // To keep Hibernate happy
     }
 
@@ -37,6 +40,14 @@ public class Quiz {
             throw new IllegalArgumentException("Name length exceeds " + NAME_MAX_LENGTH);
         }
         this.name = name;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     @Override

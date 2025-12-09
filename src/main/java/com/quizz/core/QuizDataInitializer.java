@@ -43,7 +43,9 @@ public class QuizDataInitializer {
 
             // Create each quiz from the JSON data
             for (QuizQuestionsData.QuizData quizData : data.getQuizzes()) {
-                Quiz quiz = quizService.createQuiz(quizData.getName());
+                Quiz quiz = new Quiz(quizData.getName());
+                quiz.setImageFileName(quizData.getImageFileName());
+                quiz = quizService.save(quiz);
 
                 // Add all questions for this quiz
                 for (QuizQuestionsData.QuestionData questionData : quizData.getQuestions()) {

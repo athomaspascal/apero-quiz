@@ -10,7 +10,6 @@ import com.quizz.core.util.QRCodeGenerator;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -24,9 +23,9 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
-import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRequest;
 
 @Route("")
 @PageTitle("New Quiz")
@@ -38,7 +37,9 @@ class QuizListView extends Main {
 
     final TextField name;
     final Button createBtn;
-    final Grid<Quiz> quizGrid;
+    final Button shareBtn;
+    private HorizontalLayout quizCardsContainer;
+    private Quiz selectedQuiz = null;
 
     QuizListView(QuizService quizService, QuizSessionService sessionService) {
         this.quizService = quizService;
@@ -50,49 +51,232 @@ class QuizListView extends Main {
         name.setMaxLength(Quiz.NAME_MAX_LENGTH);
         name.setMinWidth("20em");
 
-        createBtn = new Button("Create", event -> createQuiz());
-        createBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        quizGrid = new Grid<>();
-        quizGrid.setItems(query -> quizService.list(toSpringPageRequest(query)).stream());
-        quizGrid.addColumn(Quiz::getName).setHeader("Name");
-        quizGrid.addComponentColumn(quiz -> {
-
-
-            Button shareButton = new Button("Share", event -> showShareDialog(quiz));
-            shareButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
-
-            HorizontalLayout actions = new HorizontalLayout( shareButton);
-            actions.setSpacing(true);
-            return actions;
-        }).setHeader("Action").setAutoWidth(true);
-        quizGrid.addSelectionListener(event -> {
-            Quiz selected = event.getFirstSelectedItem().orElse(null);
-            if (selected != null) {
-                createBtn.setText("Start");
-                createBtn.addClickListener(clickEvent ->
-                    getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + selected.getId()))
-                );
-                name.setValue(selected.getName());
+        createBtn = new Button("Create", event -> {
+            if (selectedQuiz != null) {
+                getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + selectedQuiz.getId()));
             } else {
-                createBtn.setText("Create");
-                createBtn.addClickListener(clickEvent -> createQuiz());
-                name.clear();
+                createQuiz();
             }
         });
-        quizGrid.setSizeFull();
+        createBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        shareBtn = new Button("Share", event -> {
+            if (selectedQuiz != null) {
+                showShareDialog(selectedQuiz);
+            }
+        });
+        shareBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        shareBtn.setEnabled(false);
+
+        // Create horizontal container for quiz cards
+        quizCardsContainer = new HorizontalLayout();
+        quizCardsContainer.setSpacing(true);
+        quizCardsContainer.getStyle()
+            .set("flex-wrap", "wrap")
+            .set("gap", "10px")
+            .set("padding", "10px");
 
         setSizeFull();
         addClassNames(LumoUtility.BoxSizing.BORDER, LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN,
                 LumoUtility.Padding.MEDIUM, LumoUtility.Gap.SMALL);
 
-        add(new ViewToolbar("Quiz List", ViewToolbar.group(name, createBtn)));
-        add(quizGrid);
+        // Create user profile section
+        VerticalLayout userProfileSection = createUserProfileSection();
+
+        add(userProfileSection);
+        add(new ViewToolbar("Quiz List", ViewToolbar.group(name, createBtn, shareBtn)));
+        add(quizCardsContainer);
+
+        loadQuizCards();
+    }
+
+    private VerticalLayout createUserProfileSection() {
+        VerticalLayout profileSection = new VerticalLayout();
+        profileSection.setAlignItems(VerticalLayout.Alignment.CENTER);
+        profileSection.setPadding(false);
+        profileSection.setSpacing(false);
+        profileSection.getStyle()
+            .set("margin-bottom", "20px");
+
+        // Get current user
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+        // Create avatar container
+        Div avatarContainer = new Div();
+        avatarContainer.getStyle()
+            .set("width", "80px")
+            .set("height", "80px")
+            .set("border-radius", "50%")
+            .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+            .set("display", "flex")
+            .set("align-items", "center")
+            .set("justify-content", "center")
+            .set("color", "white")
+            .set("font-size", "32px")
+            .set("font-weight", "bold")
+            .set("box-shadow", "0 4px 12px rgba(0,0,0,0.15)")
+            .set("cursor", "pointer");
+
+        // Display user initials or default icon
+        if (currentUser != null && currentUser.getName() != null && !currentUser.getName().isEmpty()) {
+            String initials = getInitials(currentUser.getName());
+            Span initialsSpan = new Span(initials);
+            avatarContainer.add(initialsSpan);
+        } else {
+            Span defaultIcon = new Span("👤");
+            avatarContainer.add(defaultIcon);
+        }
+
+        // User name below avatar (optional)
+        if (currentUser != null && currentUser.getName() != null) {
+            Paragraph userName = new Paragraph(currentUser.getName());
+            userName.getStyle()
+                .set("margin-top", "8px")
+                .set("margin-bottom", "0")
+                .set("font-size", "14px")
+                .set("font-weight", "500")
+                .set("color", "#333");
+            profileSection.add(avatarContainer, userName);
+        } else {
+            profileSection.add(avatarContainer);
+        }
+
+        return profileSection;
+    }
+
+    private String getInitials(String name) {
+        if (name == null || name.isEmpty()) {
+            return "?";
+        }
+
+        String[] parts = name.trim().split("\\s+");
+        if (parts.length == 1) {
+            return parts[0].substring(0, Math.min(2, parts[0].length())).toUpperCase();
+        } else {
+            return (parts[0].substring(0, 1) + parts[parts.length - 1].substring(0, 1)).toUpperCase();
+        }
+    }
+
+    private void loadQuizCards() {
+        quizCardsContainer.removeAll();
+
+        List<Quiz> quizzes = quizService.list(org.springframework.data.domain.Pageable.unpaged());
+
+        for (Quiz quiz : quizzes) {
+            VerticalLayout card = createQuizCard(quiz);
+            quizCardsContainer.add(card);
+        }
+    }
+
+    private VerticalLayout createQuizCard(Quiz quiz) {
+        VerticalLayout card = new VerticalLayout();
+        card.setWidth("120px");
+        card.setHeight("140px");
+        card.setPadding(false);
+        card.setSpacing(false);
+        card.getStyle()
+            .set("border", "1px solid #e0e0e0")
+            .set("border-radius", "6px")
+            .set("cursor", "pointer")
+            .set("background-color", "white")
+            .set("transition", "all 0.3s ease")
+            .set("padding", "8px");
+
+        // Image container
+        Div imageContainer = new Div();
+        imageContainer.setWidth("100%");
+        imageContainer.setHeight("80px");
+        imageContainer.getStyle()
+            .set("display", "flex")
+            .set("align-items", "center")
+            .set("justify-content", "center")
+            .set("overflow", "hidden")
+            .set("border-radius", "4px");
+
+        // Load image
+        String imageFileName = quiz.getImageFileName();
+        if (imageFileName != null && !imageFileName.isEmpty()) {
+            Image image = new Image("images/" + imageFileName, quiz.getName());
+            image.setWidth("100%");
+            image.setHeight("100%");
+            image.getStyle().set("object-fit", "cover");
+            imageContainer.add(image);
+        } else {
+            // Default placeholder if no image
+            Div placeholder = new Div();
+            placeholder.setText("📚");
+            placeholder.getStyle()
+                .set("font-size", "40px")
+                .set("color", "#1976d2");
+            imageContainer.add(placeholder);
+        }
+
+        // Quiz name
+        Paragraph quizName = new Paragraph(quiz.getName());
+        quizName.getStyle()
+            .set("text-align", "center")
+            .set("font-weight", "bold")
+            .set("margin-top", "5px")
+            .set("margin-bottom", "0")
+            .set("font-size", "10px")
+            .set("color", "#333")
+            .set("line-height", "1.2")
+            .set("overflow", "hidden")
+            .set("text-overflow", "ellipsis")
+            .set("display", "-webkit-box")
+            .set("-webkit-line-clamp", "2")
+            .set("-webkit-box-orient", "vertical");
+
+        card.add(imageContainer, quizName);
+
+        // Click handler
+        card.addClickListener(event -> {
+            selectQuiz(quiz);
+        });
+
+        // Hover effects
+        card.getElement().addEventListener("mouseenter", e -> {
+            card.getStyle()
+                .set("border-color", "#1976d2")
+                .set("box-shadow", "0 4px 8px rgba(0,0,0,0.2)")
+                .set("transform", "translateY(-2px)");
+        });
+
+        card.getElement().addEventListener("mouseleave", e -> {
+            if (selectedQuiz == null || !selectedQuiz.equals(quiz)) {
+                card.getStyle()
+                    .set("border-color", "#e0e0e0")
+                    .set("box-shadow", "none")
+                    .set("transform", "translateY(0)");
+            }
+        });
+
+        return card;
+    }
+
+    private void selectQuiz(Quiz quiz) {
+        selectedQuiz = quiz;
+        createBtn.setText("Start");
+        shareBtn.setEnabled(true);
+        name.setValue(quiz.getName());
+
+        // Update visual selection of all cards
+        loadQuizCards();
+
+        // Highlight selected card
+        quizCardsContainer.getChildren().forEach(component -> {
+            if (component instanceof VerticalLayout) {
+                VerticalLayout card = (VerticalLayout) component;
+                card.getStyle()
+                    .set("border-color", "#e0e0e0")
+                    .set("box-shadow", "none");
+            }
+        });
     }
 
     private void createQuiz() {
         quizService.createQuiz(name.getValue());
-        quizGrid.getDataProvider().refreshAll();
+        loadQuizCards();
         name.clear();
         Notification.show("Quiz added", 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);

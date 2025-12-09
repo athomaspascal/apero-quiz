@@ -18,6 +18,7 @@ public class QuizQuestionsData {
 
     public static class QuizData {
         private String name;
+        private String imageFileName;
         private List<QuestionData> questions;
 
         public QuizData() {
@@ -29,6 +30,14 @@ public class QuizQuestionsData {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public String getImageFileName() {
+            return imageFileName;
+        }
+
+        public void setImageFileName(String imageFileName) {
+            this.imageFileName = imageFileName;
         }
 
         public List<QuestionData> getQuestions() {
