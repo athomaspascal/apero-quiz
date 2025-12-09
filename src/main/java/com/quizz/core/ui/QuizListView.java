@@ -57,18 +57,29 @@ class QuizListView extends Main {
         quizGrid.setItems(query -> quizService.list(toSpringPageRequest(query)).stream());
         quizGrid.addColumn(Quiz::getName).setHeader("Name");
         quizGrid.addComponentColumn(quiz -> {
-            Button playButton = new Button("Play", event ->
-                getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + quiz.getId()))
-            );
-            playButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_SMALL);
+
 
             Button shareButton = new Button("Share", event -> showShareDialog(quiz));
             shareButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
 
-            HorizontalLayout actions = new HorizontalLayout(playButton, shareButton);
+            HorizontalLayout actions = new HorizontalLayout( shareButton);
             actions.setSpacing(true);
             return actions;
         }).setHeader("Action").setAutoWidth(true);
+        quizGrid.addSelectionListener(event -> {
+            Quiz selected = event.getFirstSelectedItem().orElse(null);
+            if (selected != null) {
+                createBtn.setText("Start");
+                createBtn.addClickListener(clickEvent ->
+                    getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + selected.getId()))
+                );
+                name.setValue(selected.getName());
+            } else {
+                createBtn.setText("Create");
+                createBtn.addClickListener(clickEvent -> createQuiz());
+                name.clear();
+            }
+        });
         quizGrid.setSizeFull();
 
         setSizeFull();
