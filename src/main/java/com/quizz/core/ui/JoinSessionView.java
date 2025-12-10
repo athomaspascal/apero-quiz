@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,6 +33,39 @@ public class JoinSessionView extends VerticalLayout {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
+
+        // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
+        Button backButton = new Button("Back to Quiz List", VaadinIcon.ARROW_LEFT.create());
+        backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        backButton.addClickListener(event -> getUI().ifPresent(ui -> ui.navigate("")));
+        backButton.getStyle()
+            .set("position", "absolute")
+            .set("top", "10px")
+            .set("left", "10px");
+
+        // Hide back button when side menu is visible
+        backButton.addAttachListener(attachEvent -> {
+            getUI().ifPresent(ui -> {
+                ui.getPage().executeJs(
+                    "const checkMenu = () => {" +
+                    "  const drawer = document.querySelector('vaadin-app-layout vaadin-drawer-toggle');" +
+                    "  const sideNav = document.querySelector('vaadin-side-nav');" +
+                    "  if (drawer && window.getComputedStyle(drawer).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else if (sideNav && window.getComputedStyle(sideNav).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else {" +
+                    "    $0.style.display = '';" +
+                    "  }" +
+                    "};" +
+                    "checkMenu();" +
+                    "window.addEventListener('resize', checkMenu);" +
+                    "setTimeout(checkMenu, 100);" +
+                    "setTimeout(checkMenu, 500);",
+                    backButton.getElement()
+                );
+            });
+        });
 
         Div container = new Div();
         container.addClassNames(
@@ -80,7 +114,7 @@ public class JoinSessionView extends VerticalLayout {
         content.setAlignItems(Alignment.STRETCH);
 
         container.add(content);
-        add(container);
+        add(backButton, container);
     }
 
     private void joinSession() {

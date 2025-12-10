@@ -3,11 +3,14 @@ package com.quizz.core.ui;
 import com.quizz.core.dto.ParticipantAnswerStats;
 import com.quizz.core.entity.QuizParticipant;
 import com.quizz.core.service.QuizAnswerService;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -29,6 +32,39 @@ public class ParticipantAnswersView extends VerticalLayout implements BeforeEnte
 
     public ParticipantAnswersView(QuizAnswerService answerService) {
         this.answerService = answerService;
+
+        // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
+        Button backButton = new Button("Back to Quiz List", VaadinIcon.ARROW_LEFT.create());
+        backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        backButton.addClickListener(event -> getUI().ifPresent(ui -> ui.navigate("")));
+        backButton.getStyle()
+            .set("position", "absolute")
+            .set("top", "10px")
+            .set("left", "10px");
+
+        // Hide back button when side menu is visible
+        backButton.addAttachListener(attachEvent -> {
+            getUI().ifPresent(ui -> {
+                ui.getPage().executeJs(
+                    "const checkMenu = () => {" +
+                    "  const drawer = document.querySelector('vaadin-app-layout vaadin-drawer-toggle');" +
+                    "  const sideNav = document.querySelector('vaadin-side-nav');" +
+                    "  if (drawer && window.getComputedStyle(drawer).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else if (sideNav && window.getComputedStyle(sideNav).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else {" +
+                    "    $0.style.display = '';" +
+                    "  }" +
+                    "};" +
+                    "checkMenu();" +
+                    "window.addEventListener('resize', checkMenu);" +
+                    "setTimeout(checkMenu, 100);" +
+                    "setTimeout(checkMenu, 500);",
+                    backButton.getElement()
+                );
+            });
+        });
 
         title = new H2("Answer Details");
         title.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
@@ -71,7 +107,7 @@ public class ParticipantAnswersView extends VerticalLayout implements BeforeEnte
         }).setHeader("Time").setAutoWidth(true).setFlexGrow(0);
 
         addClassNames(LumoUtility.Padding.LARGE);
-        add(title, statsContainer, answersGrid);
+        add(backButton, title, statsContainer, answersGrid);
         setSizeFull();
     }
 

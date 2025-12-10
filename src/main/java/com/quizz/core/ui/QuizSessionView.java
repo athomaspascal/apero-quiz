@@ -9,6 +9,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -67,6 +68,39 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
 
     private void buildUI() {
         removeAll();
+
+        // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
+        Button backButton = new Button("Back to Quiz List", VaadinIcon.ARROW_LEFT.create());
+        backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        backButton.addClickListener(event -> getUI().ifPresent(ui -> ui.navigate("quiz-list")));
+        backButton.getStyle()
+            .set("position", "absolute")
+            .set("top", "10px")
+            .set("left", "10px");
+
+        // Hide back button when side menu is visible
+        backButton.addAttachListener(attachEvent -> {
+            getUI().ifPresent(ui -> {
+                ui.getPage().executeJs(
+                    "const checkMenu = () => {" +
+                    "  const drawer = document.querySelector('vaadin-app-layout vaadin-drawer-toggle');" +
+                    "  const sideNav = document.querySelector('vaadin-side-nav');" +
+                    "  if (drawer && window.getComputedStyle(drawer).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else if (sideNav && window.getComputedStyle(sideNav).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else {" +
+                    "    $0.style.display = '';" +
+                    "  }" +
+                    "};" +
+                    "checkMenu();" +
+                    "window.addEventListener('resize', checkMenu);" +
+                    "setTimeout(checkMenu, 100);" +
+                    "setTimeout(checkMenu, 500);",
+                    backButton.getElement()
+                );
+            });
+        });
 
         H2 title = new H2("Quiz Session: " + session.getQuiz().getName());
         title.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
@@ -130,7 +164,7 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
         refreshButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         actions.add(refreshButton);
 
-        add(title, sessionInfo, participantsTitle, participantsList, actions);
+        add(backButton, title, sessionInfo, participantsTitle, participantsList, actions);
     }
 
     private void updateParticipantsList(Div participantsList) {

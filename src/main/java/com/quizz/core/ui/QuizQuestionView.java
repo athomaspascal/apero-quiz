@@ -17,6 +17,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
@@ -131,6 +132,42 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         Div buttonLayout = new Div(previousButton, nextButton, stopButton);
         buttonLayout.addClassNames(LumoUtility.Display.FLEX, LumoUtility.Gap.MEDIUM);
 
+        // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
+        Button backButton = new Button("Back to Quiz List", VaadinIcon.ARROW_LEFT.create());
+        backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        backButton.addClickListener(event -> {
+            stopTimer(); // Arrêter le timer avant de quitter
+            getUI().ifPresent(ui -> ui.navigate(""));
+        });
+        backButton.getStyle()
+            .set("position", "absolute")
+            .set("top", "10px")
+            .set("left", "10px");
+
+        // Hide back button when side menu is visible
+        backButton.addAttachListener(attachEvent -> {
+            getUI().ifPresent(ui -> {
+                ui.getPage().executeJs(
+                    "const checkMenu = () => {" +
+                    "  const drawer = document.querySelector('vaadin-app-layout vaadin-drawer-toggle');" +
+                    "  const sideNav = document.querySelector('vaadin-side-nav');" +
+                    "  if (drawer && window.getComputedStyle(drawer).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else if (sideNav && window.getComputedStyle(sideNav).display !== 'none') {" +
+                    "    $0.style.display = 'none';" +
+                    "  } else {" +
+                    "    $0.style.display = '';" +
+                    "  }" +
+                    "};" +
+                    "checkMenu();" +
+                    "window.addEventListener('resize', checkMenu);" +
+                    "setTimeout(checkMenu, 100);" +
+                    "setTimeout(checkMenu, 500);",
+                    backButton.getElement()
+                );
+            });
+        });
+
         VerticalLayout content = new VerticalLayout(
             timerContainer,
             //questionTitle,
@@ -152,7 +189,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             LumoUtility.FlexDirection.COLUMN,
             LumoUtility.Padding.MEDIUM
         );
-        add(content);
+        add(backButton, content);
     }
 
     @Override
@@ -310,37 +347,39 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                     .set("font-size", "16px")
                     .set("padding", "0 20px")
                     .set("white-space", "normal")
-                    .set("background-color", "white")
-                    .set("color", "var(--lumo-body-text-color)")
-                    .set("border", "2px solid var(--lumo-contrast-20pct)");
+                    .set("background-color", "#e3f2fd")  // Light blue background
+                    .set("color", "#1976d2")  // Dark blue text
+                    .set("border", "2px solid #90caf9");  // Light blue border
 
                 optionButton.addClickListener(event -> {
                     // Toggle selection
                     if (selectedAnswer != null && selectedAnswer.equals(option)) {
                         // Deselect
                         selectedAnswer = null;
+                        optionButton.setIcon(null);
                         optionButton.getStyle()
-                            .set("background-color", "white")
-                            .set("color", "var(--lumo-body-text-color)")
-                            .set("border", "2px solid var(--lumo-contrast-20pct)");
+                            .set("background-color", "#e3f2fd")  // Light blue
+                            .set("color", "#1976d2")  // Dark blue text
+                            .set("border", "2px solid #90caf9");  // Light blue border
                         nextButton.setEnabled(false);
                     } else {
                         // Select this option, deselect others
                         selectedAnswer = option;
 
-                        // Reset all buttons
+                        // Reset all buttons to light blue
                         for (Button btn : optionButtons) {
+                            btn.setIcon(null);
                             btn.getStyle()
-                                .set("background-color", "white")
-                                .set("color", "var(--lumo-body-text-color)")
-                                .set("border", "2px solid var(--lumo-contrast-20pct)");
+                                .set("background-color", "#e3f2fd")  // Light blue
+                                .set("color", "#1976d2")  // Dark blue text
+                                .set("border", "2px solid #90caf9");  // Light blue border
                         }
 
-                        // Highlight selected button in green
+                        // Highlight selected button in light green
                         optionButton.getStyle()
-                            .set("background-color", "#4caf50")
+                            .set("background-color", "#81c784")  // Light green
                             .set("color", "white")
-                            .set("border", "2px solid #4caf50");
+                            .set("border", "2px solid #66bb6a");  // Medium green border
 
                         nextButton.setEnabled(true);
                     }
@@ -371,18 +410,39 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         if (selectedAnswer != null) {
             boolean isCorrect = selectedAnswer.equals(currentQuestion.getAnswer());
 
+            if (isCorrect) {
+                // Show checkmark icon ONLY on the correct answer when user selected it
+                for (Button btn : optionButtons) {
+                    String btnText = btn.getText();
+                    if (btnText.equals(selectedAnswer)) {
+                        btn.setIcon(VaadinIcon.CHECK.create());
+                        btn.setIconAfterText(true);
+                        btn.getElement().getStyle().set("color", "#2e7d32"); // Dark green for icon
+                        break;
+                    }
+                }
+            } else {
+                // Show "times" icon ONLY on the wrong answer selected by user
+                for (Button btn : optionButtons) {
+                    String btnText = btn.getText();
+                    if (btnText.equals(selectedAnswer)) {
+                        btn.setIcon(VaadinIcon.CLOSE.create());
+                        btn.setIconAfterText(true);
+                        btn.getElement().getStyle().set("color", "#c62828"); // Dark red for icon
+                        break;
+                    }
+                }
+            }
+
             // Store the user's answer
             userAnswers.add(selectedAnswer);
 
             if (isCorrect) {
                 correctAnswers++;
-                answerFeedback.setText("✓ Correct!");
-                answerFeedback.getStyle().set("color", "green");
-            } else {
-                answerFeedback.setText("✗ Incorrect. The correct answer is: " + currentQuestion.getAnswer());
-                answerFeedback.getStyle().set("color", "red");
             }
-            answerFeedback.setVisible(true);
+
+            // Hide the feedback message (user only sees the icons)
+            answerFeedback.setVisible(false);
 
             // Record the answer if we have a participant
             if (currentParticipant != null && currentQuestion != null) {
@@ -397,11 +457,27 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                     System.err.println("Error recording answer: " + e.getMessage());
                 }
             }
+
+            // Pause for 1 second to let the player see the correct answer
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000); // 1 second pause
+                    getUI().ifPresent(ui -> ui.access(() -> {
+                        proceedToNextQuestion();
+                    }));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }).start();
+
         } else {
             // No answer selected, store empty string
             userAnswers.add("");
+            proceedToNextQuestion();
         }
+    }
 
+    private void proceedToNextQuestion() {
         if (currentQuestionIndex < totalQuestions - 1) {
             currentQuestionIndex++;
             displayQuestion();
@@ -516,6 +592,30 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         if (selectedAnswer != null) {
             boolean isCorrect = selectedAnswer.equals(currentQuestion.getAnswer());
 
+            if (isCorrect) {
+                // Show checkmark icon ONLY on the correct answer when user selected it
+                for (Button btn : optionButtons) {
+                    String btnText = btn.getText();
+                    if (btnText.equals(selectedAnswer)) {
+                        btn.setIcon(VaadinIcon.CHECK.create());
+                        btn.setIconAfterText(true);
+                        btn.getElement().getStyle().set("color", "#2e7d32"); // Dark green for icon
+                        break;
+                    }
+                }
+            } else {
+                // Show "times" icon ONLY on the wrong answer selected by user
+                for (Button btn : optionButtons) {
+                    String btnText = btn.getText();
+                    if (btnText.equals(selectedAnswer)) {
+                        btn.setIcon(VaadinIcon.CLOSE.create());
+                        btn.setIconAfterText(true);
+                        btn.getElement().getStyle().set("color", "#c62828"); // Dark red for icon
+                        break;
+                    }
+                }
+            }
+
             // Store the user's answer
             userAnswers.add(selectedAnswer);
 
@@ -541,8 +641,17 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             userAnswers.add("");
         }
 
-        // Show final score
-        showFinalScore();
+        // Pause for 1 second to let the player see the correct answer before showing final score
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000); // 1 second pause
+                getUI().ifPresent(ui -> ui.access(() -> {
+                    showFinalScore();
+                }));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
     }
 
     private void displayAllQuestionsWithAnswersOnRight() {

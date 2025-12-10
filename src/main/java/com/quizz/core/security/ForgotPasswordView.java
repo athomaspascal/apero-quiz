@@ -77,6 +77,7 @@ public class ForgotPasswordView extends VerticalLayout {
 
         formContainer.add(content);
         add(formContainer);
+        add(formContainer);
 
         // Style the page
         getStyle()
