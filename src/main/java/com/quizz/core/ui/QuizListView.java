@@ -6,6 +6,7 @@ import com.quizz.core.entity.QuizSession;
 import com.quizz.core.entity.User;
 import com.quizz.core.service.QuizService;
 import com.quizz.core.service.QuizSessionService;
+import com.quizz.core.service.TranslationService;
 import com.quizz.core.util.QRCodeGenerator;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -28,39 +29,40 @@ import java.util.Properties;
 
 
 @Route("")
-@PageTitle("New Quiz")
-@Menu(order = 1, icon = "vaadin:question-circle", title = "New Quiz")
+@PageTitle("One Quiz")
+@Menu(order = 1, icon = "vaadin:question-circle", title = "menu.quizlist")
 class QuizListView extends Main {
 
     private final QuizService quizService;
     private final QuizSessionService sessionService;
+    private final TranslationService translationService;
 
     final TextField name;
-    final Button createBtn;
+    final Button startButton;
     final Button shareBtn;
     private HorizontalLayout quizCardsContainer;
     private Quiz selectedQuiz = null;
 
-    QuizListView(QuizService quizService, QuizSessionService sessionService) {
+    QuizListView(QuizService quizService, QuizSessionService sessionService, TranslationService translationService) {
         this.quizService = quizService;
         this.sessionService = sessionService;
+        this.translationService = translationService;
 
         name = new TextField();
-        name.setPlaceholder("Quiz name");
-        name.setAriaLabel("Quiz name");
+        name.setPlaceholder(translationService.translate("quizlist.title"));
+        name.setAriaLabel(translationService.translate("quizlist.title"));
         name.setMaxLength(Quiz.NAME_MAX_LENGTH);
         name.setMinWidth("20em");
 
-        createBtn = new Button("Create", event -> {
+        startButton = new Button(translationService.translate("quizlist.start"), event -> {
             if (selectedQuiz != null) {
                 getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + selectedQuiz.getId()));
-            } else {
-                createQuiz();
             }
         });
-        createBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        startButton.setEnabled(false);
 
-        shareBtn = new Button("Share", event -> {
+        shareBtn = new Button(translationService.translate("quizlist.share"), event -> {
             if (selectedQuiz != null) {
                 showShareDialog(selectedQuiz);
             }
@@ -84,7 +86,7 @@ class QuizListView extends Main {
         VerticalLayout userProfileSection = createUserProfileSection();
 
         add(userProfileSection);
-        add(new ViewToolbar("Quiz List", ViewToolbar.group(name, createBtn, shareBtn)));
+        add(new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn)));
         add(quizCardsContainer);
 
         loadQuizCards();
@@ -256,7 +258,8 @@ class QuizListView extends Main {
 
     private void selectQuiz(Quiz quiz) {
         selectedQuiz = quiz;
-        createBtn.setText("Start");
+        startButton.setText(translationService.translate("quizlist.start"));
+        startButton.setEnabled(true);
         shareBtn.setEnabled(true);
         name.setValue(quiz.getName());
 
@@ -294,7 +297,7 @@ class QuizListView extends Main {
         QuizSession session = sessionService.createSession(quiz, currentUser.getId());
 
         Dialog dialog = new Dialog();
-        dialog.setHeaderTitle("Share Quiz: " + quiz.getName());
+        dialog.setHeaderTitle(translationService.translate("session.share") + ": " + quiz.getName());
         dialog.setWidth("500px");
 
         VerticalLayout content = new VerticalLayout();
@@ -302,7 +305,7 @@ class QuizListView extends Main {
         content.setPadding(false);
         content.setAlignItems(VerticalLayout.Alignment.CENTER);
 
-        H3 instructionTitle = new H3("Scan QR Code to Join");
+        H3 instructionTitle = new H3(translationService.translate("session.scan"));
         instructionTitle.getStyle().set("margin-top", "0");
 
         // Generate QR code with session URL

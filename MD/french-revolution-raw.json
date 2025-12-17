@@ -1,0 +1,14 @@
+{
+  "questions": [
+    {
+      "text": "Quelle était l'une des principales causes économiques de la Révolution française ?",
+      "options": [
+        "La surproduction industrielle massive",
+        "La dette publique et la crise financière de l'État",
+        "La découverte de l'Amérique",
+        "La fin du système féodal en Angleterre"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

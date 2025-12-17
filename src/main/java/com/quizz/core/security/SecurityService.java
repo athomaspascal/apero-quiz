@@ -7,12 +7,22 @@ import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 public class SecurityService implements VaadinServiceInitListener {
+
+    private static final String SESSION_LOCALE_KEY = "user.locale";
 
     @Override
     public void serviceInit(ServiceInitEvent event) {
         event.getSource().addUIInitListener(uiEvent -> {
+            // Restore locale from session
+            Locale savedLocale = (Locale) VaadinSession.getCurrent().getAttribute(SESSION_LOCALE_KEY);
+            if (savedLocale != null) {
+                uiEvent.getUI().setLocale(savedLocale);
+            }
+
             uiEvent.getUI().addBeforeEnterListener(this::authenticateNavigation);
         });
     }

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- French flag background -->
+  <rect width="66.67" height="200" fill="#002395"/>
+  <rect x="66.67" width="66.67" height="200" fill="#FFFFFF"/>
+  <rect x="133.33" width="66.67" height="200" fill="#ED2939"/>
+
+  <!-- Bastille tower silhouette -->
+  <g opacity="0.3">
+    <rect x="75" y="80" width="50" height="70" fill="#000"/>
+    <rect x="70" y="70" width="60" height="15" fill="#000"/>
+    <rect x="65" y="60" width="70" height="12" fill="#000"/>
+  </g>
+
+  <!-- Phrygian cap (bonnet phrygien) -->
+  <path d="M 100 40 Q 80 35 75 50 Q 73 60 80 65 L 120 65 Q 127 60 125 50 Q 120 35 100 40 Z" fill="#ED2939" stroke="#000" stroke-width="1.5"/>
+
+  <!-- 1789 text -->
+  <text x="100" y="180" font-family="serif" font-size="24" font-weight="bold" fill="#000" text-anchor="middle" opacity="0.7">1789</text>
+</svg>
+

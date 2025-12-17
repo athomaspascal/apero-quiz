@@ -3,6 +3,8 @@ package com.quizz.core.ui;
 import com.quizz.base.ui.component.ViewToolbar;
 import com.quizz.core.entity.User;
 import com.quizz.core.service.UserService;
+import com.quizz.core.service.TranslationService;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -24,34 +26,36 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 
 @Route("users")
 @PageTitle("Users")
-@Menu(order = 2, icon = "vaadin:users", title = "Users")
+@Menu(order = 2, icon = "vaadin:users", title = "menu.users")
 class UserListView extends Main {
 
     private final UserService userService;
+    private final TranslationService translationService;
     private final Grid<User> userGrid;
 
-    UserListView(UserService userService) {
+    UserListView(UserService userService, TranslationService translationService) {
         this.userService = userService;
+        this.translationService = translationService;
 
-        Button createUserBtn = new Button("Create User", event -> openUserDialog(null));
+        Button createUserBtn = new Button(translationService.translate("users.create"), event -> openUserDialog(null));
         createUserBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         userGrid = new Grid<>();
         userGrid.setItems(query -> userService.list(toSpringPageRequest(query)).stream());
-        userGrid.addColumn(User::getName).setHeader("Name").setSortable(true);
-        userGrid.addColumn(User::getEmail).setHeader("Email").setSortable(true);
-        userGrid.addColumn(User::getTelephone).setHeader("Telephone");
+        userGrid.addColumn(User::getName).setHeader(translationService.translate("users.name")).setSortable(true);
+        userGrid.addColumn(User::getEmail).setHeader(translationService.translate("users.email")).setSortable(true);
+        userGrid.addColumn(User::getTelephone).setHeader(translationService.translate("users.telephone"));
         userGrid.addComponentColumn(user -> {
-            Button editButton = new Button("Edit", event -> openUserDialog(user));
+            Button editButton = new Button(translationService.translate("common.edit"), event -> openUserDialog(user));
             editButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
 
-            Button deleteButton = new Button("Delete", event -> deleteUser(user));
+            Button deleteButton = new Button(translationService.translate("common.delete"), event -> deleteUser(user));
             deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
 
             HorizontalLayout actions = new HorizontalLayout(editButton, deleteButton);
             actions.setSpacing(true);
             return actions;
-        }).setHeader("Actions").setAutoWidth(true);
+        }).setHeader(translationService.translate("common.actions")).setAutoWidth(true);
 
         userGrid.setSizeFull();
 
@@ -59,27 +63,37 @@ class UserListView extends Main {
         addClassNames(LumoUtility.BoxSizing.BORDER, LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN,
                 LumoUtility.Padding.MEDIUM, LumoUtility.Gap.SMALL);
 
-        add(new ViewToolbar("User Management", createUserBtn));
+        add(new ViewToolbar(translationService.translate("users.toolbarTitle"), createUserBtn));
         add(userGrid);
+
+        // Set initial dynamic page title
+        getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("users.pageTitle")));
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        // Update dynamic page title on attach
+        getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("users.pageTitle")));
     }
 
     private void openUserDialog(User user) {
         Dialog dialog = new Dialog();
-        dialog.setHeaderTitle(user == null ? "Create New User" : "Edit User");
+        dialog.setHeaderTitle(user == null ? translationService.translate("users.createDialogTitle") : translationService.translate("users.editDialogTitle"));
 
-        TextField nameField = new TextField("Name");
+        TextField nameField = new TextField(translationService.translate("users.name"));
         nameField.setMaxLength(User.NAME_MAX_LENGTH);
         nameField.setRequired(true);
 
-        EmailField emailField = new EmailField("Email");
+        EmailField emailField = new EmailField(translationService.translate("users.email"));
         emailField.setMaxLength(User.EMAIL_MAX_LENGTH);
         emailField.setRequired(true);
 
-        TextField telephoneField = new TextField("Telephone");
+        TextField telephoneField = new TextField(translationService.translate("users.telephone"));
         telephoneField.setMaxLength(User.TELEPHONE_MAX_LENGTH);
         telephoneField.setRequired(true);
 
-        PasswordField passwordField = new PasswordField("Password");
+        PasswordField passwordField = new PasswordField(translationService.translate("users.password"));
         passwordField.setMaxLength(User.PASSWORD_MAX_LENGTH);
         passwordField.setRequired(true);
 
@@ -97,7 +111,7 @@ class UserListView extends Main {
             new FormLayout.ResponsiveStep("500px", 2)
         );
 
-        Button saveButton = new Button("Save", event -> {
+        Button saveButton = new Button(translationService.translate("common.save"), event -> {
             try {
                 if (user == null) {
                     userService.createUser(
@@ -106,7 +120,7 @@ class UserListView extends Main {
                         telephoneField.getValue(),
                         passwordField.getValue()
                     );
-                    Notification.show("User created successfully", 3000, Notification.Position.BOTTOM_END)
+                    Notification.show(translationService.translate("users.created"), 3000, Notification.Position.BOTTOM_END)
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 } else {
                     if (user.getId() == null) {
@@ -119,19 +133,19 @@ class UserListView extends Main {
                         telephoneField.getValue(),
                         passwordField.getValue()
                     );
-                    Notification.show("User updated successfully", 3000, Notification.Position.BOTTOM_END)
+                    Notification.show(translationService.translate("users.updated"), 3000, Notification.Position.BOTTOM_END)
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 }
                 userGrid.getDataProvider().refreshAll();
                 dialog.close();
             } catch (IllegalArgumentException e) {
-                Notification.show("Error: " + e.getMessage(), 3000, Notification.Position.BOTTOM_END)
+                Notification.show(getTranslation("common.errorWithMessage", e.getMessage()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button cancelButton = new Button("Cancel", event -> dialog.close());
+        Button cancelButton = new Button(translationService.translate("common.cancel"), event -> dialog.close());
 
         HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, cancelButton);
         buttonLayout.setSpacing(true);
@@ -148,12 +162,11 @@ class UserListView extends Main {
             }
             userService.deleteUser(user.getId());
             userGrid.getDataProvider().refreshAll();
-            Notification.show("User deleted successfully", 3000, Notification.Position.BOTTOM_END)
+            Notification.show(translationService.translate("users.deleted"), 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         } catch (Exception e) {
-            Notification.show("Error deleting user: " + e.getMessage(), 3000, Notification.Position.BOTTOM_END)
+            Notification.show(getTranslation("common.errorWithMessage", e.getMessage()), 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 }
-

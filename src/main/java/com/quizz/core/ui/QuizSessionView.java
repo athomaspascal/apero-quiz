@@ -4,7 +4,7 @@ import com.quizz.core.entity.QuizParticipant;
 import com.quizz.core.entity.QuizSession;
 import com.quizz.core.entity.User;
 import com.quizz.core.service.QuizSessionService;
-import com.quizz.core.service.UserService;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -23,21 +23,21 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 public class QuizSessionView extends VerticalLayout implements BeforeEnterObserver {
 
     private final QuizSessionService sessionService;
-    private final UserService userService;
     private QuizSession session;
-    private String sessionCode;
 
-    public QuizSessionView(QuizSessionService sessionService, UserService userService) {
+    public QuizSessionView(QuizSessionService sessionService) {
         this.sessionService = sessionService;
-        this.userService = userService;
 
         setSizeFull();
         addClassNames(LumoUtility.Padding.MEDIUM);
+
+        // Set initial dynamic page title (quiz name will be applied after session resolves)
+        getUI().ifPresent(ui -> ui.getPage().setTitle(getTranslation("quizSession.pageTitle")));
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        sessionCode = event.getRouteParameters().get("sessionCode").orElse(null);
+        String sessionCode = event.getRouteParameters().get("sessionCode").orElse(null);
 
         if (sessionCode == null) {
             event.rerouteTo("");
@@ -47,9 +47,9 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
         session = sessionService.getSessionByCode(sessionCode);
 
         if (session == null) {
-            add(new H2("Session not found"));
-            add(new Paragraph("The session code '" + sessionCode + "' is invalid or has expired."));
-            add(new Button("Back to Quiz List", e -> getUI().ifPresent(ui -> ui.navigate(""))));
+            add(new H2(getTranslation("quizSession.notFound")));
+            add(new Paragraph(getTranslation("quizSession.invalidCode", sessionCode)));
+            add(new Button(getTranslation("quiz.backToList"), e -> getUI().ifPresent(ui -> ui.navigate(""))));
             return;
         }
 
@@ -63,14 +63,28 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
         // Join the session
         sessionService.joinSession(session, currentUser);
 
+        // After session loaded, update the dynamic page title with quiz name
+        getUI().ifPresent(ui -> ui.getPage().setTitle(getTranslation("quizSession.title", session.getQuiz().getName())));
+
         buildUI();
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        // Refresh title on attach (handles locale changes)
+        if (session != null && session.getQuiz() != null) {
+            getUI().ifPresent(ui -> ui.getPage().setTitle(getTranslation("quizSession.title", session.getQuiz().getName())));
+        } else {
+            getUI().ifPresent(ui -> ui.getPage().setTitle(getTranslation("quizSession.pageTitle")));
+        }
     }
 
     private void buildUI() {
         removeAll();
 
         // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
-        Button backButton = new Button("Back to Quiz List", VaadinIcon.ARROW_LEFT.create());
+        Button backButton = new Button(getTranslation("quiz.backToList"), VaadinIcon.ARROW_LEFT.create());
         backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         backButton.addClickListener(event -> getUI().ifPresent(ui -> ui.navigate("quiz-list")));
         backButton.getStyle()
@@ -78,31 +92,27 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
             .set("top", "10px")
             .set("left", "10px");
 
-        // Hide back button when side menu is visible
-        backButton.addAttachListener(attachEvent -> {
-            getUI().ifPresent(ui -> {
-                ui.getPage().executeJs(
-                    "const checkMenu = () => {" +
-                    "  const drawer = document.querySelector('vaadin-app-layout vaadin-drawer-toggle');" +
-                    "  const sideNav = document.querySelector('vaadin-side-nav');" +
-                    "  if (drawer && window.getComputedStyle(drawer).display !== 'none') {" +
-                    "    $0.style.display = 'none';" +
-                    "  } else if (sideNav && window.getComputedStyle(sideNav).display !== 'none') {" +
-                    "    $0.style.display = 'none';" +
-                    "  } else {" +
-                    "    $0.style.display = '';" +
-                    "  }" +
-                    "};" +
-                    "checkMenu();" +
-                    "window.addEventListener('resize', checkMenu);" +
-                    "setTimeout(checkMenu, 100);" +
-                    "setTimeout(checkMenu, 500);",
-                    backButton.getElement()
-                );
-            });
-        });
+        // Hide back button when side menu is visible (lambda as expression to avoid warnings)
+        backButton.addAttachListener(attachEvent -> getUI().ifPresent(ui -> ui.getPage().executeJs(
+            "const checkMenu = () => {" +
+            "  const drawer = document.querySelector('vaadin-app-layout vaadin-drawer-toggle');" +
+            "  const sideNav = document.querySelector('vaadin-side-nav');" +
+            "  if (drawer && window.getComputedStyle(drawer).display !== 'none') {" +
+            "    $0.style.display = 'none';" +
+            "  } else if (sideNav && window.getComputedStyle(sideNav).display !== 'none') {" +
+            "    $0.style.display = 'none';" +
+            "  } else {" +
+            "    $0.style.display = '';" +
+            "  }" +
+            "};" +
+            "checkMenu();" +
+            "window.addEventListener('resize', checkMenu);" +
+            "setTimeout(checkMenu, 100);" +
+            "setTimeout(checkMenu, 500);",
+            backButton.getElement()
+        )));
 
-        H2 title = new H2("Quiz Session: " + session.getQuiz().getName());
+        H2 title = new H2(getTranslation("quizSession.title", session.getQuiz().getName()));
         title.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
 
         Div sessionInfo = new Div();
@@ -113,16 +123,16 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
             LumoUtility.Margin.Bottom.LARGE
         );
 
-        H3 codeTitle = new H3("Session Code: " + session.getSessionCode());
+        H3 codeTitle = new H3(getTranslation("quizSession.code", session.getSessionCode()));
         codeTitle.addClassNames(LumoUtility.Margin.NONE);
 
-        Paragraph statusText = new Paragraph("Status: " + session.getStatus());
+        Paragraph statusText = new Paragraph(getTranslation("quizSession.status", session.getStatus()));
         statusText.addClassNames(LumoUtility.Margin.Top.SMALL, LumoUtility.Margin.Bottom.NONE);
 
         sessionInfo.add(codeTitle, statusText);
 
         // Participants list
-        H3 participantsTitle = new H3("Participants");
+        H3 participantsTitle = new H3(getTranslation("quizSession.participants"));
         Div participantsList = new Div();
         participantsList.addClassNames(
             LumoUtility.Display.FLEX,
@@ -141,14 +151,14 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
                          currentUser.getId().equals(session.getHostUserId());
 
         if (isHost && session.getStatus() == QuizSession.SessionStatus.WAITING) {
-            Button startButton = new Button("Start Quiz for All", event -> startQuizSession());
+            Button startButton = new Button(getTranslation("quizSession.startAll"), event -> startQuizSession());
             startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
             actions.add(startButton);
         }
 
         if (session.getStatus() == QuizSession.SessionStatus.ACTIVE ||
             session.getStatus() == QuizSession.SessionStatus.WAITING) {
-            Button joinButton = new Button("Start My Quiz", event -> startPersonalQuiz());
+            Button joinButton = new Button(getTranslation("quizSession.startMine"), event -> startPersonalQuiz());
             joinButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             actions.add(joinButton);
         }
@@ -157,7 +167,7 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
             showLeaderboard();
         }
 
-        Button refreshButton = new Button("Refresh", event -> {
+        Button refreshButton = new Button(getTranslation("common.refresh"), event -> {
             updateParticipantsList(participantsList);
             getUI().ifPresent(UI::push);
         });
@@ -173,7 +183,7 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
         var participants = sessionService.getParticipants(session);
 
         if (participants.isEmpty()) {
-            participantsList.add(new Paragraph("No participants yet. Share the session code!"));
+            participantsList.add(new Paragraph(getTranslation("quizSession.noParticipants")));
         } else {
             for (QuizParticipant participant : participants) {
                 Div participantCard = new Div();
@@ -188,8 +198,8 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
 
                 Span name = new Span(participant.getUser().getName());
                 Span status = new Span(participant.isCompleted() ?
-                    "✓ Completed - Score: " + participant.getScore() :
-                    "In progress...");
+                    getTranslation("quizSession.completed", participant.getScore()) :
+                    getTranslation("quizSession.inProgress"));
 
                 if (participant.isCompleted()) {
                     status.addClassNames(LumoUtility.TextColor.SUCCESS);
@@ -216,7 +226,7 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
     }
 
     private void showLeaderboard() {
-        H3 leaderboardTitle = new H3("🏆 Final Leaderboard");
+        H3 leaderboardTitle = new H3(getTranslation("quizSession.leaderboard.title"));
         leaderboardTitle.addClassNames(LumoUtility.Margin.Top.XLARGE);
 
         Div leaderboard = new Div();
@@ -247,7 +257,7 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
                 Span rankSpan = new Span(medal + " " + participant.getUser().getName());
                 rankSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.SEMIBOLD);
 
-                Span scoreSpan = new Span("Score: " + participant.getScore());
+                Span scoreSpan = new Span(getTranslation("quizSession.leaderboard.score", participant.getScore()));
                 scoreSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.TextColor.PRIMARY);
 
                 rankCard.add(rankSpan, scoreSpan);
