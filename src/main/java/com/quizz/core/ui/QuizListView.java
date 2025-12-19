@@ -201,15 +201,44 @@ class QuizListView extends Main {
             Image image = new Image("images/" + imageFileName, quiz.getName());
             image.setWidth("100%");
             image.setHeight("100%");
+            // Use 'contain' so all quizzes look consistent even if SVGs have different internal sizes.
             image.getStyle().set("object-fit", "cover");
+
+            // If the image can't be loaded (e.g. missing resource / 404), show a placeholder instead
+            image.getElement().addEventListener("error", e -> {
+                imageContainer.removeAll();
+                Div placeholder = new Div();
+                placeholder.setText(getInitials(quiz.getName()));
+                placeholder.getStyle()
+                    .set("font-size", "28px")
+                    .set("font-weight", "700")
+                    .set("color", "#1976d2")
+                    .set("background", "#e3f2fd")
+                    .set("border-radius", "999px")
+                    .set("width", "56px")
+                    .set("height", "56px")
+                    .set("display", "flex")
+                    .set("align-items", "center")
+                    .set("justify-content", "center");
+                imageContainer.add(placeholder);
+            });
+
             imageContainer.add(image);
         } else {
             // Default placeholder if no image
             Div placeholder = new Div();
-            placeholder.setText("📚");
+            placeholder.setText(getInitials(quiz.getName()));
             placeholder.getStyle()
-                .set("font-size", "40px")
-                .set("color", "#1976d2");
+                .set("font-size", "28px")
+                .set("font-weight", "700")
+                .set("color", "#1976d2")
+                .set("background", "#e3f2fd")
+                .set("border-radius", "999px")
+                .set("width", "56px")
+                .set("height", "56px")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center");
             imageContainer.add(placeholder);
         }
 

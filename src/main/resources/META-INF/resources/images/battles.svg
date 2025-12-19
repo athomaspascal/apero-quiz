@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#f5f5f5"/>
+
+  <!-- Shield background -->
+  <path d="M 100 30 L 140 50 L 140 100 Q 140 130 100 150 Q 60 130 60 100 L 60 50 Z"
+        fill="#8b0000" stroke="#4a0000" stroke-width="2"/>
+
+  <!-- Inner shield detail -->
+  <path d="M 100 40 L 130 55 L 130 100 Q 130 120 100 135 Q 70 120 70 100 L 70 55 Z"
+        fill="#a52a2a" stroke="#8b0000" stroke-width="1"/>
+
+  <!-- Crossed swords -->
+  <!-- Sword 1 -->
+  <g transform="translate(100,90) rotate(-45)">
+    <rect x="-2" y="-30" width="4" height="60" fill="#c0c0c0" stroke="#808080" stroke-width="0.5"/>
+    <rect x="-8" y="-35" width="16" height="6" fill="#ffd700" stroke="#b8860b" stroke-width="0.5"/>
+    <circle cx="0" cy="-32" r="3" fill="#ffd700" stroke="#b8860b" stroke-width="0.5"/>
+  </g>
+
+  <!-- Sword 2 -->
+  <g transform="translate(100,90) rotate(45)">
+    <rect x="-2" y="-30" width="4" height="60" fill="#c0c0c0" stroke="#808080" stroke-width="0.5"/>
+    <rect x="-8" y="-35" width="16" height="6" fill="#ffd700" stroke="#b8860b" stroke-width="0.5"/>
+    <circle cx="0" cy="-32" r="3" fill="#ffd700" stroke="#b8860b" stroke-width="0.5"/>
+  </g>
+
+  <!-- Battle stars -->
+  <polygon points="100,25 102,31 108,31 103,35 105,41 100,37 95,41 97,35 92,31 98,31"
+           fill="#ffd700" stroke="#b8860b" stroke-width="0.5"/>
+
+  <!-- Banner at bottom -->
+  <path d="M 50 155 L 50 170 L 100 165 L 150 170 L 150 155 Z"
+        fill="#2c3e50" stroke="#1a252f" stroke-width="1"/>
+
+  <!-- Text "BATTLES" on banner -->
+  <text x="100" y="167" font-family="Arial, sans-serif" font-size="10" font-weight="bold"
+        fill="#ecf0f1" text-anchor="middle">BATTLES</text>
+</svg>
+

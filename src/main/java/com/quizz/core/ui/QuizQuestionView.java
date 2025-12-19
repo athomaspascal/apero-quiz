@@ -25,6 +25,8 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,10 +34,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 @Route("quiz-questions/:quizId")
 @PageTitle("Quiz Questions")
 class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
+    private static final Logger logger = LoggerFactory.getLogger(QuizQuestionView.class);
     private static final int MAX_QUESTIONS = 5; // Limit to 5 questions
     private static final int TIME_LIMIT_SECONDS = 60; // 1 minute time limit
 
@@ -269,6 +273,9 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                         elapsedSeconds++;
 
                         // Update progress bar and label
+                        if (elapsedSeconds <= 0 || elapsedSeconds>60) {
+                            logger.debug("Elapsed seconds out of bounds: " + elapsedSeconds);
+                        }
                         timeProgressBar.setValue(elapsedSeconds);
                         timeLabel.setText("Time: " + elapsedSeconds + "s / " + TIME_LIMIT_SECONDS + "s");
 
@@ -559,6 +566,17 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 VaadinSession.getCurrent().setAttribute("activeSessionCode", null);
                 getUI().ifPresent(ui -> ui.navigate("quiz-session/" + sessionCode));
             });
+
+            // Add Restart Quiz button for session
+            stopButton.setText("Restart Quiz");
+            stopButton.setVisible(true);
+            stopButton.setEnabled(true);
+            stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+            stopButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+            stopButton.setIcon(VaadinIcon.REFRESH.create());
+            stopButton.getElement().removeProperty("click");
+            stopButton.getElement().executeJs("this.removeAllListeners('click')");
+            stopButton.addClickListener(event -> restartQuiz());
         } else {
             // Regular quiz - show back button
             nextButton.setText("Back to Quiz List");
@@ -571,10 +589,26 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             nextButton.addClickListener(event ->
                 getUI().ifPresent(ui -> ui.navigate(""))
             );
+
+            // Add Restart Quiz button for regular quiz
+            stopButton.setText("Restart Quiz");
+            stopButton.setVisible(true);
+            stopButton.setEnabled(true);
+            stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+            stopButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+            stopButton.setIcon(VaadinIcon.REFRESH.create());
+            stopButton.getElement().removeProperty("click");
+            stopButton.getElement().executeJs("this.removeAllListeners('click')");
+            stopButton.addClickListener(event -> restartQuiz());
         }
 
         // Display all questions with answers on the right side
         displayAllQuestionsWithAnswersOnRight();
+    }
+
+    private void restartQuiz() {
+        // Simply reload the quiz page to restart it
+        getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + quizId));
     }
 
     private void showPreviousQuestion() {

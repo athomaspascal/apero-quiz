@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="French Literature">
+  <defs>
+    <linearGradient id="gradFrenchLit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e88e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1565c0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="120" height="80" rx="8" fill="url(#gradFrenchLit)" />
+
+  <!-- Thumbnail icon (book) -->
+  <text x="60" y="52" font-family="Arial" font-size="32" fill="white" text-anchor="middle">📖</text>
+</svg>
+

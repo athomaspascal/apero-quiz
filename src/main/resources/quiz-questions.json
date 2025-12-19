@@ -13589,6 +13589,6138 @@
           "answer": "La Déclaration des droits de l'homme et du citoyen"
         }
       ]
+    },
+    {
+      "name": "French Literature",
+      "imageFileName": "french-literature.svg",
+      "questions": [
+        {
+          "id": 1,
+          "uuid": "1692a1b7-e270-465b-a0de-0e863a6eeaaf",
+          "question": "À quel auteur doit-on « Le Père Goriot » ?",
+          "options": [
+            "Marcel Proust",
+            "Honoré de Balzac",
+            "Charles Baudelaire",
+            "Albert Camus"
+          ],
+          "answer": "Honoré de Balzac"
+        },
+        {
+          "id": 2,
+          "uuid": "30421496-855d-4d3d-99a9-1605b2107793",
+          "question": "Que signifie le terme « registre lyrique » ?",
+          "options": [
+            "Expression des sentiments personnels.",
+            "Registre visant à susciter terreur et pitié.",
+            "Partie finale qui résout l'intrigue.",
+            "Registre visant à faire rire."
+          ],
+          "answer": "Expression des sentiments personnels."
+        },
+        {
+          "id": 3,
+          "uuid": "19e2703b-f1b9-40f7-b84f-5628509e8c2c",
+          "question": "À quel siècle associe-t-on le plus souvent Jean de La Fontaine ?",
+          "options": [
+            "XVIIe",
+            "XIXe",
+            "XVIIIe",
+            "XXIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 4,
+          "uuid": "84555e6d-5dff-49a3-9d3e-a83378dd43b0",
+          "question": "Quel genre Jean-Jacques Rousseau a-t-il surtout pratiqué ?",
+          "options": [
+            "essai",
+            "conte",
+            "théâtre",
+            "poésie"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 5,
+          "uuid": "b593aa1e-ce10-4e47-ae3e-f7f120a77240",
+          "question": "À quel mouvement littéraire associe-t-on Jean Racine ?",
+          "options": [
+            "Symbolisme",
+            "Classicisme",
+            "Réalisme",
+            "Renaissance"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 6,
+          "uuid": "e478a40b-d1b8-4ec9-9744-02a0a5213ad4",
+          "question": "On rattache généralement Victor Hugo à quel siècle ?",
+          "options": [
+            "XXe",
+            "XIXe",
+            "XVIIIe",
+            "XVIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 7,
+          "uuid": "ee32a5c8-85d4-4147-baff-91904f9289a7",
+          "question": "Quelle œuvre peut-on attribuer à Honoré de Balzac ?",
+          "options": [
+            "Le Père Goriot",
+            "La Peste",
+            "Nana",
+            "Notre-Dame de Paris"
+          ],
+          "answer": "Le Père Goriot"
+        },
+        {
+          "id": 8,
+          "uuid": "40966e28-5781-4271-a8fa-9ad9ed7cb31a",
+          "question": "Quel écrivain a écrit « Madame Bovary » ?",
+          "options": [
+            "Gustave Flaubert",
+            "Victor Hugo",
+            "Guy de Maupassant",
+            "Jean-Jacques Rousseau"
+          ],
+          "answer": "Gustave Flaubert"
+        },
+        {
+          "id": 9,
+          "uuid": "1ec5a766-acd5-448c-8837-b4e3ed8da65f",
+          "question": "On rattache généralement Antoine de Saint-Exupéry à quel siècle ?",
+          "options": [
+            "XVIe",
+            "XXIe",
+            "XVIIIe",
+            "XXe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 10,
+          "uuid": "d9a7dd2b-2a50-4823-aae1-adbde6f35d74",
+          "question": "L'œuvre « L'Étranger » a été écrite par :",
+          "options": [
+            "Guy de Maupassant",
+            "Antoine de Saint-Exupéry",
+            "Albert Camus",
+            "Honoré de Balzac"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 11,
+          "uuid": "9aaf0999-6995-4db0-81c0-4ed85ce96871",
+          "question": "Qui est l'auteur de l'œuvre « Émile, ou De l'éducation » ?",
+          "options": [
+            "Voltaire",
+            "Albert Camus",
+            "Jean-Jacques Rousseau",
+            "Marcel Proust"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 12,
+          "uuid": "19daec45-42b8-4475-9cfc-0c794e4f3728",
+          "question": "« Les Misérables » est une œuvre de quel auteur ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Victor Hugo",
+            "Stendhal",
+            "Charles Baudelaire"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 13,
+          "uuid": "3358d008-0a3b-404c-a863-eea1c4e84e1f",
+          "question": "Quel écrivain a écrit « Le Misanthrope » ?",
+          "options": [
+            "Molière",
+            "Émile Zola",
+            "Antoine de Saint-Exupéry",
+            "Jean-Jacques Rousseau"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 14,
+          "uuid": "1fbbfee2-0c51-47e5-91ed-042ca202ce42",
+          "question": "Le siècle le plus associé à Victor Hugo est :",
+          "options": [
+            "XXe",
+            "XVIIIe",
+            "XXIe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 15,
+          "uuid": "e9112b30-e9cc-4c22-b2ff-b9355bc515e6",
+          "question": "Qui a écrit « Phèdre » ?",
+          "options": [
+            "Charles Baudelaire",
+            "Jean Racine",
+            "Gustave Flaubert",
+            "Victor Hugo"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 16,
+          "uuid": "283d9215-e47b-4805-82d2-d8cc2a5bb8be",
+          "question": "Le genre littéraire de « L'Étranger » est :",
+          "options": [
+            "nouvelle",
+            "roman",
+            "théâtre",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 17,
+          "uuid": "c62e22e3-c588-4f0d-af71-f1dbdd7b937c",
+          "question": "Le genre principal de Victor Hugo est :",
+          "options": [
+            "roman",
+            "essai",
+            "poésie",
+            "nouvelle"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 18,
+          "uuid": "c1bb6180-51a9-4a4e-9c0e-249b3b47d7ca",
+          "question": "Qui a écrit « Le Misanthrope » ?",
+          "options": [
+            "Jean Racine",
+            "Honoré de Balzac",
+            "Antoine de Saint-Exupéry",
+            "Molière"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 19,
+          "uuid": "6e588c54-eaed-49ca-b568-8221c3894d71",
+          "question": "À quel mouvement littéraire associe-t-on Émile Zola ?",
+          "options": [
+            "Renaissance",
+            "Réalisme",
+            "Symbolisme",
+            "Naturalisme"
+          ],
+          "answer": "Naturalisme"
+        },
+        {
+          "id": 20,
+          "uuid": "9d3e2e5b-0580-41d9-86b1-26af13713061",
+          "question": "À quel auteur doit-on « Bel-Ami » ?",
+          "options": [
+            "Jean de La Fontaine",
+            "Marcel Proust",
+            "Gustave Flaubert",
+            "Guy de Maupassant"
+          ],
+          "answer": "Guy de Maupassant"
+        },
+        {
+          "id": 21,
+          "uuid": "acab24b4-ae5b-4163-8e52-491eb91f10a7",
+          "question": "Qui est l'auteur de l'œuvre « Les Confessions » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Victor Hugo",
+            "Stendhal",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 22,
+          "uuid": "ec7c7f69-9971-4acb-a62f-f0654ad0ccf4",
+          "question": "Quel genre Gustave Flaubert a-t-il surtout pratiqué ?",
+          "options": [
+            "autobiographie",
+            "roman",
+            "théâtre",
+            "nouvelle"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 23,
+          "uuid": "ce790d35-f9a3-48c5-85b9-4d61153481e1",
+          "question": "Albert Camus est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Symbolisme",
+            "Naturalisme",
+            "Renaissance"
+          ],
+          "answer": "Existentialisme"
+        },
+        {
+          "id": 24,
+          "uuid": "7ef81cc5-2b73-419b-88ec-431c3c198f0b",
+          "question": "Le genre principal de Jean-Jacques Rousseau est :",
+          "options": [
+            "roman",
+            "nouvelle",
+            "essai",
+            "autobiographie"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 25,
+          "uuid": "9905c72e-dc6f-4942-bdfe-d50c902f2ceb",
+          "question": "Parmi ces titres, lequel est de Voltaire ?",
+          "options": [
+            "Candide",
+            "Le Père Goriot",
+            "Du côté de chez Swann",
+            "Andromaque"
+          ],
+          "answer": "Candide"
+        },
+        {
+          "id": 26,
+          "uuid": "9947e13f-744f-4c22-83d8-d35e30352d50",
+          "question": "Quel genre Jean Racine a-t-il surtout pratiqué ?",
+          "options": [
+            "essai",
+            "autobiographie",
+            "théâtre",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 27,
+          "uuid": "ae1bb6ef-36ae-4791-9174-62723dc7270a",
+          "question": "Le siècle le plus associé à Antoine de Saint-Exupéry est :",
+          "options": [
+            "XXe",
+            "XVIe",
+            "XIXe",
+            "XVIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 28,
+          "uuid": "761f42a1-0a0b-48ad-b97a-6375ec0bbb7e",
+          "question": "Qui est l'auteur de l'œuvre « Le Père Goriot » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Marcel Proust",
+            "Victor Hugo",
+            "Honoré de Balzac"
+          ],
+          "answer": "Honoré de Balzac"
+        },
+        {
+          "id": 29,
+          "uuid": "3f49f9d8-5fe8-496e-a27a-43f0ea6e9b4d",
+          "question": "« Candide » est plutôt un(e) :",
+          "options": [
+            "théâtre",
+            "conte",
+            "essai",
+            "poésie"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 30,
+          "uuid": "c3a2e8fd-b651-46fc-95cb-190205261dcc",
+          "question": "Quelle œuvre est écrite par Jean Racine ?",
+          "options": [
+            "Les Fleurs du mal",
+            "Phèdre",
+            "L'Étranger",
+            "La Peste"
+          ],
+          "answer": "Phèdre"
+        },
+        {
+          "id": 31,
+          "uuid": "8b74ab66-bd46-4c9e-af44-ab81eb9d6e22",
+          "question": "Quel écrivain a écrit « Notre-Dame de Paris » ?",
+          "options": [
+            "Émile Zola",
+            "Antoine de Saint-Exupéry",
+            "Jean-Jacques Rousseau",
+            "Victor Hugo"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 32,
+          "uuid": "e3c64a3f-e993-4a2f-a790-97f6d913da56",
+          "question": "À quel mouvement littéraire associe-t-on Charles Baudelaire ?",
+          "options": [
+            "Symbolisme",
+            "Classicisme",
+            "Renaissance",
+            "Naturalisme"
+          ],
+          "answer": "Symbolisme"
+        },
+        {
+          "id": 33,
+          "uuid": "158545f0-5760-451a-bea4-51ecf56a817f",
+          "question": "On associe le plus souvent Gustave Flaubert à quel genre ?",
+          "options": [
+            "roman",
+            "poésie",
+            "autobiographie",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 34,
+          "uuid": "8ca126bb-26db-476f-add0-c725f9dacdea",
+          "question": "Quelle œuvre est écrite par Molière ?",
+          "options": [
+            "Andromaque",
+            "Madame Bovary",
+            "Tartuffe",
+            "Les Misérables"
+          ],
+          "answer": "Tartuffe"
+        },
+        {
+          "id": 35,
+          "uuid": "f4ba51cb-e7eb-42b1-a002-70304ff4f624",
+          "question": "Dans les repères scolaires, Guy de Maupassant est plutôt du :",
+          "options": [
+            "XIXe",
+            "XVIIe",
+            "XXe",
+            "XVIIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 36,
+          "uuid": "204170f1-afc2-43e5-9c2e-cee5f43a962d",
+          "question": "Quel écrivain a écrit « Tartuffe » ?",
+          "options": [
+            "Antoine de Saint-Exupéry",
+            "Victor Hugo",
+            "Gustave Flaubert",
+            "Molière"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 37,
+          "uuid": "3383e17a-dcbf-4489-bd57-19d1c4006968",
+          "question": "« Le Cid » est plutôt un(e) :",
+          "options": [
+            "conte",
+            "poésie",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 38,
+          "uuid": "c0281ac9-9710-4f2b-8989-6ed46ddca0a7",
+          "question": "Quel écrivain a écrit « À la recherche du temps perdu » ?",
+          "options": [
+            "Marcel Proust",
+            "Albert Camus",
+            "Charles Baudelaire",
+            "Honoré de Balzac"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 39,
+          "uuid": "5e3a56a1-0daa-4ff8-bae4-496c5379a514",
+          "question": "Molière appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XXe",
+            "XXIe",
+            "XVIIIe",
+            "XVIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 40,
+          "uuid": "0730a6c5-0095-49d4-a347-9efbc9444dba",
+          "question": "Laquelle de ces œuvres est de Albert Camus ?",
+          "options": [
+            "Candide",
+            "L'Étranger",
+            "Le Père Goriot",
+            "Fables"
+          ],
+          "answer": "L'Étranger"
+        },
+        {
+          "id": 41,
+          "uuid": "fb13c3b3-13bb-42e1-a891-aec90ceceffe",
+          "question": "Le genre littéraire de « Les Fleurs du mal » est :",
+          "options": [
+            "conte",
+            "roman",
+            "nouvelle",
+            "poésie"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 42,
+          "uuid": "8fe39665-3fb7-462a-95b3-286770445549",
+          "question": "On associe le plus souvent Pierre Corneille à quel genre ?",
+          "options": [
+            "roman",
+            "autobiographie",
+            "théâtre",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 43,
+          "uuid": "7adc2673-9e24-47f5-b16b-bb7e8c54e327",
+          "question": "Quel est le genre de l'œuvre « Madame Bovary » ?",
+          "options": [
+            "théâtre",
+            "roman",
+            "conte",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 44,
+          "uuid": "c9369868-5c90-4bbf-be7a-f88cfda7644d",
+          "question": "Quelle définition correspond à « registre lyrique » ?",
+          "options": [
+            "Début d'une œuvre.",
+            "Registre visant à susciter terreur et pitié.",
+            "Registre visant à faire rire.",
+            "Expression des sentiments personnels."
+          ],
+          "answer": "Expression des sentiments personnels."
+        },
+        {
+          "id": 45,
+          "uuid": "9c999dea-9c87-46af-8d1b-bb3cc2617475",
+          "question": "À quel siècle associe-t-on le plus souvent Stendhal ?",
+          "options": [
+            "XIXe",
+            "XVIIIe",
+            "XXe",
+            "XVIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 46,
+          "uuid": "3dccc060-6d1c-48a8-a5eb-18c84b383bdc",
+          "question": "Le genre littéraire de « Les Confessions » est :",
+          "options": [
+            "théâtre",
+            "autobiographie",
+            "roman",
+            "nouvelle"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 47,
+          "uuid": "c55ec651-a05e-4717-9d72-da6d1441f952",
+          "question": "Quelle œuvre est écrite par Émile Zola ?",
+          "options": [
+            "Germinal",
+            "Fables",
+            "Émile, ou De l'éducation",
+            "Le Rouge et le Noir"
+          ],
+          "answer": "Germinal"
+        },
+        {
+          "id": 48,
+          "uuid": "ea7699d2-765a-42bc-a041-b722e11cf29d",
+          "question": "Le siècle le plus associé à Voltaire est :",
+          "options": [
+            "XXIe",
+            "XIXe",
+            "XVIe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 49,
+          "uuid": "7509969b-5112-416b-b944-db326963bcb3",
+          "question": "Victor Hugo est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Classicisme",
+            "Romantisme",
+            "Symbolisme",
+            "Naturalisme"
+          ],
+          "answer": "Romantisme"
+        },
+        {
+          "id": 50,
+          "uuid": "e215f01c-acd5-453f-a225-3c4fd716b513",
+          "question": "Pierre Corneille appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XIXe",
+            "XXIe",
+            "XVIe",
+            "XVIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 51,
+          "uuid": "816525f6-6a34-4f07-96c1-5ecc10ed988b",
+          "question": "En analyse littéraire, « incipit » désigne :",
+          "options": [
+            "Début d'une œuvre.",
+            "Registre visant à susciter terreur et pitié.",
+            "Partie finale qui résout l'intrigue.",
+            "Ensemble de mots liés à un même thème."
+          ],
+          "answer": "Début d'une œuvre."
+        },
+        {
+          "id": 52,
+          "uuid": "8bb04cbf-9772-4058-8bf7-d6011396b5a4",
+          "question": "« Germinal » appartient à quel genre ?",
+          "options": [
+            "nouvelle",
+            "conte",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 53,
+          "uuid": "a52bbda6-3647-4d30-9a93-9c6382ad76b8",
+          "question": "À quel siècle associe-t-on le plus souvent Marcel Proust ?",
+          "options": [
+            "XVIIe",
+            "XIXe",
+            "XXe",
+            "XVIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 54,
+          "uuid": "f73f9625-b56f-4a69-8909-cfc7f98f2cd8",
+          "question": "Quel écrivain a écrit « Le Petit Prince » ?",
+          "options": [
+            "Gustave Flaubert",
+            "Jean de La Fontaine",
+            "Antoine de Saint-Exupéry",
+            "Stendhal"
+          ],
+          "answer": "Antoine de Saint-Exupéry"
+        },
+        {
+          "id": 55,
+          "uuid": "373f1cae-f505-465b-8c19-5016cd5a73bd",
+          "question": "Dans les repères scolaires, Pierre Corneille est plutôt du :",
+          "options": [
+            "XIXe",
+            "XVIe",
+            "XXe",
+            "XVIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 56,
+          "uuid": "149ab9da-82c3-4d0b-b704-aea01bb875be",
+          "question": "En cours de français, « focalisation zéro » correspond à :",
+          "options": [
+            "Point de vue limité à ce que sait un personnage.",
+            "Expression des sentiments personnels.",
+            "Narrateur omniscient.",
+            "Vers de 12 syllabes (souvent avec une césure)."
+          ],
+          "answer": "Narrateur omniscient."
+        },
+        {
+          "id": 57,
+          "uuid": "7c316b3f-d3ac-4979-8511-48d7cb05387a",
+          "question": "Le siècle le plus associé à Stendhal est :",
+          "options": [
+            "XXIe",
+            "XVIIe",
+            "XIXe",
+            "XXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 58,
+          "uuid": "35abd7d3-d8a0-4862-be52-3eccfc7dab68",
+          "question": "Laquelle de ces œuvres est de Gustave Flaubert ?",
+          "options": [
+            "Le Petit Prince",
+            "Le Cid",
+            "Madame Bovary",
+            "Bel-Ami"
+          ],
+          "answer": "Madame Bovary"
+        },
+        {
+          "id": 59,
+          "uuid": "2c833700-54ec-4604-8425-6bb07040c64f",
+          "question": "En analyse littéraire, « registre comique » désigne :",
+          "options": [
+            "Registre visant à faire rire.",
+            "Début d'une œuvre.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Registre visant à susciter terreur et pitié."
+          ],
+          "answer": "Registre visant à faire rire."
+        },
+        {
+          "id": 60,
+          "uuid": "b856d745-485c-464e-b7f2-380986d1fe2f",
+          "question": "Laquelle de ces œuvres est de Voltaire ?",
+          "options": [
+            "Le Petit Prince",
+            "L'Étranger",
+            "Le Misanthrope",
+            "Candide"
+          ],
+          "answer": "Candide"
+        },
+        {
+          "id": 61,
+          "uuid": "a8151de3-1841-424a-a173-1d47144f6735",
+          "question": "Laquelle de ces œuvres est de Guy de Maupassant ?",
+          "options": [
+            "Nana",
+            "Bel-Ami",
+            "Madame Bovary",
+            "Le Misanthrope"
+          ],
+          "answer": "Bel-Ami"
+        },
+        {
+          "id": 62,
+          "uuid": "8c715a7f-42e8-4701-af6b-f5db4bf7cceb",
+          "question": "Guy de Maupassant est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Réalisme",
+            "Symbolisme",
+            "Existentialisme",
+            "Lumières"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 63,
+          "uuid": "eac53fa9-1bd8-457f-80d2-cd1d3d5040c3",
+          "question": "On associe Jean-Jacques Rousseau à quel mouvement ?",
+          "options": [
+            "Renaissance",
+            "Naturalisme",
+            "Lumières",
+            "Classicisme"
+          ],
+          "answer": "Lumières"
+        },
+        {
+          "id": 64,
+          "uuid": "40b91bb8-7e17-4d65-a3f3-2c0751ea529b",
+          "question": "Le siècle le plus associé à Jean Racine est :",
+          "options": [
+            "XVIIe",
+            "XXe",
+            "XVIe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 65,
+          "uuid": "49837456-5023-40ba-90b8-615338961ca2",
+          "question": "On associe le plus souvent Charles Baudelaire à quel genre ?",
+          "options": [
+            "nouvelle",
+            "essai",
+            "poésie",
+            "autobiographie"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 66,
+          "uuid": "a20286f4-969f-48f5-8571-be6c23b3c799",
+          "question": "Quelle définition correspond à « focalisation externe » ?",
+          "options": [
+            "Ensemble de mots liés à un même thème.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Début d'une œuvre.",
+            "Point de vue d'observateur sans accès aux pensées."
+          ],
+          "answer": "Point de vue d'observateur sans accès aux pensées."
+        },
+        {
+          "id": 67,
+          "uuid": "8d3bee83-0b66-4e92-a2d3-2e52517b5e7c",
+          "question": "Jean-Jacques Rousseau est surtout connu pour quel genre ?",
+          "options": [
+            "théâtre",
+            "essai",
+            "poésie",
+            "autobiographie"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 68,
+          "uuid": "9b061c7f-2ac0-4376-98cb-7aa9216a1973",
+          "question": "Molière est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Réalisme",
+            "Renaissance",
+            "Classicisme",
+            "Romantisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 69,
+          "uuid": "c7869d04-a579-42d0-bf5e-5a7f93dda86a",
+          "question": "Parmi ces titres, lequel est de Honoré de Balzac ?",
+          "options": [
+            "Du côté de chez Swann",
+            "Émile, ou De l'éducation",
+            "Le Père Goriot",
+            "Nana"
+          ],
+          "answer": "Le Père Goriot"
+        },
+        {
+          "id": 70,
+          "uuid": "18f1b90f-2386-43d7-b0ee-1bc72796a409",
+          "question": "À quel auteur doit-on « Fables » ?",
+          "options": [
+            "Antoine de Saint-Exupéry",
+            "Guy de Maupassant",
+            "Jean de La Fontaine",
+            "Gustave Flaubert"
+          ],
+          "answer": "Jean de La Fontaine"
+        },
+        {
+          "id": 71,
+          "uuid": "01b8431c-157a-42c5-a056-ff2772ef46c5",
+          "question": "« Du côté de chez Swann » est une œuvre de quel auteur ?",
+          "options": [
+            "Victor Hugo",
+            "Marcel Proust",
+            "Pierre Corneille",
+            "Gustave Flaubert"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 72,
+          "uuid": "51cf0a07-85ab-4281-9147-39b942eb0ddb",
+          "question": "On associe Albert Camus à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Classicisme",
+            "Romantisme",
+            "Lumières"
+          ],
+          "answer": "Existentialisme"
+        },
+        {
+          "id": 73,
+          "uuid": "c535c837-8d49-46fb-8cae-3a5010f9a52f",
+          "question": "Parmi ces titres, lequel est de Jean de La Fontaine ?",
+          "options": [
+            "Phèdre",
+            "Fables",
+            "Germinal",
+            "Les Misérables"
+          ],
+          "answer": "Fables"
+        },
+        {
+          "id": 74,
+          "uuid": "0118e405-0f97-4cee-bd7f-f2131328d411",
+          "question": "Victor Hugo est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Symbolisme",
+            "Romantisme",
+            "Réalisme",
+            "Existentialisme"
+          ],
+          "answer": "Romantisme"
+        },
+        {
+          "id": 75,
+          "uuid": "90cc57dd-83d9-48e9-8bff-a94d38e246e6",
+          "question": "Parmi ces titres, lequel est de Antoine de Saint-Exupéry ?",
+          "options": [
+            "Nana",
+            "Notre-Dame de Paris",
+            "Le Petit Prince",
+            "Le Père Goriot"
+          ],
+          "answer": "Le Petit Prince"
+        },
+        {
+          "id": 76,
+          "uuid": "342ccebd-6a30-4cf5-9345-7a71e26ec4a7",
+          "question": "Le genre littéraire de « Émile, ou De l'éducation » est :",
+          "options": [
+            "conte",
+            "théâtre",
+            "roman",
+            "essai"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 77,
+          "uuid": "0d11ae82-0dd3-475c-9859-4d16a5dcec47",
+          "question": "Qui est l'auteur de l'œuvre « Les Fleurs du mal » ?",
+          "options": [
+            "Charles Baudelaire",
+            "Victor Hugo",
+            "Pierre Corneille",
+            "Albert Camus"
+          ],
+          "answer": "Charles Baudelaire"
+        },
+        {
+          "id": 78,
+          "uuid": "eaaec9a5-9a2d-431d-aeba-c3482117efce",
+          "question": "À quel auteur doit-on « La Peste » ?",
+          "options": [
+            "Charles Baudelaire",
+            "Émile Zola",
+            "Victor Hugo",
+            "Albert Camus"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 79,
+          "uuid": "54421334-b3b1-4727-ad95-28b61b5496ac",
+          "question": "Jean de La Fontaine est surtout connu pour quel genre ?",
+          "options": [
+            "nouvelle",
+            "théâtre",
+            "poésie",
+            "essai"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 80,
+          "uuid": "5c9aa702-1c1f-46bb-a9c0-281491cae574",
+          "question": "À quel siècle associe-t-on le plus souvent Honoré de Balzac ?",
+          "options": [
+            "XXe",
+            "XIXe",
+            "XVIIIe",
+            "XXIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 81,
+          "uuid": "2bc79b89-a865-4643-b050-13cebd90133d",
+          "question": "On rattache généralement Charles Baudelaire à quel siècle ?",
+          "options": [
+            "XIXe",
+            "XXIe",
+            "XVIIe",
+            "XXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 82,
+          "uuid": "aff78eb2-a299-45e7-b257-74228990affa",
+          "question": "Quelle œuvre peut-on attribuer à Antoine de Saint-Exupéry ?",
+          "options": [
+            "Tartuffe",
+            "Le Petit Prince",
+            "Le Misanthrope",
+            "Candide"
+          ],
+          "answer": "Le Petit Prince"
+        },
+        {
+          "id": 83,
+          "uuid": "7e1b5796-4025-4c6e-a587-b1bc30ea51db",
+          "question": "Qui a écrit « Tartuffe » ?",
+          "options": [
+            "Victor Hugo",
+            "Molière",
+            "Guy de Maupassant",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 84,
+          "uuid": "43798c6a-a767-4b46-8385-df104b7584f0",
+          "question": "Quel est le genre de l'œuvre « Tartuffe » ?",
+          "options": [
+            "essai",
+            "roman",
+            "théâtre",
+            "autobiographie"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 85,
+          "uuid": "16208b98-e49f-4287-8f7a-4db153b8ffff",
+          "question": "Qui a écrit « Fables » ?",
+          "options": [
+            "Jean de La Fontaine",
+            "Guy de Maupassant",
+            "Victor Hugo",
+            "Albert Camus"
+          ],
+          "answer": "Jean de La Fontaine"
+        },
+        {
+          "id": 86,
+          "uuid": "5bbffbbf-14f4-432c-aee1-c1530528fb7e",
+          "question": "En analyse littéraire, « focalisation interne » désigne :",
+          "options": [
+            "Narrateur omniscient.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Expression des sentiments personnels.",
+            "Registre visant à faire rire."
+          ],
+          "answer": "Point de vue limité à ce que sait un personnage."
+        },
+        {
+          "id": 87,
+          "uuid": "733c8751-a04c-4b5f-ad91-21f5ac42062a",
+          "question": "Honoré de Balzac appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XXe",
+            "XVIIIe",
+            "XIXe",
+            "XVIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 88,
+          "uuid": "ed379dde-76ee-4fcf-8fe7-e121ba79a170",
+          "question": "On associe Marcel Proust à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Réalisme",
+            "Modernisme",
+            "Naturalisme"
+          ],
+          "answer": "Modernisme"
+        },
+        {
+          "id": 89,
+          "uuid": "8ac40c4e-556b-4800-8194-b1c35643b9ae",
+          "question": "Quel est le genre de l'œuvre « Bel-Ami » ?",
+          "options": [
+            "théâtre",
+            "poésie",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 90,
+          "uuid": "f3e122a2-ea27-4d81-ad73-316a603c1235",
+          "question": "Quelle œuvre peut-on attribuer à Pierre Corneille ?",
+          "options": [
+            "Les Misérables",
+            "Les Confessions",
+            "Le Cid",
+            "Le Rouge et le Noir"
+          ],
+          "answer": "Le Cid"
+        },
+        {
+          "id": 91,
+          "uuid": "8d9f6be6-d270-4d6d-929a-617a342725cf",
+          "question": "Le genre principal de Pierre Corneille est :",
+          "options": [
+            "conte",
+            "théâtre",
+            "roman",
+            "nouvelle"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 92,
+          "uuid": "4e85a5a3-0b18-4e50-ae42-891262c7fee8",
+          "question": "Jean Racine est surtout connu pour quel genre ?",
+          "options": [
+            "roman",
+            "conte",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 93,
+          "uuid": "c7d4680c-d76a-43b5-8302-37229af13cfa",
+          "question": "On associe Voltaire à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Symbolisme",
+            "Lumières",
+            "Naturalisme"
+          ],
+          "answer": "Lumières"
+        },
+        {
+          "id": 94,
+          "uuid": "bcd3d951-39ad-482d-a245-8e2fcaa8c930",
+          "question": "Antoine de Saint-Exupéry est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Romantisme",
+            "Littérature du XXe siècle",
+            "Naturalisme",
+            "Réalisme"
+          ],
+          "answer": "Littérature du XXe siècle"
+        },
+        {
+          "id": 95,
+          "uuid": "48212af9-4289-4c1f-9943-2cbe4a8a5340",
+          "question": "Quelle œuvre est écrite par Molière ?",
+          "options": [
+            "Le Misanthrope",
+            "Du côté de chez Swann",
+            "Le Cid",
+            "Fables"
+          ],
+          "answer": "Le Misanthrope"
+        },
+        {
+          "id": 96,
+          "uuid": "3627718a-bf80-4514-a31e-7282185ebe4d",
+          "question": "L'œuvre « Nana » a été écrite par :",
+          "options": [
+            "Émile Zola",
+            "Honoré de Balzac",
+            "Jean de La Fontaine",
+            "Gustave Flaubert"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 97,
+          "uuid": "7e3c098e-3b23-4e66-8d50-bc9b6dde3966",
+          "question": "« Bel-Ami » est plutôt un(e) :",
+          "options": [
+            "roman",
+            "essai",
+            "autobiographie",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 98,
+          "uuid": "4f06d34b-bef8-4fdb-ae69-2cedb884e43f",
+          "question": "On rattache généralement Guy de Maupassant à quel siècle ?",
+          "options": [
+            "XXe",
+            "XXIe",
+            "XIXe",
+            "XVIIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 99,
+          "uuid": "05512c8c-9c27-4326-a4c9-bde07ca8b33a",
+          "question": "En analyse littéraire, « registre lyrique » désigne :",
+          "options": [
+            "Partie finale qui résout l'intrigue.",
+            "Début d'une œuvre.",
+            "Expression des sentiments personnels.",
+            "Point de vue limité à ce que sait un personnage."
+          ],
+          "answer": "Expression des sentiments personnels."
+        },
+        {
+          "id": 100,
+          "uuid": "e59b7a2b-e289-4ac1-bbf1-be9648886453",
+          "question": "À quel auteur doit-on « Nana » ?",
+          "options": [
+            "Émile Zola",
+            "Albert Camus",
+            "Jean Racine",
+            "Gustave Flaubert"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 101,
+          "uuid": "cd127f8b-f7d3-421a-98f2-51585b4a309f",
+          "question": "Le siècle le plus associé à Molière est :",
+          "options": [
+            "XVIIe",
+            "XVIe",
+            "XVIIIe",
+            "XXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 102,
+          "uuid": "de043c5b-713d-4c37-9ffe-8215172596a9",
+          "question": "Qui a écrit « Madame Bovary » ?",
+          "options": [
+            "Albert Camus",
+            "Gustave Flaubert",
+            "Honoré de Balzac",
+            "Guy de Maupassant"
+          ],
+          "answer": "Gustave Flaubert"
+        },
+        {
+          "id": 103,
+          "uuid": "60c2a0e4-fc32-4201-a23b-0288ad8b9704",
+          "question": "« Émile, ou De l'éducation » appartient à quel genre ?",
+          "options": [
+            "essai",
+            "théâtre",
+            "nouvelle",
+            "conte"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 104,
+          "uuid": "79cfff6c-af29-40b6-990d-9987fc772e22",
+          "question": "Le siècle le plus associé à Gustave Flaubert est :",
+          "options": [
+            "XIXe",
+            "XVIIIe",
+            "XXIe",
+            "XXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 105,
+          "uuid": "bd749122-a037-47b9-a19e-8cf0e7066654",
+          "question": "L'œuvre « Notre-Dame de Paris » a été écrite par :",
+          "options": [
+            "Victor Hugo",
+            "Molière",
+            "Émile Zola",
+            "Gustave Flaubert"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 106,
+          "uuid": "e16f1f94-d3ad-4d2e-8267-c1d0e54ddbb7",
+          "question": "Albert Camus appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XVIIe",
+            "XXe",
+            "XXIe",
+            "XVIIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 107,
+          "uuid": "780198a5-5ed5-47b8-9718-b72e67217f33",
+          "question": "Le genre littéraire de « Le Misanthrope » est :",
+          "options": [
+            "autobiographie",
+            "théâtre",
+            "nouvelle",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 108,
+          "uuid": "2fd27109-47fb-4e1f-9fc9-f01800a5445e",
+          "question": "En cours de français, « registre lyrique » correspond à :",
+          "options": [
+            "Ensemble de mots liés à un même thème.",
+            "Partie finale qui résout l'intrigue.",
+            "Expression des sentiments personnels.",
+            "Point de vue limité à ce que sait un personnage."
+          ],
+          "answer": "Expression des sentiments personnels."
+        },
+        {
+          "id": 109,
+          "uuid": "05e69a92-0247-4ed5-9c05-89c9aa816861",
+          "question": "Qui est l'auteur de l'œuvre « Les Misérables » ?",
+          "options": [
+            "Guy de Maupassant",
+            "Victor Hugo",
+            "Albert Camus",
+            "Voltaire"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 110,
+          "uuid": "9c781eac-b551-46ae-9437-c591dc1ecbe2",
+          "question": "On associe le plus souvent Stendhal à quel genre ?",
+          "options": [
+            "théâtre",
+            "poésie",
+            "roman",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 111,
+          "uuid": "b48cbe39-71ca-46b9-ba2b-79add4b686a7",
+          "question": "Qui est l'auteur de l'œuvre « Tartuffe » ?",
+          "options": [
+            "Molière",
+            "Voltaire",
+            "Gustave Flaubert",
+            "Émile Zola"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 112,
+          "uuid": "a6add316-6772-44a8-924b-490456b74384",
+          "question": "Laquelle de ces œuvres est de Jean Racine ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "Phèdre",
+            "Fables",
+            "Madame Bovary"
+          ],
+          "answer": "Phèdre"
+        },
+        {
+          "id": 113,
+          "uuid": "7b619c34-32da-4f5b-aedb-4a28fcb90146",
+          "question": "L'œuvre « Madame Bovary » a été écrite par :",
+          "options": [
+            "Charles Baudelaire",
+            "Gustave Flaubert",
+            "Stendhal",
+            "Voltaire"
+          ],
+          "answer": "Gustave Flaubert"
+        },
+        {
+          "id": 114,
+          "uuid": "50be933d-bbb0-46d6-8c3c-65dbad95a2f8",
+          "question": "L'œuvre « Candide » a été écrite par :",
+          "options": [
+            "Voltaire",
+            "Jean-Jacques Rousseau",
+            "Stendhal",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Voltaire"
+        },
+        {
+          "id": 115,
+          "uuid": "565164e7-71e5-4d84-813e-3da9bf3641be",
+          "question": "Quelle œuvre peut-on attribuer à Émile Zola ?",
+          "options": [
+            "Le Misanthrope",
+            "Madame Bovary",
+            "Nana",
+            "Fables"
+          ],
+          "answer": "Nana"
+        },
+        {
+          "id": 116,
+          "uuid": "2a0a1db0-0102-4eb7-ba5c-5933f51f34c3",
+          "question": "Quel genre Marcel Proust a-t-il surtout pratiqué ?",
+          "options": [
+            "autobiographie",
+            "roman",
+            "poésie",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 117,
+          "uuid": "52d7253f-397c-4c61-90ae-5e44752ad88d",
+          "question": "Quel est le genre de l'œuvre « Les Confessions » ?",
+          "options": [
+            "essai",
+            "roman",
+            "autobiographie",
+            "théâtre"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 118,
+          "uuid": "806643f7-3232-415f-9e61-8d24ed16c6b5",
+          "question": "À quel siècle associe-t-on le plus souvent Émile Zola ?",
+          "options": [
+            "XVIIe",
+            "XVIe",
+            "XXIe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 119,
+          "uuid": "3335b59c-4978-43b8-ad4a-099adcc5d093",
+          "question": "Le genre littéraire de « Candide » est :",
+          "options": [
+            "conte",
+            "nouvelle",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 120,
+          "uuid": "cda60664-72c8-4f37-8fae-083115927d3c",
+          "question": "Quel écrivain a écrit « Le Cid » ?",
+          "options": [
+            "Charles Baudelaire",
+            "Émile Zola",
+            "Gustave Flaubert",
+            "Pierre Corneille"
+          ],
+          "answer": "Pierre Corneille"
+        },
+        {
+          "id": 121,
+          "uuid": "71c29c81-79f5-4851-b5c6-d43ad86b5293",
+          "question": "Quel est le genre de l'œuvre « L'Étranger » ?",
+          "options": [
+            "poésie",
+            "autobiographie",
+            "conte",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 122,
+          "uuid": "cad5de37-bf13-4105-9017-b6ce719a1031",
+          "question": "Le genre principal de Gustave Flaubert est :",
+          "options": [
+            "nouvelle",
+            "conte",
+            "essai",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 123,
+          "uuid": "70548cdb-6cda-4b33-996c-6b32a30e59d2",
+          "question": "« Madame Bovary » est une œuvre de quel auteur ?",
+          "options": [
+            "Voltaire",
+            "Jean de La Fontaine",
+            "Gustave Flaubert",
+            "Charles Baudelaire"
+          ],
+          "answer": "Gustave Flaubert"
+        },
+        {
+          "id": 124,
+          "uuid": "92fbd123-4612-4930-b093-8c150c59869f",
+          "question": "Victor Hugo appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XIXe",
+            "XVIIe",
+            "XXe",
+            "XVIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 125,
+          "uuid": "848d4eaa-a5ac-4f96-805e-bd7f35695fc5",
+          "question": "Parmi ces titres, lequel est de Molière ?",
+          "options": [
+            "Andromaque",
+            "Le Misanthrope",
+            "Le Cid",
+            "Le Rouge et le Noir"
+          ],
+          "answer": "Le Misanthrope"
+        },
+        {
+          "id": 126,
+          "uuid": "2d95fbfe-a6a6-49cf-b0ec-7ff027e1c71f",
+          "question": "Quelle œuvre est écrite par Voltaire ?",
+          "options": [
+            "Andromaque",
+            "La Peste",
+            "Fables",
+            "Candide"
+          ],
+          "answer": "Candide"
+        },
+        {
+          "id": 127,
+          "uuid": "bbcd1cf7-470e-4713-8fa2-9ca6a13dcf6e",
+          "question": "Qui a écrit « Le Petit Prince » ?",
+          "options": [
+            "Victor Hugo",
+            "Jean Racine",
+            "Guy de Maupassant",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Antoine de Saint-Exupéry"
+        },
+        {
+          "id": 128,
+          "uuid": "6adfee21-0764-42a5-8d5d-398db7a26169",
+          "question": "Le genre littéraire de « Andromaque » est :",
+          "options": [
+            "poésie",
+            "essai",
+            "nouvelle",
+            "théâtre"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 129,
+          "uuid": "bf250924-3334-43cb-b78a-1e60e3d02248",
+          "question": "On associe le plus souvent Molière à quel genre ?",
+          "options": [
+            "nouvelle",
+            "conte",
+            "essai",
+            "théâtre"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 130,
+          "uuid": "3a2d957c-082b-42fc-afce-2dcf5bc986a6",
+          "question": "Que signifie le terme « focalisation externe » ?",
+          "options": [
+            "Début d'une œuvre.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Narrateur omniscient."
+          ],
+          "answer": "Point de vue d'observateur sans accès aux pensées."
+        },
+        {
+          "id": 131,
+          "uuid": "39fcd589-90d9-464d-b9b2-6be97ab7c834",
+          "question": "Dans les repères scolaires, Victor Hugo est plutôt du :",
+          "options": [
+            "XXIe",
+            "XIXe",
+            "XVIIIe",
+            "XVIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 132,
+          "uuid": "5584c665-810f-4eb8-9e9d-329a41d2a05d",
+          "question": "On rattache généralement Stendhal à quel siècle ?",
+          "options": [
+            "XVIIIe",
+            "XXe",
+            "XIXe",
+            "XVIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 133,
+          "uuid": "764fa684-7f9f-488d-b41c-9db387f0af55",
+          "question": "En analyse littéraire, « focalisation externe » désigne :",
+          "options": [
+            "Narrateur omniscient.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Point de vue d'observateur sans accès aux pensées."
+          ],
+          "answer": "Point de vue d'observateur sans accès aux pensées."
+        },
+        {
+          "id": 134,
+          "uuid": "d7836f5b-ac82-4fe9-90d8-4962fcc14eaa",
+          "question": "Parmi ces titres, lequel est de Jean-Jacques Rousseau ?",
+          "options": [
+            "Du côté de chez Swann",
+            "Émile, ou De l'éducation",
+            "Phèdre",
+            "Madame Bovary"
+          ],
+          "answer": "Émile, ou De l'éducation"
+        },
+        {
+          "id": 135,
+          "uuid": "692f02de-21a6-415c-bd66-c29b4a1ed6b6",
+          "question": "Parmi ces titres, lequel est de Jean-Jacques Rousseau ?",
+          "options": [
+            "Le Misanthrope",
+            "Les Confessions",
+            "Le Père Goriot",
+            "À la recherche du temps perdu"
+          ],
+          "answer": "Les Confessions"
+        },
+        {
+          "id": 136,
+          "uuid": "5e8f134b-0dd1-49c4-941b-795220f26464",
+          "question": "Parmi ces titres, lequel est de Guy de Maupassant ?",
+          "options": [
+            "Bel-Ami",
+            "Nana",
+            "Andromaque",
+            "Candide"
+          ],
+          "answer": "Bel-Ami"
+        },
+        {
+          "id": 137,
+          "uuid": "998bc4c1-ffa6-4543-801a-17c0c88829fe",
+          "question": "« Nana » appartient à quel genre ?",
+          "options": [
+            "conte",
+            "autobiographie",
+            "roman",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 138,
+          "uuid": "694fc4a8-c364-447c-ba20-5ba109d4633d",
+          "question": "Qui est l'auteur de l'œuvre « À la recherche du temps perdu » ?",
+          "options": [
+            "Stendhal",
+            "Pierre Corneille",
+            "Marcel Proust",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 139,
+          "uuid": "8cae1348-506d-4646-af28-e8dcbc043d5e",
+          "question": "L'œuvre « Germinal » a été écrite par :",
+          "options": [
+            "Molière",
+            "Émile Zola",
+            "Voltaire",
+            "Pierre Corneille"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 140,
+          "uuid": "175984d0-79f9-4603-a65c-0c33549b4946",
+          "question": "Quelle œuvre peut-on attribuer à Jean-Jacques Rousseau ?",
+          "options": [
+            "Le Misanthrope",
+            "Émile, ou De l'éducation",
+            "Les Misérables",
+            "À la recherche du temps perdu"
+          ],
+          "answer": "Émile, ou De l'éducation"
+        },
+        {
+          "id": 141,
+          "uuid": "b459c39d-9b1f-4ec0-9f9a-c6c9d9f1e34c",
+          "question": "On associe Émile Zola à quel mouvement ?",
+          "options": [
+            "Lumières",
+            "Réalisme",
+            "Naturalisme",
+            "Classicisme"
+          ],
+          "answer": "Naturalisme"
+        },
+        {
+          "id": 142,
+          "uuid": "65f91044-f3c3-4b06-8a5a-40b432929a30",
+          "question": "« Du côté de chez Swann » est plutôt un(e) :",
+          "options": [
+            "poésie",
+            "nouvelle",
+            "autobiographie",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 143,
+          "uuid": "74c0805d-69cf-4003-a3ca-0c6598f6c602",
+          "question": "Stendhal est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Naturalisme",
+            "Réalisme",
+            "Symbolisme",
+            "Existentialisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 144,
+          "uuid": "ce6e6eef-463e-418f-8639-d8c6cd123b08",
+          "question": "Dans les repères scolaires, Marcel Proust est plutôt du :",
+          "options": [
+            "XXe",
+            "XVIIe",
+            "XVIe",
+            "XVIIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 145,
+          "uuid": "8049ea47-c5ef-4436-9a90-a8824572bf6e",
+          "question": "Quel genre Molière a-t-il surtout pratiqué ?",
+          "options": [
+            "poésie",
+            "nouvelle",
+            "roman",
+            "théâtre"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 146,
+          "uuid": "72aabd2e-1a7d-4ab2-b901-7780ac41f8f3",
+          "question": "Quelle œuvre peut-on attribuer à Jean Racine ?",
+          "options": [
+            "Les Misérables",
+            "Germinal",
+            "Le Rouge et le Noir",
+            "Phèdre"
+          ],
+          "answer": "Phèdre"
+        },
+        {
+          "id": 147,
+          "uuid": "98a5f861-93d7-4674-9cfa-a5702f73fa0d",
+          "question": "Quelle œuvre peut-on attribuer à Émile Zola ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "Le Misanthrope",
+            "La Peste",
+            "Germinal"
+          ],
+          "answer": "Germinal"
+        },
+        {
+          "id": 148,
+          "uuid": "36803fba-3c52-495a-9ba6-2b74c98ef369",
+          "question": "Qui est l'auteur de l'œuvre « La Peste » ?",
+          "options": [
+            "Albert Camus",
+            "Honoré de Balzac",
+            "Stendhal",
+            "Charles Baudelaire"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 149,
+          "uuid": "0326b80f-838c-4053-b885-4e4fcff734d9",
+          "question": "Que signifie le terme « champ lexical » ?",
+          "options": [
+            "Narrateur omniscient.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Ensemble de mots liés à un même thème.",
+            "Point de vue limité à ce que sait un personnage."
+          ],
+          "answer": "Ensemble de mots liés à un même thème."
+        },
+        {
+          "id": 150,
+          "uuid": "5f12e20c-49a5-4a15-b14e-61796f4f4546",
+          "question": "On associe Pierre Corneille à quel mouvement ?",
+          "options": [
+            "Naturalisme",
+            "Symbolisme",
+            "Renaissance",
+            "Classicisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 151,
+          "uuid": "46ced596-98f6-47d6-b22c-a1285b60ad95",
+          "question": "Quel genre Honoré de Balzac a-t-il surtout pratiqué ?",
+          "options": [
+            "nouvelle",
+            "essai",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 152,
+          "uuid": "34a4d362-ccfd-439f-bf0e-716fce36522b",
+          "question": "On rattache généralement Émile Zola à quel siècle ?",
+          "options": [
+            "XVIIIe",
+            "XXe",
+            "XVIe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 153,
+          "uuid": "c79b0dac-5318-40b2-b705-739936891487",
+          "question": "On associe le plus souvent Émile Zola à quel genre ?",
+          "options": [
+            "essai",
+            "poésie",
+            "roman",
+            "théâtre"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 154,
+          "uuid": "76afe3a7-5052-4286-9e6e-51d1d29ac1b7",
+          "question": "Laquelle de ces œuvres est de Jean de La Fontaine ?",
+          "options": [
+            "La Peste",
+            "Madame Bovary",
+            "Fables",
+            "Le Petit Prince"
+          ],
+          "answer": "Fables"
+        },
+        {
+          "id": 155,
+          "uuid": "84a17aae-debc-4dea-b593-925eb9409a20",
+          "question": "Qui est l'auteur de l'œuvre « Nana » ?",
+          "options": [
+            "Gustave Flaubert",
+            "Émile Zola",
+            "Pierre Corneille",
+            "Victor Hugo"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 156,
+          "uuid": "6ff6e2d8-12e0-44a3-8df1-e25a2dd3a273",
+          "question": "On associe Gustave Flaubert à quel mouvement ?",
+          "options": [
+            "Réalisme",
+            "Naturalisme",
+            "Classicisme",
+            "Lumières"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 157,
+          "uuid": "5a7766c9-184c-4f9d-af86-2c10b45ed596",
+          "question": "Qui a écrit « Les Confessions » ?",
+          "options": [
+            "Jean Racine",
+            "Albert Camus",
+            "Jean-Jacques Rousseau",
+            "Émile Zola"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 158,
+          "uuid": "c5023dec-727f-4341-b51e-375d3f527b1b",
+          "question": "Albert Camus est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Classicisme",
+            "Romantisme",
+            "Symbolisme",
+            "Existentialisme"
+          ],
+          "answer": "Existentialisme"
+        },
+        {
+          "id": 159,
+          "uuid": "fe654933-737f-462b-a16a-89cc4f3ba3a0",
+          "question": "Dans les repères scolaires, Albert Camus est plutôt du :",
+          "options": [
+            "XXIe",
+            "XXe",
+            "XVIIe",
+            "XIXe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 160,
+          "uuid": "6643d6d0-d3bd-4dd8-aa57-c6f4108e9b0e",
+          "question": "Qui a écrit « Nana » ?",
+          "options": [
+            "Antoine de Saint-Exupéry",
+            "Voltaire",
+            "Émile Zola",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 161,
+          "uuid": "500e4834-0a38-41bb-bba2-1514f561fc7f",
+          "question": "Le genre principal de Antoine de Saint-Exupéry est :",
+          "options": [
+            "nouvelle",
+            "essai",
+            "roman",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 162,
+          "uuid": "180d4a31-5f5d-40c0-add6-a58a3263e653",
+          "question": "Gustave Flaubert est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Naturalisme",
+            "Réalisme",
+            "Lumières",
+            "Symbolisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 163,
+          "uuid": "20ab5fab-483f-4936-85c8-4e7575196794",
+          "question": "Gustave Flaubert appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XXIe",
+            "XVIIIe",
+            "XXe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 164,
+          "uuid": "620995b3-c005-4b9a-a421-81fea8a8b62e",
+          "question": "Quelle œuvre peut-on attribuer à Jean de La Fontaine ?",
+          "options": [
+            "Le Misanthrope",
+            "Émile, ou De l'éducation",
+            "Les Misérables",
+            "Fables"
+          ],
+          "answer": "Fables"
+        },
+        {
+          "id": 165,
+          "uuid": "096d98eb-d279-427d-8e9d-ef7c55e36ad0",
+          "question": "Quel écrivain a écrit « Le Père Goriot » ?",
+          "options": [
+            "Honoré de Balzac",
+            "Antoine de Saint-Exupéry",
+            "Jean-Jacques Rousseau",
+            "Jean Racine"
+          ],
+          "answer": "Honoré de Balzac"
+        },
+        {
+          "id": 166,
+          "uuid": "8e7b8828-f077-41ec-80db-7edd5ed3a792",
+          "question": "À quel auteur doit-on « Le Cid » ?",
+          "options": [
+            "Émile Zola",
+            "Pierre Corneille",
+            "Charles Baudelaire",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Pierre Corneille"
+        },
+        {
+          "id": 167,
+          "uuid": "c2920ffb-2564-4abf-92c8-a59578785e4e",
+          "question": "Le genre principal de Jean-Jacques Rousseau est :",
+          "options": [
+            "théâtre",
+            "conte",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 168,
+          "uuid": "e6332f71-4666-4cb7-81d4-2c781e4a94c7",
+          "question": "L'œuvre « Le Rouge et le Noir » a été écrite par :",
+          "options": [
+            "Honoré de Balzac",
+            "Stendhal",
+            "Émile Zola",
+            "Marcel Proust"
+          ],
+          "answer": "Stendhal"
+        },
+        {
+          "id": 169,
+          "uuid": "f8a0d286-4771-4bcd-8cf5-642afafcd3b8",
+          "question": "Qui est l'auteur de l'œuvre « Le Rouge et le Noir » ?",
+          "options": [
+            "Émile Zola",
+            "Molière",
+            "Voltaire",
+            "Stendhal"
+          ],
+          "answer": "Stendhal"
+        },
+        {
+          "id": 170,
+          "uuid": "d5e21625-6134-474c-974e-6eeb3786437d",
+          "question": "On associe le plus souvent Albert Camus à quel genre ?",
+          "options": [
+            "poésie",
+            "essai",
+            "conte",
+            "autobiographie"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 171,
+          "uuid": "244b2ece-1ca2-4b50-8a39-e01ec0bac4da",
+          "question": "On associe le plus souvent Antoine de Saint-Exupéry à quel genre ?",
+          "options": [
+            "roman",
+            "essai",
+            "poésie",
+            "théâtre"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 172,
+          "uuid": "938e883e-51a1-4674-9a47-e0379ab0e52f",
+          "question": "« La Peste » est plutôt un(e) :",
+          "options": [
+            "théâtre",
+            "autobiographie",
+            "roman",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 173,
+          "uuid": "d0c027e9-9f05-407a-951d-5a41a6f3eaf7",
+          "question": "Laquelle de ces œuvres est de Albert Camus ?",
+          "options": [
+            "Les Confessions",
+            "Nana",
+            "Le Petit Prince",
+            "La Peste"
+          ],
+          "answer": "La Peste"
+        },
+        {
+          "id": 174,
+          "uuid": "705ad3ba-2d36-4b1c-8560-a81e5014d9a9",
+          "question": "Quel est le genre de l'œuvre « Le Père Goriot » ?",
+          "options": [
+            "roman",
+            "essai",
+            "poésie",
+            "théâtre"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 175,
+          "uuid": "f83f21ba-0db2-4a9c-bfca-5f90117e8ca4",
+          "question": "Le genre principal de Jean Racine est :",
+          "options": [
+            "roman",
+            "théâtre",
+            "autobiographie",
+            "nouvelle"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 176,
+          "uuid": "19b54d98-dda1-4d72-8873-d6723db60471",
+          "question": "« Émile, ou De l'éducation » est plutôt un(e) :",
+          "options": [
+            "roman",
+            "essai",
+            "théâtre",
+            "nouvelle"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 177,
+          "uuid": "050e0eca-e633-4ef2-ac47-9c17b8cc8a75",
+          "question": "Quel est le genre de l'œuvre « Notre-Dame de Paris » ?",
+          "options": [
+            "roman",
+            "poésie",
+            "conte",
+            "théâtre"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 178,
+          "uuid": "a918fa8f-9cc6-47c8-aac5-58cce969bac0",
+          "question": "« Phèdre » appartient à quel genre ?",
+          "options": [
+            "autobiographie",
+            "nouvelle",
+            "théâtre",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 179,
+          "uuid": "feadcbe4-836c-4c3d-a8c1-63cfde75339c",
+          "question": "On associe Guy de Maupassant à quel mouvement ?",
+          "options": [
+            "Lumières",
+            "Réalisme",
+            "Romantisme",
+            "Naturalisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 180,
+          "uuid": "8423358e-c0d3-4933-9559-02e0235165aa",
+          "question": "Parmi ces titres, lequel est de Jean Racine ?",
+          "options": [
+            "Le Rouge et le Noir",
+            "À la recherche du temps perdu",
+            "Phèdre",
+            "La Peste"
+          ],
+          "answer": "Phèdre"
+        },
+        {
+          "id": 181,
+          "uuid": "c8235f8d-b192-4c98-817f-eb307f0adb06",
+          "question": "En analyse littéraire, « alexandrin » désigne :",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Expression des sentiments personnels.",
+            "Point de vue limité à ce que sait un personnage."
+          ],
+          "answer": "Vers de 12 syllabes (souvent avec une césure)."
+        },
+        {
+          "id": 182,
+          "uuid": "e6c597a1-384b-4e6b-b827-1f3ca463cb2f",
+          "question": "Molière est surtout connu pour quel genre ?",
+          "options": [
+            "autobiographie",
+            "nouvelle",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 183,
+          "uuid": "f375afc1-ad18-4c17-8748-4044ba8aa4fc",
+          "question": "Jean de La Fontaine appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XVIIIe",
+            "XXIe",
+            "XVIIe",
+            "XIXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 184,
+          "uuid": "3336263d-6652-41f6-8eb5-062ae0b51960",
+          "question": "Laquelle de ces œuvres est de Marcel Proust ?",
+          "options": [
+            "Fables",
+            "Du côté de chez Swann",
+            "Andromaque",
+            "À la recherche du temps perdu"
+          ],
+          "answer": "À la recherche du temps perdu"
+        },
+        {
+          "id": 185,
+          "uuid": "d0a10984-68e6-4c5f-be80-ef70171e1df0",
+          "question": "Quelle œuvre peut-on attribuer à Molière ?",
+          "options": [
+            "Le Petit Prince",
+            "Notre-Dame de Paris",
+            "Le Misanthrope",
+            "L'Étranger"
+          ],
+          "answer": "Le Misanthrope"
+        },
+        {
+          "id": 186,
+          "uuid": "531904fa-af3d-4a4f-8cbe-0084896f0c0c",
+          "question": "« Candide » appartient à quel genre ?",
+          "options": [
+            "conte",
+            "nouvelle",
+            "théâtre",
+            "autobiographie"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 187,
+          "uuid": "76ae154e-f8a7-49a7-9726-b6e536cbfb61",
+          "question": "« Le Rouge et le Noir » est une œuvre de quel auteur ?",
+          "options": [
+            "Stendhal",
+            "Pierre Corneille",
+            "Jean de La Fontaine",
+            "Gustave Flaubert"
+          ],
+          "answer": "Stendhal"
+        },
+        {
+          "id": 188,
+          "uuid": "62e58384-5ce8-44f1-8f58-7a12ab4e7723",
+          "question": "Parmi ces titres, lequel est de Pierre Corneille ?",
+          "options": [
+            "Andromaque",
+            "Fables",
+            "Le Petit Prince",
+            "Le Cid"
+          ],
+          "answer": "Le Cid"
+        },
+        {
+          "id": 189,
+          "uuid": "2aa6daf2-8ff1-4e23-947a-576ee437ed83",
+          "question": "Le genre principal de Guy de Maupassant est :",
+          "options": [
+            "poésie",
+            "conte",
+            "nouvelle",
+            "roman"
+          ],
+          "answer": "nouvelle"
+        },
+        {
+          "id": 190,
+          "uuid": "a0881c3d-a79b-4b5b-bfb4-1e2591e00a63",
+          "question": "À quel auteur doit-on « Notre-Dame de Paris » ?",
+          "options": [
+            "Pierre Corneille",
+            "Antoine de Saint-Exupéry",
+            "Victor Hugo",
+            "Guy de Maupassant"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 191,
+          "uuid": "811365c2-b245-4b57-808f-c044a5713d93",
+          "question": "Le genre principal de Albert Camus est :",
+          "options": [
+            "poésie",
+            "roman",
+            "nouvelle",
+            "essai"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 192,
+          "uuid": "d67a0d03-268f-4238-bfd5-f94d5d8e1ce9",
+          "question": "L'œuvre « Les Fleurs du mal » a été écrite par :",
+          "options": [
+            "Marcel Proust",
+            "Charles Baudelaire",
+            "Honoré de Balzac",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Charles Baudelaire"
+        },
+        {
+          "id": 193,
+          "uuid": "d12f8e13-ad6c-4edd-babf-6d781ef93bcf",
+          "question": "Quel genre Stendhal a-t-il surtout pratiqué ?",
+          "options": [
+            "nouvelle",
+            "conte",
+            "roman",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 194,
+          "uuid": "55468205-4ca2-4a81-b225-d9dd983311dc",
+          "question": "À quel auteur doit-on « Les Confessions » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Albert Camus",
+            "Honoré de Balzac",
+            "Émile Zola"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 195,
+          "uuid": "d10ad810-26a0-4b72-8df3-2bcf630cf708",
+          "question": "Quel genre Albert Camus a-t-il surtout pratiqué ?",
+          "options": [
+            "nouvelle",
+            "roman",
+            "essai",
+            "autobiographie"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 196,
+          "uuid": "029d1ad6-e3cf-4f34-ab3b-08ff4ea7aeb8",
+          "question": "Le genre littéraire de « Nana » est :",
+          "options": [
+            "nouvelle",
+            "poésie",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 197,
+          "uuid": "e7284033-174c-4ecb-a11a-9c873a8adaf1",
+          "question": "Quel est le genre de l'œuvre « Le Petit Prince » ?",
+          "options": [
+            "nouvelle",
+            "autobiographie",
+            "roman",
+            "théâtre"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 198,
+          "uuid": "1b1cfaa8-3c4d-451d-9174-ba22462f6010",
+          "question": "Dans les repères scolaires, Gustave Flaubert est plutôt du :",
+          "options": [
+            "XVIIIe",
+            "XIXe",
+            "XVIe",
+            "XXIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 199,
+          "uuid": "609ba85f-ea7c-4cca-91c6-d093d988caa7",
+          "question": "Dans les repères scolaires, Antoine de Saint-Exupéry est plutôt du :",
+          "options": [
+            "XVIIe",
+            "XXe",
+            "XIXe",
+            "XVIIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 200,
+          "uuid": "334d6920-b234-42f3-ace8-49afc9e0bafc",
+          "question": "Le siècle le plus associé à Charles Baudelaire est :",
+          "options": [
+            "XIXe",
+            "XXe",
+            "XXIe",
+            "XVIIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 201,
+          "uuid": "363e00dc-feed-4701-a566-336f1d70dcea",
+          "question": "« Candide » est une œuvre de quel auteur ?",
+          "options": [
+            "Victor Hugo",
+            "Marcel Proust",
+            "Émile Zola",
+            "Voltaire"
+          ],
+          "answer": "Voltaire"
+        },
+        {
+          "id": 202,
+          "uuid": "033d12d9-82a4-4f04-b4ba-1a0bad7d03cf",
+          "question": "« Madame Bovary » est plutôt un(e) :",
+          "options": [
+            "roman",
+            "théâtre",
+            "conte",
+            "nouvelle"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 203,
+          "uuid": "520440d8-b73c-4433-ade5-4fd8f05ea0c6",
+          "question": "Quel genre Voltaire a-t-il surtout pratiqué ?",
+          "options": [
+            "théâtre",
+            "autobiographie",
+            "essai",
+            "conte"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 204,
+          "uuid": "724cb17f-40d2-4141-a14d-76c5a2aaa4e3",
+          "question": "Quelle œuvre peut-on attribuer à Victor Hugo ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "Les Fleurs du mal",
+            "Germinal",
+            "Les Misérables"
+          ],
+          "answer": "Les Misérables"
+        },
+        {
+          "id": 205,
+          "uuid": "c672ef3d-f893-48db-81f3-619a33996aa9",
+          "question": "Qui a écrit « Émile, ou De l'éducation » ?",
+          "options": [
+            "Jean Racine",
+            "Molière",
+            "Jean-Jacques Rousseau",
+            "Charles Baudelaire"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 206,
+          "uuid": "03d99128-1162-4753-807b-8065baf8cc53",
+          "question": "Jean Racine est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Classicisme",
+            "Symbolisme",
+            "Lumières",
+            "Existentialisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 207,
+          "uuid": "86d073c9-bde9-4ce1-b8b2-f973caa760de",
+          "question": "Le genre littéraire de « Du côté de chez Swann » est :",
+          "options": [
+            "roman",
+            "nouvelle",
+            "essai",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 208,
+          "uuid": "698732b1-3b8f-4aab-aba8-0e5ba4933d8d",
+          "question": "« Le Petit Prince » est plutôt un(e) :",
+          "options": [
+            "théâtre",
+            "nouvelle",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 209,
+          "uuid": "811c0457-d61c-4e2c-ac90-f37fa2c58bf6",
+          "question": "Le genre littéraire de « Le Petit Prince » est :",
+          "options": [
+            "nouvelle",
+            "roman",
+            "essai",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 210,
+          "uuid": "1d578826-a228-4c25-8bc1-df44c1b1996f",
+          "question": "Dans les repères scolaires, Charles Baudelaire est plutôt du :",
+          "options": [
+            "XXIe",
+            "XIXe",
+            "XXe",
+            "XVIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 211,
+          "uuid": "9602cceb-fd1a-4140-999b-1eec37776898",
+          "question": "Le genre principal de Victor Hugo est :",
+          "options": [
+            "théâtre",
+            "nouvelle",
+            "poésie",
+            "essai"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 212,
+          "uuid": "87878f55-86f8-47cc-8ba2-b0b2f9a73231",
+          "question": "À quel siècle associe-t-on le plus souvent Guy de Maupassant ?",
+          "options": [
+            "XXe",
+            "XIXe",
+            "XVIe",
+            "XVIIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 213,
+          "uuid": "f7242359-e044-4e4e-85e2-92d7ae4a2b62",
+          "question": "« Les Misérables » est plutôt un(e) :",
+          "options": [
+            "conte",
+            "théâtre",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 214,
+          "uuid": "f452faa1-5e5f-4e46-b57d-1ee12be7c8ff",
+          "question": "Quelle œuvre est écrite par Jean-Jacques Rousseau ?",
+          "options": [
+            "Germinal",
+            "Les Confessions",
+            "La Peste",
+            "Nana"
+          ],
+          "answer": "Les Confessions"
+        },
+        {
+          "id": 215,
+          "uuid": "2ed03005-81c9-4228-b5eb-024373a89b4c",
+          "question": "Charles Baudelaire est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Symbolisme",
+            "Lumières",
+            "Existentialisme",
+            "Renaissance"
+          ],
+          "answer": "Symbolisme"
+        },
+        {
+          "id": 216,
+          "uuid": "5ce2146a-d5b1-4917-bb1c-c23ca8cb984c",
+          "question": "« Germinal » est une œuvre de quel auteur ?",
+          "options": [
+            "Émile Zola",
+            "Jean Racine",
+            "Antoine de Saint-Exupéry",
+            "Jean-Jacques Rousseau"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 217,
+          "uuid": "efa48678-af14-4751-b4ae-2485165d2c4a",
+          "question": "À quel auteur doit-on « Candide » ?",
+          "options": [
+            "Jean de La Fontaine",
+            "Albert Camus",
+            "Voltaire",
+            "Victor Hugo"
+          ],
+          "answer": "Voltaire"
+        },
+        {
+          "id": 218,
+          "uuid": "27422403-1826-41e1-9538-64d43631b340",
+          "question": "Qui est l'auteur de l'œuvre « L'Étranger » ?",
+          "options": [
+            "Gustave Flaubert",
+            "Albert Camus",
+            "Charles Baudelaire",
+            "Marcel Proust"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 219,
+          "uuid": "98e2d032-145c-4d11-acee-a44a3e765c19",
+          "question": "Le genre principal de Stendhal est :",
+          "options": [
+            "autobiographie",
+            "poésie",
+            "roman",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 220,
+          "uuid": "66a06ea2-9e1d-4d17-a77e-ca96a50526bf",
+          "question": "L'œuvre « Le Père Goriot » a été écrite par :",
+          "options": [
+            "Honoré de Balzac",
+            "Albert Camus",
+            "Émile Zola",
+            "Marcel Proust"
+          ],
+          "answer": "Honoré de Balzac"
+        },
+        {
+          "id": 221,
+          "uuid": "38c80462-504f-4b8c-8aa5-abc35f3eb166",
+          "question": "L'œuvre « Le Misanthrope » a été écrite par :",
+          "options": [
+            "Jean Racine",
+            "Molière",
+            "Albert Camus",
+            "Guy de Maupassant"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 222,
+          "uuid": "f70463ad-23ab-4258-bb84-14fab6248696",
+          "question": "L'œuvre « Le Petit Prince » a été écrite par :",
+          "options": [
+            "Voltaire",
+            "Victor Hugo",
+            "Antoine de Saint-Exupéry",
+            "Honoré de Balzac"
+          ],
+          "answer": "Antoine de Saint-Exupéry"
+        },
+        {
+          "id": 223,
+          "uuid": "f0c145bd-15c3-42b1-9f12-14065ab3bbc4",
+          "question": "On associe le plus souvent Jean-Jacques Rousseau à quel genre ?",
+          "options": [
+            "autobiographie",
+            "roman",
+            "essai",
+            "théâtre"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 224,
+          "uuid": "a04078bc-7708-4e1d-9f22-341446fc74f0",
+          "question": "Le siècle le plus associé à Émile Zola est :",
+          "options": [
+            "XIXe",
+            "XXe",
+            "XVIIe",
+            "XVIIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 225,
+          "uuid": "21fd4669-81e1-4add-870f-68c2c079be1f",
+          "question": "À quel siècle associe-t-on le plus souvent Gustave Flaubert ?",
+          "options": [
+            "XVIe",
+            "XXIe",
+            "XVIIIe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 226,
+          "uuid": "80c640eb-4359-452d-8a2a-13176350b4d0",
+          "question": "Émile Zola appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XXe",
+            "XVIIIe",
+            "XIXe",
+            "XXIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 227,
+          "uuid": "254ca4fe-449c-4da3-a5e7-1d32c8c08d83",
+          "question": "Qui a écrit « Le Cid » ?",
+          "options": [
+            "Molière",
+            "Pierre Corneille",
+            "Charles Baudelaire",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Pierre Corneille"
+        },
+        {
+          "id": 228,
+          "uuid": "4e79a21f-64d2-4f33-a9b9-31838b1f63c7",
+          "question": "Le genre littéraire de « Le Père Goriot » est :",
+          "options": [
+            "conte",
+            "nouvelle",
+            "roman",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 229,
+          "uuid": "14b576f7-e8c4-4e0d-8aaa-e8b3be33baf6",
+          "question": "Quelle œuvre est écrite par Honoré de Balzac ?",
+          "options": [
+            "Nana",
+            "Tartuffe",
+            "Le Père Goriot",
+            "Du côté de chez Swann"
+          ],
+          "answer": "Le Père Goriot"
+        },
+        {
+          "id": 230,
+          "uuid": "647d62e1-2b46-4353-847e-19868dec4c52",
+          "question": "Quelle œuvre est écrite par Antoine de Saint-Exupéry ?",
+          "options": [
+            "Nana",
+            "Émile, ou De l'éducation",
+            "Le Petit Prince",
+            "Le Misanthrope"
+          ],
+          "answer": "Le Petit Prince"
+        },
+        {
+          "id": 231,
+          "uuid": "e4c1bfda-5a8e-4fae-9173-bc3b4923233f",
+          "question": "Victor Hugo est surtout connu pour quel genre ?",
+          "options": [
+            "théâtre",
+            "roman",
+            "nouvelle",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 232,
+          "uuid": "412d5e21-a4e3-43c0-a8f5-3074be5e4fd7",
+          "question": "L'œuvre « Du côté de chez Swann » a été écrite par :",
+          "options": [
+            "Marcel Proust",
+            "Charles Baudelaire",
+            "Antoine de Saint-Exupéry",
+            "Guy de Maupassant"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 233,
+          "uuid": "a451d4ca-89fd-4950-9f58-2aa6e04612c1",
+          "question": "Quelle définition correspond à « dénouement » ?",
+          "options": [
+            "Partie finale qui résout l'intrigue.",
+            "Registre visant à faire rire.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Registre visant à susciter terreur et pitié."
+          ],
+          "answer": "Partie finale qui résout l'intrigue."
+        },
+        {
+          "id": 234,
+          "uuid": "1373487d-63f1-44aa-a898-c18545c20eae",
+          "question": "« Notre-Dame de Paris » est une œuvre de quel auteur ?",
+          "options": [
+            "Molière",
+            "Charles Baudelaire",
+            "Victor Hugo",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 235,
+          "uuid": "fee1abd5-11d9-427a-a193-afe52b5f6981",
+          "question": "En cours de français, « dénouement » correspond à :",
+          "options": [
+            "Partie finale qui résout l'intrigue.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Expression des sentiments personnels.",
+            "Narrateur omniscient."
+          ],
+          "answer": "Partie finale qui résout l'intrigue."
+        },
+        {
+          "id": 236,
+          "uuid": "f42b4263-e941-4e19-b743-df964b6db99b",
+          "question": "Laquelle de ces œuvres est de Victor Hugo ?",
+          "options": [
+            "Le Père Goriot",
+            "Notre-Dame de Paris",
+            "Les Confessions",
+            "Le Misanthrope"
+          ],
+          "answer": "Notre-Dame de Paris"
+        },
+        {
+          "id": 237,
+          "uuid": "11a644b5-61c4-4957-a282-a1fa6304e0f4",
+          "question": "Le genre littéraire de « Phèdre » est :",
+          "options": [
+            "poésie",
+            "théâtre",
+            "roman",
+            "nouvelle"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 238,
+          "uuid": "e973e270-eb12-4844-878b-5214c34cc0ea",
+          "question": "Laquelle de ces œuvres est de Pierre Corneille ?",
+          "options": [
+            "Nana",
+            "Notre-Dame de Paris",
+            "Tartuffe",
+            "Le Cid"
+          ],
+          "answer": "Le Cid"
+        },
+        {
+          "id": 239,
+          "uuid": "27eb3eb1-f261-47a2-a346-9a7fe3142e3e",
+          "question": "Quel écrivain a écrit « Phèdre » ?",
+          "options": [
+            "Antoine de Saint-Exupéry",
+            "Albert Camus",
+            "Jean-Jacques Rousseau",
+            "Jean Racine"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 240,
+          "uuid": "83fc01db-b47f-4d94-a25c-86abbbff7cb9",
+          "question": "Quelle œuvre est écrite par Jean-Jacques Rousseau ?",
+          "options": [
+            "Andromaque",
+            "Nana",
+            "Germinal",
+            "Émile, ou De l'éducation"
+          ],
+          "answer": "Émile, ou De l'éducation"
+        },
+        {
+          "id": 241,
+          "uuid": "7318728b-888e-4edb-b9a7-8ecbe2186258",
+          "question": "En cours de français, « champ lexical » correspond à :",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Début d'une œuvre.",
+            "Partie finale qui résout l'intrigue.",
+            "Ensemble de mots liés à un même thème."
+          ],
+          "answer": "Ensemble de mots liés à un même thème."
+        },
+        {
+          "id": 242,
+          "uuid": "04b1c768-b366-4b6a-946c-f64d99dade0d",
+          "question": "Que signifie le terme « dénouement » ?",
+          "options": [
+            "Narrateur omniscient.",
+            "Ensemble de mots liés à un même thème.",
+            "Partie finale qui résout l'intrigue.",
+            "Début d'une œuvre."
+          ],
+          "answer": "Partie finale qui résout l'intrigue."
+        },
+        {
+          "id": 243,
+          "uuid": "99d23e1a-5dc8-4729-9741-1d95260fafa9",
+          "question": "« Du côté de chez Swann » appartient à quel genre ?",
+          "options": [
+            "théâtre",
+            "autobiographie",
+            "conte",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 244,
+          "uuid": "bf230fae-d606-405d-8ce3-421b28309b94",
+          "question": "Dans les repères scolaires, Honoré de Balzac est plutôt du :",
+          "options": [
+            "XXe",
+            "XIXe",
+            "XXIe",
+            "XVIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 245,
+          "uuid": "6b84dea3-7b06-449d-b95f-47dca9706ed7",
+          "question": "« Émile, ou De l'éducation » est une œuvre de quel auteur ?",
+          "options": [
+            "Émile Zola",
+            "Marcel Proust",
+            "Pierre Corneille",
+            "Jean-Jacques Rousseau"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 246,
+          "uuid": "b5c21dde-3b53-4892-8852-710fa4990622",
+          "question": "Quelle définition correspond à « focalisation interne » ?",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Partie finale qui résout l'intrigue.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Début d'une œuvre."
+          ],
+          "answer": "Point de vue limité à ce que sait un personnage."
+        },
+        {
+          "id": 247,
+          "uuid": "3cf5fedf-479e-4418-a26c-b99822f2042e",
+          "question": "Guy de Maupassant est surtout connu pour quel genre ?",
+          "options": [
+            "théâtre",
+            "essai",
+            "nouvelle",
+            "conte"
+          ],
+          "answer": "nouvelle"
+        },
+        {
+          "id": 248,
+          "uuid": "b34a845f-7178-4406-baac-9ab75d09d2bd",
+          "question": "Le genre principal de Honoré de Balzac est :",
+          "options": [
+            "roman",
+            "poésie",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 249,
+          "uuid": "cbaa9cf4-ba24-4993-8bce-481cbb10ec0d",
+          "question": "Parmi ces titres, lequel est de Victor Hugo ?",
+          "options": [
+            "Le Père Goriot",
+            "La Peste",
+            "Tartuffe",
+            "Les Misérables"
+          ],
+          "answer": "Les Misérables"
+        },
+        {
+          "id": 250,
+          "uuid": "6618da6b-1145-44c8-84c4-fe3dcf12dc5c",
+          "question": "Quel écrivain a écrit « Les Misérables » ?",
+          "options": [
+            "Molière",
+            "Jean de La Fontaine",
+            "Émile Zola",
+            "Victor Hugo"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 251,
+          "uuid": "aff2f783-8a7b-49ce-82e0-6e83162aeaf7",
+          "question": "Quel est le genre de l'œuvre « Fables » ?",
+          "options": [
+            "poésie",
+            "essai",
+            "théâtre",
+            "nouvelle"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 252,
+          "uuid": "a0fca05a-231f-4b2d-96d7-fcd61dda0f81",
+          "question": "Quel écrivain a écrit « Le Rouge et le Noir » ?",
+          "options": [
+            "Albert Camus",
+            "Stendhal",
+            "Jean Racine",
+            "Molière"
+          ],
+          "answer": "Stendhal"
+        },
+        {
+          "id": 253,
+          "uuid": "17eb0534-3f1a-4d08-9adf-04b8c4f7deed",
+          "question": "Parmi ces titres, lequel est de Stendhal ?",
+          "options": [
+            "Le Rouge et le Noir",
+            "Le Misanthrope",
+            "Candide",
+            "Germinal"
+          ],
+          "answer": "Le Rouge et le Noir"
+        },
+        {
+          "id": 254,
+          "uuid": "8347b904-8844-48dc-b4f1-5e56e7bf53a9",
+          "question": "Que signifie le terme « alexandrin » ?",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Début d'une œuvre.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Partie finale qui résout l'intrigue."
+          ],
+          "answer": "Vers de 12 syllabes (souvent avec une césure)."
+        },
+        {
+          "id": 255,
+          "uuid": "d507f8d7-1aa2-4b45-9c6e-9e9fe2a9b10e",
+          "question": "« L'Étranger » est plutôt un(e) :",
+          "options": [
+            "poésie",
+            "nouvelle",
+            "conte",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 256,
+          "uuid": "c9124d2b-e188-4e95-aefa-06ca2393205c",
+          "question": "Laquelle de ces œuvres est de Victor Hugo ?",
+          "options": [
+            "L'Étranger",
+            "Le Petit Prince",
+            "Les Misérables",
+            "Du côté de chez Swann"
+          ],
+          "answer": "Les Misérables"
+        },
+        {
+          "id": 257,
+          "uuid": "41bcfeac-b2c3-4873-98a3-9d4f338b50b5",
+          "question": "Quel genre Antoine de Saint-Exupéry a-t-il surtout pratiqué ?",
+          "options": [
+            "poésie",
+            "théâtre",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 258,
+          "uuid": "f3adf46e-03ce-426b-abf0-6ab0a3c21f6f",
+          "question": "On associe Jean de La Fontaine à quel mouvement ?",
+          "options": [
+            "Classicisme",
+            "Existentialisme",
+            "Renaissance",
+            "Lumières"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 259,
+          "uuid": "39c46827-241c-4b9e-88c3-15ea2a04e6c7",
+          "question": "Voltaire appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XXe",
+            "XVIIIe",
+            "XVIIe",
+            "XXIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 260,
+          "uuid": "5d51b587-5986-42a6-a702-5145d19d1867",
+          "question": "L'œuvre « Andromaque » a été écrite par :",
+          "options": [
+            "Albert Camus",
+            "Stendhal",
+            "Jean Racine",
+            "Charles Baudelaire"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 261,
+          "uuid": "76f94fc2-962f-4b35-af41-0eb42e369485",
+          "question": "Antoine de Saint-Exupéry est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Naturalisme",
+            "Littérature du XXe siècle",
+            "Symbolisme",
+            "Existentialisme"
+          ],
+          "answer": "Littérature du XXe siècle"
+        },
+        {
+          "id": 262,
+          "uuid": "6af5e87f-6e4d-4233-8cea-b15d7f61d456",
+          "question": "Quel écrivain a écrit « Germinal » ?",
+          "options": [
+            "Antoine de Saint-Exupéry",
+            "Jean de La Fontaine",
+            "Émile Zola",
+            "Molière"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 263,
+          "uuid": "47c7cbc3-9945-40be-b5b1-b01e2796f7a7",
+          "question": "Quel est le genre de l'œuvre « Émile, ou De l'éducation » ?",
+          "options": [
+            "autobiographie",
+            "poésie",
+            "nouvelle",
+            "essai"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 264,
+          "uuid": "72dad2b0-6d28-4766-9552-058d671b4c6a",
+          "question": "À quel siècle associe-t-on le plus souvent Molière ?",
+          "options": [
+            "XVIe",
+            "XVIIe",
+            "XIXe",
+            "XXIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 265,
+          "uuid": "c559b3a3-cded-4390-ba79-7fb41b2753f4",
+          "question": "À quel auteur doit-on « Le Rouge et le Noir » ?",
+          "options": [
+            "Jean Racine",
+            "Molière",
+            "Honoré de Balzac",
+            "Stendhal"
+          ],
+          "answer": "Stendhal"
+        },
+        {
+          "id": 266,
+          "uuid": "21f4ed0c-6004-42af-a6a1-0b7332f3ba38",
+          "question": "Que signifie le terme « registre comique » ?",
+          "options": [
+            "Début d'une œuvre.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Narrateur omniscient.",
+            "Registre visant à faire rire."
+          ],
+          "answer": "Registre visant à faire rire."
+        },
+        {
+          "id": 267,
+          "uuid": "2545678d-aa35-47c3-a459-0ee0cb6924c8",
+          "question": "À quel mouvement littéraire associe-t-on Voltaire ?",
+          "options": [
+            "Classicisme",
+            "Romantisme",
+            "Lumières",
+            "Renaissance"
+          ],
+          "answer": "Lumières"
+        },
+        {
+          "id": 268,
+          "uuid": "22e7ad39-d1c6-4d64-8615-aba2305c5bed",
+          "question": "Parmi ces titres, lequel est de Charles Baudelaire ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "Les Fleurs du mal",
+            "Fables",
+            "Le Petit Prince"
+          ],
+          "answer": "Les Fleurs du mal"
+        },
+        {
+          "id": 269,
+          "uuid": "f5c3dd62-1a93-4287-9420-e0184eddd1e8",
+          "question": "Le genre principal de Émile Zola est :",
+          "options": [
+            "roman",
+            "poésie",
+            "théâtre",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 270,
+          "uuid": "a0224672-5e5b-4f1e-90b8-5aaf202e239a",
+          "question": "Le genre littéraire de « Tartuffe » est :",
+          "options": [
+            "théâtre",
+            "nouvelle",
+            "essai",
+            "poésie"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 271,
+          "uuid": "46765faa-e36c-4e0a-81ea-4b05f430db5e",
+          "question": "Qui est l'auteur de l'œuvre « Fables » ?",
+          "options": [
+            "Charles Baudelaire",
+            "Jean de La Fontaine",
+            "Stendhal",
+            "Voltaire"
+          ],
+          "answer": "Jean de La Fontaine"
+        },
+        {
+          "id": 272,
+          "uuid": "e3769f17-9c40-4046-9e5d-44ed26e4de27",
+          "question": "On rattache généralement Honoré de Balzac à quel siècle ?",
+          "options": [
+            "XIXe",
+            "XXIe",
+            "XVIIIe",
+            "XXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 273,
+          "uuid": "d7612845-df6e-49ad-84ff-04698e187b0c",
+          "question": "Qui a écrit « Les Misérables » ?",
+          "options": [
+            "Victor Hugo",
+            "Jean de La Fontaine",
+            "Marcel Proust",
+            "Pierre Corneille"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 274,
+          "uuid": "9ca93c5a-8c1b-4928-8c68-b4ef3b038f7c",
+          "question": "« Le Misanthrope » est une œuvre de quel auteur ?",
+          "options": [
+            "Émile Zola",
+            "Molière",
+            "Jean-Jacques Rousseau",
+            "Stendhal"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 275,
+          "uuid": "f5b62603-5e61-4c2b-981d-3333ce895847",
+          "question": "« Les Confessions » est une œuvre de quel auteur ?",
+          "options": [
+            "Jean de La Fontaine",
+            "Charles Baudelaire",
+            "Jean-Jacques Rousseau",
+            "Gustave Flaubert"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 276,
+          "uuid": "f35a7470-fad3-42e9-b690-fa246c4da8aa",
+          "question": "« Fables » est une œuvre de quel auteur ?",
+          "options": [
+            "Guy de Maupassant",
+            "Jean de La Fontaine",
+            "Gustave Flaubert",
+            "Jean Racine"
+          ],
+          "answer": "Jean de La Fontaine"
+        },
+        {
+          "id": 277,
+          "uuid": "09c92a50-f82c-46e0-b7d6-3a8810807675",
+          "question": "Que signifie le terme « focalisation zéro » ?",
+          "options": [
+            "Ensemble de mots liés à un même thème.",
+            "Début d'une œuvre.",
+            "Narrateur omniscient.",
+            "Partie finale qui résout l'intrigue."
+          ],
+          "answer": "Narrateur omniscient."
+        },
+        {
+          "id": 278,
+          "uuid": "c5e6931f-db80-4b06-bbf2-5d100142a3d7",
+          "question": "Pierre Corneille est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Romantisme",
+            "Naturalisme",
+            "Lumières",
+            "Classicisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 279,
+          "uuid": "1292b12d-9241-402a-acbb-2355feda752c",
+          "question": "Émile Zola est surtout connu pour quel genre ?",
+          "options": [
+            "conte",
+            "essai",
+            "roman",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 280,
+          "uuid": "2a96d4c1-0b44-4abb-a989-50971dd42ef5",
+          "question": "Quel est le genre de l'œuvre « Nana » ?",
+          "options": [
+            "essai",
+            "poésie",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 281,
+          "uuid": "2f450b07-9800-4d5d-9f06-9b426b6016f2",
+          "question": "Quelle définition correspond à « incipit » ?",
+          "options": [
+            "Ensemble de mots liés à un même thème.",
+            "Début d'une œuvre.",
+            "Partie finale qui résout l'intrigue.",
+            "Narrateur omniscient."
+          ],
+          "answer": "Début d'une œuvre."
+        },
+        {
+          "id": 282,
+          "uuid": "1af1d6ba-3920-4343-9a87-9a18f5b6fc6d",
+          "question": "L'œuvre « Émile, ou De l'éducation » a été écrite par :",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Stendhal",
+            "Gustave Flaubert",
+            "Charles Baudelaire"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 283,
+          "uuid": "91bc519f-3633-474c-8eb5-8e453ed1b074",
+          "question": "À quel auteur doit-on « Le Misanthrope » ?",
+          "options": [
+            "Gustave Flaubert",
+            "Molière",
+            "Voltaire",
+            "Albert Camus"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 284,
+          "uuid": "2f5f7daa-811b-4436-933e-fe7b3a421543",
+          "question": "Qui a écrit « Les Fleurs du mal » ?",
+          "options": [
+            "Albert Camus",
+            "Victor Hugo",
+            "Jean-Jacques Rousseau",
+            "Charles Baudelaire"
+          ],
+          "answer": "Charles Baudelaire"
+        },
+        {
+          "id": 285,
+          "uuid": "d0be01f4-80d6-47f5-88b4-c23513aaa875",
+          "question": "Qui est l'auteur de l'œuvre « Phèdre » ?",
+          "options": [
+            "Jean Racine",
+            "Honoré de Balzac",
+            "Antoine de Saint-Exupéry",
+            "Stendhal"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 286,
+          "uuid": "64ca580a-217f-4661-9fd5-64d8466b24d5",
+          "question": "Victor Hugo est surtout connu pour quel genre ?",
+          "options": [
+            "poésie",
+            "conte",
+            "autobiographie",
+            "nouvelle"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 287,
+          "uuid": "44da254f-a534-4a17-98e3-13083eb409dc",
+          "question": "« Les Confessions » appartient à quel genre ?",
+          "options": [
+            "autobiographie",
+            "essai",
+            "conte",
+            "nouvelle"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 288,
+          "uuid": "ddacf0b4-1e5e-4a12-afb7-3098ba41264a",
+          "question": "Le siècle le plus associé à Guy de Maupassant est :",
+          "options": [
+            "XVIe",
+            "XXe",
+            "XVIIe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 289,
+          "uuid": "862d793c-500c-44f3-b18b-b323a5e1510e",
+          "question": "Quelle définition correspond à « registre tragique » ?",
+          "options": [
+            "Registre visant à faire rire.",
+            "Registre visant à susciter terreur et pitié.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Ensemble de mots liés à un même thème."
+          ],
+          "answer": "Registre visant à susciter terreur et pitié."
+        },
+        {
+          "id": 290,
+          "uuid": "d47a9481-1d2a-4dce-a70d-ca016d0756d2",
+          "question": "On associe le plus souvent Jean-Jacques Rousseau à quel genre ?",
+          "options": [
+            "roman",
+            "théâtre",
+            "nouvelle",
+            "essai"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 291,
+          "uuid": "d21d6fd4-815c-430b-8693-fe0a10233de8",
+          "question": "Dans les repères scolaires, Stendhal est plutôt du :",
+          "options": [
+            "XVIe",
+            "XVIIe",
+            "XXe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 292,
+          "uuid": "74272f46-ce23-46d1-9292-e27059120405",
+          "question": "Le genre littéraire de « Fables » est :",
+          "options": [
+            "conte",
+            "nouvelle",
+            "poésie",
+            "autobiographie"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 293,
+          "uuid": "f66ce972-b267-429e-be45-656ce8254fdf",
+          "question": "Quel écrivain a écrit « Andromaque » ?",
+          "options": [
+            "Victor Hugo",
+            "Jean Racine",
+            "Voltaire",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 294,
+          "uuid": "aeaaed03-0c96-4fa4-8062-5d7510487e95",
+          "question": "À quel siècle associe-t-on le plus souvent Albert Camus ?",
+          "options": [
+            "XVIIe",
+            "XVIe",
+            "XIXe",
+            "XXe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 295,
+          "uuid": "08374e08-ad13-4450-be24-6b2e2081402e",
+          "question": "On associe le plus souvent Marcel Proust à quel genre ?",
+          "options": [
+            "théâtre",
+            "poésie",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 296,
+          "uuid": "176e2f34-f2ee-4504-b20f-46785da28d59",
+          "question": "Laquelle de ces œuvres est de Charles Baudelaire ?",
+          "options": [
+            "Fables",
+            "Le Rouge et le Noir",
+            "Les Fleurs du mal",
+            "Les Confessions"
+          ],
+          "answer": "Les Fleurs du mal"
+        },
+        {
+          "id": 297,
+          "uuid": "a793cd7e-7e51-454b-a4af-28d5107657bb",
+          "question": "« Phèdre » est plutôt un(e) :",
+          "options": [
+            "roman",
+            "théâtre",
+            "essai",
+            "nouvelle"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 298,
+          "uuid": "fcfd0572-ea5f-4173-8e6d-e33f375eeaad",
+          "question": "Le siècle le plus associé à Marcel Proust est :",
+          "options": [
+            "XXIe",
+            "XIXe",
+            "XXe",
+            "XVIIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 299,
+          "uuid": "72029034-c364-420f-acb3-4d5752370d54",
+          "question": "Le genre littéraire de « Le Cid » est :",
+          "options": [
+            "poésie",
+            "roman",
+            "théâtre",
+            "nouvelle"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 300,
+          "uuid": "91ea885a-38ad-429f-9ca2-4798edd0a3b2",
+          "question": "Quel est le genre de l'œuvre « Les Fleurs du mal » ?",
+          "options": [
+            "poésie",
+            "conte",
+            "autobiographie",
+            "essai"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 301,
+          "uuid": "57f70c4f-1bf1-4ae7-bbd8-59337b6c5fc9",
+          "question": "Marcel Proust est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Lumières",
+            "Romantisme",
+            "Modernisme",
+            "Renaissance"
+          ],
+          "answer": "Modernisme"
+        },
+        {
+          "id": 302,
+          "uuid": "668dec97-e4f5-4026-a8b3-9b95a49ffc2e",
+          "question": "Parmi ces titres, lequel est de Victor Hugo ?",
+          "options": [
+            "Le Petit Prince",
+            "Andromaque",
+            "Notre-Dame de Paris",
+            "Le Rouge et le Noir"
+          ],
+          "answer": "Notre-Dame de Paris"
+        },
+        {
+          "id": 303,
+          "uuid": "84e03204-0730-45f2-855a-13a03e30189a",
+          "question": "Le genre principal de Albert Camus est :",
+          "options": [
+            "roman",
+            "nouvelle",
+            "autobiographie",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 304,
+          "uuid": "79b877b9-3c4e-486c-9185-c7b3eb452355",
+          "question": "À quel mouvement littéraire associe-t-on Victor Hugo ?",
+          "options": [
+            "Romantisme",
+            "Réalisme",
+            "Lumières",
+            "Symbolisme"
+          ],
+          "answer": "Romantisme"
+        },
+        {
+          "id": 305,
+          "uuid": "5273bfc4-efe6-436b-aca3-3b708b435ede",
+          "question": "« La Peste » appartient à quel genre ?",
+          "options": [
+            "théâtre",
+            "conte",
+            "roman",
+            "nouvelle"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 306,
+          "uuid": "b2e9c143-52fe-4a10-aeda-1d3d089b03db",
+          "question": "On rattache généralement Gustave Flaubert à quel siècle ?",
+          "options": [
+            "XVIe",
+            "XVIIIe",
+            "XIXe",
+            "XXIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 307,
+          "uuid": "0b81bf9f-b733-4016-9696-8fd5e4a0c183",
+          "question": "Marcel Proust appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XVIe",
+            "XXIe",
+            "XXe",
+            "XVIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 308,
+          "uuid": "a74ff485-8480-4d3a-80df-488d2ad71e94",
+          "question": "Parmi ces titres, lequel est de Émile Zola ?",
+          "options": [
+            "Fables",
+            "Andromaque",
+            "Notre-Dame de Paris",
+            "Nana"
+          ],
+          "answer": "Nana"
+        },
+        {
+          "id": 309,
+          "uuid": "f64b7e85-5392-4652-b281-90c688cd8f4a",
+          "question": "« Fables » est plutôt un(e) :",
+          "options": [
+            "roman",
+            "théâtre",
+            "poésie",
+            "autobiographie"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 310,
+          "uuid": "af43f50f-232b-455f-9682-0beae53274aa",
+          "question": "« Tartuffe » appartient à quel genre ?",
+          "options": [
+            "théâtre",
+            "conte",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 311,
+          "uuid": "71ef6d73-f831-4977-8b59-03830d0b66d0",
+          "question": "En analyse littéraire, « focalisation zéro » désigne :",
+          "options": [
+            "Expression des sentiments personnels.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Narrateur omniscient.",
+            "Registre visant à faire rire."
+          ],
+          "answer": "Narrateur omniscient."
+        },
+        {
+          "id": 312,
+          "uuid": "4cbed9f2-3cbc-404a-a92f-b8d0c11cdb74",
+          "question": "Laquelle de ces œuvres est de Jean Racine ?",
+          "options": [
+            "Le Cid",
+            "Andromaque",
+            "Du côté de chez Swann",
+            "L'Étranger"
+          ],
+          "answer": "Andromaque"
+        },
+        {
+          "id": 313,
+          "uuid": "0098a10b-0929-496b-b087-11a6f79ecc33",
+          "question": "Qui est l'auteur de l'œuvre « Germinal » ?",
+          "options": [
+            "Stendhal",
+            "Émile Zola",
+            "Pierre Corneille",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 314,
+          "uuid": "f1bfe573-c0ac-425d-bde4-03b6e8e0be41",
+          "question": "Dans les repères scolaires, Molière est plutôt du :",
+          "options": [
+            "XXIe",
+            "XVIIe",
+            "XXe",
+            "XIXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 315,
+          "uuid": "99944780-9b5b-423d-b888-dff3a6c847bc",
+          "question": "Laquelle de ces œuvres est de Émile Zola ?",
+          "options": [
+            "Madame Bovary",
+            "Nana",
+            "Tartuffe",
+            "Germinal"
+          ],
+          "answer": "Germinal"
+        },
+        {
+          "id": 316,
+          "uuid": "4daa50de-19e2-4667-80b5-fe02360712ae",
+          "question": "Charles Baudelaire est surtout connu pour quel genre ?",
+          "options": [
+            "essai",
+            "nouvelle",
+            "poésie",
+            "roman"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 317,
+          "uuid": "5e8a6a02-cff9-4652-99b7-139dd00dceb5",
+          "question": "Qui a écrit « Du côté de chez Swann » ?",
+          "options": [
+            "Marcel Proust",
+            "Charles Baudelaire",
+            "Gustave Flaubert",
+            "Jean Racine"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 318,
+          "uuid": "80db3718-d462-4035-b442-925285e8bdec",
+          "question": "À quel auteur doit-on « Tartuffe » ?",
+          "options": [
+            "Marcel Proust",
+            "Voltaire",
+            "Molière",
+            "Charles Baudelaire"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 319,
+          "uuid": "99c8469e-0680-4dc0-af2e-84e38a8430d9",
+          "question": "« Le Petit Prince » appartient à quel genre ?",
+          "options": [
+            "poésie",
+            "autobiographie",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 320,
+          "uuid": "64121fde-b96c-4e10-b4f4-d6b309a322d7",
+          "question": "Qui est l'auteur de l'œuvre « Bel-Ami » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Molière",
+            "Charles Baudelaire",
+            "Guy de Maupassant"
+          ],
+          "answer": "Guy de Maupassant"
+        },
+        {
+          "id": 321,
+          "uuid": "c05500c3-c5d7-4178-9303-2450c28d92c9",
+          "question": "À quel mouvement littéraire associe-t-on Guy de Maupassant ?",
+          "options": [
+            "Romantisme",
+            "Classicisme",
+            "Réalisme",
+            "Lumières"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 322,
+          "uuid": "e38a556a-d1a0-4b18-a9e1-5686f846e805",
+          "question": "« Le Père Goriot » appartient à quel genre ?",
+          "options": [
+            "théâtre",
+            "roman",
+            "poésie",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 323,
+          "uuid": "6307c890-2146-401e-91d0-3dead5a7ec06",
+          "question": "À quel auteur doit-on « À la recherche du temps perdu » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Molière",
+            "Marcel Proust",
+            "Émile Zola"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 324,
+          "uuid": "77cb48db-ad9e-4ca5-b526-53b092a8b99d",
+          "question": "Guy de Maupassant appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XIXe",
+            "XVIIe",
+            "XXIe",
+            "XXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 325,
+          "uuid": "c3ab6449-e93a-4a26-8f9c-9fe067a1750f",
+          "question": "À quel mouvement littéraire associe-t-on Marcel Proust ?",
+          "options": [
+            "Modernisme",
+            "Naturalisme",
+            "Symbolisme",
+            "Romantisme"
+          ],
+          "answer": "Modernisme"
+        },
+        {
+          "id": 326,
+          "uuid": "3a499ac5-f1a0-4893-86da-2852fbc38f73",
+          "question": "« Le Misanthrope » est plutôt un(e) :",
+          "options": [
+            "autobiographie",
+            "nouvelle",
+            "conte",
+            "théâtre"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 327,
+          "uuid": "fe24adc4-d950-4767-9801-e3e7a9618e6b",
+          "question": "Laquelle de ces œuvres est de Marcel Proust ?",
+          "options": [
+            "Candide",
+            "Les Confessions",
+            "La Peste",
+            "Du côté de chez Swann"
+          ],
+          "answer": "Du côté de chez Swann"
+        },
+        {
+          "id": 328,
+          "uuid": "8d487c3a-e998-419a-bd8c-e280697fc90c",
+          "question": "L'œuvre « Les Misérables » a été écrite par :",
+          "options": [
+            "Jean de La Fontaine",
+            "Gustave Flaubert",
+            "Voltaire",
+            "Victor Hugo"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 329,
+          "uuid": "bb8bde88-661b-47fa-b7e0-8d2eecb61d96",
+          "question": "« Le Misanthrope » appartient à quel genre ?",
+          "options": [
+            "essai",
+            "nouvelle",
+            "poésie",
+            "théâtre"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 330,
+          "uuid": "ba47d427-5f40-4a36-b8dd-2440e6c87ed0",
+          "question": "Antoine de Saint-Exupéry est surtout connu pour quel genre ?",
+          "options": [
+            "conte",
+            "roman",
+            "essai",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 331,
+          "uuid": "a0b2a302-5301-474f-b77f-cded08067c32",
+          "question": "Quelle œuvre est écrite par Victor Hugo ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "Émile, ou De l'éducation",
+            "Le Petit Prince",
+            "Les Misérables"
+          ],
+          "answer": "Les Misérables"
+        },
+        {
+          "id": 332,
+          "uuid": "6ab02e86-158f-428c-8489-c4fff188073e",
+          "question": "Le genre principal de Marcel Proust est :",
+          "options": [
+            "conte",
+            "roman",
+            "essai",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 333,
+          "uuid": "5502123a-1195-464c-978e-9a44585549d0",
+          "question": "Parmi ces titres, lequel est de Molière ?",
+          "options": [
+            "Du côté de chez Swann",
+            "Tartuffe",
+            "Nana",
+            "Germinal"
+          ],
+          "answer": "Tartuffe"
+        },
+        {
+          "id": 334,
+          "uuid": "e4be9b63-e612-400c-b646-c7ab7e3f8194",
+          "question": "À quel mouvement littéraire associe-t-on Jean de La Fontaine ?",
+          "options": [
+            "Réalisme",
+            "Existentialisme",
+            "Classicisme",
+            "Romantisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 335,
+          "uuid": "e68c9845-1ff1-4e6f-8671-956e4ea7688d",
+          "question": "Quelle œuvre est écrite par Pierre Corneille ?",
+          "options": [
+            "Le Petit Prince",
+            "Madame Bovary",
+            "Le Cid",
+            "Les Misérables"
+          ],
+          "answer": "Le Cid"
+        },
+        {
+          "id": 336,
+          "uuid": "905e8a25-5b89-4153-99c8-5d2746e7cf17",
+          "question": "On associe le plus souvent Jean Racine à quel genre ?",
+          "options": [
+            "théâtre",
+            "essai",
+            "autobiographie",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 337,
+          "uuid": "fdaa97f9-f406-4646-8d78-d3be13377466",
+          "question": "Quel écrivain a écrit « Les Fleurs du mal » ?",
+          "options": [
+            "Charles Baudelaire",
+            "Émile Zola",
+            "Marcel Proust",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Charles Baudelaire"
+        },
+        {
+          "id": 338,
+          "uuid": "66e28733-5978-4f27-8a07-3f7d6e0fe65e",
+          "question": "En cours de français, « incipit » correspond à :",
+          "options": [
+            "Narrateur omniscient.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Début d'une œuvre."
+          ],
+          "answer": "Début d'une œuvre."
+        },
+        {
+          "id": 339,
+          "uuid": "97122734-1e66-4fcc-b275-9b59a8a3fabc",
+          "question": "Quel est le genre de l'œuvre « La Peste » ?",
+          "options": [
+            "nouvelle",
+            "essai",
+            "autobiographie",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 340,
+          "uuid": "3be5db20-8f67-4dae-b41a-6afc25aca633",
+          "question": "Quelle œuvre peut-on attribuer à Stendhal ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "Le Rouge et le Noir",
+            "Le Cid",
+            "Les Confessions"
+          ],
+          "answer": "Le Rouge et le Noir"
+        },
+        {
+          "id": 341,
+          "uuid": "07b099c0-8919-4400-a86f-7af52747c915",
+          "question": "Qui a écrit « Germinal » ?",
+          "options": [
+            "Honoré de Balzac",
+            "Émile Zola",
+            "Jean de La Fontaine",
+            "Charles Baudelaire"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 342,
+          "uuid": "74cf1ed8-1eb8-437c-b38e-c15e561f7dde",
+          "question": "Quelle œuvre peut-on attribuer à Albert Camus ?",
+          "options": [
+            "L'Étranger",
+            "Les Confessions",
+            "Fables",
+            "Du côté de chez Swann"
+          ],
+          "answer": "L'Étranger"
+        },
+        {
+          "id": 343,
+          "uuid": "795f6975-d962-4a13-994f-0a78ab4de163",
+          "question": "Voltaire est surtout connu pour quel genre ?",
+          "options": [
+            "roman",
+            "conte",
+            "autobiographie",
+            "théâtre"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 344,
+          "uuid": "307506a4-9db1-402b-87ce-c5747ddbafe9",
+          "question": "À quel mouvement littéraire associe-t-on Honoré de Balzac ?",
+          "options": [
+            "Romantisme",
+            "Naturalisme",
+            "Réalisme",
+            "Existentialisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 345,
+          "uuid": "5cf2d219-4fd4-436a-b934-1d3a6ee580ae",
+          "question": "« Notre-Dame de Paris » est plutôt un(e) :",
+          "options": [
+            "nouvelle",
+            "théâtre",
+            "autobiographie",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 346,
+          "uuid": "70f0cf8e-6fee-4900-83c1-f67fc91f1932",
+          "question": "On associe le plus souvent Jean de La Fontaine à quel genre ?",
+          "options": [
+            "roman",
+            "poésie",
+            "conte",
+            "autobiographie"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 347,
+          "uuid": "0e7b9507-58a2-4051-b894-808b3db37fda",
+          "question": "Le genre littéraire de « Bel-Ami » est :",
+          "options": [
+            "autobiographie",
+            "nouvelle",
+            "poésie",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 348,
+          "uuid": "aa125b7d-b98d-4360-a446-5e4fdc8ce967",
+          "question": "Quelle œuvre est écrite par Albert Camus ?",
+          "options": [
+            "Les Fleurs du mal",
+            "Tartuffe",
+            "L'Étranger",
+            "Les Confessions"
+          ],
+          "answer": "L'Étranger"
+        },
+        {
+          "id": 349,
+          "uuid": "e9703274-6c76-4ee0-b96a-51586d418082",
+          "question": "Qui a écrit « À la recherche du temps perdu » ?",
+          "options": [
+            "Antoine de Saint-Exupéry",
+            "Guy de Maupassant",
+            "Marcel Proust",
+            "Charles Baudelaire"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 350,
+          "uuid": "de2b598b-f9dd-4902-a68b-f0fd1211ed26",
+          "question": "Le genre principal de Voltaire est :",
+          "options": [
+            "conte",
+            "roman",
+            "théâtre",
+            "nouvelle"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 351,
+          "uuid": "a6df0e48-39f2-47ec-b876-72c58f351484",
+          "question": "« Les Confessions » est plutôt un(e) :",
+          "options": [
+            "autobiographie",
+            "théâtre",
+            "roman",
+            "essai"
+          ],
+          "answer": "autobiographie"
+        },
+        {
+          "id": 352,
+          "uuid": "462afef7-aead-40c2-b2a9-534174727291",
+          "question": "Qui est l'auteur de l'œuvre « Le Cid » ?",
+          "options": [
+            "Guy de Maupassant",
+            "Pierre Corneille",
+            "Honoré de Balzac",
+            "Victor Hugo"
+          ],
+          "answer": "Pierre Corneille"
+        },
+        {
+          "id": 353,
+          "uuid": "97a35014-d258-4d6f-b1d0-2276b07b4e2f",
+          "question": "À quel auteur doit-on « Germinal » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Voltaire",
+            "Émile Zola",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 354,
+          "uuid": "e6ead51d-6da0-4579-b8f7-f99d53e37546",
+          "question": "Quelle œuvre est écrite par Stendhal ?",
+          "options": [
+            "Les Confessions",
+            "Notre-Dame de Paris",
+            "Bel-Ami",
+            "Le Rouge et le Noir"
+          ],
+          "answer": "Le Rouge et le Noir"
+        },
+        {
+          "id": 355,
+          "uuid": "44464b0c-e4e0-4cc8-a122-d0e823f44d2f",
+          "question": "Dans les repères scolaires, Jean Racine est plutôt du :",
+          "options": [
+            "XVIe",
+            "XXIe",
+            "XVIIe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 356,
+          "uuid": "00623e4e-8bab-45c9-acd8-36f1a2c6430b",
+          "question": "Quelle définition correspond à « focalisation zéro » ?",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Narrateur omniscient.",
+            "Expression des sentiments personnels.",
+            "Ensemble de mots liés à un même thème."
+          ],
+          "answer": "Narrateur omniscient."
+        },
+        {
+          "id": 357,
+          "uuid": "85ee1d10-c8ec-4d84-b67b-a9e5e3b99040",
+          "question": "« Tartuffe » est plutôt un(e) :",
+          "options": [
+            "autobiographie",
+            "théâtre",
+            "nouvelle",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 358,
+          "uuid": "d61b1dba-c1c2-4bb8-b5a3-1f0c272088c8",
+          "question": "L'œuvre « Tartuffe » a été écrite par :",
+          "options": [
+            "Molière",
+            "Voltaire",
+            "Victor Hugo",
+            "Charles Baudelaire"
+          ],
+          "answer": "Molière"
+        },
+        {
+          "id": 359,
+          "uuid": "dda48262-c123-4708-bed0-94eb16dd7226",
+          "question": "Dans les repères scolaires, Jean-Jacques Rousseau est plutôt du :",
+          "options": [
+            "XVIe",
+            "XIXe",
+            "XXe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 360,
+          "uuid": "94f159a0-afb9-44ae-883d-72c917e066a5",
+          "question": "Quel écrivain a écrit « Du côté de chez Swann » ?",
+          "options": [
+            "Guy de Maupassant",
+            "Marcel Proust",
+            "Charles Baudelaire",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 361,
+          "uuid": "da16b344-2864-4155-89b2-4e1743d26aa9",
+          "question": "« Le Cid » appartient à quel genre ?",
+          "options": [
+            "théâtre",
+            "essai",
+            "roman",
+            "poésie"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 362,
+          "uuid": "eaa56306-797f-4aa8-ad1b-be2e2be7b6a5",
+          "question": "L'œuvre « La Peste » a été écrite par :",
+          "options": [
+            "Pierre Corneille",
+            "Molière",
+            "Albert Camus",
+            "Émile Zola"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 363,
+          "uuid": "f163f8e6-9fdc-449a-b999-902ab5ef5f6e",
+          "question": "« Madame Bovary » appartient à quel genre ?",
+          "options": [
+            "essai",
+            "théâtre",
+            "autobiographie",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 364,
+          "uuid": "214eb761-ee0d-4d0e-be78-ce692769c484",
+          "question": "« Les Fleurs du mal » est une œuvre de quel auteur ?",
+          "options": [
+            "Molière",
+            "Marcel Proust",
+            "Antoine de Saint-Exupéry",
+            "Charles Baudelaire"
+          ],
+          "answer": "Charles Baudelaire"
+        },
+        {
+          "id": 365,
+          "uuid": "6ff13fd5-ae29-4b8b-bd54-65ecd9899bb0",
+          "question": "« La Peste » est une œuvre de quel auteur ?",
+          "options": [
+            "Albert Camus",
+            "Marcel Proust",
+            "Gustave Flaubert",
+            "Émile Zola"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 366,
+          "uuid": "5a9c9079-80ca-4631-b2c6-abd86a499219",
+          "question": "Quelle œuvre peut-on attribuer à Guy de Maupassant ?",
+          "options": [
+            "Le Père Goriot",
+            "Bel-Ami",
+            "Nana",
+            "Émile, ou De l'éducation"
+          ],
+          "answer": "Bel-Ami"
+        },
+        {
+          "id": 367,
+          "uuid": "4fd20a26-51f2-475b-9343-569e887910ae",
+          "question": "En cours de français, « registre tragique » correspond à :",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Expression des sentiments personnels.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Début d'une œuvre."
+          ],
+          "answer": "Registre visant à susciter terreur et pitié."
+        },
+        {
+          "id": 368,
+          "uuid": "64192067-c3a7-4013-9297-3b2190de1af7",
+          "question": "Quelle œuvre peut-on attribuer à Jean Racine ?",
+          "options": [
+            "Émile, ou De l'éducation",
+            "Les Confessions",
+            "Andromaque",
+            "Tartuffe"
+          ],
+          "answer": "Andromaque"
+        },
+        {
+          "id": 369,
+          "uuid": "241ad857-9276-4c02-9b77-94b94487529a",
+          "question": "Dans les repères scolaires, Émile Zola est plutôt du :",
+          "options": [
+            "XVIe",
+            "XXe",
+            "XIXe",
+            "XVIIIe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 370,
+          "uuid": "178eb834-104f-47eb-ba2d-f4d05531cc9c",
+          "question": "À quel mouvement littéraire associe-t-on Jean-Jacques Rousseau ?",
+          "options": [
+            "Symbolisme",
+            "Lumières",
+            "Romantisme",
+            "Réalisme"
+          ],
+          "answer": "Lumières"
+        },
+        {
+          "id": 371,
+          "uuid": "45db62d5-8f95-47c1-b926-fcd7926216fb",
+          "question": "On associe le plus souvent Honoré de Balzac à quel genre ?",
+          "options": [
+            "conte",
+            "nouvelle",
+            "roman",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 372,
+          "uuid": "7b98ebe3-a50c-485b-ac49-dd9df25c684a",
+          "question": "Quel écrivain a écrit « L'Étranger » ?",
+          "options": [
+            "Voltaire",
+            "Antoine de Saint-Exupéry",
+            "Albert Camus",
+            "Guy de Maupassant"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 373,
+          "uuid": "8d358cc1-dbf7-42bf-bc16-39ae78483b18",
+          "question": "Gustave Flaubert est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Réalisme",
+            "Lumières",
+            "Romantisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 374,
+          "uuid": "dd77428b-61ab-4d09-9925-9b1743198810",
+          "question": "Jean de La Fontaine est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Romantisme",
+            "Renaissance",
+            "Symbolisme",
+            "Classicisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 375,
+          "uuid": "148e1365-2234-46f7-b54f-b1a148e9e7e6",
+          "question": "À quel siècle associe-t-on le plus souvent Pierre Corneille ?",
+          "options": [
+            "XVIIe",
+            "XXIe",
+            "XIXe",
+            "XXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 376,
+          "uuid": "f5c2ee91-e4dc-42f3-b855-8294dc9e50cb",
+          "question": "On associe le plus souvent Guy de Maupassant à quel genre ?",
+          "options": [
+            "poésie",
+            "roman",
+            "nouvelle",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 377,
+          "uuid": "3a762ea9-7cb0-48d0-b42d-27eef4441c37",
+          "question": "À quel auteur doit-on « Phèdre » ?",
+          "options": [
+            "Molière",
+            "Jean Racine",
+            "Guy de Maupassant",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 378,
+          "uuid": "083fd97f-5a4e-4777-9bda-5298b405c262",
+          "question": "« Le Rouge et le Noir » est plutôt un(e) :",
+          "options": [
+            "nouvelle",
+            "poésie",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 379,
+          "uuid": "975831c8-b0d7-4155-8cfd-4ed36febbf4b",
+          "question": "« Le Petit Prince » est une œuvre de quel auteur ?",
+          "options": [
+            "Émile Zola",
+            "Jean Racine",
+            "Antoine de Saint-Exupéry",
+            "Molière"
+          ],
+          "answer": "Antoine de Saint-Exupéry"
+        },
+        {
+          "id": 380,
+          "uuid": "fd7a839f-40c3-4c16-ac06-91d5f1fce531",
+          "question": "Quel écrivain a écrit « Nana » ?",
+          "options": [
+            "Jean Racine",
+            "Stendhal",
+            "Jean-Jacques Rousseau",
+            "Émile Zola"
+          ],
+          "answer": "Émile Zola"
+        },
+        {
+          "id": 381,
+          "uuid": "22668d91-b33e-44b0-88d2-9222dafa2545",
+          "question": "Quelle œuvre est écrite par Marcel Proust ?",
+          "options": [
+            "À la recherche du temps perdu",
+            "Le Père Goriot",
+            "Bel-Ami",
+            "Candide"
+          ],
+          "answer": "À la recherche du temps perdu"
+        },
+        {
+          "id": 382,
+          "uuid": "1404817e-e96d-4eb6-bc2d-8bc341e4959c",
+          "question": "En cours de français, « registre comique » correspond à :",
+          "options": [
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Expression des sentiments personnels.",
+            "Registre visant à faire rire."
+          ],
+          "answer": "Registre visant à faire rire."
+        },
+        {
+          "id": 383,
+          "uuid": "0f64f413-d66e-4155-bc72-2c80b6a9f363",
+          "question": "Émile Zola est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Romantisme",
+            "Renaissance",
+            "Symbolisme",
+            "Naturalisme"
+          ],
+          "answer": "Naturalisme"
+        },
+        {
+          "id": 384,
+          "uuid": "29fb6e4e-6e5a-42be-a5e5-b81543a4e60c",
+          "question": "Quel est le genre de l'œuvre « Le Misanthrope » ?",
+          "options": [
+            "théâtre",
+            "nouvelle",
+            "essai",
+            "roman"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 385,
+          "uuid": "218826ea-4817-4dca-8f18-258642deeb42",
+          "question": "Qui est l'auteur de l'œuvre « Le Petit Prince » ?",
+          "options": [
+            "Marcel Proust",
+            "Émile Zola",
+            "Antoine de Saint-Exupéry",
+            "Gustave Flaubert"
+          ],
+          "answer": "Antoine de Saint-Exupéry"
+        },
+        {
+          "id": 386,
+          "uuid": "4b0af0b4-614d-49e9-af62-3cb5dd1a73ab",
+          "question": "Jean Racine appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XVIIe",
+            "XVIe",
+            "XIXe",
+            "XXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 387,
+          "uuid": "e7f2bdc9-d3a6-45af-9c4b-255c0007789c",
+          "question": "Quel est le genre de l'œuvre « Le Cid » ?",
+          "options": [
+            "poésie",
+            "essai",
+            "roman",
+            "théâtre"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 388,
+          "uuid": "22f34d1d-df6a-499e-8c80-dcff78a3aedf",
+          "question": "« Notre-Dame de Paris » appartient à quel genre ?",
+          "options": [
+            "autobiographie",
+            "essai",
+            "roman",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 389,
+          "uuid": "dbface3c-da8f-427b-88f5-6b19faabc389",
+          "question": "Quel genre Guy de Maupassant a-t-il surtout pratiqué ?",
+          "options": [
+            "conte",
+            "essai",
+            "autobiographie",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 390,
+          "uuid": "4359d0b6-a035-4e1c-84b8-1849e926e181",
+          "question": "« À la recherche du temps perdu » est une œuvre de quel auteur ?",
+          "options": [
+            "Albert Camus",
+            "Marcel Proust",
+            "Honoré de Balzac",
+            "Victor Hugo"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 391,
+          "uuid": "6c63a829-0a7e-44f7-951b-59b72c0e09dd",
+          "question": "Qui a écrit « Candide » ?",
+          "options": [
+            "Voltaire",
+            "Jean de La Fontaine",
+            "Charles Baudelaire",
+            "Émile Zola"
+          ],
+          "answer": "Voltaire"
+        },
+        {
+          "id": 392,
+          "uuid": "25b7211b-0c58-4043-a053-37c8b2be98c3",
+          "question": "Quel est le genre de l'œuvre « Du côté de chez Swann » ?",
+          "options": [
+            "poésie",
+            "autobiographie",
+            "roman",
+            "nouvelle"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 393,
+          "uuid": "89614e29-d9c9-498a-b126-fd7ef83ed460",
+          "question": "« Les Misérables » appartient à quel genre ?",
+          "options": [
+            "conte",
+            "roman",
+            "autobiographie",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 394,
+          "uuid": "33ddac76-347d-4abe-9a27-cab7738ff3fb",
+          "question": "À quel auteur doit-on « Les Fleurs du mal » ?",
+          "options": [
+            "Jean Racine",
+            "Charles Baudelaire",
+            "Voltaire",
+            "Pierre Corneille"
+          ],
+          "answer": "Charles Baudelaire"
+        },
+        {
+          "id": 395,
+          "uuid": "e560514a-2ec6-43c9-853f-d026e511a66d",
+          "question": "Quelle œuvre peut-on attribuer à Voltaire ?",
+          "options": [
+            "Andromaque",
+            "À la recherche du temps perdu",
+            "Candide",
+            "Madame Bovary"
+          ],
+          "answer": "Candide"
+        },
+        {
+          "id": 396,
+          "uuid": "58c5491b-b4d1-442c-b565-cf12c515785c",
+          "question": "Laquelle de ces œuvres est de Antoine de Saint-Exupéry ?",
+          "options": [
+            "Les Misérables",
+            "Le Petit Prince",
+            "Tartuffe",
+            "Bel-Ami"
+          ],
+          "answer": "Le Petit Prince"
+        },
+        {
+          "id": 397,
+          "uuid": "3574eb5d-72c6-4614-9ca0-ca44f9fa436c",
+          "question": "À quel mouvement littéraire associe-t-on Albert Camus ?",
+          "options": [
+            "Naturalisme",
+            "Existentialisme",
+            "Symbolisme",
+            "Lumières"
+          ],
+          "answer": "Existentialisme"
+        },
+        {
+          "id": 398,
+          "uuid": "a87cf5a9-6dec-4e09-af88-f47339b2d2e9",
+          "question": "Que signifie le terme « incipit » ?",
+          "options": [
+            "Registre visant à faire rire.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Registre visant à susciter terreur et pitié.",
+            "Début d'une œuvre."
+          ],
+          "answer": "Début d'une œuvre."
+        },
+        {
+          "id": 399,
+          "uuid": "65cf4ab5-025c-4cfe-a877-896aeee7022e",
+          "question": "À quel mouvement littéraire associe-t-on Stendhal ?",
+          "options": [
+            "Existentialisme",
+            "Réalisme",
+            "Symbolisme",
+            "Lumières"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 400,
+          "uuid": "7328bbf9-6101-4a83-a7f2-bf9fe18ab7e7",
+          "question": "Que signifie le terme « registre tragique » ?",
+          "options": [
+            "Registre visant à susciter terreur et pitié.",
+            "Narrateur omniscient.",
+            "Registre visant à faire rire.",
+            "Début d'une œuvre."
+          ],
+          "answer": "Registre visant à susciter terreur et pitié."
+        },
+        {
+          "id": 401,
+          "uuid": "20fb2ea4-10b3-4792-a182-a2d24c71b62d",
+          "question": "Pierre Corneille est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Classicisme",
+            "Symbolisme",
+            "Réalisme",
+            "Renaissance"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 402,
+          "uuid": "0ade72c3-cfe1-4c34-9e4f-d5a9be8cc483",
+          "question": "Parmi ces titres, lequel est de Albert Camus ?",
+          "options": [
+            "Le Petit Prince",
+            "À la recherche du temps perdu",
+            "La Peste",
+            "L'Étranger"
+          ],
+          "answer": "L'Étranger"
+        },
+        {
+          "id": 403,
+          "uuid": "c0bdce2a-628d-4536-a799-1fe37f91a337",
+          "question": "Jean-Jacques Rousseau est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Existentialisme",
+            "Symbolisme",
+            "Lumières",
+            "Renaissance"
+          ],
+          "answer": "Lumières"
+        },
+        {
+          "id": 404,
+          "uuid": "feac87b7-2e56-46b3-9968-b0a5c349c453",
+          "question": "Le siècle le plus associé à Jean de La Fontaine est :",
+          "options": [
+            "XXIe",
+            "XVIIe",
+            "XXe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 405,
+          "uuid": "d755b69d-50e5-473a-8cdd-9f10dc193549",
+          "question": "Émile Zola est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Lumières",
+            "Classicisme",
+            "Romantisme",
+            "Naturalisme"
+          ],
+          "answer": "Naturalisme"
+        },
+        {
+          "id": 406,
+          "uuid": "20bcebe3-d9c7-45d5-a341-7e2e4a280343",
+          "question": "Qui est l'auteur de l'œuvre « Du côté de chez Swann » ?",
+          "options": [
+            "Marcel Proust",
+            "Jean-Jacques Rousseau",
+            "Molière",
+            "Jean Racine"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 407,
+          "uuid": "b022817f-a073-44ad-a471-5f402ef3ed1f",
+          "question": "On rattache généralement Albert Camus à quel siècle ?",
+          "options": [
+            "XXe",
+            "XXIe",
+            "XVIIe",
+            "XVIIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 408,
+          "uuid": "01232591-092b-426c-bd92-4ba559db7980",
+          "question": "On associe Jean Racine à quel mouvement ?",
+          "options": [
+            "Renaissance",
+            "Naturalisme",
+            "Romantisme",
+            "Classicisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 409,
+          "uuid": "074a70f3-0c6e-4318-a8b5-87d9f1360936",
+          "question": "On rattache généralement Pierre Corneille à quel siècle ?",
+          "options": [
+            "XVIIe",
+            "XXe",
+            "XVIe",
+            "XIXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 410,
+          "uuid": "e5b2cabb-8ca8-4037-b9b6-db2a32dbb610",
+          "question": "« Andromaque » appartient à quel genre ?",
+          "options": [
+            "poésie",
+            "théâtre",
+            "autobiographie",
+            "conte"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 411,
+          "uuid": "7138c029-1238-4300-a547-22180948d940",
+          "question": "« Andromaque » est une œuvre de quel auteur ?",
+          "options": [
+            "Honoré de Balzac",
+            "Charles Baudelaire",
+            "Jean Racine",
+            "Gustave Flaubert"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 412,
+          "uuid": "ce78ea49-ec06-401c-9fcf-1e3af6b8f5fa",
+          "question": "On associe Victor Hugo à quel mouvement ?",
+          "options": [
+            "Romantisme",
+            "Réalisme",
+            "Renaissance",
+            "Naturalisme"
+          ],
+          "answer": "Romantisme"
+        },
+        {
+          "id": 413,
+          "uuid": "e161d1f3-0885-4af8-9a92-20e28f2f785b",
+          "question": "À quel auteur doit-on « Émile, ou De l'éducation » ?",
+          "options": [
+            "Albert Camus",
+            "Jean-Jacques Rousseau",
+            "Charles Baudelaire",
+            "Guy de Maupassant"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 414,
+          "uuid": "fc1d6235-138b-4ee4-8777-ff139adb0162",
+          "question": "Honoré de Balzac est surtout connu pour quel genre ?",
+          "options": [
+            "roman",
+            "essai",
+            "conte",
+            "nouvelle"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 415,
+          "uuid": "f572cdc9-77b3-4484-9ae3-a49ca68c1439",
+          "question": "L'œuvre « À la recherche du temps perdu » a été écrite par :",
+          "options": [
+            "Marcel Proust",
+            "Guy de Maupassant",
+            "Gustave Flaubert",
+            "Voltaire"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 416,
+          "uuid": "c59aa761-41c0-4222-9e8d-408604fba531",
+          "question": "Quel écrivain a écrit « Fables » ?",
+          "options": [
+            "Stendhal",
+            "Voltaire",
+            "Jean de La Fontaine",
+            "Victor Hugo"
+          ],
+          "answer": "Jean de La Fontaine"
+        },
+        {
+          "id": 417,
+          "uuid": "3c5c157f-3d9a-4267-b849-e27b2b986f2d",
+          "question": "Quel genre Albert Camus a-t-il surtout pratiqué ?",
+          "options": [
+            "roman",
+            "théâtre",
+            "poésie",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 418,
+          "uuid": "8e48c87d-7398-4d78-83b1-c86a7e28f865",
+          "question": "Guy de Maupassant est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Réalisme",
+            "Existentialisme",
+            "Symbolisme",
+            "Renaissance"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 419,
+          "uuid": "89d7ce75-efeb-431c-bc9a-007c4c888335",
+          "question": "Le siècle le plus associé à Jean-Jacques Rousseau est :",
+          "options": [
+            "XXe",
+            "XVIIIe",
+            "XXIe",
+            "XVIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 420,
+          "uuid": "23a21e20-141f-4fdd-80df-d888b730083e",
+          "question": "Qui a écrit « Bel-Ami » ?",
+          "options": [
+            "Jean Racine",
+            "Guy de Maupassant",
+            "Antoine de Saint-Exupéry",
+            "Honoré de Balzac"
+          ],
+          "answer": "Guy de Maupassant"
+        },
+        {
+          "id": 421,
+          "uuid": "33205398-5e76-4db7-9bc0-694ad2158672",
+          "question": "Quelle œuvre est écrite par Gustave Flaubert ?",
+          "options": [
+            "Madame Bovary",
+            "Fables",
+            "Nana",
+            "Candide"
+          ],
+          "answer": "Madame Bovary"
+        },
+        {
+          "id": 422,
+          "uuid": "0c731b92-48e1-4e97-9d86-c0338976d33c",
+          "question": "Quel genre Émile Zola a-t-il surtout pratiqué ?",
+          "options": [
+            "théâtre",
+            "roman",
+            "nouvelle",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 423,
+          "uuid": "552a6743-fbee-4832-ac47-1e69e3edbe11",
+          "question": "On rattache généralement Voltaire à quel siècle ?",
+          "options": [
+            "XIXe",
+            "XVIe",
+            "XXIe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 424,
+          "uuid": "58c9a7c3-e84e-4f67-b702-af9478761f35",
+          "question": "Quelle œuvre est écrite par Émile Zola ?",
+          "options": [
+            "Le Rouge et le Noir",
+            "Nana",
+            "La Peste",
+            "Le Père Goriot"
+          ],
+          "answer": "Nana"
+        },
+        {
+          "id": 425,
+          "uuid": "cbf32b6a-1ea4-4eeb-879f-f3fa3d409a73",
+          "question": "À quel siècle associe-t-on le plus souvent Jean Racine ?",
+          "options": [
+            "XVIIe",
+            "XXIe",
+            "XVIIIe",
+            "XXe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 426,
+          "uuid": "62a17738-f5cb-4f67-af9b-066a069d44c8",
+          "question": "« Bel-Ami » appartient à quel genre ?",
+          "options": [
+            "conte",
+            "essai",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 427,
+          "uuid": "1950ec35-f29a-4532-858c-f7ac4f33b087",
+          "question": "On associe le plus souvent Victor Hugo à quel genre ?",
+          "options": [
+            "théâtre",
+            "essai",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 428,
+          "uuid": "8e4a4453-6b9a-4890-aeb9-9458462cc90b",
+          "question": "Quelle œuvre est écrite par Victor Hugo ?",
+          "options": [
+            "Germinal",
+            "Madame Bovary",
+            "Notre-Dame de Paris",
+            "Bel-Ami"
+          ],
+          "answer": "Notre-Dame de Paris"
+        },
+        {
+          "id": 429,
+          "uuid": "23e46e50-435a-4cbf-ab72-6c3594df2156",
+          "question": "L'œuvre « Le Cid » a été écrite par :",
+          "options": [
+            "Voltaire",
+            "Guy de Maupassant",
+            "Pierre Corneille",
+            "Émile Zola"
+          ],
+          "answer": "Pierre Corneille"
+        },
+        {
+          "id": 430,
+          "uuid": "ee2c80de-f1b4-4bd9-a205-446264e63464",
+          "question": "Pierre Corneille est surtout connu pour quel genre ?",
+          "options": [
+            "théâtre",
+            "conte",
+            "roman",
+            "essai"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 431,
+          "uuid": "06d0ba00-cf4f-4085-b923-8d8e3a11b7d5",
+          "question": "« Les Fleurs du mal » appartient à quel genre ?",
+          "options": [
+            "conte",
+            "autobiographie",
+            "poésie",
+            "essai"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 432,
+          "uuid": "5f5a0fd6-c606-4df9-8a93-567284d92f3f",
+          "question": "On associe Molière à quel mouvement ?",
+          "options": [
+            "Renaissance",
+            "Réalisme",
+            "Existentialisme",
+            "Classicisme"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 433,
+          "uuid": "a20e9980-7b59-4b15-9636-a2cdf81200a1",
+          "question": "Quel est le genre de l'œuvre « Les Misérables » ?",
+          "options": [
+            "roman",
+            "nouvelle",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 434,
+          "uuid": "540c7c54-8cf6-44b2-a99d-7d81f9421a27",
+          "question": "On associe Honoré de Balzac à quel mouvement ?",
+          "options": [
+            "Lumières",
+            "Naturalisme",
+            "Réalisme",
+            "Classicisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 435,
+          "uuid": "524afe15-da8b-46e0-9ecc-80feed52833f",
+          "question": "Dans les repères scolaires, Jean de La Fontaine est plutôt du :",
+          "options": [
+            "XVIIIe",
+            "XVIIe",
+            "XIXe",
+            "XXIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 436,
+          "uuid": "da8b8c80-0825-473c-8aa4-cee174dc1352",
+          "question": "Qui a écrit « Andromaque » ?",
+          "options": [
+            "Marcel Proust",
+            "Émile Zola",
+            "Jean Racine",
+            "Guy de Maupassant"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 437,
+          "uuid": "e7e1949e-6222-45ea-aabe-d656ae1baeec",
+          "question": "En cours de français, « focalisation externe » correspond à :",
+          "options": [
+            "Partie finale qui résout l'intrigue.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Point de vue limité à ce que sait un personnage.",
+            "Registre visant à susciter terreur et pitié."
+          ],
+          "answer": "Point de vue d'observateur sans accès aux pensées."
+        },
+        {
+          "id": 438,
+          "uuid": "f09b876c-9bf0-4f81-ab19-2104ce779dd2",
+          "question": "À quel mouvement littéraire associe-t-on Antoine de Saint-Exupéry ?",
+          "options": [
+            "Littérature du XXe siècle",
+            "Naturalisme",
+            "Symbolisme",
+            "Classicisme"
+          ],
+          "answer": "Littérature du XXe siècle"
+        },
+        {
+          "id": 439,
+          "uuid": "85172e61-17b4-41a8-9f89-fa0c321f8d36",
+          "question": "Quelle œuvre est écrite par Jean de La Fontaine ?",
+          "options": [
+            "Fables",
+            "Madame Bovary",
+            "Le Petit Prince",
+            "L'Étranger"
+          ],
+          "answer": "Fables"
+        },
+        {
+          "id": 440,
+          "uuid": "c8976779-da42-465d-beb1-98935ab5a600",
+          "question": "Parmi ces titres, lequel est de Marcel Proust ?",
+          "options": [
+            "À la recherche du temps perdu",
+            "Les Misérables",
+            "Le Misanthrope",
+            "Le Père Goriot"
+          ],
+          "answer": "À la recherche du temps perdu"
+        },
+        {
+          "id": 441,
+          "uuid": "3b4dbd76-59d3-4081-a66b-a4cb3ae387a6",
+          "question": "À quel mouvement littéraire associe-t-on Molière ?",
+          "options": [
+            "Naturalisme",
+            "Classicisme",
+            "Symbolisme",
+            "Lumières"
+          ],
+          "answer": "Classicisme"
+        },
+        {
+          "id": 442,
+          "uuid": "4fd19bac-3707-4f0b-bf01-ea49a0451027",
+          "question": "« L'Étranger » appartient à quel genre ?",
+          "options": [
+            "théâtre",
+            "roman",
+            "poésie",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 443,
+          "uuid": "f63cf4e3-e8b4-43ef-b4ab-74d59e0a4c2c",
+          "question": "On associe Charles Baudelaire à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Romantisme",
+            "Symbolisme",
+            "Réalisme"
+          ],
+          "answer": "Symbolisme"
+        },
+        {
+          "id": 444,
+          "uuid": "03d95df1-2a66-41a9-9789-1df8849339d9",
+          "question": "Quel genre Pierre Corneille a-t-il surtout pratiqué ?",
+          "options": [
+            "poésie",
+            "conte",
+            "théâtre",
+            "nouvelle"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 445,
+          "uuid": "814bd6ce-9ee5-400f-a6d1-496c4681ea47",
+          "question": "Qui a écrit « Notre-Dame de Paris » ?",
+          "options": [
+            "Victor Hugo",
+            "Molière",
+            "Voltaire",
+            "Jean-Jacques Rousseau"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 446,
+          "uuid": "055825b9-b657-40a8-aaff-aa1b0b701298",
+          "question": "On associe le plus souvent Guy de Maupassant à quel genre ?",
+          "options": [
+            "poésie",
+            "nouvelle",
+            "essai",
+            "autobiographie"
+          ],
+          "answer": "nouvelle"
+        },
+        {
+          "id": 447,
+          "uuid": "618caab3-352b-4723-9771-833837bcb6e6",
+          "question": "Laquelle de ces œuvres est de Émile Zola ?",
+          "options": [
+            "Nana",
+            "À la recherche du temps perdu",
+            "Le Père Goriot",
+            "Bel-Ami"
+          ],
+          "answer": "Nana"
+        },
+        {
+          "id": 448,
+          "uuid": "c0e62f65-aa4f-4c8b-872f-18abcd51b52a",
+          "question": "On associe le plus souvent Victor Hugo à quel genre ?",
+          "options": [
+            "autobiographie",
+            "conte",
+            "théâtre",
+            "poésie"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 449,
+          "uuid": "99dce969-cba7-473c-becb-77344d49f1ad",
+          "question": "Le genre littéraire de « Le Rouge et le Noir » est :",
+          "options": [
+            "conte",
+            "essai",
+            "théâtre",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 450,
+          "uuid": "89e5ab67-b482-41d8-adf5-0d36827de57b",
+          "question": "Marcel Proust est surtout connu pour quel genre ?",
+          "options": [
+            "théâtre",
+            "nouvelle",
+            "roman",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 451,
+          "uuid": "07b909c8-eba9-4ff3-81a9-0d08b0b4ce6b",
+          "question": "Le genre principal de Jean de La Fontaine est :",
+          "options": [
+            "poésie",
+            "essai",
+            "roman",
+            "nouvelle"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 452,
+          "uuid": "8b1c7b63-d914-402d-9220-921ea487f0f0",
+          "question": "Charles Baudelaire est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Lumières",
+            "Symbolisme",
+            "Classicisme",
+            "Naturalisme"
+          ],
+          "answer": "Symbolisme"
+        },
+        {
+          "id": 453,
+          "uuid": "38e434cb-a088-40ef-8977-4f04f493893e",
+          "question": "À quel siècle associe-t-on le plus souvent Antoine de Saint-Exupéry ?",
+          "options": [
+            "XVIe",
+            "XXe",
+            "XIXe",
+            "XVIIe"
+          ],
+          "answer": "XXe"
+        },
+        {
+          "id": 454,
+          "uuid": "17178481-ea7b-4e97-b74f-12c796460f55",
+          "question": "On rattache généralement Molière à quel siècle ?",
+          "options": [
+            "XXe",
+            "XXIe",
+            "XVIIe",
+            "XVIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 455,
+          "uuid": "1ff20062-4503-44fd-b056-fb8fff1a226a",
+          "question": "Parmi ces titres, lequel est de Albert Camus ?",
+          "options": [
+            "Notre-Dame de Paris",
+            "La Peste",
+            "Les Confessions",
+            "Phèdre"
+          ],
+          "answer": "La Peste"
+        },
+        {
+          "id": 456,
+          "uuid": "6f0a77ad-433d-4118-9c48-675816f91b0d",
+          "question": "Qui est l'auteur de l'œuvre « Madame Bovary » ?",
+          "options": [
+            "Stendhal",
+            "Gustave Flaubert",
+            "Guy de Maupassant",
+            "Jean Racine"
+          ],
+          "answer": "Gustave Flaubert"
+        },
+        {
+          "id": 457,
+          "uuid": "291a5b44-9d33-4694-a228-b23e5e05c443",
+          "question": "Honoré de Balzac est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Lumières",
+            "Réalisme",
+            "Symbolisme",
+            "Romantisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 458,
+          "uuid": "570ca97b-1eeb-4596-a80d-e55648a7e11b",
+          "question": "Quel écrivain a écrit « Émile, ou De l'éducation » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Marcel Proust",
+            "Pierre Corneille",
+            "Voltaire"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 459,
+          "uuid": "aa8207db-d870-4685-92d3-3b93d3725643",
+          "question": "On rattache généralement Jean de La Fontaine à quel siècle ?",
+          "options": [
+            "XIXe",
+            "XXe",
+            "XVIIe",
+            "XVIIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 460,
+          "uuid": "94689f08-c9b7-424b-8e6b-76da2091e4c9",
+          "question": "À quel auteur doit-on « Les Misérables » ?",
+          "options": [
+            "Victor Hugo",
+            "Émile Zola",
+            "Voltaire",
+            "Albert Camus"
+          ],
+          "answer": "Victor Hugo"
+        },
+        {
+          "id": 461,
+          "uuid": "e0d63372-7ee5-449a-8cca-945e2ce9832d",
+          "question": "Quel est le genre de l'œuvre « À la recherche du temps perdu » ?",
+          "options": [
+            "essai",
+            "conte",
+            "nouvelle",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 462,
+          "uuid": "7c368614-264e-445f-9a4d-c602722f22c0",
+          "question": "« Le Père Goriot » est plutôt un(e) :",
+          "options": [
+            "essai",
+            "nouvelle",
+            "roman",
+            "autobiographie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 463,
+          "uuid": "7cdda361-b947-41af-ba89-2d915babed60",
+          "question": "« À la recherche du temps perdu » appartient à quel genre ?",
+          "options": [
+            "conte",
+            "théâtre",
+            "roman",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 464,
+          "uuid": "89e212a3-5e65-4338-90f3-43790781600f",
+          "question": "Quel est le genre de l'œuvre « Andromaque » ?",
+          "options": [
+            "conte",
+            "théâtre",
+            "poésie",
+            "roman"
+          ],
+          "answer": "théâtre"
+        },
+        {
+          "id": 465,
+          "uuid": "c6569ef2-0570-41e4-ab28-fe32eb4a0845",
+          "question": "À quel auteur doit-on « L'Étranger » ?",
+          "options": [
+            "Jean de La Fontaine",
+            "Charles Baudelaire",
+            "Pierre Corneille",
+            "Albert Camus"
+          ],
+          "answer": "Albert Camus"
+        },
+        {
+          "id": 466,
+          "uuid": "74a522e3-d810-4d95-a4b8-90a21e1f1be1",
+          "question": "Albert Camus est surtout connu pour quel genre ?",
+          "options": [
+            "poésie",
+            "essai",
+            "conte",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 467,
+          "uuid": "16262cdb-a5ed-468c-9f20-ea70e579ce8f",
+          "question": "Quelle œuvre est écrite par Jean Racine ?",
+          "options": [
+            "Les Fleurs du mal",
+            "Andromaque",
+            "Candide",
+            "Phèdre"
+          ],
+          "answer": "Andromaque"
+        },
+        {
+          "id": 468,
+          "uuid": "b5d758ac-f036-4908-aca7-f7d98bbc52eb",
+          "question": "Laquelle de ces œuvres est de Honoré de Balzac ?",
+          "options": [
+            "Fables",
+            "Les Fleurs du mal",
+            "Candide",
+            "Le Père Goriot"
+          ],
+          "answer": "Le Père Goriot"
+        },
+        {
+          "id": 469,
+          "uuid": "c14bead3-a097-47c7-ab57-2350815479df",
+          "question": "« Phèdre » est une œuvre de quel auteur ?",
+          "options": [
+            "Albert Camus",
+            "Jean Racine",
+            "Antoine de Saint-Exupéry",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Jean Racine"
+        },
+        {
+          "id": 470,
+          "uuid": "8875f364-34d5-4570-9a8d-4124127a0ac3",
+          "question": "Stendhal est surtout connu pour quel genre ?",
+          "options": [
+            "roman",
+            "autobiographie",
+            "théâtre",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 471,
+          "uuid": "5d911a45-55a5-4f91-9545-893f0b2ace53",
+          "question": "Quel est le genre de l'œuvre « Germinal » ?",
+          "options": [
+            "poésie",
+            "théâtre",
+            "roman",
+            "conte"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 472,
+          "uuid": "77dde741-5d64-4207-9315-f0804933a93d",
+          "question": "Que signifie le terme « focalisation interne » ?",
+          "options": [
+            "Partie finale qui résout l'intrigue.",
+            "Début d'une œuvre.",
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Point de vue limité à ce que sait un personnage."
+          ],
+          "answer": "Point de vue limité à ce que sait un personnage."
+        },
+        {
+          "id": 473,
+          "uuid": "9dc82595-2547-4654-b32e-c7dd3ebbd1b9",
+          "question": "Quelle définition correspond à « alexandrin » ?",
+          "options": [
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Expression des sentiments personnels.",
+            "Ensemble de mots liés à un même thème.",
+            "Registre visant à susciter terreur et pitié."
+          ],
+          "answer": "Vers de 12 syllabes (souvent avec une césure)."
+        },
+        {
+          "id": 474,
+          "uuid": "1844e7ea-eadc-4f9b-ba45-ba261cb3af48",
+          "question": "En cours de français, « alexandrin » correspond à :",
+          "options": [
+            "Point de vue d'observateur sans accès aux pensées.",
+            "Vers de 12 syllabes (souvent avec une césure).",
+            "Narrateur omniscient.",
+            "Registre visant à susciter terreur et pitié."
+          ],
+          "answer": "Vers de 12 syllabes (souvent avec une césure)."
+        },
+        {
+          "id": 475,
+          "uuid": "bfc1e678-3a78-4748-a392-8b573b43fa5f",
+          "question": "Jean-Jacques Rousseau est souvent rattaché à quel mouvement ?",
+          "options": [
+            "Existentialisme",
+            "Renaissance",
+            "Lumières",
+            "Romantisme"
+          ],
+          "answer": "Lumières"
+        },
+        {
+          "id": 476,
+          "uuid": "812dc9bf-c516-4457-9e68-27b3f9824010",
+          "question": "À quel siècle associe-t-on le plus souvent Victor Hugo ?",
+          "options": [
+            "XVIIe",
+            "XVIIIe",
+            "XXIe",
+            "XIXe"
+          ],
+          "answer": "XIXe"
+        },
+        {
+          "id": 477,
+          "uuid": "91dcabd0-92cd-47b1-a7ab-0bb4e404871a",
+          "question": "À quel mouvement littéraire associe-t-on Gustave Flaubert ?",
+          "options": [
+            "Existentialisme",
+            "Réalisme",
+            "Renaissance",
+            "Naturalisme"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 478,
+          "uuid": "4c8ea2d5-a9f3-4229-becf-7050f5a21bdc",
+          "question": "Le siècle le plus associé à Pierre Corneille est :",
+          "options": [
+            "XXe",
+            "XIXe",
+            "XVIe",
+            "XVIIe"
+          ],
+          "answer": "XVIIe"
+        },
+        {
+          "id": 479,
+          "uuid": "f758b208-825c-43c2-b8c1-bc7d3ff5a848",
+          "question": "On rattache généralement Jean-Jacques Rousseau à quel siècle ?",
+          "options": [
+            "XXIe",
+            "XVIIe",
+            "XVIIIe",
+            "XVIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 480,
+          "uuid": "cc232749-19b3-4bdc-9827-e5ab3b6abac0",
+          "question": "Gustave Flaubert est surtout connu pour quel genre ?",
+          "options": [
+            "théâtre",
+            "nouvelle",
+            "essai",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 481,
+          "uuid": "dad0b91b-f161-4f7d-9b6f-0833948a0dac",
+          "question": "On associe le plus souvent Voltaire à quel genre ?",
+          "options": [
+            "conte",
+            "roman",
+            "autobiographie",
+            "essai"
+          ],
+          "answer": "conte"
+        },
+        {
+          "id": 482,
+          "uuid": "b7cfa6a2-df8f-4db9-b693-00810c86fcae",
+          "question": "Quelle œuvre peut-on attribuer à Victor Hugo ?",
+          "options": [
+            "Le Cid",
+            "Candide",
+            "Andromaque",
+            "Notre-Dame de Paris"
+          ],
+          "answer": "Notre-Dame de Paris"
+        },
+        {
+          "id": 483,
+          "uuid": "8f254be8-bb1b-4f7c-9aa4-74f509ff6bb5",
+          "question": "Quel écrivain a écrit « Les Confessions » ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Jean Racine",
+            "Stendhal",
+            "Victor Hugo"
+          ],
+          "answer": "Jean-Jacques Rousseau"
+        },
+        {
+          "id": 484,
+          "uuid": "1517146b-360c-427a-b4bb-029b3dba3803",
+          "question": "Le genre littéraire de « Madame Bovary » est :",
+          "options": [
+            "poésie",
+            "conte",
+            "nouvelle",
+            "roman"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 485,
+          "uuid": "5bac1d9a-7000-4831-92f2-238f94c18601",
+          "question": "Dans les repères scolaires, Voltaire est plutôt du :",
+          "options": [
+            "XIXe",
+            "XVIIIe",
+            "XXe",
+            "XVIIe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 486,
+          "uuid": "54097583-b039-4d31-87f4-7e6e1bf41aab",
+          "question": "Qui a écrit « Le Rouge et le Noir » ?",
+          "options": [
+            "Stendhal",
+            "Victor Hugo",
+            "Marcel Proust",
+            "Antoine de Saint-Exupéry"
+          ],
+          "answer": "Stendhal"
+        },
+        {
+          "id": 487,
+          "uuid": "b06306a1-9e1e-44f6-a187-812f63439b28",
+          "question": "Quel écrivain a écrit « Bel-Ami » ?",
+          "options": [
+            "Honoré de Balzac",
+            "Guy de Maupassant",
+            "Pierre Corneille",
+            "Charles Baudelaire"
+          ],
+          "answer": "Guy de Maupassant"
+        },
+        {
+          "id": 488,
+          "uuid": "1783ac82-2ae9-4448-89d2-664d57add5ca",
+          "question": "Quelle œuvre peut-on attribuer à Marcel Proust ?",
+          "options": [
+            "Le Misanthrope",
+            "À la recherche du temps perdu",
+            "La Peste",
+            "Phèdre"
+          ],
+          "answer": "À la recherche du temps perdu"
+        },
+        {
+          "id": 489,
+          "uuid": "207c7bac-5313-4d59-9576-da23282ab8af",
+          "question": "Qui est l'auteur de l'œuvre « Candide » ?",
+          "options": [
+            "Honoré de Balzac",
+            "Albert Camus",
+            "Voltaire",
+            "Stendhal"
+          ],
+          "answer": "Voltaire"
+        },
+        {
+          "id": 490,
+          "uuid": "2ff6eea6-72f8-45ec-a032-1430660bb833",
+          "question": "Quel genre Victor Hugo a-t-il surtout pratiqué ?",
+          "options": [
+            "conte",
+            "nouvelle",
+            "roman",
+            "essai"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 491,
+          "uuid": "17b567c0-0d7a-4b9c-b6e0-257f650166ef",
+          "question": "Albert Camus est surtout connu pour quel genre ?",
+          "options": [
+            "autobiographie",
+            "poésie",
+            "nouvelle",
+            "essai"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 492,
+          "uuid": "4b743426-5205-478a-b4ed-e00f63f8c307",
+          "question": "« Le Cid » est une œuvre de quel auteur ?",
+          "options": [
+            "Jean-Jacques Rousseau",
+            "Pierre Corneille",
+            "Antoine de Saint-Exupéry",
+            "Jean de La Fontaine"
+          ],
+          "answer": "Pierre Corneille"
+        },
+        {
+          "id": 493,
+          "uuid": "7369d095-b150-46bd-9893-c95b51a6593f",
+          "question": "Quel genre Charles Baudelaire a-t-il surtout pratiqué ?",
+          "options": [
+            "autobiographie",
+            "roman",
+            "poésie",
+            "conte"
+          ],
+          "answer": "poésie"
+        },
+        {
+          "id": 494,
+          "uuid": "84584ed1-05cb-446b-ad54-927e24d098ab",
+          "question": "Jean-Jacques Rousseau est surtout connu pour quel genre ?",
+          "options": [
+            "roman",
+            "essai",
+            "poésie",
+            "théâtre"
+          ],
+          "answer": "essai"
+        },
+        {
+          "id": 495,
+          "uuid": "b7165783-9a71-4e70-a1ca-5a2d3cfd546c",
+          "question": "Le genre littéraire de « Germinal » est :",
+          "options": [
+            "roman",
+            "théâtre",
+            "essai",
+            "poésie"
+          ],
+          "answer": "roman"
+        },
+        {
+          "id": 496,
+          "uuid": "69a8c44d-323a-4a05-8673-b63dea0d40dd",
+          "question": "À quel auteur doit-on « Du côté de chez Swann » ?",
+          "options": [
+            "Stendhal",
+            "Marcel Proust",
+            "Pierre Corneille",
+            "Jean-Jacques Rousseau"
+          ],
+          "answer": "Marcel Proust"
+        },
+        {
+          "id": 497,
+          "uuid": "1a906f0e-a45c-4eb0-a1cf-488e1d16e54a",
+          "question": "Stendhal est un auteur lié à quel courant littéraire ?",
+          "options": [
+            "Classicisme",
+            "Symbolisme",
+            "Réalisme",
+            "Renaissance"
+          ],
+          "answer": "Réalisme"
+        },
+        {
+          "id": 498,
+          "uuid": "70d4d051-4ff7-4e7c-8b58-07c48741843e",
+          "question": "Jean-Jacques Rousseau appartient surtout à quel siècle (repère) ?",
+          "options": [
+            "XVIe",
+            "XVIIe",
+            "XVIIIe",
+            "XXe"
+          ],
+          "answer": "XVIIIe"
+        },
+        {
+          "id": 499,
+          "uuid": "7432f063-ad4f-4d32-ad58-7be0665c8391",
+          "question": "Quelle œuvre peut-on attribuer à Gustave Flaubert ?",
+          "options": [
+            "Le Rouge et le Noir",
+            "Candide",
+            "Les Fleurs du mal",
+            "Madame Bovary"
+          ],
+          "answer": "Madame Bovary"
+        },
+        {
+          "id": 500,
+          "uuid": "cb29ee85-541d-4297-9ab3-07b15b3bac4b",
+          "question": "Le genre littéraire de « Les Misérables » est :",
+          "options": [
+            "roman",
+            "conte",
+            "poésie",
+            "théâtre"
+          ],
+          "answer": "roman"
+        }
+      ]
+    },
+    {
+      "name": "Famous Battles",
+      "imageFileName": "famous-battles.svg",
+      "questions": [
+        {
+          "id": 1,
+          "uuid": "fb001-uuid-1234",
+          "question": "En quelle année a eu lieu la bataille de Marathon ?",
+          "options": [
+            "-490",
+            "-480",
+            "-500",
+            "-450"
+          ],
+          "answer": "-490"
+        },
+        {
+          "id": 2,
+          "uuid": "fb002-uuid-1234",
+          "question": "Qui a remporté la bataille de Gaugamèles ?",
+          "options": [
+            "Royaume de Macédoine",
+            "Empire perse",
+            "Athènes",
+            "Sparte"
+          ],
+          "answer": "Royaume de Macédoine"
+        },
+        {
+          "id": 3,
+          "uuid": "fb003-uuid-1234",
+          "question": "La bataille de Zama s'est déroulée en :",
+          "options": [
+            "-202",
+            "-216",
+            "-207",
+            "-190"
+          ],
+          "answer": "-202"
+        },
+        {
+          "id": 4,
+          "uuid": "fb004-uuid-1234",
+          "question": "Quel camp est sorti victorieux de la bataille d'Alésia ?",
+          "options": [
+            "République romaine",
+            "Gaulois",
+            "Empire perse",
+            "Carthage"
+          ],
+          "answer": "République romaine"
+        },
+        {
+          "id": 5,
+          "uuid": "fb005-uuid-1234",
+          "question": "En quelle année a eu lieu la bataille d'Actium ?",
+          "options": [
+            "-31",
+            "-30",
+            "-29",
+            "-32"
+          ],
+          "answer": "-31"
+        },
+        {
+          "id": 6,
+          "uuid": "fb006-uuid-1234",
+          "question": "Qui a été vaincu à la bataille de Forêt de Teutobourg ?",
+          "options": [
+            "Empire romain",
+            "Tribus germaniques",
+            "Francs",
+            "Gaulois"
+          ],
+          "answer": "Empire romain"
+        },
+        {
+          "id": 7,
+          "uuid": "fb007-uuid-1234",
+          "question": "La bataille de Poitiers fait partie de quel conflit majeur ?",
+          "options": [
+            "Conquête musulmane de la Gaule",
+            "Guerre de Cent Ans",
+            "Guerres napoléoniennes",
+            "Première Guerre mondiale"
+          ],
+          "answer": "Conquête musulmane de la Gaule"
+        },
+        {
+          "id": 8,
+          "uuid": "fb008-uuid-1234",
+          "question": "Quelle bataille célèbre a été commandée par Guillaume le Conquérant ?",
+          "options": [
+            "Hastings",
+            "Azincourt",
+            "Crécy",
+            "Poitiers"
+          ],
+          "answer": "Hastings"
+        },
+        {
+          "id": 9,
+          "uuid": "fb009-uuid-1234",
+          "question": "Qui a remporté la bataille d'Austerlitz ?",
+          "options": [
+            "Empire français",
+            "Troisième Coalition",
+            "Royal Navy",
+            "Septième Coalition"
+          ],
+          "answer": "Empire français"
+        },
+        {
+          "id": 10,
+          "uuid": "fb010-uuid-1234",
+          "question": "La bataille de Waterloo s'est déroulée en :",
+          "options": [
+            "1815",
+            "1805",
+            "1814",
+            "1816"
+          ],
+          "answer": "1815"
+        }
+      ]
     }
   ]
 }
