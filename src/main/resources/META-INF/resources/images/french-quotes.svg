@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#2d5a87;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="quoteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ffb347;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100" height="100" fill="url(#bgGrad)" rx="8"/>
+
+  <!-- Decorative lines -->
+  <line x1="10" y1="20" x2="90" y2="20" stroke="#ffffff" stroke-width="0.5" opacity="0.3"/>
+  <line x1="10" y1="80" x2="90" y2="80" stroke="#ffffff" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Opening quote mark -->
+  <text x="15" y="45" font-family="Georgia, serif" font-size="40" fill="url(#quoteGrad)" font-weight="bold">«</text>
+
+  <!-- Closing quote mark -->
+  <text x="70" y="75" font-family="Georgia, serif" font-size="40" fill="url(#quoteGrad)" font-weight="bold">»</text>
+
+  <!-- Feather/quill pen -->
+  <g transform="translate(50, 50) rotate(-30)">
+    <path d="M0,0 Q5,-15 0,-30 Q-3,-15 0,0" fill="#f5f5f5" opacity="0.9"/>
+    <path d="M0,0 L0,15" stroke="#8b4513" stroke-width="1.5"/>
+    <path d="M0,15 L-1,18 L1,18 Z" fill="#333"/>
+  </g>
+
+  <!-- Small stars decoration -->
+  <circle cx="25" cy="30" r="1" fill="#ffd700" opacity="0.8"/>
+  <circle cx="80" cy="35" r="1.2" fill="#ffd700" opacity="0.7"/>
+  <circle cx="20" cy="70" r="0.8" fill="#ffd700" opacity="0.6"/>
+
+  <!-- Text "CITATIONS" -->
+  <text x="50" y="92" font-family="Arial, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" font-weight="bold" letter-spacing="1">CITATIONS</text>
+</svg>
+

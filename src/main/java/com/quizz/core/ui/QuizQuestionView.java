@@ -13,15 +13,14 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
@@ -30,9 +29,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 @Route("quiz-questions/:quizId")
@@ -42,6 +49,8 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private static final Logger logger = LoggerFactory.getLogger(QuizQuestionView.class);
     private static final int MAX_QUESTIONS = 5; // Limit to 5 questions
     private static final int TIME_LIMIT_SECONDS = 60; // 1 minute time limit
+    private static final String SEEN_QUESTION_IDS_SESSION_KEY_PREFIX = "seenQuestionIds:quiz:";
+    private static final String QUIZ_RUN_SEED_SESSION_KEY_PREFIX = "quizRunSeed:quiz:";
 
     private final QuizQuestionService quizQuestionService;
     private final QuizService quizService;
@@ -73,10 +82,28 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private final Paragraph timeLabel;
     private Timer timer;
     private long startTime;
-    private int elapsedSeconds = 0;
+    private volatile int elapsedSeconds = 0; // volatile pour assurer la synchronisation entre threads
+    private volatile long currentTimerId = 0; // ID unique pour chaque timer
+    private volatile boolean isRestarting = false; // Flag to prevent double-clicks
+
+    // --- Orchestration propre des tâches asynchrones (timer + délais UI) ---
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "quiz-scheduler");
+        t.setDaemon(true);
+        return t;
+    });
+    private final AtomicLong runSeq = new AtomicLong(0);
+    private volatile long activeRunId = 0;
+    private volatile ScheduledFuture<?> pendingDelayFuture;
+
     HorizontalLayout windowLayout = new HorizontalLayout();
     private Div horizontalContainer = new Div();
 
+    private volatile boolean quizCompleted = false;
+
+    // Garde les registrations pour pouvoir retirer proprement les listeners
+    private com.vaadin.flow.shared.Registration nextClickReg;
+    private com.vaadin.flow.shared.Registration stopClickReg;
 
     QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
                      QuizSessionService sessionService, QuizAnswerService answerService) {
@@ -121,11 +148,11 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         previousButton = new Button("Previous", event -> showPreviousQuestion());
         previousButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        nextButton = new Button("Next", event -> showNextQuestion());
+        nextButton = new Button("Next");
         nextButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        nextButton.setEnabled(false); // Disabled by default until an answer is selected
+        nextButton.setEnabled(false);
 
-        stopButton = new Button("Stop Quiz", event -> stopQuiz());
+        stopButton = new Button("Stop Quiz");
         stopButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         stopButton.getStyle().set("margin-left", "auto");
 
@@ -194,6 +221,15 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             LumoUtility.Padding.MEDIUM
         );
         add(backButton, content);
+
+        // Nettoyage quand la vue est détachée
+        addDetachListener((DetachEvent detachEvent) -> {
+            // Ne pas shutdown le scheduler ici: Vaadin peut détacher/réattacher la vue.
+            // On annule simplement les tâches en cours pour éviter des callbacks après navigation.
+            startNewRun();
+            cancelPendingDelay();
+            stopTimer();
+        });
     }
 
     @Override
@@ -212,24 +248,23 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 return;
             }
 
-            // Load all questions and select 5 randomly
-            int totalAvailableQuestions = quizQuestionService.getTotalQuestionsByQuizId(quizId);
-            List<QuizQuestion> allQuestions = new ArrayList<>();
-            for (int i = 0; i < totalAvailableQuestions; i++) {
-                QuizQuestion question = quizQuestionService.getQuestionByQuizIdAndIndex(quizId, i);
-                if (question != null) {
-                    allQuestions.add(question);
-                }
-            }
+            // Démarrer une nouvelle run (invalide toute tâche précédente)
+            startNewRun();
 
-            // Shuffle and take only MAX_QUESTIONS (5)
-            Collections.shuffle(allQuestions);
-            this.randomQuestions = allQuestions.stream()
-                .limit(MAX_QUESTIONS)
-                .toList();
+            // Seed aléatoire stable pour cette run (utile pour éviter l'impression de "toujours les mêmes")
+            initOrRotateRunSeed(true);
+
+            // Charger toutes les questions en une fois (pas par index)
+            List<QuizQuestion> allQuestions = new ArrayList<>(quizQuestionService.getQuestionsByQuizId(quizId));
+
+            // Sélectionne 5 questions en évitant (si possible) celles déjà vues par cet utilisateur pendant cette session
+            this.randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
 
             // Set total questions to the number we're actually showing
             this.totalQuestions = Math.min(MAX_QUESTIONS, this.randomQuestions.size());
+
+            logger.info("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}",
+                quizId, totalQuestions, randomQuestions.size(), currentRunSeed);
 
             // Get current participant if in a session
             Object sessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
@@ -249,6 +284,16 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 }
             }
 
+            quizCompleted = false;
+
+            // restaurer l'état des boutons (au cas où la vue revient depuis l'écran final)
+            optionsContainer.setVisible(true);
+            previousButton.setVisible(true);
+            stopButton.setVisible(true);
+            progressText.setVisible(true);
+
+            restoreDefaultButtonHandlers();
+
             // Load first question
             displayQuestion();
 
@@ -259,58 +304,96 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         }
     }
 
+    private void restoreDefaultButtonHandlers() {
+        // Retire les listeners actuels (si on était sur écran final)
+        if (nextClickReg != null) {
+            nextClickReg.remove();
+        }
+        if (stopClickReg != null) {
+            stopClickReg.remove();
+        }
+
+        nextButton.setText("Next");
+        nextButton.setVisible(true);
+        nextButton.setEnabled(false);
+
+        stopButton.setText("Stop Quiz");
+        stopButton.setVisible(true);
+        stopButton.setEnabled(true);
+        stopButton.removeThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        stopButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        stopButton.setIcon(null);
+
+        nextClickReg = nextButton.addClickListener(e -> showNextQuestion());
+        stopClickReg = stopButton.addClickListener(e -> stopQuiz());
+    }
+
     private void startTimer() {
+        startTimer(UI.getCurrent());
+    }
+
+    private void startTimer(UI ui) {
+        // Stop any existing timer first to avoid multiple timers
+        if (timer != null) {
+            logger.warn("Timer already exists when starting new timer - cancelling old one");
+            timer.cancel();
+            timer = null;
+        }
+
+        if (ui == null) {
+            logger.error("Cannot start timer - UI is null");
+            return;
+        }
+
         startTime = System.currentTimeMillis();
         elapsedSeconds = 0;
+        currentTimerId = System.currentTimeMillis();
+        final long thisTimerId = currentTimerId;
+        final long runIdSnapshot = activeRunId;
+
+        logger.info("Starting new timer - timerId: {} runId: {}", thisTimerId, runIdSnapshot);
 
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                UI ui = getUI().orElse(null);
-                if (ui != null) {
-                    ui.access(() -> {
-                        elapsedSeconds++;
-
-                        // Update progress bar and label
-                        if (elapsedSeconds <= 0 || elapsedSeconds>60) {
-                            logger.debug("Elapsed seconds out of bounds: " + elapsedSeconds);
-                        }
-                        timeProgressBar.setValue(elapsedSeconds);
-                        timeLabel.setText("Time: " + elapsedSeconds + "s / " + TIME_LIMIT_SECONDS + "s");
-
-                        // Change color based on time remaining
-                        if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.8) {
-                            timeProgressBar.getStyle().set("--lumo-primary-color", "#d32f2f");
-                        } else if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.5) {
-                            timeProgressBar.getStyle().set("--lumo-primary-color", "#ff9800");
-                        }
-
-                        // Time's up!
-                        if (elapsedSeconds >= TIME_LIMIT_SECONDS) {
-                            stopTimer();
-                            finishQuizTimeUp();
-                        }
-                    });
+                // Ignorer si ce n'est pas le timer actuel
+                if (thisTimerId != currentTimerId || runIdSnapshot != activeRunId) {
+                    return;
                 }
+
+                ui.access(() -> {
+                    // double-check côté UI thread
+                    if (runIdSnapshot != activeRunId) {
+                        return;
+                    }
+
+                    elapsedSeconds++;
+
+                    timeProgressBar.setValue(elapsedSeconds);
+                    timeLabel.setText("Time: " + elapsedSeconds + "s / " + TIME_LIMIT_SECONDS + "s");
+
+                    if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.8) {
+                        timeProgressBar.getStyle().set("--lumo-primary-color", "#d32f2f");
+                    } else if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.5) {
+                        timeProgressBar.getStyle().set("--lumo-primary-color", "#ff9800");
+                    }
+
+                    if (elapsedSeconds >= TIME_LIMIT_SECONDS) {
+                        stopTimer();
+                        finishQuizTimeUp(runIdSnapshot);
+                    }
+                });
             }
-        }, 1000, 1000); // Update every second
+        }, 1000, 1000);
     }
 
-    private void stopTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-
-    private void finishQuizTimeUp() {
+    private void finishQuizTimeUp(long runIdSnapshot) {
         // Disable all interactions
         optionButtons.forEach(btn -> btn.setEnabled(false));
         nextButton.setEnabled(false);
         previousButton.setEnabled(false);
 
-        // Show time's up message
         answerFeedback.setText("⏰ Time's up! Quiz finished.");
         answerFeedback.getStyle()
             .set("color", "var(--lumo-error-text-color)")
@@ -320,16 +403,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             .set("border-radius", "var(--lumo-border-radius-m)");
         answerFeedback.setVisible(true);
 
-        // Show final score after a short delay
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                UI ui = getUI().orElse(null);
-                if (ui != null) {
-                    ui.access(() -> showFinalScore());
-                }
-            }
-        }, 2000);
+        // Afficher le score final après 2s, mais seulement si la run est toujours active
+        scheduleIfRunActive(runIdSnapshot, 2000, this::showFinalScore);
+    }
+
+    private void finishQuizTimeUp() {
+        // conservée pour compat: redirection vers la version run-aware
+        finishQuizTimeUp(activeRunId);
     }
 
     private void displayQuestion() {
@@ -344,8 +424,12 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             optionButtons.clear();
             selectedAnswer = null;
 
+            // Randomize options order so the correct answer isn't always in the same place
+            List<String> shuffledOptions = new ArrayList<>(currentQuestion.getOptions());
+            Collections.shuffle(shuffledOptions);
+
             // Create large buttons for each option
-            for (String option : currentQuestion.getOptions()) {
+            for (String option : shuffledOptions) {
                 Button optionButton = new Button(option);
                 optionButton.setWidth("100%");
                 optionButton.getStyle()
@@ -413,6 +497,17 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     }
 
     private void showNextQuestion() {
+        // Après un restart il arrive que Next soit cliqué alors que la vue est encore en transition.
+        // On sécurise: pas de question => rien à faire.
+        if (quizCompleted) {
+            logger.debug("Ignoring Next click because quizCompleted=true");
+            return;
+        }
+        if (currentQuestion == null) {
+            logger.warn("Ignoring Next click because currentQuestion is null (quizId={}, idx={})", quizId, currentQuestionIndex);
+            return;
+        }
+
         // Check answer and update score if an option is selected
         if (selectedAnswer != null) {
             boolean isCorrect = selectedAnswer.equals(currentQuestion.getAnswer());
@@ -465,17 +560,9 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 }
             }
 
-            // Pause for 1 second to let the player see the correct answer
-            new Thread(() -> {
-                try {
-                    Thread.sleep(1000); // 1 second pause
-                    getUI().ifPresent(ui -> ui.access(() -> {
-                        proceedToNextQuestion();
-                    }));
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }).start();
+            // Pause 1 seconde (run-aware) avant de passer à la question suivante
+            final long runIdSnapshot = activeRunId;
+            scheduleIfRunActive(runIdSnapshot, 1000, this::proceedToNextQuestion);
 
         } else {
             // No answer selected, store empty string
@@ -559,47 +646,40 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             nextButton.setVisible(true);
             nextButton.setEnabled(true);
 
-            // Remove all existing click listeners and add new one
-            nextButton.getElement().removeProperty("click");
-            nextButton.getElement().executeJs("this.removeAllListeners('click')");
-            nextButton.addClickListener(event -> {
+            // Remplacer le handler proprement
+            if (nextClickReg != null) nextClickReg.remove();
+            nextClickReg = nextButton.addClickListener(event -> {
                 VaadinSession.getCurrent().setAttribute("activeSessionCode", null);
                 getUI().ifPresent(ui -> ui.navigate("quiz-session/" + sessionCode));
             });
 
-            // Add Restart Quiz button for session
+            // Bouton Restart
             stopButton.setText("Restart Quiz");
             stopButton.setVisible(true);
             stopButton.setEnabled(true);
             stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
             stopButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
             stopButton.setIcon(VaadinIcon.REFRESH.create());
-            stopButton.getElement().removeProperty("click");
-            stopButton.getElement().executeJs("this.removeAllListeners('click')");
-            stopButton.addClickListener(event -> restartQuiz());
+
+            if (stopClickReg != null) stopClickReg.remove();
+            stopClickReg = stopButton.addClickListener(event -> restartQuiz());
         } else {
-            // Regular quiz - show back button
             nextButton.setText("Back to Quiz List");
             nextButton.setVisible(true);
             nextButton.setEnabled(true);
 
-            // Remove all existing click listeners and add new one
-            nextButton.getElement().removeProperty("click");
-            nextButton.getElement().executeJs("this.removeAllListeners('click')");
-            nextButton.addClickListener(event ->
-                getUI().ifPresent(ui -> ui.navigate(""))
-            );
+            if (nextClickReg != null) nextClickReg.remove();
+            nextClickReg = nextButton.addClickListener(event -> getUI().ifPresent(ui -> ui.navigate("")));
 
-            // Add Restart Quiz button for regular quiz
             stopButton.setText("Restart Quiz");
             stopButton.setVisible(true);
             stopButton.setEnabled(true);
             stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
             stopButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
             stopButton.setIcon(VaadinIcon.REFRESH.create());
-            stopButton.getElement().removeProperty("click");
-            stopButton.getElement().executeJs("this.removeAllListeners('click')");
-            stopButton.addClickListener(event -> restartQuiz());
+
+            if (stopClickReg != null) stopClickReg.remove();
+            stopClickReg = stopButton.addClickListener(event -> restartQuiz());
         }
 
         // Display all questions with answers on the right side
@@ -607,8 +687,100 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     }
 
     private void restartQuiz() {
-        // Simply reload the quiz page to restart it
-        getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + quizId));
+        if (isRestarting) {
+            logger.warn("Restart already in progress - ignoring duplicate click");
+            return;
+        }
+        isRestarting = true;
+
+        // Invalider toutes les tâches en cours et démarrer une nouvelle run
+        startNewRun();
+
+        try {
+            quizCompleted = false;
+
+            // Reset all state variables
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            selectedAnswer = null;
+            userAnswers.clear();
+            elapsedSeconds = 0;
+            currentQuestion = null;
+
+            // Nouvelle seed pour forcer une sélection différente
+            initOrRotateRunSeed(true);
+
+            // Rétablir handlers et apparence standard des boutons
+            restoreDefaultButtonHandlers();
+
+            // Clear the UI
+            optionsContainer.removeAll();
+            optionButtons.clear();
+
+            // Charger toutes les questions
+            List<QuizQuestion> allQuestions = new ArrayList<>(quizQuestionService.getQuestionsByQuizId(quizId));
+
+            // Sélectionne une nouvelle série en évitant les déjà vues (tant qu'il reste des questions)
+            randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
+            totalQuestions = Math.min(MAX_QUESTIONS, randomQuestions.size());
+
+            optionsContainer.setVisible(true);
+            previousButton.setVisible(true);
+            previousButton.setEnabled(false);
+
+            progressText.setVisible(true);
+            progressText.setText("Question 1 of " + totalQuestions);
+
+
+            answerFeedback.setVisible(false);
+            answerFeedback.setText("");
+
+            timeProgressBar.setValue(0);
+            timeProgressBar.setMax(TIME_LIMIT_SECONDS);
+            timeProgressBar.getStyle().set("--lumo-primary-color", "#1976d2");
+            timeLabel.setText("Time: 0s / " + TIME_LIMIT_SECONDS + "s");
+
+            getElement().executeJs(
+                "const reviewSection = this.querySelector('#review-section');" +
+                "if (reviewSection && reviewSection.parentElement) {" +
+                "  reviewSection.parentElement.removeChild(reviewSection);" +
+                "}"
+            );
+
+            displayQuestion();
+            startTimer();
+        } finally {
+            isRestarting = false;
+        }
+    }
+
+    private void startNewRun() {
+        activeRunId = runSeq.incrementAndGet();
+        cancelPendingDelay();
+        stopTimer();
+    }
+
+    private void cancelPendingDelay() {
+        ScheduledFuture<?> f = pendingDelayFuture;
+        if (f != null) {
+            f.cancel(false);
+            pendingDelayFuture = null;
+        }
+    }
+
+    private void scheduleIfRunActive(long runIdSnapshot, long delayMs, Runnable uiTask) {
+        cancelPendingDelay();
+        pendingDelayFuture = scheduler.schedule(() -> {
+            if (runIdSnapshot != activeRunId) {
+                return;
+            }
+            getUI().ifPresent(ui -> ui.access(() -> {
+                if (runIdSnapshot != activeRunId) {
+                    return;
+                }
+                uiTask.run();
+            }));
+        }, delayMs, TimeUnit.MILLISECONDS);
     }
 
     private void showPreviousQuestion() {
@@ -675,17 +847,17 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             userAnswers.add("");
         }
 
-        // Pause for 1 second to let the player see the correct answer before showing final score
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000); // 1 second pause
-                getUI().ifPresent(ui -> ui.access(() -> {
-                    showFinalScore();
-                }));
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }).start();
+        // Pause 1 seconde (run-aware) avant d'afficher le score final
+        final long runIdSnapshot = activeRunId;
+        scheduleIfRunActive(runIdSnapshot, 1000, this::showFinalScore);
+    }
+
+    private void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+            timer = null;
+        }
     }
 
     private void displayAllQuestionsWithAnswersOnRight() {
@@ -770,4 +942,94 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         // Add the review below the main content
         add(reviewContainer);
     }
+
+    private Set<Long> getSeenQuestionIdsForCurrentQuiz() {
+        if (quizId == null) {
+            return new HashSet<>();
+        }
+        Object attr = VaadinSession.getCurrent().getAttribute(SEEN_QUESTION_IDS_SESSION_KEY_PREFIX + quizId);
+        if (attr instanceof Set<?> s) {
+            //noinspection unchecked
+            return (Set<Long>) s;
+        }
+        Set<Long> created = new HashSet<>();
+        VaadinSession.getCurrent().setAttribute(SEEN_QUESTION_IDS_SESSION_KEY_PREFIX + quizId, created);
+        return created;
+    }
+
+    private long currentRunSeed = 0L;
+
+    private void initOrRotateRunSeed(boolean rotate) {
+        if (quizId == null) {
+            currentRunSeed = System.nanoTime();
+            return;
+        }
+        String key = QUIZ_RUN_SEED_SESSION_KEY_PREFIX + quizId;
+        Object attr = VaadinSession.getCurrent().getAttribute(key);
+        Long existing = (attr instanceof Long l) ? l : null;
+
+        if (!rotate && existing != null) {
+            currentRunSeed = existing;
+            return;
+        }
+
+        // Seed: mélange nanoTime + un peu d'entropie liée à l'UI/session
+        long newSeed = System.nanoTime() ^ System.currentTimeMillis() ^ (long) System.identityHashCode(this);
+        currentRunSeed = newSeed;
+        VaadinSession.getCurrent().setAttribute(key, newSeed);
+    }
+
+    private List<QuizQuestion> selectQuestionsAvoidingSeen(List<QuizQuestion> allQuestions, Random rnd) {
+        if (allQuestions == null || allQuestions.isEmpty()) {
+            return List.of();
+        }
+
+        // Mélange d'abord toutes les questions avec la seed de run.
+        // Ça casse fortement l'effet "les premières (ORDER BY id) reviennent".
+        List<QuizQuestion> shuffled = new ArrayList<>(allQuestions);
+        Collections.shuffle(shuffled, rnd);
+
+        Set<Long> seenIds = getSeenQuestionIdsForCurrentQuiz();
+
+        // On prend d'abord les non-vues (si on a des IDs)
+        List<QuizQuestion> selected = new ArrayList<>(MAX_QUESTIONS);
+        for (QuizQuestion q : shuffled) {
+            if (selected.size() >= MAX_QUESTIONS) break;
+            Long id = q.getId();
+            if (id != null && !seenIds.contains(id)) {
+                selected.add(q);
+            }
+        }
+
+        // Si pas assez, on complète avec le reste (vues ou sans id)
+        if (selected.size() < MAX_QUESTIONS) {
+            for (QuizQuestion q : shuffled) {
+                if (selected.size() >= MAX_QUESTIONS) break;
+                if (!selected.contains(q)) {
+                    selected.add(q);
+                }
+            }
+        }
+
+        // Si on n'a rien pu sélectionner en non-vues (par ex. tout vu), on reset le seen et on garde la sélection
+        boolean anyUnseen = selected.stream().anyMatch(q -> q.getId() != null && !seenIds.contains(q.getId()));
+        if (!anyUnseen && !seenIds.isEmpty()) {
+            seenIds.clear();
+        }
+
+        // Marquer comme vues
+        for (QuizQuestion q : selected) {
+            if (q.getId() != null) {
+                seenIds.add(q.getId());
+            }
+        }
+
+        return List.copyOf(selected);
+    }
+
+    // Ancienne signature conservée si appelée ailleurs dans le fichier
+    private List<QuizQuestion> selectQuestionsAvoidingSeen(List<QuizQuestion> allQuestions) {
+        return selectQuestionsAvoidingSeen(allQuestions, new Random(System.nanoTime()));
+    }
+
 }

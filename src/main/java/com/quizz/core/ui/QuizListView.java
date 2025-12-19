@@ -172,19 +172,19 @@ class QuizListView extends Main {
 
     private VerticalLayout createQuizCard(Quiz quiz) {
         VerticalLayout card = new VerticalLayout();
-        card.setWidth("120px");
-        card.setHeight("140px");
+        card.setWidth("60px");
+        card.setHeight("100px");
         card.setPadding(false);
         card.setSpacing(false);
         card.getStyle()
             .set("border", "1px solid #e0e0e0")
-            .set("border-radius", "6px")
+            .set("border-radius", "4px")
             .set("cursor", "pointer")
             .set("background-color", "white")
             .set("transition", "all 0.3s ease")
-            .set("padding", "8px");
+            .set("padding", "4px");
 
-        // Image container
+        // Image container - keep same size as before
         Div imageContainer = new Div();
         imageContainer.setWidth("100%");
         imageContainer.setHeight("80px");
@@ -210,13 +210,13 @@ class QuizListView extends Main {
                 Div placeholder = new Div();
                 placeholder.setText(getInitials(quiz.getName()));
                 placeholder.getStyle()
-                    .set("font-size", "28px")
+                    .set("font-size", "20px")
                     .set("font-weight", "700")
                     .set("color", "#1976d2")
                     .set("background", "#e3f2fd")
                     .set("border-radius", "999px")
-                    .set("width", "56px")
-                    .set("height", "56px")
+                    .set("width", "40px")
+                    .set("height", "40px")
                     .set("display", "flex")
                     .set("align-items", "center")
                     .set("justify-content", "center");
@@ -229,13 +229,13 @@ class QuizListView extends Main {
             Div placeholder = new Div();
             placeholder.setText(getInitials(quiz.getName()));
             placeholder.getStyle()
-                .set("font-size", "28px")
+                .set("font-size", "20px")
                 .set("font-weight", "700")
                 .set("color", "#1976d2")
                 .set("background", "#e3f2fd")
                 .set("border-radius", "999px")
-                .set("width", "56px")
-                .set("height", "56px")
+                .set("width", "40px")
+                .set("height", "40px")
                 .set("display", "flex")
                 .set("align-items", "center")
                 .set("justify-content", "center");
@@ -247,11 +247,11 @@ class QuizListView extends Main {
         quizName.getStyle()
             .set("text-align", "center")
             .set("font-weight", "bold")
-            .set("margin-top", "5px")
+            .set("margin-top", "2px")
             .set("margin-bottom", "0")
-            .set("font-size", "10px")
+            .set("font-size", "7px")
             .set("color", "#333")
-            .set("line-height", "1.2")
+            .set("line-height", "1.1")
             .set("overflow", "hidden")
             .set("text-overflow", "ellipsis")
             .set("display", "-webkit-box")

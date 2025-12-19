@@ -18,3 +18,6 @@ oauth2-credentials.properties
 **/application-secrets.properties
 **/application-local.properties
 
+/MD/french-revolution-final-snippet.json
+/french_revolution_quiz.json
+/tools/old.7z
