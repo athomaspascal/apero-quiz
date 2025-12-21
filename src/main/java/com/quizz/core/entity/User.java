@@ -48,6 +48,9 @@ public class User {
     @Column(name = "is_public", nullable = false)
     private boolean isPublic = false;
 
+    @Column(name = "is_admin", nullable = false)
+    private boolean isAdmin = false;
+
     public User() { // To keep Hibernate happy
     }
 
@@ -152,6 +155,14 @@ public class User {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     @Override

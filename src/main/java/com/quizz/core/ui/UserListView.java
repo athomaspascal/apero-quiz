@@ -12,15 +12,15 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Main;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Menu;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRequest;
@@ -28,7 +28,7 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 @Route("users")
 @PageTitle("Users")
 @Menu(order = 2, icon = "vaadin:users", title = "menu.users")
-class UserListView extends Main {
+class UserListView extends Main implements BeforeEnterObserver {
 
     private final UserService userService;
     private final TranslationService translationService;
@@ -47,6 +47,14 @@ class UserListView extends Main {
         userGrid.addColumn(User::getEmail).setHeader(translationService.translate("users.email")).setSortable(true);
         userGrid.addColumn(User::getTelephone).setHeader(translationService.translate("users.telephone"));
         userGrid.addComponentColumn(user -> {
+            // Disable edit/delete for public users
+            if (user.isPublic()) {
+                Span publicLabel = new Span("Public User");
+                publicLabel.getStyle().set("color", "var(--lumo-secondary-text-color)");
+                publicLabel.getStyle().set("font-style", "italic");
+                return publicLabel;
+            }
+
             Button editButton = new Button(translationService.translate("common.edit"), event -> openUserDialog(user));
             editButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
 
@@ -69,6 +77,19 @@ class UserListView extends Main {
 
         // Set initial dynamic page title
         getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("users.pageTitle")));
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        // Check if current user is admin
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+        if (currentUser == null || !currentUser.isAdmin()) {
+            // Redirect to quiz list if not admin
+            event.rerouteTo("");
+            Notification.show("Access denied. Admins only.", 3000, Notification.Position.MIDDLE)
+                .addThemeVariants(NotificationVariant.LUMO_ERROR);
+        }
     }
 
     @Override

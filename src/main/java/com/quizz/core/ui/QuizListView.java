@@ -93,6 +93,32 @@ class QuizListView extends Main {
         add(quizCardsContainer);
 
         loadQuizCards();
+
+        // Hide Users menu if not admin
+        hideUsersMenuIfNotAdmin();
+    }
+
+    private void hideUsersMenuIfNotAdmin() {
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        boolean isAdmin = currentUser != null && currentUser.isAdmin();
+
+        if (!isAdmin) {
+            // Use JavaScript to hide the Users and Question Logs menu items
+            getElement().executeJs(
+                "setTimeout(() => {" +
+                "  const sideNav = document.querySelector('vaadin-side-nav');" +
+                "  if (sideNav) {" +
+                "    const items = sideNav.querySelectorAll('vaadin-side-nav-item');" +
+                "    items.forEach(item => {" +
+                "      const path = item.getAttribute('path');" +
+                "      if (path === 'users' || path === 'question-logs') {" +
+                "        item.style.display = 'none';" +
+                "      }" +
+                "    });" +
+                "  }" +
+                "}, 100);"
+            );
+        }
     }
 
     private VerticalLayout createUserProfileSection() {

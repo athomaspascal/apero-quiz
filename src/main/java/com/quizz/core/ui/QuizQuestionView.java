@@ -1,5 +1,6 @@
 package com.quizz.core.ui;
 
+import com.quizz.base.ui.component.ViewToolbar;
 import com.quizz.core.entity.Quiz;
 import com.quizz.core.entity.QuizParticipant;
 import com.quizz.core.entity.QuizQuestion;
@@ -9,6 +10,7 @@ import com.quizz.core.service.QuizAnswerService;
 import com.quizz.core.service.QuizQuestionService;
 import com.quizz.core.service.QuizService;
 import com.quizz.core.service.QuizSessionService;
+import com.quizz.core.service.QuizQuestionLogService;
 import com.quizz.core.service.TranslationService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -57,9 +59,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private final QuizService quizService;
     private final QuizSessionService sessionService;
     private final QuizAnswerService answerService;
+    private final QuizQuestionLogService questionLogService;
     private final TranslationService translationService;
 
     private Long quizId;
+    private Quiz currentQuiz; // Store current quiz for logging
+    private String quizName; // Store quiz name for toolbar
+    private ViewToolbar toolbar; // ViewToolbar reference
     private int currentQuestionIndex = 0;
     private QuizQuestion currentQuestion;
     private int correctAnswers = 0;
@@ -109,11 +115,12 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
     QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
                      QuizSessionService sessionService, QuizAnswerService answerService,
-                     TranslationService translationService) {
+                     QuizQuestionLogService questionLogService, TranslationService translationService) {
         this.quizQuestionService = quizQuestionService;
         this.quizService = quizService;
         this.sessionService = sessionService;
         this.answerService = answerService;
+        this.questionLogService = questionLogService;
         this.translationService = translationService;
 
         //questionTitle = new H2();
@@ -251,6 +258,19 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 event.rerouteTo("");
                 return;
             }
+
+            // Store quiz for logging
+            this.currentQuiz = quiz;
+
+            // Store quiz name for toolbar
+            this.quizName = quiz.getName();
+
+            // Add ViewToolbar at the top
+            if (toolbar != null) {
+                remove(toolbar);
+            }
+            toolbar = new ViewToolbar(quizName);
+            addComponentAsFirst(toolbar);
 
             // Démarrer une nouvelle run (invalide toute tâche précédente)
             startNewRun();
@@ -434,6 +454,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         if (currentQuestionIndex < randomQuestions.size()) {
             currentQuestion = randomQuestions.get(currentQuestionIndex);
 
+            // Update toolbar with question progress
+            if (toolbar != null) {
+                remove(toolbar);
+            }
+            toolbar = new ViewToolbar(quizName + " - " + translationService.translate("quiz.progress", (currentQuestionIndex + 1), totalQuestions));
+            addComponentAsFirst(toolbar);
+
             //questionTitle.setText("Question " + (currentQuestionIndex + 1));
             questionText.setText(currentQuestion.getQuestion());
 
@@ -578,6 +605,36 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 }
             }
 
+            // LOG QUESTION AND ANSWERS FOR DEBUGGING - Always log for all users
+            try {
+                User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+                Object sessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
+                String sessionCode = sessionCodeAttr != null ? sessionCodeAttr.toString() : null;
+
+                if (currentUser != null && currentQuiz != null && currentQuestion != null) {
+                    questionLogService.logQuestion(
+                        currentUser,
+                        currentQuiz,
+                        currentQuestion,
+                        selectedAnswer,
+                        elapsedSeconds,
+                        sessionCode
+                    );
+
+                    logger.info("QUESTION LOGGED - User: {}, Quiz: {}, Question ID: {}, Question: {}, Correct Answer: {}, User Answer: {}, Options: {}",
+                        currentUser.getEmail(),
+                        currentQuiz.getName(),
+                        currentQuestion.getId(),
+                        currentQuestion.getQuestion(),
+                        currentQuestion.getAnswer(),
+                        selectedAnswer,
+                        currentQuestion.getOptions()
+                    );
+                }
+            } catch (Exception e) {
+                logger.error("Error logging question: " + e.getMessage(), e);
+            }
+
             // Pause 1 seconde (run-aware) avant de passer à la question suivante
             final long runIdSnapshot = activeRunId;
             scheduleIfRunActive(runIdSnapshot, 1000, this::proceedToNextQuestion);
@@ -608,6 +665,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
     private void showFinalScore() {
         //questionTitle.setText("Quiz Completed!");
+
+        // Update toolbar to show completion
+        if (toolbar != null) {
+            remove(toolbar);
+        }
+        toolbar = new ViewToolbar(quizName + " - " + translationService.translate("quiz.completed"));
+        addComponentAsFirst(toolbar);
 
         double percentage = (totalQuestions > 0) ? ((double) correctAnswers / totalQuestions) * 100 : 0;
         String scoreMessage = translationService.translate("quiz.finalScore.message", correctAnswers, totalQuestions, String.format("%.1f", percentage), elapsedSeconds);
@@ -882,6 +946,34 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 } catch (Exception e) {
                     System.err.println("Error recording answer: " + e.getMessage());
                 }
+            }
+
+            // LOG QUESTION AND ANSWERS FOR DEBUGGING
+            try {
+                User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+                Object sessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
+                String sessionCode = sessionCodeAttr != null ? sessionCodeAttr.toString() : null;
+
+                if (currentUser != null && currentQuiz != null && currentQuestion != null) {
+                    questionLogService.logQuestion(
+                        currentUser,
+                        currentQuiz,
+                        currentQuestion,
+                        selectedAnswer,
+                        elapsedSeconds,
+                        sessionCode
+                    );
+
+                    logger.info("QUESTION LOGGED (STOP) - User: {}, Quiz: {}, Question ID: {}, Correct Answer: {}, User Answer: {}",
+                        currentUser.getEmail(),
+                        currentQuiz.getName(),
+                        currentQuestion.getId(),
+                        currentQuestion.getAnswer(),
+                        selectedAnswer
+                    );
+                }
+            } catch (Exception e) {
+                logger.error("Error logging question on stop: " + e.getMessage(), e);
             }
         } else {
             // No answer selected for current question, store empty string

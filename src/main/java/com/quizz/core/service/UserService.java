@@ -156,6 +156,19 @@ public class UserService {
     }
 
     @Transactional
+    public void updateAdminFlag(Long id, boolean isAdmin) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setAdmin(isAdmin);
+        userRepository.saveAndFlush(user);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Transactional
     public User createOrUpdateOAuthUser(String provider, String providerId, String name, String email) {
         // Check if user already exists with this OAuth provider
         Optional<User> existingUser = userRepository.findByOauthProviderAndOauthProviderId(provider, providerId);

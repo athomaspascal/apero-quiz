@@ -19,8 +19,38 @@ public class DataInitializer {
     @Bean
     CommandLineRunner initDatabase(UserService userService) {
         return args -> {
+            createAdminUser(userService);
             createPublicUsers(userService);
         };
+    }
+
+    private void createAdminUser(UserService userService) {
+        String adminEmail = "administrateur@quiz.admin";
+
+        // Check if admin user already exists
+        if (userService.findByEmail(adminEmail).isPresent()) {
+            System.out.println("Admin user already exists, skipping creation.");
+            return;
+        }
+
+        try {
+            // Create admin user with a male avatar
+            Color adminColor = new Color(220, 38, 38); // Red color for admin
+            User admin = userService.createUser(
+                "Administrateur",
+                adminEmail,
+                "+33 0 00 00 00 00",
+                "quizz2025!!", // Admin password
+                Gender.MALE,
+                generateAvatarImage("AD", adminColor)
+            );
+
+            // Mark as admin
+            userService.updateAdminFlag(admin.getId(), true);
+            System.out.println("✅ Default admin user created: " + adminEmail + " / quizz2025!!");
+        } catch (Exception e) {
+            System.err.println("❌ Error creating admin user: " + e.getMessage());
+        }
     }
 
     private void createPublicUsers(UserService userService) {

@@ -1,95 +1,134 @@
-mvnw.cmd -Didea.version=2025.3.1 -Dmaven.ext.class.path=C:\Users\athom\AppData\Roaming\JetBrains\IntelliJIdea2025.3\plugins\maven\lib\maven-event-listener.jar -Djansi.passthrough=true -Dstyle.color=always -P !production -Dmaven.repo.local=C:\Users\athom\.m2\repository spring-boot:run -f pom.xml
-Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=IBM850
-[INFO] Scanning for projects...
-[INFO]
-[INFO] --------------------------< com.quizz:quizz1 >--------------------------
-[INFO] Building quizz1 1.2
-[INFO]   from pom.xml
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] >>> spring-boot:3.5.8:run (default-cli) > test-compile @ quizz1 >>>
-[INFO]
-[INFO] --- resources:3.3.1:resources (default-resources) @ quizz1 ---
-[INFO] Copying 1 resource from src\main\resources to target\classes
-[INFO] Copying 17 resources from src\main\resources to target\classes
-[INFO]
-[INFO] --- vaadin:24.9.6:prepare-frontend (default) @ quizz1 ---
-[INFO] Reflections took 1823 ms to scan 249 urls, producing 15114 keys and 68062 values
-[INFO] Visited 124 classes. Took 127 ms.
-[INFO] Copying frontend resources from jar files ...
-[INFO] Visited 251 resources. Took 156 ms.
-[INFO]
-[INFO] --- compiler:3.11.0:compile (default-compile) @ quizz1 ---
-[INFO] Nothing to compile - all classes are up to date
-[INFO]
-[INFO] --- resources:3.3.1:testResources (default-testResources) @ quizz1 ---
-[INFO] skip non existing resourceDirectory C:\Users\athom\IdeaProjects\quizz1\src\test\resources
-[INFO]
-[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ quizz1 ---
-[INFO] Nothing to compile - all classes are up to date
-[INFO]
-[INFO] <<< spring-boot:3.5.8:run (default-cli) < test-compile @ quizz1 <<<
-[INFO]
-[INFO]
-[INFO] --- spring-boot:3.5.8:run (default-cli) @ quizz1 ---
-[INFO] Attaching agents: []
-Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=IBM850
+2025-12-21T20:57:32.902+01:00  INFO 10956 --- [138-8089-exec-1] com.quizz.core.ui.QuizQuestionView       : QUESTION LOGGED - User: administrateur@quiz.admin, Quiz: Famous French Quotes, Question ID: 3284, Question: Cette phrase est de quel siÞcle : ½ Ah! qu'en termes galants ces choses-lÓ sont mises! ╗ ?, Correct Answer: 17e siÞcle, User Answer: 16e siÞcle, Options: [17e siÞcle, 16e siÞcle, 18e siÞcle, 19e siÞcle]
+2025-12-21T20:59:04.259+01:00 ERROR 10956 --- [138-8089-exec-8] c.v.flow.server.DefaultErrorHandler      : Unexpected error: The data provider hasn't ever called getLimit() or getPageSize() method on the provided query. It means that the the data provider breaks the contract and the returned stream contains unexpected data.
 
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v3.5.8)
-
-2025-12-19T03:31:05.848+01:00  INFO 12376 --- [           main] com.quizz.Application                    : Starting Application using Java 23.0.2 with PID 12376 (C:\Users\athom\IdeaProjects\quizz1\target\classes started by athom in C:\Users\athom\IdeaProjects\quizz1)
-2025-12-19T03:31:05.848+01:00  INFO 12376 --- [           main] com.quizz.Application                    : No active profile set, falling back to 1 default profile: "default"
-2025-12-19T03:31:06.567+01:00  INFO 12376 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-12-19T03:31:06.697+01:00  INFO 12376 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 7 JPA repository interfaces.
-2025-12-19T03:31:07.198+01:00  INFO 12376 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8089 (http)
-2025-12-19T03:31:07.206+01:00  INFO 12376 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-19T03:31:07.206+01:00  INFO 12376 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.49]
-2025-12-19T03:31:07.264+01:00  INFO 12376 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-19T03:31:07.264+01:00  INFO 12376 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1367 ms
-2025-12-19T03:31:07.405+01:00  INFO 12376 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing AtmosphereFramework
-2025-12-19T03:31:07.706+01:00  INFO 12376 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-12-19T03:31:07.744+01:00  INFO 12376 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.36.Final
-2025-12-19T03:31:07.756+01:00  INFO 12376 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-12-19T03:31:07.979+01:00  INFO 12376 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-12-19T03:31:08.005+01:00  INFO 12376 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-12-19T03:31:08.141+01:00  INFO 12376 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:1b09d9e5-3005-4c75-8cf6-04f4beb0aa1d user=SA
-2025-12-19T03:31:08.141+01:00  INFO 12376 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-12-19T03:31:08.183+01:00  INFO 12376 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 2.3.232
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-12-19T03:31:09.017+01:00  INFO 12376 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-12-19T03:31:09.060+01:00  INFO 12376 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-12-19T03:31:09.279+01:00  INFO 12376 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-12-19T03:31:09.680+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Initializing quiz data from JSON file...
-2025-12-19T03:31:09.821+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'General Knowledge' initialized with 10 questions
-2025-12-19T03:31:09.859+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'Physics' initialized with 10 questions
-2025-12-19T03:31:09.948+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'US Civil War' initialized with 100 questions
-2025-12-19T03:31:09.964+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'Painting' initialized with 10 questions
-2025-12-19T03:31:10.210+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'French Revolution' initialized with 1000 questions
-2025-12-19T03:31:10.264+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'French Literature' initialized with 500 questions
-2025-12-19T03:31:10.266+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : Quiz 'Famous Battles' initialized with 10 questions
-2025-12-19T03:31:10.266+01:00  INFO 12376 --- [           main] com.quizz.core.QuizDataInitializer       : All quiz data initialized successfully
-2025-12-19T03:31:10.472+01:00  WARN 12376 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-12-19T03:31:13.712+01:00  INFO 12376 --- [           main] c.v.f.s.DefaultDeploymentConfiguration   : Vaadin is running in production mode.
-2025-12-19T03:31:13.732+01:00  INFO 12376 --- [           main] c.vaadin.flow.spring.SpringInstantiator  : The number of beans implementing 'I18NProvider' is 0. Cannot use Spring beans for I18N, falling back to the default behavior
-2025-12-19T03:31:13.810+01:00  INFO 12376 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8089 (http) with context path '/'
-2025-12-19T03:31:13.814+01:00  INFO 12376 --- [           main] com.quizz.Application                    : Started Application in 8.314 seconds (process running for 8.72)
-Test user created: test@example.com / password123
-2025-12-19T03:31:16.374+01:00  INFO 12376 --- [138-8089-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-19T03:31:16.374+01:00  INFO 12376 --- [138-8089-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-19T03:31:16.390+01:00  INFO 12376 --- [138-8089-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
-2025-12-19T03:31:32.534+01:00  INFO 12376 --- [138-8089-exec-3] com.quizz.core.ui.QuizQuestionView       : Starting quiz - ID: 7, Total questions: 5, Random questions selected: 5
-2025-12-19T03:31:32.551+01:00  INFO 12376 --- [138-8089-exec-3] com.quizz.core.ui.QuizQuestionView       : Starting new timer - timerId: 1766111492551 runId: 1
-2025-12-19T03:31:57.326+01:00  INFO 12376 --- [38-8089-exec-10] com.quizz.core.ui.QuizQuestionView       : Starting new timer - timerId: 1766111517326 runId: 2
+java.lang.IllegalStateException: The data provider hasn't ever called getLimit() or getPageSize() method on the provided query. It means that the the data provider breaks the contract and the returned stream contains unexpected data.
+	at com.vaadin.flow.data.provider.DataCommunicator.verifyQueryContract(DataCommunicator.java:1103) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.data.provider.DataCommunicator.doFetchFromDataProvider(DataCommunicator.java:1091) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.data.provider.DataCommunicator.fetchFromProvider(DataCommunicator.java:1065) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.data.provider.DataCommunicator.activate(DataCommunicator.java:1526) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.data.provider.DataCommunicator.collectKeysToFlush(DataCommunicator.java:1469) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.data.provider.DataCommunicator.flush(DataCommunicator.java:1259) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.data.provider.DataCommunicator.lambda$requestFlush$7258256f$1(DataCommunicator.java:1167) ~[flow-data-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.internal.StateTree.lambda$runExecutionsBeforeClientResponse$2(StateTree.java:399) ~[flow-server-24.9.6.jar:24.9.6]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197) ~[na:na]
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1709) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:636) ~[na:na]
+	at com.vaadin.flow.internal.StateTree.runExecutionsBeforeClientResponse(StateTree.java:394) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.communication.UidlWriter.encodeChanges(UidlWriter.java:415) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.communication.UidlWriter.createUidl(UidlWriter.java:173) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.communication.UidlRequestHandler.createUidl(UidlRequestHandler.java:185) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.communication.UidlRequestHandler.writeUidl(UidlRequestHandler.java:174) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.communication.UidlRequestHandler.synchronizedHandleRequest(UidlRequestHandler.java:137) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.SynchronizedRequestHandler.handleRequest(SynchronizedRequestHandler.java:63) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.VaadinService.handleRequest(VaadinService.java:1879) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.server.VaadinServlet.service(VaadinServlet.java:398) ~[flow-server-24.9.6.jar:24.9.6]
+	at com.vaadin.flow.spring.SpringServlet.service(SpringServlet.java:106) ~[vaadin-spring-24.9.6.jar:na]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.49.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:610) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:392) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:321) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:266) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.springframework.web.servlet.mvc.ServletForwardingController.handleRequestInternal(ServletForwardingController.java:142) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:178) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:51) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.49.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.49.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:235) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:229) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:198) ~[spring-security-oauth2-client-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.7.jar:6.5.7]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.14.jar:6.2.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.49.jar:10.1.49]
+	at java.base/java.lang.Thread.run(Thread.java:1575) ~[na:na]
