@@ -19,5 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     // Find user by OAuth provider and provider ID
     Optional<User> findByOauthProviderAndOauthProviderId(String oauthProvider, String oauthProviderId);
-}
 
+    // Find all public users
+    Slice<User> findByIsPublicTrue(Pageable pageable);
+}

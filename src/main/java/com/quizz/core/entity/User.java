@@ -12,6 +12,7 @@ public class User {
     public static final int TELEPHONE_MAX_LENGTH = 20;
     public static final int PASSWORD_MAX_LENGTH = 255;
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_id")
@@ -35,6 +36,18 @@ public class User {
     @Column(name = "oauth_provider_id", length = 255)
     private String oauthProviderId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 10)
+    private Gender gender;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "photo_bytes")
+    private byte[] photoBytes;
+
+    @Column(name = "is_public", nullable = false)
+    private boolean isPublic = false;
+
     public User() { // To keep Hibernate happy
     }
 
@@ -43,6 +56,14 @@ public class User {
         setEmail(email);
         setTelephone(telephone);
         setPassword(password);
+    }
+
+    public User(String name, String email, String telephone, String password, Gender gender) {
+        setName(name);
+        setEmail(email);
+        setTelephone(telephone);
+        setPassword(password);
+        setGender(gender);
     }
 
     public @Nullable Long getId() {
@@ -109,6 +130,30 @@ public class User {
         this.oauthProviderId = oauthProviderId;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public byte[] getPhotoBytes() {
+        return photoBytes;
+    }
+
+    public void setPhotoBytes(byte[] photoBytes) {
+        this.photoBytes = photoBytes;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !getClass().isAssignableFrom(obj.getClass())) {
@@ -128,4 +173,3 @@ public class User {
         return id != null ? id.hashCode() : super.hashCode();
     }
 }
-

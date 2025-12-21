@@ -1,38 +1,68 @@
 package com.quizz.core.security;
 
 import com.quizz.core.entity.User;
+import com.quizz.core.service.TranslationService;
+import com.quizz.core.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.PermitAll;
+import org.springframework.data.domain.Pageable;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.Locale;
 
 @Route("login")
 @PageTitle("Login | Quiz Application")
 @AnonymousAllowed
 @PermitAll
+@SuppressWarnings({"deprecation", "removal"})
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm loginForm = new LoginForm();
     private final AuthenticationService authenticationService;
+    private final TranslationService translationService;
+    private final UserService userService;
 
-    public LoginView(AuthenticationService authenticationService) {
+    // Flag buttons for highlighting
+    private Button frenchButton;
+    private Button englishButton;
+    private Button italianButton;
+
+    public LoginView(AuthenticationService authenticationService, TranslationService translationService, UserService userService) {
         this.authenticationService = authenticationService;
+        this.translationService = translationService;
+        this.userService = userService;
 
         addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
+
+        // Set the UI locale from the translation service
+        Locale currentLocale = translationService.getCurrentLocale();
+        getUI().ifPresent(ui -> ui.setLocale(currentLocale));
+
+        // Configure login form with translated labels
+        configureLoginFormI18n();
 
         loginForm.setForgotPasswordButtonVisible(true);
         loginForm.addForgotPasswordListener(event ->
@@ -41,46 +71,62 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         loginForm.addLoginListener(event -> handleLogin(event.getUsername(), event.getPassword()));
 
-        H3 title = new H3("🎄 Quiz Application 🎄");
+        H3 title = new H3("🎄 Quiz 🎄");
         title.getStyle()
             .set("color", "#ffffff")
             .set("text-shadow", "2px 2px 4px rgba(0,0,0,0.5)")
             .set("margin-bottom", "0")
+            .set("margin-right", "var(--lumo-space-s)")
             .set("z-index", "10")
             .set("position", "relative");
-/*
-        Paragraph subtitle = new Paragraph("Sign in to continue");
-        subtitle.getStyle()
-            .set("color", "rgba(255, 255, 255, 0.9)")
-            .set("margin-top", "0")
+
+        // Language selector buttons
+        HorizontalLayout languageButtons = createLanguageButtons();
+        languageButtons.getStyle()
             .set("z-index", "10")
             .set("position", "relative");
-*/
+
+        // Title and language buttons in same row
+        HorizontalLayout titleRow = new HorizontalLayout(title, languageButtons);
+        titleRow.setAlignItems(Alignment.CENTER);
+        titleRow.setJustifyContentMode(JustifyContentMode.CENTER);
+        titleRow.getStyle()
+            .set("margin-bottom", "var(--lumo-space-m)");
+        /*
+                Paragraph subtitle = new Paragraph("Sign in to continue");
+                subtitle.getStyle()
+                    .set("color", "rgba(255, 255, 255, 0.9)")
+                    .set("margin-top", "0")
+                    .set("z-index", "10")
+                    .set("position", "relative");
+        */
         Paragraph registerLink = new Paragraph();
-        registerLink.add("Don't have an account? ");
-        com.vaadin.flow.router.RouterLink registerRouterLink = new com.vaadin.flow.router.RouterLink("Sign up", RegisterView.class);
+        registerLink.add(translationService.translate("login.noaccount") + " ");
+        com.vaadin.flow.router.RouterLink registerRouterLink = new com.vaadin.flow.router.RouterLink(
+                translationService.translate("login.signuplink"), RegisterView.class);
         registerLink.add(registerRouterLink);
 
         // OAuth2 buttons
-        Button googleButton = createOAuthButton("Google", "#4285F4", VaadinIcon.GOOGLE_PLUS);
+        Button googleButton = createOAuthButton("G", "#4285F4", VaadinIcon.GOOGLE_PLUS);
         googleButton.addClickListener(e ->
             getUI().ifPresent(ui -> ui.getPage().setLocation("/oauth2/authorization/google"))
         );
 
-        Button facebookButton = createOAuthButton("Facebook", "#1877F2", VaadinIcon.FACEBOOK);
+        Button facebookButton = createOAuthButton("F", "#1877F2", VaadinIcon.FACEBOOK);
         facebookButton.addClickListener(e ->
             getUI().ifPresent(ui -> ui.getPage().setLocation("/oauth2/authorization/facebook"))
         );
 
-        Button linkedinButton = createOAuthButton("LinkedIn", "#0A66C2", VaadinIcon.CONNECT);
+        Button linkedinButton = createOAuthButton("in", "#0A66C2", VaadinIcon.CONNECT);
         linkedinButton.addClickListener(e ->
             getUI().ifPresent(ui -> ui.getPage().setLocation("/oauth2/authorization/linkedin"))
         );
 
-        VerticalLayout oauthButtons = new VerticalLayout();
+        HorizontalLayout oauthButtons = new HorizontalLayout();
         oauthButtons.setSpacing(true);
         oauthButtons.setPadding(false);
         oauthButtons.setWidthFull();
+        oauthButtons.setJustifyContentMode(JustifyContentMode.CENTER);
         oauthButtons.add(googleButton, facebookButton, linkedinButton);
 
         // Wrapper for login form with white background
@@ -99,7 +145,16 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("width", "100%")
             .set("position", "relative")
             .set("z-index", "10");
-        formWrapper.add(loginForm,registerLink);
+
+        // Public avatar button
+        Button publicAvatarButton = new Button("👤 " + translationService.translate("login.publicavatar"));
+        publicAvatarButton.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
+        publicAvatarButton.setWidthFull();
+        publicAvatarButton.addClickListener(event -> showPublicAvatarDialog());
+        publicAvatarButton.getStyle()
+            .set("margin-top", "var(--lumo-space-xs)");
+
+        formWrapper.add(loginForm, publicAvatarButton, registerLink);
 
         // Wrapper for OAuth section
         Div oauthWrapper = new Div();
@@ -143,7 +198,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         content.setSpacing(true);
         content.setPadding(false);
         content.setAlignItems(Alignment.CENTER);
-        content.add(title,
+        content.add(titleRow,
                 //subtitle,
                 formWrapper, oauthWrapper);
 
@@ -256,11 +311,20 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }
 
-            // Navigate to main page - use navigate() instead of setLocation() to stay in Vaadin context
-            getUI().ifPresent(ui -> {
-                // Force a page reload to ensure security context is updated
-                ui.getPage().setLocation("/");
-            });
+            // Check if there's a saved redirect URL
+            String redirectUrl = (String) VaadinSession.getCurrent().getAttribute("redirectAfterLogin");
+            if (redirectUrl != null) {
+                // Clear the saved URL
+                VaadinSession.getCurrent().setAttribute("redirectAfterLogin", null);
+                // Redirect to the saved URL
+                getUI().ifPresent(ui -> ui.getPage().setLocation("/" + redirectUrl));
+            } else {
+                // Navigate to main page - use navigate() instead of setLocation() to stay in Vaadin context
+                getUI().ifPresent(ui -> {
+                    // Force a page reload to ensure security context is updated
+                    ui.getPage().setLocation("/");
+                });
+            }
         } else {
             loginForm.setError(true);
             Notification.show("Invalid email or password", 3000, Notification.Position.MIDDLE)
@@ -269,17 +333,230 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     private Button createOAuthButton(String providerName, String color, VaadinIcon icon) {
-        Button button = new Button(providerName);
+        Button button = new Button();
         button.setIcon(new Icon(icon));
-        button.setWidthFull();
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.getStyle()
             .set("background-color", color)
             .set("border", "none")
             .set("color", "white")
             .set("font-weight", "500")
-            .set("text-transform", "none");
+            .set("min-width", "50px")
+            .set("width", "50px")
+            .set("height", "50px")
+            .set("border-radius", "50%")
+            .set("padding", "0");
+        button.getElement().setAttribute("title", providerName);
         return button;
     }
-}
 
+    private HorizontalLayout createLanguageButtons() {
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.setSpacing(true);
+        layout.setJustifyContentMode(JustifyContentMode.CENTER);
+
+        // French flag button
+        frenchButton = createFlagButton("images/flags/fr.svg", "Français", Locale.FRENCH);
+
+        // English flag button
+        englishButton = createFlagButton("images/flags/gb.svg", "English", Locale.ENGLISH);
+
+        // Italian flag button
+        italianButton = createFlagButton("images/flags/it.svg", "Italiano", Locale.ITALIAN);
+
+        // Highlight the current locale button
+        Locale currentLocale = translationService.getCurrentLocale();
+        highlightSelectedButton(frenchButton, currentLocale.getLanguage().equals("fr"));
+        highlightSelectedButton(englishButton, currentLocale.getLanguage().equals("en"));
+        highlightSelectedButton(italianButton, currentLocale.getLanguage().equals("it"));
+
+        layout.add(frenchButton, englishButton, italianButton);
+        return layout;
+    }
+
+    private void highlightSelectedButton(Button button, boolean isSelected) {
+        if (isSelected) {
+            button.getStyle()
+                    .set("background-color", "#e3f2fd")
+                    .set("box-shadow", "0 0 0 2px #2196F3")
+                    .set("transform", "scale(1.05)");
+        } else {
+            button.getStyle()
+                    .remove("background-color")
+                    .remove("box-shadow")
+                    .remove("transform");
+        }
+    }
+
+    private Button createFlagButton(String imagePath, String alt, Locale locale) {
+        Button button = new Button();
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
+
+        // Create flag image (reduced size by half)
+        Image flagImage = new Image(imagePath, alt);
+        flagImage.setWidth("16px");
+        flagImage.setHeight("12px");
+        flagImage.getStyle()
+                .set("border", "1px solid #ccc")
+                .set("border-radius", "2px")
+                .set("display", "block");
+
+        button.getElement().appendChild(flagImage.getElement());
+
+        button.getStyle()
+                .set("padding", "2px 4px")
+                .set("min-width", "24px")
+                .set("cursor", "pointer")
+                .set("transition", "all 0.2s ease");
+
+        button.addClickListener(event -> {
+            translationService.setLocale(locale);
+            // Update highlighting for all buttons
+            highlightSelectedButton(frenchButton, locale.getLanguage().equals("fr"));
+            highlightSelectedButton(englishButton, locale.getLanguage().equals("en"));
+            highlightSelectedButton(italianButton, locale.getLanguage().equals("it"));
+            // Update login form labels
+            configureLoginFormI18n();
+        });
+
+        return button;
+    }
+
+    private void configureLoginFormI18n() {
+        LoginI18n i18n = LoginI18n.createDefault();
+
+        LoginI18n.Form form = i18n.getForm();
+        form.setTitle(translationService.translate("login.title"));
+        form.setUsername(translationService.translate("login.email"));
+        form.setPassword(translationService.translate("login.password"));
+        form.setSubmit(translationService.translate("login.signin"));
+        form.setForgotPassword(translationService.translate("login.forgotpassword"));
+
+        LoginI18n.ErrorMessage errorMessage = i18n.getErrorMessage();
+        errorMessage.setTitle(translationService.translate("login.error.title"));
+        errorMessage.setMessage(translationService.translate("login.error.message"));
+
+        loginForm.setI18n(i18n);
+    }
+
+    private void showPublicAvatarDialog() {
+        Dialog dialog = new Dialog();
+        dialog.setHeaderTitle(translationService.translate("login.selectpublicavatar"));
+        dialog.setWidth("800px");
+        dialog.setHeight("600px");
+
+        // Load public users
+        List<User> publicUsers = userService.listPublicUsers(Pageable.ofSize(100));
+
+        // Create a flex layout to display avatars as a grid
+        FlexLayout avatarGrid = new FlexLayout();
+        avatarGrid.setFlexWrap(FlexLayout.FlexWrap.WRAP);
+        avatarGrid.getStyle()
+            .set("gap", "10px")
+            .set("padding", "10px")
+            .set("justify-content", "center");
+
+        for (User user : publicUsers) {
+            VerticalLayout avatarCard = createAvatarCard(user, dialog);
+            avatarGrid.add(avatarCard);
+        }
+
+        // Make it scrollable
+        Div scrollContainer = new Div(avatarGrid);
+        scrollContainer.getStyle()
+            .set("overflow-y", "auto")
+            .set("max-height", "500px");
+
+        Button cancelButton = new Button("Cancel", event -> dialog.close());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+
+        dialog.add(scrollContainer);
+        dialog.getFooter().add(cancelButton);
+        dialog.open();
+    }
+
+    private VerticalLayout createAvatarCard(User user, Dialog dialog) {
+        VerticalLayout card = new VerticalLayout();
+        card.setWidth("80px");
+        card.setAlignItems(Alignment.CENTER);
+        card.setSpacing(false);
+        card.setPadding(false);
+        card.getStyle()
+            .set("cursor", "pointer")
+            .set("border-radius", "8px")
+            .set("padding", "8px")
+            .set("transition", "all 0.2s");
+
+        // Avatar image
+        Div avatarContainer = new Div();
+        avatarContainer.getStyle()
+            .set("width", "60px")
+            .set("height", "60px")
+            .set("border-radius", "50%")
+            .set("overflow", "hidden")
+            .set("box-shadow", "0 2px 8px rgba(0,0,0,0.15)");
+
+        if (user.getPhotoBytes() != null && user.getPhotoBytes().length > 0) {
+            StreamResource imageResource = new StreamResource(
+                user.getName() + ".jpg",
+                () -> new ByteArrayInputStream(user.getPhotoBytes())
+            );
+            Image avatarImage = new Image(imageResource, user.getName());
+            avatarImage.setWidth("100%");
+            avatarImage.setHeight("100%");
+            avatarImage.getStyle().set("object-fit", "cover");
+            avatarContainer.add(avatarImage);
+        }
+
+        // User name
+        Span nameLabel = new Span(user.getName());
+        nameLabel.getStyle()
+            .set("font-size", "10px")
+            .set("text-align", "center")
+            .set("max-width", "80px")
+            .set("overflow", "hidden")
+            .set("text-overflow", "ellipsis")
+            .set("white-space", "nowrap");
+
+        card.add(avatarContainer, nameLabel);
+
+        // Hover effect
+        card.addClickListener(event -> {
+            // Login with this public user
+            boolean authenticated = authenticationService.authenticate(user.getEmail(), "public123");
+            if (authenticated) {
+                Notification.show("Welcome, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
+                    .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                dialog.close();
+
+                // Check if there's a saved redirect URL
+                String redirectUrl = (String) VaadinSession.getCurrent().getAttribute("redirectAfterLogin");
+                if (redirectUrl != null) {
+                    // Clear the saved URL
+                    VaadinSession.getCurrent().setAttribute("redirectAfterLogin", null);
+                    // Redirect to the saved URL
+                    getUI().ifPresent(ui -> ui.getPage().setLocation("/" + redirectUrl));
+                } else {
+                    getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
+                }
+            } else {
+                Notification.show("Authentication failed", 3000, Notification.Position.MIDDLE)
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }
+        });
+
+        card.getElement().addEventListener("mouseenter", e -> {
+            card.getStyle()
+                .set("background-color", "#f5f5f5")
+                .set("transform", "scale(1.05)");
+        });
+
+        card.getElement().addEventListener("mouseleave", e -> {
+            card.getStyle()
+                .set("background-color", "transparent")
+                .set("transform", "scale(1)");
+        });
+
+        return card;
+    }
+}

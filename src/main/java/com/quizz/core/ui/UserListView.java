@@ -2,6 +2,7 @@ package com.quizz.core.ui;
 
 import com.quizz.base.ui.component.ViewToolbar;
 import com.quizz.core.entity.User;
+import com.quizz.core.entity.Gender;
 import com.quizz.core.service.UserService;
 import com.quizz.core.service.TranslationService;
 import com.vaadin.flow.component.AttachEvent;
@@ -118,7 +119,8 @@ class UserListView extends Main {
                         nameField.getValue(),
                         emailField.getValue(),
                         telephoneField.getValue(),
-                        passwordField.getValue()
+                        passwordField.getValue(),
+                        Gender.MALE  // Default gender for admin-created users
                     );
                     Notification.show(translationService.translate("users.created"), 3000, Notification.Position.BOTTOM_END)
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);

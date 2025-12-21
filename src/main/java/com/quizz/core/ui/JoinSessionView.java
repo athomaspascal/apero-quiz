@@ -142,6 +142,11 @@ public class JoinSessionView extends VerticalLayout {
 
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         if (currentUser == null) {
+            // Save the session code to redirect after login
+            String sessionCode = sessionCodeField.getValue();
+            if (sessionCode != null && !sessionCode.trim().isEmpty()) {
+                VaadinSession.getCurrent().setAttribute("redirectAfterLogin", "quiz-session/" + sessionCode.trim());
+            }
             Notification.show(translationService.translate("joinSession.error.loginRequired"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             getUI().ifPresent(ui -> ui.navigate("login"));

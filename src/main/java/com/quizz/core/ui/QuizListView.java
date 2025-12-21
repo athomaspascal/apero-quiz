@@ -12,6 +12,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -23,6 +24,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
@@ -31,6 +33,7 @@ import java.util.Properties;
 @Route("")
 @PageTitle("One Quiz")
 @Menu(order = 1, icon = "vaadin:question-circle", title = "menu.quizlist")
+    @SuppressWarnings({"deprecation", "removal"})
 class QuizListView extends Main {
 
     private final QuizService quizService;
@@ -109,22 +112,39 @@ class QuizListView extends Main {
             .set("width", "80px")
             .set("height", "80px")
             .set("border-radius", "50%")
-            .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+            .set("overflow", "hidden")
             .set("display", "flex")
             .set("align-items", "center")
             .set("justify-content", "center")
-            .set("color", "white")
-            .set("font-size", "32px")
-            .set("font-weight", "bold")
             .set("box-shadow", "0 4px 12px rgba(0,0,0,0.15)")
             .set("cursor", "pointer");
 
-        // Display user initials or default icon
-        if (currentUser != null && currentUser.getName() != null && !currentUser.getName().isEmpty()) {
+        // Display user photo if available, otherwise initials or default icon
+        if (currentUser != null && currentUser.getPhotoBytes() != null && currentUser.getPhotoBytes().length > 0) {
+            // User has uploaded a photo - display it
+            StreamResource imageResource = new StreamResource("user-photo.jpg",
+                () -> new ByteArrayInputStream(currentUser.getPhotoBytes()));
+            Image userPhoto = new Image(imageResource, "User photo");
+            userPhoto.setWidth("100%");
+            userPhoto.setHeight("100%");
+            userPhoto.getStyle().set("object-fit", "cover");
+            avatarContainer.add(userPhoto);
+        } else if (currentUser != null && currentUser.getName() != null && !currentUser.getName().isEmpty()) {
+            // No photo - display initials on gradient background
+            avatarContainer.getStyle()
+                .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+                .set("color", "white")
+                .set("font-size", "32px")
+                .set("font-weight", "bold");
             String initials = getInitials(currentUser.getName());
             Span initialsSpan = new Span(initials);
             avatarContainer.add(initialsSpan);
         } else {
+            // No user or no name - display default icon
+            avatarContainer.getStyle()
+                .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+                .set("color", "white")
+                .set("font-size", "32px");
             Span defaultIcon = new Span("👤");
             avatarContainer.add(defaultIcon);
         }
@@ -201,45 +221,24 @@ class QuizListView extends Main {
             Image image = new Image("images/" + imageFileName, quiz.getName());
             image.setWidth("100%");
             image.setHeight("100%");
-            // Use 'contain' so all quizzes look consistent even if SVGs have different internal sizes.
             image.getStyle().set("object-fit", "cover");
 
-            // If the image can't be loaded (e.g. missing resource / 404), show a placeholder instead
             image.getElement().addEventListener("error", e -> {
                 imageContainer.removeAll();
-                Div placeholder = new Div();
-                placeholder.setText(getInitials(quiz.getName()));
-                placeholder.getStyle()
-                    .set("font-size", "20px")
-                    .set("font-weight", "700")
-                    .set("color", "#1976d2")
-                    .set("background", "#e3f2fd")
-                    .set("border-radius", "999px")
-                    .set("width", "40px")
-                    .set("height", "40px")
-                    .set("display", "flex")
-                    .set("align-items", "center")
-                    .set("justify-content", "center");
-                imageContainer.add(placeholder);
+                Image fallback = new Image("images/france.svg", quiz.getName());
+                fallback.setWidth("100%");
+                fallback.setHeight("100%");
+                fallback.getStyle().set("object-fit", "cover");
+                imageContainer.add(fallback);
             });
 
             imageContainer.add(image);
         } else {
-            // Default placeholder if no image
-            Div placeholder = new Div();
-            placeholder.setText(getInitials(quiz.getName()));
-            placeholder.getStyle()
-                .set("font-size", "20px")
-                .set("font-weight", "700")
-                .set("color", "#1976d2")
-                .set("background", "#e3f2fd")
-                .set("border-radius", "999px")
-                .set("width", "40px")
-                .set("height", "40px")
-                .set("display", "flex")
-                .set("align-items", "center")
-                .set("justify-content", "center");
-            imageContainer.add(placeholder);
+            Image fallback = new Image("images/france.svg", quiz.getName());
+            fallback.setWidth("100%");
+            fallback.setHeight("100%");
+            fallback.getStyle().set("object-fit", "cover");
+            imageContainer.add(fallback);
         }
 
         // Quiz name

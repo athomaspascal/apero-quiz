@@ -1,6 +1,7 @@
 package com.quizz.core.service;
 
 import com.quizz.core.repository.UserRepository;
+import com.quizz.core.entity.Gender;
 import com.quizz.core.entity.User;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,22 +23,78 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final int AVATAR_SIZE = 200; // Standard avatar size
 
     UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Resize an image to the standard avatar size (200x200)
+     * @param imageBytes Original image bytes
+     * @return Resized image bytes or null if error
+     */
+    private byte[] resizeImage(byte[] imageBytes) {
+        if (imageBytes == null || imageBytes.length == 0) {
+            return null;
+        }
+
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+            BufferedImage originalImage = ImageIO.read(bais);
+
+            if (originalImage == null) {
+                return imageBytes; // Return original if can't read
+            }
+
+            // Create resized image
+            BufferedImage resizedImage = new BufferedImage(AVATAR_SIZE, AVATAR_SIZE, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = resizedImage.createGraphics();
+
+            // Enable high-quality rendering
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // Draw resized image
+            g2d.drawImage(originalImage, 0, 0, AVATAR_SIZE, AVATAR_SIZE, null);
+            g2d.dispose();
+
+            // Convert to byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(resizedImage, "jpg", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            System.err.println("Error resizing image: " + e.getMessage());
+            return imageBytes; // Return original if resize fails
+        }
+    }
+
     @Transactional
-    public User createUser(String name, String email, String telephone, String password) {
+    public User createUser(String name, String email, String telephone, String password, Gender gender, byte[] photoBytes) {
         // Check if email already exists
         if (userRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
         }
         // Encode password before saving
         String encodedPassword = passwordEncoder.encode(password);
-        var user = new User(name, email, telephone, encodedPassword);
+        var user = new User(name, email, telephone, encodedPassword, gender);
+
+        // Resize photo if provided
+        if (photoBytes != null && photoBytes.length > 0) {
+            byte[] resizedPhoto = resizeImage(photoBytes);
+            user.setPhotoBytes(resizedPhoto);
+        } else {
+            user.setPhotoBytes(null);
+        }
+
         return userRepository.saveAndFlush(user);
+    }
+
+    @Transactional
+    public User createUser(String name, String email, String telephone, String password, Gender gender) {
+        return createUser(name, email, telephone, password, gender, null);
     }
 
     @Transactional
@@ -65,6 +128,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public List<User> listPublicUsers(Pageable pageable) {
+        return userRepository.findByIsPublicTrue(pageable).toList();
+    }
+
+    @Transactional(readOnly = true)
     public @Nullable User getById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -77,6 +145,14 @@ public class UserService {
     @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updatePublicFlag(Long id, boolean isPublic) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setPublic(isPublic);
+        userRepository.saveAndFlush(user);
     }
 
     @Transactional
@@ -113,4 +189,3 @@ public class UserService {
         return userRepository.saveAndFlush(newUser);
     }
 }
-

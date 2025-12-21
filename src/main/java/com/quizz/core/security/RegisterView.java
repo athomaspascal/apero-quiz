@@ -1,5 +1,7 @@
 package com.quizz.core.security;
 
+import com.quizz.core.entity.Gender;
+import com.quizz.core.service.TranslationService;
 import com.quizz.core.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -8,79 +10,154 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.PermitAll;
 
+import java.io.InputStream;
+
 @Route("register")
 @PageTitle("Register | Quiz Application")
 @AnonymousAllowed
 @PermitAll
+@SuppressWarnings({"deprecation", "removal"})
 public class RegisterView extends VerticalLayout {
 
     private final UserService userService;
+    private final TranslationService translationService;
     private final TextField nameField;
     private final EmailField emailField;
     private final TextField telephoneField;
+    private final RadioButtonGroup<Gender> genderField;
     private final PasswordField passwordField;
     private final PasswordField confirmPasswordField;
-    private final Button registerButton;
+    private byte[] uploadedPhotoBytes;
 
-    public RegisterView(UserService userService) {
+    public RegisterView(UserService userService, TranslationService translationService) {
         this.userService = userService;
+        this.translationService = translationService;
 
         addClassName("register-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        H1 title = new H1("Create Account");
+        H1 title = new H1(translationService.translate("register.title"));
 
-        Paragraph subtitle = new Paragraph("Sign up to start taking quizzes");
+        Paragraph subtitle = new Paragraph(translationService.translate("register.subtitle"));
         subtitle.getStyle()
             .set("color", "var(--lumo-secondary-text-color)")
             .set("text-align", "center")
             .set("margin", "0 0 var(--lumo-space-m) 0");
 
-        nameField = new TextField("Full Name");
-        nameField.setPlaceholder("John Doe");
-        nameField.setWidthFull();
+        nameField = new TextField(translationService.translate("register.name"));
+        nameField.setPlaceholder(translationService.translate("register.namePlaceholder"));
         nameField.setRequired(true);
 
-        emailField = new EmailField("Email");
-        emailField.setPlaceholder("your.email@example.com");
+        // Gender radio button group
+        genderField = new RadioButtonGroup<>();
+        genderField.setLabel(translationService.translate("register.gender"));
+        genderField.setItems(Gender.MALE, Gender.FEMALE);
+        genderField.setItemLabelGenerator(gender -> {
+            if (gender == Gender.MALE) {
+                return translationService.translate("register.gender.male");
+            } else {
+                return translationService.translate("register.gender.female");
+            }
+        });
+        genderField.setRequired(true);
+
+        // Name and gender on the same row
+        HorizontalLayout nameGenderRow = new HorizontalLayout(nameField, genderField);
+        nameGenderRow.setWidthFull();
+        nameGenderRow.setAlignItems(Alignment.BASELINE);
+        nameGenderRow.setSpacing(true);
+        nameField.setWidth("60%");
+        genderField.setWidth("40%");
+
+        emailField = new EmailField(translationService.translate("register.email"));
+        emailField.setPlaceholder(translationService.translate("register.emailPlaceholder"));
         emailField.setWidthFull();
         emailField.setRequired(true);
 
-        telephoneField = new TextField("Telephone");
-        telephoneField.setPlaceholder("+33 6 12 34 56 78");
+        telephoneField = new TextField(translationService.translate("register.telephone"));
+        telephoneField.setPlaceholder(translationService.translate("register.telephonePlaceholder"));
         telephoneField.setWidthFull();
         telephoneField.setRequired(true);
 
-        passwordField = new PasswordField("Password");
-        passwordField.setPlaceholder("Enter password");
+        passwordField = new PasswordField(translationService.translate("register.password"));
+        passwordField.setPlaceholder(translationService.translate("register.passwordPlaceholder"));
         passwordField.setWidthFull();
         passwordField.setRequired(true);
-        passwordField.setHelperText("Password must be at least 6 characters");
+        passwordField.setHelperText(translationService.translate("register.passwordHelper"));
 
-        confirmPasswordField = new PasswordField("Confirm Password");
-        confirmPasswordField.setPlaceholder("Confirm password");
+        confirmPasswordField = new PasswordField(translationService.translate("register.confirmPassword"));
+        confirmPasswordField.setPlaceholder(translationService.translate("register.confirmPasswordPlaceholder"));
         confirmPasswordField.setWidthFull();
         confirmPasswordField.setRequired(true);
 
-        registerButton = new Button("Create Account", event -> handleRegistration());
+        // Photo upload with MemoryBuffer (deprecated but functional)
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload photoUpload = new Upload(buffer);
+        photoUpload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        photoUpload.setMaxFiles(1);
+        photoUpload.setMaxFileSize(10 * 1024 * 1024); // 10 MB
+
+        Div uploadLabel = new Div();
+        uploadLabel.setText(translationService.translate("register.photoUpload"));
+        uploadLabel.getStyle().set("font-weight", "500").set("margin-bottom", "4px");
+
+        photoUpload.addSucceededListener(event -> {
+            try {
+                InputStream inputStream = buffer.getInputStream();
+                uploadedPhotoBytes = inputStream.readAllBytes();
+                Notification.show(
+                    translationService.translate("register.photoUploadSuccess"),
+                    3000,
+                    Notification.Position.MIDDLE
+                ).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            } catch (Exception e) {
+                Notification.show(
+                    translationService.translate("register.photoUploadError"),
+                    3000,
+                    Notification.Position.MIDDLE
+                ).addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }
+        });
+
+        photoUpload.addFileRejectedListener(event -> {
+            Notification.show(
+                translationService.translate("register.photoUploadError") + " (" + event.getErrorMessage() + ")",
+                4000,
+                Notification.Position.MIDDLE
+            ).addThemeVariants(NotificationVariant.LUMO_ERROR);
+        });
+
+        photoUpload.addFailedListener(event -> {
+            Notification.show(
+                translationService.translate("register.photoUploadError"),
+                3000,
+                Notification.Position.MIDDLE
+            ).addThemeVariants(NotificationVariant.LUMO_ERROR);
+        });
+
+        Button registerButton = new Button(translationService.translate("register.signup"), event -> handleRegistration());
         registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         registerButton.setWidthFull();
 
         Paragraph loginLink = new Paragraph();
-        loginLink.add("Already have an account? ");
-        RouterLink loginRouterLink = new RouterLink("Sign in", LoginView.class);
+        loginLink.add(translationService.translate("register.alreadyAccount") + " ");
+        RouterLink loginRouterLink = new RouterLink(translationService.translate("register.signinlink"), LoginView.class);
         loginLink.add(loginRouterLink);
         loginLink.getStyle()
             .set("text-align", "center")
@@ -96,17 +173,20 @@ public class RegisterView extends VerticalLayout {
             .set("width", "100%");
 
         VerticalLayout content = new VerticalLayout();
-        content.setSpacing(true);
+        content.setSpacing(false);
         content.setPadding(false);
         content.setAlignItems(Alignment.STRETCH);
+        content.getStyle().set("gap", "8px");
         content.add(
             title,
             subtitle,
-            nameField,
+            nameGenderRow,
             emailField,
             telephoneField,
             passwordField,
             confirmPasswordField,
+            uploadLabel,
+            photoUpload,
             registerButton,
             loginLink
         );
@@ -124,29 +204,29 @@ public class RegisterView extends VerticalLayout {
         // Validate fields
         if (nameField.isEmpty() || emailField.isEmpty() ||
             telephoneField.isEmpty() || passwordField.isEmpty() ||
-            confirmPasswordField.isEmpty()) {
-            Notification.show("Please fill in all fields", 3000, Notification.Position.MIDDLE)
+            confirmPasswordField.isEmpty() || genderField.isEmpty()) {
+            Notification.show(translationService.translate("register.error.fillAll"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
 
         // Validate email format
         if (emailField.isInvalid()) {
-            Notification.show("Please enter a valid email address", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("register.error.invalidEmail"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
 
         // Validate password length
         if (passwordField.getValue().length() < 6) {
-            Notification.show("Password must be at least 6 characters", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("register.error.passwordLength"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
 
         // Validate password match
         if (!passwordField.getValue().equals(confirmPasswordField.getValue())) {
-            Notification.show("Passwords do not match", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("register.error.passwordMismatch"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
@@ -156,10 +236,12 @@ public class RegisterView extends VerticalLayout {
                 nameField.getValue(),
                 emailField.getValue(),
                 telephoneField.getValue(),
-                passwordField.getValue()
+                passwordField.getValue(),
+                genderField.getValue(),
+                uploadedPhotoBytes
             );
 
-            Notification.show("Account created successfully! Please login.", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("register.success"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
             // Redirect to login
@@ -170,4 +252,3 @@ public class RegisterView extends VerticalLayout {
         }
     }
 }
-

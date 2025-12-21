@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -38,6 +39,25 @@ public class TranslationService {
     public String translate(String key) {
         Locale locale = getCurrentLocale();
         return translate(key, locale);
+    }
+
+    public String translate(String key, Object... params) {
+        Locale locale = getCurrentLocale();
+        return translate(key, locale, params);
+    }
+
+    public String translate(String key, Locale locale, Object... params) {
+        String pattern = translate(key, locale);
+        if (params == null || params.length == 0) {
+            return pattern;
+        }
+        try {
+            MessageFormat formatter = new MessageFormat(pattern, locale);
+            return formatter.format(params);
+        } catch (Exception e) {
+            logger.error("Error formatting message '{}' with params: {}", pattern, params, e);
+            return pattern;
+        }
     }
 
     public void setLocale(Locale locale) {
