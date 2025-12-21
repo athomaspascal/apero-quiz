@@ -1,5 +1,6 @@
 package com.quizz.core.ui;
 
+import com.quizz.base.ui.component.ViewToolbar;
 import com.quizz.core.entity.QuizParticipant;
 import com.quizz.core.entity.QuizSession;
 import com.quizz.core.entity.User;
@@ -7,6 +8,7 @@ import com.quizz.core.service.QuizSessionService;
 import com.quizz.core.service.TranslationService;
 import com.quizz.core.util.QRCodeGenerator;
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,23 +24,30 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Route("quiz-session/:sessionCode")
 @PageTitle("Quiz Session")
 @AnonymousAllowed
 @SuppressWarnings({"deprecation", "removal"})
-public class QuizSessionView extends VerticalLayout implements BeforeEnterObserver {
+public class QuizSessionView extends Main implements BeforeEnterObserver {
 
     private final QuizSessionService sessionService;
     private final TranslationService translationService;
     private QuizSession session;
 
+    // Auto-refresh for invited players
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private ScheduledFuture<?> refreshTask;
+    private Div participantsListDiv; // Keep reference for updates
+
     public QuizSessionView(QuizSessionService sessionService, TranslationService translationService) {
         this.sessionService = sessionService;
         this.translationService = translationService;
 
-        setSizeFull();
-        addClassNames(LumoUtility.Padding.MEDIUM);
 
         // Set initial dynamic page title (quiz name will be applied after session resolves)
         getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("quizSession.pageTitle")));
@@ -89,10 +98,71 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
         } else {
             getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("quizSession.pageTitle")));
         }
+
+        // Start auto-refresh for invited players
+        startAutoRefreshIfNeeded();
+    }
+
+    @Override
+    protected void onDetach(DetachEvent detachEvent) {
+        super.onDetach(detachEvent);
+        // Stop auto-refresh when view is detached
+        stopAutoRefresh();
+    }
+
+    private void startAutoRefreshIfNeeded() {
+        if (session == null) {
+            return;
+        }
+
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        boolean isHost = currentUser != null && currentUser.getId() != null &&
+                         currentUser.getId().equals(session.getHostUserId());
+
+        // Only auto-refresh for invited players (not host)
+        if (!isHost && participantsListDiv != null) {
+            UI ui = getUI().orElse(null);
+            if (ui != null) {
+                refreshTask = scheduler.scheduleAtFixedRate(() -> {
+                    ui.access(() -> {
+                        // Refresh session data
+                        session = sessionService.getSessionByCode(session.getSessionCode());
+                        if (session != null && participantsListDiv != null) {
+                            updateParticipantsList(participantsListDiv);
+                            ui.push();
+                        }
+                    });
+                }, 2, 2, TimeUnit.SECONDS);
+            }
+        }
+    }
+
+    private void stopAutoRefresh() {
+        if (refreshTask != null && !refreshTask.isCancelled()) {
+            refreshTask.cancel(true);
+            refreshTask = null;
+        }
     }
 
     private void buildUI() {
         removeAll();
+
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        boolean isHost = currentUser != null && currentUser.getId() != null &&
+                         currentUser.getId().equals(session.getHostUserId());
+
+        // Add ViewToolbar with just the title
+        add(new ViewToolbar(translationService.translate("quizSession.title", session.getQuiz().getName())));
+
+        // Create a wrapper with width constraints
+        VerticalLayout contentWrapper = new VerticalLayout();
+        contentWrapper.setPadding(true);
+        contentWrapper.setSpacing(true);
+        contentWrapper.setWidthFull();
+        contentWrapper.setMaxWidth("1200px");
+        contentWrapper.getStyle()
+            .set("margin", "0 auto")
+            .set("box-sizing", "border-box");
 
         // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
         Button backButton = new Button(translationService.translate("quiz.backToList"), VaadinIcon.ARROW_LEFT.create());
@@ -123,9 +193,6 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
             backButton.getElement()
         )));
 
-        H2 title = new H2(translationService.translate("quizSession.title", session.getQuiz().getName()));
-        title.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
-
         Div sessionInfo = new Div();
         sessionInfo.addClassNames(
             LumoUtility.Background.CONTRAST_5,
@@ -144,54 +211,71 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
 
         // Participants list
         H3 participantsTitle = new H3(translationService.translate("quizSession.participants"));
-        Div participantsList = new Div();
-        participantsList.addClassNames(
+
+        participantsListDiv = new Div();
+        participantsListDiv.addClassNames(
             LumoUtility.Display.FLEX,
             LumoUtility.FlexDirection.COLUMN,
             LumoUtility.Gap.SMALL
         );
 
-        updateParticipantsList(participantsList);
+        updateParticipantsList(participantsListDiv);
 
-        // Action buttons
-        HorizontalLayout actions = new HorizontalLayout();
-        actions.addClassNames(LumoUtility.Margin.Top.LARGE);
-
-        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
-        boolean isHost = currentUser != null && currentUser.getId() != null &&
-                         currentUser.getId().equals(session.getHostUserId());
+        // Create action buttons below participants list
+        HorizontalLayout actionButtons = new HorizontalLayout();
+        actionButtons.setSpacing(true);
+        actionButtons.addClassNames(LumoUtility.Margin.Top.LARGE);
+        actionButtons.setWidthFull();
+        actionButtons.getStyle().set("flex-wrap", "wrap");
 
         if (isHost && session.getStatus() == QuizSession.SessionStatus.WAITING) {
             Button startButton = new Button(translationService.translate("quizSession.startAll"), event -> startQuizSession());
             startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
-            actions.add(startButton);
+            actionButtons.add(startButton);
+        }
+
+        if (isHost && session.getStatus() == QuizSession.SessionStatus.COMPLETED) {
+            Button resetButton = new Button(translationService.translate("quizSession.resetSession"), event -> resetQuizSession());
+            resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            resetButton.setIcon(VaadinIcon.REFRESH.create());
+            actionButtons.add(resetButton);
         }
 
         if (session.getStatus() == QuizSession.SessionStatus.ACTIVE ||
             session.getStatus() == QuizSession.SessionStatus.WAITING) {
             Button joinButton = new Button(translationService.translate("quizSession.startMine"), event -> startPersonalQuiz());
             joinButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-            actions.add(joinButton);
+
+            if (session.getStatus() == QuizSession.SessionStatus.WAITING) {
+                joinButton.setEnabled(false);
+                joinButton.setTooltipText(translationService.translate("quizSession.waitingForHost"));
+            }
+
+            actionButtons.add(joinButton);
         }
+
+        Button showQRButton = new Button(translationService.translate("quizSession.showQRCode"), event -> showQRCodeDialog());
+        showQRButton.setIcon(VaadinIcon.QRCODE.create());
+        showQRButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        actionButtons.add(showQRButton);
+
+        Button refreshButton = new Button(translationService.translate("common.refresh"), event -> {
+            session = sessionService.getSessionByCode(session.getSessionCode());
+            updateParticipantsList(participantsListDiv);
+            getUI().ifPresent(UI::push);
+        });
+        refreshButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        actionButtons.add(refreshButton);
 
         if (session.getStatus() == QuizSession.SessionStatus.COMPLETED) {
             showLeaderboard();
         }
 
-        // Show QR Code button
-        Button showQRButton = new Button(translationService.translate("quizSession.showQRCode"), event -> showQRCodeDialog());
-        showQRButton.setIcon(VaadinIcon.QRCODE.create());
-        showQRButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        actions.add(showQRButton);
+        contentWrapper.add(backButton, sessionInfo, participantsTitle, participantsListDiv, actionButtons);
+        add(contentWrapper);
 
-        Button refreshButton = new Button(translationService.translate("common.refresh"), event -> {
-            updateParticipantsList(participantsList);
-            getUI().ifPresent(UI::push);
-        });
-        refreshButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        actions.add(refreshButton);
-
-        add(backButton, title, sessionInfo, participantsTitle, participantsList, actions);
+        // Start auto-refresh after UI is built
+        startAutoRefreshIfNeeded();
     }
 
     private void updateParticipantsList(Div participantsList) {
@@ -210,7 +294,8 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
                     LumoUtility.BorderRadius.SMALL,
                     LumoUtility.Display.FLEX,
                     LumoUtility.JustifyContent.BETWEEN,
-                    LumoUtility.AlignItems.CENTER
+                    LumoUtility.AlignItems.CENTER,
+                    LumoUtility.Gap.MEDIUM
                 );
 
                 Span name = new Span(participant.getUser().getName());
@@ -230,6 +315,21 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
 
     private void startQuizSession() {
         sessionService.updateSessionStatus(session, QuizSession.SessionStatus.ACTIVE);
+        buildUI();
+    }
+
+    private void resetQuizSession() {
+        // Reset all participants scores and completed status
+        sessionService.resetParticipants(session);
+
+        // Clear the selected questions so new questions can be chosen
+        session.setSelectedQuestionIds(null);
+        sessionService.updateSession(session);
+
+        // Set session back to WAITING status
+        sessionService.updateSessionStatus(session, QuizSession.SessionStatus.WAITING);
+
+        // Rebuild UI to show the new state
         buildUI();
     }
 
@@ -268,9 +368,9 @@ public class QuizSessionView extends VerticalLayout implements BeforeEnterObserv
         String portServer = appProperties.getProperty("server.port");
         String sessionUrl = "http://" + addressServer + ":" + portServer + "/quiz-session/" + session.getSessionCode();
 
-        Image qrCode = new Image(QRCodeGenerator.generateQRCode(sessionUrl, 300, 300), "QR Code");
-        qrCode.setWidth("300px");
-        qrCode.setHeight("300px");
+        Image qrCode = new Image(QRCodeGenerator.generateQRCode(sessionUrl, 150, 150), "QR Code");
+        qrCode.setWidth("150px");
+        qrCode.setHeight("150px");
 
         Div codeContainer = new Div();
         codeContainer.getStyle()

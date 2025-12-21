@@ -349,9 +349,9 @@ class QuizListView extends Main {
         String portServer= appProperties.getProperty("server.port");
         String sessionUrl = "http://" + addressServer + ":" + portServer +"/quiz-session/" + session.getSessionCode();
 
-        Image qrCode = new Image(QRCodeGenerator.generateQRCode(sessionUrl, 300, 300), "QR Code");
-        qrCode.setWidth("300px");
-        qrCode.setHeight("300px");
+        Image qrCode = new Image(QRCodeGenerator.generateQRCode(sessionUrl, 150, 150), "QR Code");
+        qrCode.setWidth("150px");
+        qrCode.setHeight("150px");
 
         Div codeContainer = new Div();
         codeContainer.getStyle()

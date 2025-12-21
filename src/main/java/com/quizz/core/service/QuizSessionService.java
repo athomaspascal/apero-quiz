@@ -63,5 +63,19 @@ public class QuizSessionService {
         session.setStatus(status);
         sessionRepository.saveAndFlush(session);
     }
-}
 
+    @Transactional
+    public void updateSession(QuizSession session) {
+        sessionRepository.saveAndFlush(session);
+    }
+
+    @Transactional
+    public void resetParticipants(QuizSession session) {
+        List<QuizParticipant> participants = participantRepository.findBySession(session);
+        for (QuizParticipant participant : participants) {
+            participant.setScore(0);
+            participant.setCompleted(false);
+        }
+        participantRepository.saveAllAndFlush(participants);
+    }
+}

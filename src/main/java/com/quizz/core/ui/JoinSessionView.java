@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -24,7 +25,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 @Route("join-session")
 @PageTitle("Join Quiz Session")
 @Menu(order = 3, icon = "vaadin:group", title = "menu.joinSession")
-public class JoinSessionView extends VerticalLayout {
+public class JoinSessionView extends Main {
 
     private final QuizSessionService sessionService;
     private final TranslationService translationService;
@@ -35,8 +36,12 @@ public class JoinSessionView extends VerticalLayout {
         this.translationService = translationService;
 
         setSizeFull();
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
+
+        // Create a wrapper VerticalLayout for centering
+        VerticalLayout wrapper = new VerticalLayout();
+        wrapper.setSizeFull();
+        wrapper.setAlignItems(VerticalLayout.Alignment.CENTER);
+        wrapper.setJustifyContentMode(VerticalLayout.JustifyContentMode.CENTER);
 
         // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
         Button backButton = new Button(translationService.translate("quiz.backToList"), VaadinIcon.ARROW_LEFT.create());
@@ -115,10 +120,11 @@ public class JoinSessionView extends VerticalLayout {
         );
         content.setSpacing(true);
         content.setPadding(false);
-        content.setAlignItems(Alignment.STRETCH);
+        content.setAlignItems(VerticalLayout.Alignment.STRETCH);
 
         container.add(content);
-        add(backButton, container);
+        wrapper.add(backButton, container);
+        add(wrapper);
 
         // Set initial dynamic page title
         getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("joinSession.title")));

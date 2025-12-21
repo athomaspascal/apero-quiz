@@ -9,6 +9,7 @@ import com.quizz.core.service.QuizAnswerService;
 import com.quizz.core.service.QuizQuestionService;
 import com.quizz.core.service.QuizService;
 import com.quizz.core.service.QuizSessionService;
+import com.quizz.core.service.TranslationService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -56,6 +57,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private final QuizService quizService;
     private final QuizSessionService sessionService;
     private final QuizAnswerService answerService;
+    private final TranslationService translationService;
 
     private Long quizId;
     private int currentQuestionIndex = 0;
@@ -106,11 +108,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private com.vaadin.flow.shared.Registration stopClickReg;
 
     QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
-                     QuizSessionService sessionService, QuizAnswerService answerService) {
+                     QuizSessionService sessionService, QuizAnswerService answerService,
+                     TranslationService translationService) {
         this.quizQuestionService = quizQuestionService;
         this.quizService = quizService;
         this.sessionService = sessionService;
         this.answerService = answerService;
+        this.translationService = translationService;
 
         //questionTitle = new H2();
         //questionTitle.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
@@ -135,7 +139,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         timeProgressBar.setWidth("100%");
         timeProgressBar.getStyle().set("--lumo-primary-color", "#1976d2");
 
-        timeLabel = new Paragraph("Time: 0s / 60s");
+        timeLabel = new Paragraph(translationService.translate("quiz.timer.initial"));
         timeLabel.getStyle()
             .set("font-weight", "bold")
             .set("text-align", "center")
@@ -145,14 +149,14 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         timerContainer.addClassNames(LumoUtility.Margin.Bottom.LARGE);
         timerContainer.add(timeLabel, timeProgressBar);
 
-        previousButton = new Button("Previous", event -> showPreviousQuestion());
+        previousButton = new Button(translationService.translate("quiz.previous"), event -> showPreviousQuestion());
         previousButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        nextButton = new Button("Next");
+        nextButton = new Button(translationService.translate("quiz.next"));
         nextButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         nextButton.setEnabled(false);
 
-        stopButton = new Button("Stop Quiz");
+        stopButton = new Button(translationService.translate("quiz.stop"));
         stopButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         stopButton.getStyle().set("margin-left", "auto");
 
@@ -164,7 +168,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         buttonLayout.addClassNames(LumoUtility.Display.FLEX, LumoUtility.Gap.MEDIUM);
 
         // Bouton de retour en haut à gauche (visible uniquement quand le menu latéral n'est pas affiché)
-        Button backButton = new Button("Back to Quiz List", VaadinIcon.ARROW_LEFT.create());
+        Button backButton = new Button(translationService.translate("quiz.backToList"), VaadinIcon.ARROW_LEFT.create());
         backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         backButton.addClickListener(event -> {
             stopTimer(); // Arrêter le timer avant de quitter
@@ -257,21 +261,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             // Charger toutes les questions en une fois (pas par index)
             List<QuizQuestion> allQuestions = new ArrayList<>(quizQuestionService.getQuestionsByQuizId(quizId));
 
-            // Sélectionne 5 questions en évitant (si possible) celles déjà vues par cet utilisateur pendant cette session
-            this.randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
-
-            // Set total questions to the number we're actually showing
-            this.totalQuestions = Math.min(MAX_QUESTIONS, this.randomQuestions.size());
-
-            logger.info("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}",
-                quizId, totalQuestions, randomQuestions.size(), currentRunSeed);
-
             // Get current participant if in a session
             Object sessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
             String sessionCode = sessionCodeAttr != null ? sessionCodeAttr.toString() : null;
+            QuizSession session = null;
 
             if (sessionCode != null) {
-                QuizSession session = sessionService.getSessionByCode(sessionCode);
+                session = sessionService.getSessionByCode(sessionCode);
                 User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
                 if (session != null && currentUser != null && currentUser.getId() != null) {
@@ -283,6 +279,28 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                         .orElse(null);
                 }
             }
+
+            // If in a session, use the session's questions (same for all participants)
+            if (session != null && session.getSelectedQuestionIds() != null && !session.getSelectedQuestionIds().isEmpty()) {
+                // Load questions from session
+                this.randomQuestions = loadQuestionsFromSession(session, allQuestions);
+                logger.info("Loaded {} questions from session {}", randomQuestions.size(), session.getSessionCode());
+            } else {
+                // Select questions randomly
+                this.randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
+
+                // If in a session, save the selected questions
+                if (session != null) {
+                    saveQuestionsToSession(session, randomQuestions);
+                    logger.info("Saved {} questions to session {}", randomQuestions.size(), session.getSessionCode());
+                }
+            }
+
+            // Set total questions to the number we're actually showing
+            this.totalQuestions = Math.min(MAX_QUESTIONS, this.randomQuestions.size());
+
+            logger.info("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}",
+                quizId, totalQuestions, randomQuestions.size(), currentRunSeed);
 
             quizCompleted = false;
 
@@ -313,11 +331,11 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             stopClickReg.remove();
         }
 
-        nextButton.setText("Next");
+        nextButton.setText(translationService.translate("quiz.next"));
         nextButton.setVisible(true);
         nextButton.setEnabled(false);
 
-        stopButton.setText("Stop Quiz");
+        stopButton.setText(translationService.translate("quiz.stop"));
         stopButton.setVisible(true);
         stopButton.setEnabled(true);
         stopButton.removeThemeVariants(ButtonVariant.LUMO_CONTRAST);
@@ -371,7 +389,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                     elapsedSeconds++;
 
                     timeProgressBar.setValue(elapsedSeconds);
-                    timeLabel.setText("Time: " + elapsedSeconds + "s / " + TIME_LIMIT_SECONDS + "s");
+                    timeLabel.setText(translationService.translate("quiz.timer.elapsed", elapsedSeconds, TIME_LIMIT_SECONDS));
 
                     if (elapsedSeconds >= TIME_LIMIT_SECONDS * 0.8) {
                         timeProgressBar.getStyle().set("--lumo-primary-color", "#d32f2f");
@@ -394,7 +412,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         nextButton.setEnabled(false);
         previousButton.setEnabled(false);
 
-        answerFeedback.setText("⏰ Time's up! Quiz finished.");
+        answerFeedback.setText(translationService.translate("quiz.timeUp"));
         answerFeedback.getStyle()
             .set("color", "var(--lumo-error-text-color)")
             .set("font-weight", "bold")
@@ -483,15 +501,15 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             answerFeedback.setVisible(false);
             answerFeedback.setText("");
 
-            progressText.setText("Question " + (currentQuestionIndex + 1) + " of " + totalQuestions);
+            progressText.setText(translationService.translate("quiz.progress", (currentQuestionIndex + 1), totalQuestions));
 
             previousButton.setEnabled(currentQuestionIndex > 0);
             nextButton.setEnabled(false); // Disable next button until an answer is selected
 
             if (currentQuestionIndex >= totalQuestions - 1) {
-                nextButton.setText("Finish");
+                nextButton.setText(translationService.translate("quiz.finish"));
             } else {
-                nextButton.setText("Next");
+                nextButton.setText(translationService.translate("quiz.next"));
             }
         }
     }
@@ -592,21 +610,20 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         //questionTitle.setText("Quiz Completed!");
 
         double percentage = (totalQuestions > 0) ? ((double) correctAnswers / totalQuestions) * 100 : 0;
-        String scoreMessage = String.format("Your Score: %d/%d (%.1f%%) - Time: %ds",
-            correctAnswers, totalQuestions, percentage, elapsedSeconds);
+        String scoreMessage = translationService.translate("quiz.finalScore.message", correctAnswers, totalQuestions, String.format("%.1f", percentage), elapsedSeconds);
 
         questionText.setText(scoreMessage);
 
         // Add performance message
         String performanceMessage;
         if (percentage >= 90) {
-            performanceMessage = "Excellent! Outstanding performance! 🎉";
+            performanceMessage = translationService.translate("quiz.performance.excellent");
         } else if (percentage >= 70) {
-            performanceMessage = "Great job! Well done! 👍";
+            performanceMessage = translationService.translate("quiz.performance.great");
         } else if (percentage >= 50) {
-            performanceMessage = "Good effort! Keep practicing! 📚";
+            performanceMessage = translationService.translate("quiz.performance.good");
         } else {
-            performanceMessage = "Keep learning and try again! 💪";
+            performanceMessage = translationService.translate("quiz.performance.keepLearning");
         }
 
         answerFeedback.setText(performanceMessage);
@@ -642,7 +659,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             }
 
             // Change next button to "View Leaderboard"
-            nextButton.setText("View Leaderboard");
+            nextButton.setText(translationService.translate("quiz.viewLeaderboard"));
             nextButton.setVisible(true);
             nextButton.setEnabled(true);
 
@@ -653,25 +670,34 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 getUI().ifPresent(ui -> ui.navigate("quiz-session/" + sessionCode));
             });
 
-            // Bouton Restart
-            stopButton.setText("Restart Quiz");
-            stopButton.setVisible(true);
-            stopButton.setEnabled(true);
-            stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
-            stopButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-            stopButton.setIcon(VaadinIcon.REFRESH.create());
+            // Check if current user is the host of the session
+            boolean isHost = currentUser != null && currentUser.getId() != null &&
+                             session != null && currentUser.getId().equals(session.getHostUserId());
 
-            if (stopClickReg != null) stopClickReg.remove();
-            stopClickReg = stopButton.addClickListener(event -> restartQuiz());
+            // Bouton "Start New Round" for host - resets the entire session
+            if (isHost) {
+                stopButton.setText(translationService.translate("quiz.startNewRound"));
+                stopButton.setVisible(true);
+                stopButton.setEnabled(true);
+                stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+                stopButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+                stopButton.setIcon(VaadinIcon.REFRESH.create());
+
+                if (stopClickReg != null) stopClickReg.remove();
+                stopClickReg = stopButton.addClickListener(event -> startNewRoundForSession(session, sessionCode));
+            } else {
+                // Invited participants can't start a new round - hide the button
+                stopButton.setVisible(false);
+            }
         } else {
-            nextButton.setText("Back to Quiz List");
+            nextButton.setText(translationService.translate("quiz.backToList"));
             nextButton.setVisible(true);
             nextButton.setEnabled(true);
 
             if (nextClickReg != null) nextClickReg.remove();
             nextClickReg = nextButton.addClickListener(event -> getUI().ifPresent(ui -> ui.navigate("")));
 
-            stopButton.setText("Restart Quiz");
+            stopButton.setText(translationService.translate("quiz.restart"));
             stopButton.setVisible(true);
             stopButton.setEnabled(true);
             stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -729,7 +755,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             previousButton.setEnabled(false);
 
             progressText.setVisible(true);
-            progressText.setText("Question 1 of " + totalQuestions);
+            progressText.setText(translationService.translate("quiz.progress", 1, totalQuestions));
 
 
             answerFeedback.setVisible(false);
@@ -738,7 +764,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             timeProgressBar.setValue(0);
             timeProgressBar.setMax(TIME_LIMIT_SECONDS);
             timeProgressBar.getStyle().set("--lumo-primary-color", "#1976d2");
-            timeLabel.setText("Time: 0s / " + TIME_LIMIT_SECONDS + "s");
+            timeLabel.setText(translationService.translate("quiz.timer.initial"));
 
             getElement().executeJs(
                 "const reviewSection = this.querySelector('#review-section');" +
@@ -752,6 +778,26 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         } finally {
             isRestarting = false;
         }
+    }
+
+    private void startNewRoundForSession(QuizSession session, String sessionCode) {
+        logger.info("Host starting new round for session: {}", sessionCode);
+
+        // Reset all participants scores and completed status
+        sessionService.resetParticipants(session);
+
+        // Clear the selected questions so new questions will be chosen
+        session.setSelectedQuestionIds(null);
+        sessionService.updateSession(session);
+
+        // Set session back to WAITING status
+        sessionService.updateSessionStatus(session, QuizSession.SessionStatus.WAITING);
+
+        // Clear active session from current user's session
+        VaadinSession.getCurrent().setAttribute("activeSessionCode", null);
+
+        // Navigate back to the quiz session view where host can start for everyone
+        getUI().ifPresent(ui -> ui.navigate("quiz-session/" + sessionCode));
     }
 
     private void startNewRun() {
@@ -880,7 +926,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             .set("overflow-y", "auto")
             .set("margin-top", "var(--lumo-space-l)");
 
-        H3 reviewTitle = new H3("📋 Questions Review");
+        H3 reviewTitle = new H3(translationService.translate("quiz.review.title"));
         reviewTitle.getStyle().set("margin-top", "0");
         reviewContainer.add(reviewTitle);
 
@@ -901,7 +947,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 .set("margin-bottom", "var(--lumo-space-s)");
 
             // Question number and text
-            H3 qNumber = new H3("Question " + (i + 1));
+            H3 qNumber = new H3(translationService.translate("quiz.review.questionNumber", (i + 1)));
             qNumber.getStyle().set("margin-top", "0");
 
             Paragraph qText = new Paragraph(question.getQuestion());
@@ -917,8 +963,9 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 .set("color", isCorrect ? "#2e7d32" : "#c62828")
                 .set("font-weight", "bold");
 
-            String answerPrefix = isCorrect ? "✓ Your answer: " : "✗ Your answer: ";
-            userAnswerDiv.setText(answerPrefix + (userAnswer.isEmpty() ? "(No answer)" : userAnswer));
+            String answerText = userAnswer.isEmpty() ? translationService.translate("quiz.review.noAnswer") : userAnswer;
+            String answerPrefix = isCorrect ? "✓ " + translationService.translate("quiz.review.yourAnswer") + ": " : "✗ " + translationService.translate("quiz.review.yourAnswer") + ": ";
+            userAnswerDiv.setText(answerPrefix + answerText);
 
             questionContainer.add(qNumber, qText, userAnswerDiv);
 
@@ -932,7 +979,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                     .set("background-color", "#e8f5e9")
                     .set("color", "#2e7d32")
                     .set("font-weight", "bold");
-                correctAnswerDiv.setText("✓ Correct answer: " + correctAnswer);
+                correctAnswerDiv.setText("✓ " + translationService.translate("quiz.review.correctAnswer") + ": " + correctAnswer);
                 questionContainer.add(correctAnswerDiv);
             }
 
@@ -1024,7 +1071,60 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             }
         }
 
-        return List.copyOf(selected);
+        // Update the seen set in session
+        VaadinSession.getCurrent().setAttribute(getSeenIdsSessionKey(), seenIds);
+
+        return selected;
+    }
+
+    private List<QuizQuestion> loadQuestionsFromSession(QuizSession session, List<QuizQuestion> allQuestions) {
+        String questionIdsStr = session.getSelectedQuestionIds();
+        if (questionIdsStr == null || questionIdsStr.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // Parse comma-separated IDs
+        String[] idStrs = questionIdsStr.split(",");
+        List<Long> questionIds = new ArrayList<>();
+        for (String idStr : idStrs) {
+            try {
+                questionIds.add(Long.parseLong(idStr.trim()));
+            } catch (NumberFormatException e) {
+                logger.error("Invalid question ID in session: {}", idStr);
+            }
+        }
+
+        // Find questions by IDs in the same order
+        List<QuizQuestion> questions = new ArrayList<>();
+        for (Long questionId : questionIds) {
+            allQuestions.stream()
+                .filter(q -> q.getId() != null && q.getId().equals(questionId))
+                .findFirst()
+                .ifPresent(questions::add);
+        }
+
+        return questions;
+    }
+
+    private void saveQuestionsToSession(QuizSession session, List<QuizQuestion> questions) {
+        // Convert question IDs to comma-separated string
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < questions.size(); i++) {
+            QuizQuestion q = questions.get(i);
+            if (q.getId() != null) {
+                if (i > 0) {
+                    sb.append(",");
+                }
+                sb.append(q.getId());
+            }
+        }
+
+        session.setSelectedQuestionIds(sb.toString());
+        sessionService.updateSession(session);
+    }
+
+    private String getSeenIdsSessionKey() {
+        return SEEN_QUESTION_IDS_SESSION_KEY_PREFIX + quizId;
     }
 
     // Ancienne signature conservée si appelée ailleurs dans le fichier

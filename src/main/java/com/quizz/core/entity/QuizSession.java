@@ -34,6 +34,9 @@ public class QuizSession {
     @Column(name = "host_user_id")
     private Long hostUserId;
 
+    @Column(name = "selected_question_ids", length = 1000)
+    private String selectedQuestionIds; // Comma-separated list of question IDs
+
     protected QuizSession() {
     }
 
@@ -77,10 +80,17 @@ public class QuizSession {
         return hostUserId;
     }
 
+    public String getSelectedQuestionIds() {
+        return selectedQuestionIds;
+    }
+
+    public void setSelectedQuestionIds(String selectedQuestionIds) {
+        this.selectedQuestionIds = selectedQuestionIds;
+    }
+
     public enum SessionStatus {
         WAITING,    // En attente des participants
         ACTIVE,     // Session en cours
         COMPLETED   // Session terminée
     }
 }
-
