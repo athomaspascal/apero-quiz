@@ -1,14 +1,6 @@
 @echo off
-:: Script simple pour obtenir votre adresse IP
-
-echo.
-echo === ADRESSE IP LOCALE ===
-for /f "tokens=2 delims=:" %%a in ('ipconfig ^| findstr /C:"Adresse IPv4"') do echo Adresse IP locale:%%a
-echo.
-
-echo === ADRESSE IP PUBLIQUE ===
-powershell -Command "(Invoke-WebRequest -Uri 'https://api.ipify.org' -UseBasicParsing).Content"
-echo.
-
+for /f "tokens=2 delims=:" %%a in ('ipconfig ^| find "IPv4"') do (
+    for /f "tokens=*" %%b in ("%%a") do echo Your IP address is: %%b
+)
 pause
 

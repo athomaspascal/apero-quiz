@@ -243,15 +243,34 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
         if (session.getStatus() == QuizSession.SessionStatus.ACTIVE ||
             session.getStatus() == QuizSession.SessionStatus.WAITING) {
+
+            // Create a vertical layout to group button and help message
+            VerticalLayout joinButtonContainer = new VerticalLayout();
+            joinButtonContainer.setPadding(false);
+            joinButtonContainer.setSpacing(false);
+            joinButtonContainer.getStyle().set("gap", "var(--lumo-space-xs)");
+
             Button joinButton = new Button(translationService.translate("quizSession.startMine"), event -> startPersonalQuiz());
             joinButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+            // Create help message
+            Span helpMessage = new Span(translationService.translate("quizSession.waitForHostMessage"));
+            helpMessage.getStyle()
+                .set("font-size", "var(--lumo-font-size-s)")
+                .set("color", "var(--lumo-secondary-text-color)")
+                .set("font-style", "italic");
 
             if (session.getStatus() == QuizSession.SessionStatus.WAITING) {
                 joinButton.setEnabled(false);
                 joinButton.setTooltipText(translationService.translate("quizSession.waitingForHost"));
+                // Show help message when waiting
+                joinButtonContainer.add(joinButton, helpMessage);
+            } else {
+                // Active: no help message needed
+                joinButtonContainer.add(joinButton);
             }
 
-            actionButtons.add(joinButton);
+            actionButtons.add(joinButtonContainer);
         }
 
         Button showQRButton = new Button(translationService.translate("quizSession.showQRCode"), event -> showQRCodeDialog());

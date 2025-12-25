@@ -1,0 +1,32 @@
+{
+  "quizzes": [
+    {
+      "name": "quiz name",
+      "imageFileName": "france.svg",
+      "questions": [
+        {
+          "question": "question ?",
+          "options": [
+            "reponse 1",
+            "reponse 2",
+            "reponse 3",
+            "reponse 4"
+          ],
+          "answer": "response 1",
+          "uuid": "59c67574-8dfc-4a5a-9d19-4590b7a36d2a"
+        },
+        {
+          "question": "question ?",
+          "options": [
+            "reponse 1",
+            "reponse 2",
+            "reponse 3",
+            "reponse 4"
+          ],
+          "answer": "response 2",
+          "uuid": "24567eg-3436gb-4a5a-9d19-245hr2566hy"
+        }
+      ]
+    }
+  ]
+}

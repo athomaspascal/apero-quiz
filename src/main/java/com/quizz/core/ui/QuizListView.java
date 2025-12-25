@@ -47,9 +47,13 @@ class QuizListView extends Main {
     private Quiz selectedQuiz = null;
 
     QuizListView(QuizService quizService, QuizSessionService sessionService, TranslationService translationService) {
+        System.out.println("=== QuizListView Constructor: Starting ===");
+
         this.quizService = quizService;
         this.sessionService = sessionService;
         this.translationService = translationService;
+
+        System.out.println("Services injected successfully");
 
         name = new TextField();
         name.setPlaceholder(translationService.translate("quizlist.title"));
@@ -92,10 +96,16 @@ class QuizListView extends Main {
         add(new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn)));
         add(quizCardsContainer);
 
+        System.out.println("UI components created, about to load quiz cards...");
+
         loadQuizCards();
+
+        System.out.println("Quiz cards loaded");
 
         // Hide Users menu if not admin
         hideUsersMenuIfNotAdmin();
+
+        System.out.println("=== QuizListView Constructor: Completed ===");
     }
 
     private void hideUsersMenuIfNotAdmin() {
@@ -210,10 +220,24 @@ class QuizListView extends Main {
 
         List<Quiz> quizzes = quizService.list(org.springframework.data.domain.Pageable.unpaged());
 
+        System.out.println("=== QuizListView: Loading Quiz Cards ===");
+        System.out.println("Number of quizzes retrieved: " + quizzes.size());
+
+        if (quizzes.isEmpty()) {
+            System.out.println("WARNING: No quizzes found in database!");
+            Paragraph noQuizMessage = new Paragraph("No quizzes available. Please check the database.");
+            noQuizMessage.getStyle().set("color", "red").set("font-weight", "bold");
+            quizCardsContainer.add(noQuizMessage);
+            return;
+        }
+
         for (Quiz quiz : quizzes) {
+            System.out.println("Creating card for quiz: " + quiz.getName() + " (ID: " + quiz.getId() + ")");
             VerticalLayout card = createQuizCard(quiz);
             quizCardsContainer.add(card);
         }
+
+        System.out.println("=== Quiz Cards Loading Completed ===");
     }
 
     private VerticalLayout createQuizCard(Quiz quiz) {

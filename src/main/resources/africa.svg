@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFB703"/>
+      <stop offset="1" stop-color="#FB8500"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+
+    <!-- subtle text shadow for readability -->
+    <filter id="textShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#000" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="256" height="256" rx="32" fill="#0B1320"/>
+
+  <!-- Africa (generated from cartographic GeoJSON) -->
+  <path d="M 33.3 28.0 L 67.8 31.9 L 88.6 29.1 L 109.3 28.0 L 117.6 33.0 L 150.8 39.1 L 175.7 44.0 L 179.9 53.7 L 192.3 89.7 L 200.6 98.0 L 222.7 100.8 L 221.4 125.6 L 203.4 133.9 L 197.8 158.8 L 192.3 172.7 L 178.5 186.5 L 173.0 203.1 L 164.7 211.4 L 159.1 222.5 L 137.0 228.0 L 123.2 225.2 L 109.3 214.2 L 95.5 186.5 L 84.4 145.0 L 67.8 117.3 L 54.0 103.5 L 40.2 75.9 L 33.3 53.7 L 33.3 28.0 Z" fill="url(#g)" filter="url(#shadow)"/>
+
+  <!-- Label (centered) -->
+  <text x="128" y="128"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+        font-size="34"
+        font-weight="800"
+        letter-spacing="0.5"
+        fill="#FFFFFF"
+        filter="url(#textShadow)">Africa</text>
+</svg>
