@@ -1,0 +1,131 @@
+{
+  "quizzes": [
+    {
+      "name": "General Knowledge",
+      "imageFileName": "knowledge.svg",
+      "questions": [
+        {
+          "id": 1,
+          "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+          "question": "What is the capital of France?",
+          "options": [
+            "Berlin",
+            "Madrid",
+            "Paris",
+            "Rome"
+          ],
+          "answer": "Paris"
+        },
+        {
+          "id": 2,
+          "question": "Which planet is known as the Red Planet?",
+          "options": [
+            "Earth",
+            "Mars",
+            "Jupiter",
+            "Saturn"
+          ],
+          "answer": "Mars",
+          "uuid": "32cf5fb0-8a5e-4aa3-846f-81e7b45897c2"
+        },
+        {
+          "id": 3,
+          "question": "What is the largest ocean on Earth?",
+          "options": [
+            "Atlantic Ocean",
+            "Indian Ocean",
+            "Arctic Ocean",
+            "Pacific Ocean"
+          ],
+          "answer": "Pacific Ocean",
+          "uuid": "e6c8f770-e259-4119-bceb-dcf8fbfc5325"
+        },
+        {
+          "id": 4,
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "options": [
+            "Charles Dickens",
+            "William Shakespeare",
+            "Jane Austen",
+            "Mark Twain"
+          ],
+          "answer": "William Shakespeare",
+          "uuid": "8a2a7db9-8f6e-4f83-b317-7d77c9f62d79"
+        },
+        {
+          "id": 5,
+          "question": "What is the smallest prime number?",
+          "options": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
+          "answer": "2",
+          "uuid": "26c4da24-7447-41ee-a2fd-30970d43f1de"
+        },
+        {
+          "id": 6,
+          "question": "Which element has the chemical symbol 'O'?",
+          "options": [
+            "Gold",
+            "Oxygen",
+            "Osmium",
+            "Silver"
+          ],
+          "answer": "Oxygen",
+          "uuid": "e8602fac-eba3-447b-a738-498586d64969"
+        },
+        {
+          "id": 7,
+          "question": "In which year did World War II end?",
+          "options": [
+            "1943",
+            "1944",
+            "1945",
+            "1946"
+          ],
+          "answer": "1945",
+          "uuid": "bb9c581e-8efe-4178-8220-88529f5e7948"
+        },
+        {
+          "id": 8,
+          "question": "What is the speed of light in vacuum?",
+          "options": [
+            "299,792 km/s",
+            "150,000 km/s",
+            "500,000 km/s",
+            "1,000,000 km/s"
+          ],
+          "answer": "299,792 km/s",
+          "uuid": "046bbc27-7200-4956-b039-7f3cff9dac1b"
+        },
+        {
+          "id": 9,
+          "question": "Which country is home to the kangaroo?",
+          "options": [
+            "New Zealand",
+            "South Africa",
+            "Australia",
+            "Brazil"
+          ],
+          "answer": "Australia",
+          "uuid": "59e32e72-be7c-4f35-8f93-5135dbd1746b"
+        },
+        {
+          "id": 10,
+          "question": "What is the largest planet in our solar system?",
+          "options": [
+            "Saturn",
+            "Jupiter",
+            "Neptune",
+            "Uranus"
+          ],
+          "answer": "Jupiter",
+          "uuid": "03f68ee9-7552-4732-8056-ddce41e0a4d5"
+        }
+      ]
+    }
+
+  ]
+}

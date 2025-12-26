@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="titlePT">
+  <title id="titlePT">Periodic Table Quiz</title>
+  <defs>
+    <linearGradient id="gradPT" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="128" height="128" rx="16" fill="url(#gradPT)"/>
+
+  <!-- Grille du tableau périodique simplifié -->
+  <g opacity="0.9">
+    <!-- Rangées -->
+    <line x1="20" y1="30" x2="108" y2="30" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+    <line x1="20" y1="45" x2="108" y2="45" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+    <line x1="20" y1="60" x2="108" y2="60" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+    <line x1="20" y1="75" x2="108" y2="75" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+    <line x1="20" y1="90" x2="108" y2="90" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+
+    <!-- Cases colorées représentant différents groupes d'éléments -->
+    <!-- Métaux alcalins (rouge/rose) -->
+    <rect x="22" y="47" width="10" height="10" fill="#f87171" rx="1"/>
+    <rect x="22" y="62" width="10" height="10" fill="#f87171" rx="1"/>
+    <rect x="22" y="77" width="10" height="10" fill="#f87171" rx="1"/>
+
+    <!-- Métaux alcalino-terreux (orange) -->
+    <rect x="35" y="47" width="10" height="10" fill="#fb923c" rx="1"/>
+    <rect x="35" y="62" width="10" height="10" fill="#fb923c" rx="1"/>
+    <rect x="35" y="77" width="10" height="10" fill="#fb923c" rx="1"/>
+
+    <!-- Métaux de transition (jaune) -->
+    <rect x="48" y="47" width="10" height="10" fill="#fbbf24" rx="1"/>
+    <rect x="61" y="47" width="10" height="10" fill="#fbbf24" rx="1"/>
+    <rect x="48" y="62" width="10" height="10" fill="#fbbf24" rx="1"/>
+    <rect x="61" y="62" width="10" height="10" fill="#fbbf24" rx="1"/>
+
+    <!-- Non-métaux (vert) -->
+    <rect x="74" y="32" width="10" height="10" fill="#34d399" rx="1"/>
+    <rect x="87" y="32" width="10" height="10" fill="#34d399" rx="1"/>
+    <rect x="74" y="47" width="10" height="10" fill="#34d399" rx="1"/>
+
+    <!-- Halogènes (bleu clair) -->
+    <rect x="96" y="47" width="10" height="10" fill="#60a5fa" rx="1"/>
+    <rect x="96" y="62" width="10" height="10" fill="#60a5fa" rx="1"/>
+
+    <!-- Gaz nobles (violet) -->
+    <rect x="96" y="32" width="10" height="10" fill="#c084fc" rx="1"/>
+    <rect x="96" y="77" width="10" height="10" fill="#c084fc" rx="1"/>
+
+    <!-- Symboles chimiques -->
+    <text x="27" y="38" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#fff" text-anchor="middle">H</text>
+    <text x="102" y="38" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#fff" text-anchor="middle">He</text>
+    <text x="27" y="53" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">Li</text>
+    <text x="40" y="53" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">Be</text>
+    <text x="79" y="53" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">C</text>
+    <text x="92" y="53" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">N</text>
+    <text x="101" y="53" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">F</text>
+    <text x="53" y="68" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">Fe</text>
+    <text x="66" y="68" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">Cu</text>
+    <text x="101" y="68" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">Br</text>
+    <text x="27" y="83" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">K</text>
+    <text x="101" y="83" font-family="Arial, sans-serif" font-size="6" fill="#fff" text-anchor="middle">Xe</text>
+  </g>
+
+  <!-- Titre au bas -->
+  <text x="64" y="108" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Periodic Table</text>
+</svg>
+

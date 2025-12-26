@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#E8F4F8"/>
+
+  <!-- Grid lines for latitude/longitude -->
+  <g stroke="#B0D4E3" stroke-width="1" opacity="0.5">
+    <!-- Latitude lines -->
+    <line x1="0" y1="50" x2="800" y2="50"/>
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+
+    <!-- Longitude lines -->
+    <line x1="100" y1="0" x2="100" y2="400"/>
+    <line x1="200" y1="0" x2="200" y2="400"/>
+    <line x1="300" y1="0" x2="300" y2="400"/>
+    <line x1="400" y1="0" x2="400" y2="400"/>
+    <line x1="500" y1="0" x2="500" y2="400"/>
+    <line x1="600" y1="0" x2="600" y2="400"/>
+    <line x1="700" y1="0" x2="700" y2="400"/>
+  </g>
+
+  <!-- Equator (thicker line) -->
+  <line x1="0" y1="200" x2="800" y2="200" stroke="#4A90E2" stroke-width="2" opacity="0.8"/>
+
+  <!-- Prime Meridian (thicker line) -->
+  <line x1="400" y1="0" x2="400" y2="400" stroke="#4A90E2" stroke-width="2" opacity="0.8"/>
+
+  <!-- Simplified world continents -->
+  <g fill="#4CAF50" opacity="0.7">
+    <!-- North America -->
+    <path d="M 80 80 Q 100 60 140 70 L 180 90 L 200 130 L 190 160 L 170 180 L 140 170 L 100 150 L 80 120 Z"/>
+
+    <!-- South America -->
+    <path d="M 180 240 L 200 280 L 210 330 L 190 350 L 170 340 L 160 300 L 170 260 Z"/>
+
+    <!-- Europe -->
+    <path d="M 380 90 L 420 80 L 450 90 L 460 110 L 440 130 L 400 125 L 380 110 Z"/>
+
+    <!-- Africa -->
+    <path d="M 400 160 L 440 150 L 470 180 L 480 240 L 460 290 L 430 310 L 410 280 L 390 220 L 380 180 Z"/>
+
+    <!-- Asia -->
+    <path d="M 480 70 L 550 60 L 620 80 L 660 100 L 680 130 L 670 160 L 620 180 L 560 190 L 520 170 L 500 140 L 480 110 Z"/>
+
+    <!-- Australia -->
+    <path d="M 620 280 L 660 270 L 680 290 L 670 320 L 640 325 L 620 310 Z"/>
+  </g>
+
+  <!-- City markers (pins) -->
+  <g fill="#E53935">
+    <!-- Major cities represented as location pins -->
+    <circle cx="150" cy="110" r="4"/>
+    <circle cx="200" cy="270" r="4"/>
+    <circle cx="410" cy="105" r="4"/>
+    <circle cx="420" cy="200" r="4"/>
+    <circle cx="560" cy="120" r="4"/>
+    <circle cx="650" cy="140" r="4"/>
+    <circle cx="650" cy="305" r="4"/>
+  </g>
+
+  <!-- Compass rose -->
+  <g transform="translate(730, 30)">
+    <circle cx="0" cy="0" r="25" fill="white" stroke="#4A90E2" stroke-width="2" opacity="0.9"/>
+    <polygon points="0,-20 3,-5 0,-8 -3,-5" fill="#E53935"/>
+    <polygon points="0,20 3,5 0,8 -3,5" fill="#757575"/>
+    <text x="0" y="-28" font-family="Arial" font-size="12" font-weight="bold" fill="#E53935" text-anchor="middle">N</text>
+    <text x="0" y="38" font-family="Arial" font-size="10" fill="#757575" text-anchor="middle">S</text>
+  </g>
+
+  <!-- Title -->
+  <text x="400" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2C3E50" text-anchor="middle">World Cities</text>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="16" fill="#546E7A" text-anchor="middle">Latitude & Longitude Quiz</text>
+</svg>
+

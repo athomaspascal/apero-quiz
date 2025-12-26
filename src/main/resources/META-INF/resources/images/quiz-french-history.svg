@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="titleFH">
+  <title id="titleFH">French History Quiz</title>
+  <rect width="128" height="128" rx="16" fill="#f0f4ff"/>
+  <rect x="20" y="20" width="88" height="88" rx="8" fill="#1e3a8a"/>
+
+  <!-- Tour Eiffel simplifiée -->
+  <g transform="translate(64, 40)" fill="#fbbf24" stroke="#fbbf24" stroke-width="2">
+    <polygon points="0,-10 -8,10 8,10" fill="#fbbf24"/>
+    <rect x="-1" y="10" width="2" height="30" fill="#fbbf24"/>
+    <line x1="-6" y1="15" x2="6" y2="15" stroke-width="1.5"/>
+    <line x1="-4" y1="25" x2="4" y2="25" stroke-width="1.5"/>
+    <polygon points="-3,40 3,40 5,50 -5,50" fill="#fbbf24"/>
+  </g>
+
+  <!-- Couronne -->
+  <g transform="translate(94, 30)" fill="#fbbf24">
+    <path d="M0,0 l-3,8 h6 z M-4,2 l-2,6 h2 z M4,2 l2,6 h-2 z" fill="#fbbf24"/>
+    <rect x="-6" y="8" width="12" height="3" rx="1" fill="#fbbf24"/>
+  </g>
+</svg>
+

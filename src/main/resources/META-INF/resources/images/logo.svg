@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="64" viewBox="0 0 256 64" role="img" aria-labelledby="titleL">
+  <title id="titleL">Quizz logo</title>
+  <rect width="256" height="64" rx="8" fill="#0f172a"/>
+  <g transform="translate(14,10)" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round">
+    <rect x="0" y="0" width="44" height="44" rx="8" fill="#2563eb" stroke="none"/>
+    <path d="M62 22h120" stroke="#fff"/>
+  </g>
+  <text x="76" y="40" fill="#fff" font-family="Segoe UI, Arial, sans-serif" font-size="20">Quizz</text>
+</svg>
+
