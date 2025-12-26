@@ -3,6 +3,8 @@ package com.quizz.core;
 import com.quizz.core.entity.Gender;
 import com.quizz.core.entity.User;
 import com.quizz.core.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,8 @@ import java.io.IOException;
 
 @Configuration
 public class DataInitializer {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
     @Bean
     CommandLineRunner initDatabase(UserService userService) {
@@ -29,7 +33,7 @@ public class DataInitializer {
 
         // Check if admin user already exists
         if (userService.findByEmail(adminEmail).isPresent()) {
-            System.out.println("Admin user already exists, skipping creation.");
+            logger.info("Admin user already exists, skipping creation.");
             return;
         }
 
@@ -47,9 +51,9 @@ public class DataInitializer {
 
             // Mark as admin
             userService.updateAdminFlag(admin.getId(), true);
-            System.out.println("✅ Default admin user created: " + adminEmail + " / quizz2025!!");
+            logger.info("Default admin user created: {} / quizz2025!!", adminEmail);
         } catch (Exception e) {
-            System.err.println("❌ Error creating admin user: " + e.getMessage());
+            logger.error("Error creating admin user: {}", e.getMessage(), e);
         }
     }
 
@@ -196,14 +200,14 @@ public class DataInitializer {
                 successCount++;
 
                 if ((i + 1) % 20 == 0) {
-                    System.out.println("Created " + (i + 1) + " public users...");
+                    logger.info("Created {} public users...", (i + 1));
                 }
             } catch (IllegalArgumentException e) {
                 skipCount++;
             }
         }
 
-        System.out.println("Public users initialization complete: " + successCount + " created, " + skipCount + " skipped (already exist)");
+        logger.info("Public users initialization complete: {} created, {} skipped (already exist)", successCount, skipCount);
     }
 
     /**
@@ -241,7 +245,7 @@ public class DataInitializer {
             ImageIO.write(image, "png", baos);
             return baos.toByteArray();
         } catch (IOException e) {
-            System.err.println("Error generating avatar image: " + e.getMessage());
+            logger.error("Error generating avatar image: {}", e.getMessage(), e);
             return null;
         }
     }

@@ -23,6 +23,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -36,6 +38,8 @@ import java.util.Properties;
     @SuppressWarnings({"deprecation", "removal"})
 class QuizListView extends Main {
 
+    private static final Logger logger = LoggerFactory.getLogger(QuizListView.class);
+
     private final QuizService quizService;
     private final QuizSessionService sessionService;
     private final TranslationService translationService;
@@ -47,13 +51,13 @@ class QuizListView extends Main {
     private Quiz selectedQuiz = null;
 
     QuizListView(QuizService quizService, QuizSessionService sessionService, TranslationService translationService) {
-        System.out.println("=== QuizListView Constructor: Starting ===");
+        logger.info("=== QuizListView Constructor: Starting ===");
 
         this.quizService = quizService;
         this.sessionService = sessionService;
         this.translationService = translationService;
 
-        System.out.println("Services injected successfully");
+        logger.info("Services injected successfully");
 
         name = new TextField();
         name.setPlaceholder(translationService.translate("quizlist.title"));
@@ -96,16 +100,16 @@ class QuizListView extends Main {
         add(new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn)));
         add(quizCardsContainer);
 
-        System.out.println("UI components created, about to load quiz cards...");
+        logger.info("UI components created, about to load quiz cards...");
 
         loadQuizCards();
 
-        System.out.println("Quiz cards loaded");
+        logger.info("Quiz cards loaded");
 
         // Hide Users menu if not admin
         hideUsersMenuIfNotAdmin();
 
-        System.out.println("=== QuizListView Constructor: Completed ===");
+        logger.info("=== QuizListView Constructor: Completed ===");
     }
 
     private void hideUsersMenuIfNotAdmin() {
@@ -220,11 +224,11 @@ class QuizListView extends Main {
 
         List<Quiz> quizzes = quizService.list(org.springframework.data.domain.Pageable.unpaged());
 
-        System.out.println("=== QuizListView: Loading Quiz Cards ===");
-        System.out.println("Number of quizzes retrieved: " + quizzes.size());
+        logger.info("=== QuizListView: Loading Quiz Cards ===");
+        logger.info("Number of quizzes retrieved: " + quizzes.size());
 
         if (quizzes.isEmpty()) {
-            System.out.println("WARNING: No quizzes found in database!");
+            logger.info("WARNING: No quizzes found in database!");
             Paragraph noQuizMessage = new Paragraph("No quizzes available. Please check the database.");
             noQuizMessage.getStyle().set("color", "red").set("font-weight", "bold");
             quizCardsContainer.add(noQuizMessage);
@@ -232,12 +236,12 @@ class QuizListView extends Main {
         }
 
         for (Quiz quiz : quizzes) {
-            System.out.println("Creating card for quiz: " + quiz.getName() + " (ID: " + quiz.getId() + ")");
+            logger.info("Creating card for quiz: " + quiz.getName() + " (ID: " + quiz.getId() + ")");
             VerticalLayout card = createQuizCard(quiz);
             quizCardsContainer.add(card);
         }
 
-        System.out.println("=== Quiz Cards Loading Completed ===");
+        logger.info("=== Quiz Cards Loading Completed ===");
     }
 
     private VerticalLayout createQuizCard(Quiz quiz) {

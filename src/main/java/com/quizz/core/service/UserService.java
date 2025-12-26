@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,6 +22,8 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -66,7 +70,7 @@ public class UserService {
             ImageIO.write(resizedImage, "jpg", baos);
             return baos.toByteArray();
         } catch (IOException e) {
-            System.err.println("Error resizing image: " + e.getMessage());
+            logger.error("Error resizing image: " + e.getMessage());
             return imageBytes; // Return original if resize fails
         }
     }

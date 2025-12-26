@@ -601,7 +601,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                     answerService.recordAnswer(currentParticipant, currentQuestion, selectedAnswer, timeTaken);
                 } catch (Exception e) {
                     // Log error but don't interrupt the quiz
-                    System.err.println("Error recording answer: " + e.getMessage());
+                    logger.error("Error recording answer: " + e.getMessage());
                 }
             }
 
@@ -944,7 +944,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 try {
                     answerService.recordAnswer(currentParticipant, currentQuestion, selectedAnswer, elapsedSeconds);
                 } catch (Exception e) {
-                    System.err.println("Error recording answer: " + e.getMessage());
+                    logger.error("Error recording answer: " + e.getMessage());
                 }
             }
 

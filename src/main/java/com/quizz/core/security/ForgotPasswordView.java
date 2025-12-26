@@ -15,12 +15,16 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.PermitAll;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Route("forgot-password")
 @PageTitle("Forgot Password | Quiz Application")
 @AnonymousAllowed
 @PermitAll
 public class ForgotPasswordView extends VerticalLayout {
+
+    private static final Logger logger = LoggerFactory.getLogger(ForgotPasswordView.class);
 
     private final UserService userService;
     private final EmailField emailField;
@@ -110,7 +114,7 @@ public class ForgotPasswordView extends VerticalLayout {
             ).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
             // For demo purposes, show the temporary password in console
-            System.out.println("Password reset requested for: " + email);
+            logger.info("Password reset requested for: " + email);
         } else {
             // Still show success message to prevent email enumeration
             Notification.show(

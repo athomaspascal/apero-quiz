@@ -30,6 +30,9 @@ public class QuizQuestion {
     @Column(name = "answer", nullable = false, length = 200)
     private String answer;
 
+    @Column(name = "difficulty_level")
+    private Integer difficultyLevel;
+
     protected QuizQuestion() {
     }
 
@@ -38,6 +41,15 @@ public class QuizQuestion {
         this.question = question;
         this.options = options;
         this.answer = answer;
+        this.difficultyLevel = null; // Default value
+    }
+
+    public QuizQuestion(Quiz quiz, String question, List<String> options, String answer, Integer difficultyLevel) {
+        this.quiz = quiz;
+        this.question = question;
+        this.options = options;
+        this.answer = answer;
+        this.difficultyLevel = difficultyLevel;
     }
 
     public @Nullable Long getId() {
@@ -74,6 +86,14 @@ public class QuizQuestion {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public Integer getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(Integer difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
     }
 
     @Override
