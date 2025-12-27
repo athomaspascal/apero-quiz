@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://apero-quiz.com/schemas/quiz-questions-schema.json",
+  "title": "Quiz Questions Schema",
+  "description": "Schema for quiz questions with multiple quizzes, each containing questions with options and answers",
+  "type": "object",
+  "required": ["quizzes"],
+  "properties": {
+    "quizzes": {
+      "type": "array",
+      "description": "Array of quiz objects",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/quiz"
+      }
+    }
+  },
+  "definitions": {
+    "quiz": {
+      "type": "object",
+      "description": "A single quiz with a name, image, and questions",
+      "required": ["name", "imageFileName", "questions"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the quiz",
+          "minLength": 1,
+          "examples": ["French Revolution", "Greek Mythology", "World Geography"]
+        },
+        "imageFileName": {
+          "type": "string",
+          "description": "The filename of the quiz image (preferably SVG format)",
+          "pattern": "^.*\\.(svg|png|jpg|jpeg)$",
+          "examples": ["france.svg", "greece.svg", "world-map.svg"]
+        },
+        "questions": {
+          "type": "array",
+          "description": "Array of questions for this quiz",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/question"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "question": {
+      "type": "object",
+      "description": "A single question with multiple choice options",
+      "required": ["id", "uuid", "question", "difficulty_level", "options", "answer"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Sequential order ID of the question within the quiz",
+          "minimum": 1,
+          "examples": [1, 2, 3, 4, 5]
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Unique identifier for the question (UUID v4 format)",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "examples": ["59c67574-8dfc-4a5a-9d19-4590b7a36d2a"]
+        },
+        "question": {
+          "type": "string",
+          "description": "The question text",
+          "minLength": 1,
+          "examples": ["What is the capital of France?", "Who wrote 'Romeo and Juliet'?"]
+        },
+        "difficulty_level": {
+          "type": "integer",
+          "description": "Difficulty level of the question (1 = easy, 2 = medium, 3 = hard, etc.)",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 1,
+          "examples": [1, 2, 3]
+        },
+        "options": {
+          "type": "array",
+          "description": "Array of possible answers (multiple choice options)",
+          "minItems": 2,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "examples": [
+            ["Paris", "London", "Berlin", "Madrid"],
+            ["True", "False"]
+          ]
+        },
+        "answer": {
+          "type": "string",
+          "description": "The correct answer (must match exactly one of the options)",
+          "minLength": 1,
+          "examples": ["Paris", "William Shakespeare"]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

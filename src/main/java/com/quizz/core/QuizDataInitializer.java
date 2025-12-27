@@ -82,10 +82,16 @@ public class QuizDataInitializer {
                 int questionCount = 0;
                 for (QuizQuestionsData.QuestionData questionData : quizData.getQuestions()) {
                     questionCount++;
+                    // Utiliser le niveau de difficulté s'il existe, sinon 1 par défaut
+                    Integer difficultyLevel = questionData.getDifficulty_level() != 0
+                        ? questionData.getDifficulty_level()
+                        : 1;
+
                     quizQuestionService.createQuestion(quiz,
                         questionData.getQuestion(),
                         questionData.getOptions(),
-                        questionData.getAnswer());
+                        questionData.getAnswer(),
+                        difficultyLevel);
 
                     if (questionCount % 50 == 0) {
                         logger.info("  - Processed {} questions...", questionCount);

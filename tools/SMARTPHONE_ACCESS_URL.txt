@@ -1,0 +1,117 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║     ACCES APPLICATION DEPUIS SMARTPHONE                      ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+
+📱 URL D'ACCES DEPUIS LE SMARTPHONE
+═══════════════════════════════════════════════════════════════
+
+   Configuration actuelle (HTTPS) :
+
+        https://10.154.57.110:8443
+
+
+⚠️  IMPORTANT: Avec HTTPS, vous devrez accepter l'avertissement
+    de certificat sur le navigateur du smartphone.
+
+
+📋 ETAPES POUR SE CONNECTER
+═══════════════════════════════════════════════════════════════
+
+1. ✓ PC connecté au hotspot WiFi du smartphone
+   → Réseau: Point d'accès mobile du smartphone
+
+2. ✓ Application lancée sur le PC
+   → Exécuter: run-app.bat
+
+3. ✓ Pare-feu configuré
+   → Port 8443 ouvert pour connexions entrantes
+
+4. 📱 Sur le smartphone:
+   → Ouvrir le navigateur (Chrome, Safari, Firefox)
+   → Taper: https://10.154.57.110:8443
+   → Accepter l'avertissement de sécurité
+   → Se connecter à l'application
+
+
+🔧 OPTION ALTERNATIVE (HTTP SANS SSL)
+═══════════════════════════════════════════════════════════════
+
+Pour éviter l'avertissement de certificat:
+
+1. Exécuter: configure-http-smartphone.bat
+2. URL d'accès: http://10.154.57.110:8089
+3. Pas d'avertissement de sécurité
+
+Note: HTTP est acceptable sur réseau privé local
+
+
+📞 ACCEPTER L'AVERTISSEMENT CERTIFICAT
+═══════════════════════════════════════════════════════════════
+
+Chrome/Safari:
+  1. Message: "Votre connexion n'est pas privée"
+  2. Cliquer sur "Avancé"
+  3. Cliquer sur "Continuer vers 10.154.57.110 (dangereux)"
+
+Firefox:
+  1. Message: "Attention : risque probable de sécurité"
+  2. Cliquer sur "Avancé"
+  3. Cliquer sur "Accepter le risque et continuer"
+
+
+🛠️ SCRIPTS UTILES
+═══════════════════════════════════════════════════════════════
+
+show-smartphone-url.bat          → Afficher l'URL d'accès
+configure-http-smartphone.bat    → Basculer en HTTP (port 8089)
+restore-https.bat                → Restaurer HTTPS (port 8443)
+check-firewall-8443.bat          → Vérifier pare-feu HTTPS
+check-firewall-8089.bat          → Vérifier pare-feu HTTP
+
+
+🔍 VERIFICATIONS
+═══════════════════════════════════════════════════════════════
+
+✓ Adresse IP du PC: 10.154.57.110 (carte WiFi)
+✓ Port HTTPS: 8443
+✓ SSL: Activé (certificat auto-signé)
+✓ Configuration: server.address=0.0.0.0 (écoute toutes interfaces)
+
+
+❓ DEPANNAGE
+═══════════════════════════════════════════════════════════════
+
+Problème: "Site inaccessible"
+→ Vérifier que le PC et smartphone sont sur le même WiFi
+→ Vérifier que l'application est lancée
+→ Vérifier le pare-feu avec check-firewall-8443.bat
+
+Problème: L'IP change
+→ Exécuter: ipconfig
+→ Noter la nouvelle IP de la carte WiFi
+→ Utiliser la nouvelle IP dans l'URL
+
+Problème: Connexion lente
+→ Rapprocher le smartphone et le PC
+→ Vérifier la qualité du signal WiFi
+
+
+📊 RESUME RAPIDE
+═══════════════════════════════════════════════════════════════
+
+Configuration      : HTTPS avec certificat auto-signé
+Adresse IP PC      : 10.154.57.110
+Port               : 8443
+URL smartphone     : https://10.154.57.110:8443
+Avertissement      : OUI (certificat auto-signé)
+Solution simple    : Accepter l'avertissement une fois
+
+
+═══════════════════════════════════════════════════════════════
+Date: 27 décembre 2025
+Configuration: application.properties (port 8443, SSL activé)
+═══════════════════════════════════════════════════════════════
+

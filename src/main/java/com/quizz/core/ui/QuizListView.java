@@ -60,7 +60,7 @@ class QuizListView extends Main {
         logger.info("Services injected successfully");
 
         name = new TextField();
-        name.setPlaceholder(translationService.translate("quizlist.title"));
+        name.setPlaceholder(translationService.translate("quizlist.placeholder"));
         name.setAriaLabel(translationService.translate("quizlist.title"));
         name.setMaxLength(Quiz.NAME_MAX_LENGTH);
         name.setMinWidth("20em");

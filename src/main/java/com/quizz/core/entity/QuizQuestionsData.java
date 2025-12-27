@@ -55,6 +55,7 @@ public class QuizQuestionsData {
         private String question;
         private List<String> options;
         private String answer;
+        private int difficulty_level = 1; // Valeur par défaut
 
         public QuestionData() {
         }
@@ -97,6 +98,14 @@ public class QuizQuestionsData {
 
         public void setAnswer(String answer) {
             this.answer = answer;
+        }
+
+        public int getDifficulty_level() {
+            return difficulty_level;
+        }
+
+        public void setDifficulty_level(int difficulty_level) {
+            this.difficulty_level = difficulty_level;
         }
     }
 }

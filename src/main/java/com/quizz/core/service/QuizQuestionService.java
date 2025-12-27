@@ -42,5 +42,11 @@ public class QuizQuestionService {
         QuizQuestion quizQuestion = new QuizQuestion(quiz, question, options, answer);
         quizQuestionRepository.save(quizQuestion);
     }
+
+    @Transactional
+    public void createQuestion(Quiz quiz, String question, List<String> options, String answer, Integer difficultyLevel) {
+        QuizQuestion quizQuestion = new QuizQuestion(quiz, question, options, answer, difficultyLevel);
+        quizQuestionRepository.save(quizQuestion);
+    }
 }
 
