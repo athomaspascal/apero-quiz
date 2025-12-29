@@ -37,6 +37,12 @@ public class QuizSession {
     @Column(name = "selected_question_ids", length = 1000)
     private String selectedQuestionIds; // Comma-separated list of question IDs
 
+    @Column(name = "team_mode", nullable = false)
+    private boolean teamMode = false;
+
+    @Column(name = "selected_teams", length = 500)
+    private String selectedTeams; // Comma-separated list of team names
+
     protected QuizSession() {
     }
 
@@ -86,6 +92,22 @@ public class QuizSession {
 
     public void setSelectedQuestionIds(String selectedQuestionIds) {
         this.selectedQuestionIds = selectedQuestionIds;
+    }
+
+    public boolean isTeamMode() {
+        return teamMode;
+    }
+
+    public void setTeamMode(boolean teamMode) {
+        this.teamMode = teamMode;
+    }
+
+    public String getSelectedTeams() {
+        return selectedTeams;
+    }
+
+    public void setSelectedTeams(String selectedTeams) {
+        this.selectedTeams = selectedTeams;
     }
 
     public enum SessionStatus {

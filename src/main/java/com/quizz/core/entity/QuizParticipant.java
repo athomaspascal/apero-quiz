@@ -26,6 +26,9 @@ public class QuizParticipant {
     @Column(name = "completed", nullable = false)
     private boolean completed = false;
 
+    @Column(name = "team_name", length = 100)
+    private String teamName;
+
     protected QuizParticipant() {
     }
 
@@ -62,6 +65,14 @@ public class QuizParticipant {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 }
 

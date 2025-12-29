@@ -78,4 +78,15 @@ public class QuizSessionService {
         }
         participantRepository.saveAllAndFlush(participants);
     }
+
+    @Transactional
+    public void updateParticipantTeam(QuizParticipant participant, String teamName) {
+        participant.setTeamName(teamName);
+        participantRepository.saveAndFlush(participant);
+    }
+
+    @Transactional(readOnly = true)
+    public QuizParticipant getParticipant(QuizSession session, User user) {
+        return participantRepository.findBySessionAndUser(session, user).orElse(null);
+    }
 }

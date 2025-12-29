@@ -229,6 +229,76 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
         actionButtons.getStyle().set("flex-wrap", "wrap");
 
         if (isHost && session.getStatus() == QuizSession.SessionStatus.WAITING) {
+            // Add Team Mode section
+            VerticalLayout teamModeSection = new VerticalLayout();
+            teamModeSection.setPadding(false);
+            teamModeSection.setSpacing(true);
+            teamModeSection.setWidthFull();
+
+            com.vaadin.flow.component.checkbox.Checkbox teamModeCheckbox = new com.vaadin.flow.component.checkbox.Checkbox(
+                translationService.translate("quizSession.teamMode.enable")
+            );
+            teamModeCheckbox.setValue(session.isTeamMode());
+
+            // Team selection checkboxes
+            VerticalLayout teamSelectionLayout = new VerticalLayout();
+            teamSelectionLayout.setPadding(false);
+            teamSelectionLayout.setSpacing(false);
+            teamSelectionLayout.setVisible(session.isTeamMode());
+
+            H4 teamSelectionTitle = new H4(translationService.translate("quizSession.teamMode.selectTeams"));
+            teamSelectionTitle.getStyle().set("margin", "var(--lumo-space-s) 0");
+
+            String[] availableTeams = {"stark", "lannister", "targaryen", "baratheon", "tyrell", "martell", "arryn", "tully", "greyjoy"};
+            java.util.Set<String> selectedTeamsSet = new java.util.HashSet<>();
+            if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
+                selectedTeamsSet.addAll(java.util.Arrays.asList(session.getSelectedTeams().split(",")));
+            }
+
+            HorizontalLayout teamsCheckboxLayout = new HorizontalLayout();
+            teamsCheckboxLayout.setSpacing(true);
+            teamsCheckboxLayout.getStyle().set("flex-wrap", "wrap");
+
+            java.util.Map<String, com.vaadin.flow.component.checkbox.Checkbox> teamCheckboxes = new java.util.HashMap<>();
+
+            for (String team : availableTeams) {
+                com.vaadin.flow.component.checkbox.Checkbox teamCheckbox = new com.vaadin.flow.component.checkbox.Checkbox(
+                    translationService.translate("quizSession.teamMode.team." + team)
+                );
+                teamCheckbox.setValue(selectedTeamsSet.contains(team));
+                teamCheckboxes.put(team, teamCheckbox);
+                teamsCheckboxLayout.add(teamCheckbox);
+            }
+
+            teamSelectionLayout.add(teamSelectionTitle, teamsCheckboxLayout);
+
+            teamModeCheckbox.addValueChangeListener(event -> {
+                boolean teamMode = event.getValue();
+                session.setTeamMode(teamMode);
+                teamSelectionLayout.setVisible(teamMode);
+                if (!teamMode) {
+                    session.setSelectedTeams(null);
+                }
+                sessionService.updateSession(session);
+            });
+
+            // Update selected teams when checkboxes change
+            teamCheckboxes.forEach((team, checkbox) -> {
+                checkbox.addValueChangeListener(event -> {
+                    java.util.List<String> selectedTeamsList = new java.util.ArrayList<>();
+                    teamCheckboxes.forEach((t, cb) -> {
+                        if (cb.getValue()) {
+                            selectedTeamsList.add(t);
+                        }
+                    });
+                    session.setSelectedTeams(selectedTeamsList.isEmpty() ? null : String.join(",", selectedTeamsList));
+                    sessionService.updateSession(session);
+                });
+            });
+
+            teamModeSection.add(teamModeCheckbox, teamSelectionLayout);
+            contentWrapper.add(teamModeSection);
+
             Button startButton = new Button(translationService.translate("quizSession.startAll"), event -> startQuizSession());
             startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
             actionButtons.add(startButton);
@@ -317,7 +387,25 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
                     LumoUtility.Gap.MEDIUM
                 );
 
+                // Name and team
+                VerticalLayout nameTeamLayout = new VerticalLayout();
+                nameTeamLayout.setPadding(false);
+                nameTeamLayout.setSpacing(false);
+                nameTeamLayout.getStyle().set("gap", "2px");
+
                 Span name = new Span(participant.getUser().getName());
+                name.addClassNames(LumoUtility.FontWeight.SEMIBOLD);
+                nameTeamLayout.add(name);
+
+                if (session.isTeamMode() && participant.getTeamName() != null) {
+                    Span team = new Span(translationService.translate("quizSession.teamMode.teamSelected",
+                        translationService.translate("quizSession.teamMode.team." + participant.getTeamName())));
+                    team.getStyle()
+                        .set("font-size", "var(--lumo-font-size-s)")
+                        .set("color", "var(--lumo-secondary-text-color)");
+                    nameTeamLayout.add(team);
+                }
+
                 Span status = new Span(participant.isCompleted() ?
                     translationService.translate("quizSession.completed", participant.getScore()) :
                     translationService.translate("quizSession.inProgress"));
@@ -326,7 +414,7 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
                     status.addClassNames(LumoUtility.TextColor.SUCCESS);
                 }
 
-                participantCard.add(name, status);
+                participantCard.add(nameTeamLayout, status);
                 participantsList.add(participantCard);
             }
         }
@@ -355,11 +443,84 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
     private void startPersonalQuiz() {
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         if (currentUser != null) {
-            // Store session code in session for tracking
-            VaadinSession.getCurrent().setAttribute("activeSessionCode", session.getSessionCode());
-            getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + session.getQuiz().getId()));
+            // Check if team mode is enabled
+            if (session.isTeamMode()) {
+                // Show team selection dialog
+                showTeamSelectionDialog(currentUser);
+            } else {
+                // Store session code in session for tracking
+                VaadinSession.getCurrent().setAttribute("activeSessionCode", session.getSessionCode());
+                getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + session.getQuiz().getId()));
+            }
         }
     }
+
+    private void showTeamSelectionDialog(User currentUser) {
+        Dialog dialog = new Dialog();
+        dialog.setHeaderTitle(translationService.translate("quizSession.teamMode.selectTeam"));
+        dialog.setWidth("400px");
+
+        VerticalLayout content = new VerticalLayout();
+        content.setSpacing(true);
+        content.setPadding(false);
+
+        // Get participant to check if team already selected
+        QuizParticipant participant = sessionService.getParticipant(session, currentUser);
+
+        Paragraph instruction = new Paragraph(translationService.translate("quizSession.teamMode.selectTeamMessage"));
+        instruction.getStyle().set("color", "var(--lumo-secondary-text-color)");
+
+        com.vaadin.flow.component.radiobutton.RadioButtonGroup<String> teamRadioGroup =
+            new com.vaadin.flow.component.radiobutton.RadioButtonGroup<>();
+        teamRadioGroup.setLabel(translationService.translate("quizSession.teamMode"));
+
+        // Get available teams
+        if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
+            String[] teams = session.getSelectedTeams().split(",");
+            java.util.Map<String, String> teamItems = new java.util.LinkedHashMap<>();
+            for (String team : teams) {
+                teamItems.put(team, translationService.translate("quizSession.teamMode.team." + team));
+            }
+            teamRadioGroup.setItems(teamItems.keySet());
+            teamRadioGroup.setItemLabelGenerator(team -> teamItems.get(team));
+
+            // Pre-select team if already chosen
+            if (participant != null && participant.getTeamName() != null) {
+                teamRadioGroup.setValue(participant.getTeamName());
+            }
+        }
+
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setSpacing(true);
+
+        Button confirmButton = new Button(translationService.translate("quizSession.teamMode.confirmTeam"), event -> {
+            String selectedTeam = teamRadioGroup.getValue();
+            if (selectedTeam != null && participant != null) {
+                // Update participant's team
+                sessionService.updateParticipantTeam(participant, selectedTeam);
+
+                // Store session code and start quiz
+                VaadinSession.getCurrent().setAttribute("activeSessionCode", session.getSessionCode());
+                dialog.close();
+                getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + session.getQuiz().getId()));
+            }
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        confirmButton.setEnabled(teamRadioGroup.getValue() != null);
+
+        teamRadioGroup.addValueChangeListener(event -> {
+            confirmButton.setEnabled(event.getValue() != null);
+        });
+
+        Button cancelButton = new Button(translationService.translate("common.cancel"), event -> dialog.close());
+
+        buttonLayout.add(confirmButton, cancelButton);
+
+        content.add(instruction, teamRadioGroup, buttonLayout);
+        dialog.add(content);
+        dialog.open();
+    }
+
 
     private void showQRCodeDialog() {
         Dialog dialog = new Dialog();
@@ -421,47 +582,133 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
     }
 
     private void showLeaderboard() {
-        H3 leaderboardTitle = new H3(translationService.translate("quizSession.leaderboard.title"));
-        leaderboardTitle.addClassNames(LumoUtility.Margin.Top.XLARGE);
-
-        Div leaderboard = new Div();
-        leaderboard.addClassNames(
-            LumoUtility.Background.PRIMARY_10,
-            LumoUtility.Padding.MEDIUM,
-            LumoUtility.BorderRadius.MEDIUM
-        );
-
         var participants = sessionService.getParticipants(session);
-        participants.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
-        int rank = 1;
-        for (QuizParticipant participant : participants) {
-            if (participant.isCompleted()) {
-                Div rankCard = new Div();
-                rankCard.addClassNames(
+        if (session.isTeamMode()) {
+            // Team leaderboard
+            H3 leaderboardTitle = new H3(translationService.translate("quizSession.leaderboard.teamTitle"));
+            leaderboardTitle.addClassNames(LumoUtility.Margin.Top.XLARGE);
+
+            Div leaderboard = new Div();
+            leaderboard.addClassNames(
+                LumoUtility.Background.PRIMARY_10,
+                LumoUtility.Padding.MEDIUM,
+                LumoUtility.BorderRadius.MEDIUM
+            );
+
+            // Calculate team scores
+            java.util.Map<String, Integer> teamScores = new java.util.HashMap<>();
+            java.util.Map<String, java.util.List<QuizParticipant>> teamMembers = new java.util.HashMap<>();
+
+            for (QuizParticipant participant : participants) {
+                if (participant.isCompleted() && participant.getTeamName() != null) {
+                    String teamName = participant.getTeamName();
+                    teamScores.put(teamName, teamScores.getOrDefault(teamName, 0) + participant.getScore());
+                    teamMembers.computeIfAbsent(teamName, k -> new java.util.ArrayList<>()).add(participant);
+                }
+            }
+
+            // Sort teams by score
+            java.util.List<java.util.Map.Entry<String, Integer>> sortedTeams = new java.util.ArrayList<>(teamScores.entrySet());
+            sortedTeams.sort((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()));
+
+            int rank = 1;
+            for (java.util.Map.Entry<String, Integer> entry : sortedTeams) {
+                String teamName = entry.getKey();
+                int teamScore = entry.getValue();
+
+                Div teamCard = new Div();
+                teamCard.addClassNames(
                     LumoUtility.Background.BASE,
                     LumoUtility.Padding.MEDIUM,
                     LumoUtility.BorderRadius.SMALL,
-                    LumoUtility.Margin.Bottom.SMALL,
-                    LumoUtility.Display.FLEX,
-                    LumoUtility.JustifyContent.BETWEEN
+                    LumoUtility.Margin.Bottom.SMALL
                 );
 
                 String medal = rank == 1 ? "🥇" : rank == 2 ? "🥈" : rank == 3 ? "🥉" : String.valueOf(rank);
 
-                Span rankSpan = new Span(medal + " " + participant.getUser().getName());
-                rankSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.SEMIBOLD);
+                HorizontalLayout teamHeader = new HorizontalLayout();
+                teamHeader.setWidthFull();
+                teamHeader.setJustifyContentMode(HorizontalLayout.JustifyContentMode.BETWEEN);
 
-                Span scoreSpan = new Span(translationService.translate("quizSession.leaderboard.score", participant.getScore()));
-                scoreSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.TextColor.PRIMARY);
+                Span teamRankSpan = new Span(medal + " " + translationService.translate("quizSession.teamMode.team." + teamName));
+                teamRankSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.SEMIBOLD);
 
-                rankCard.add(rankSpan, scoreSpan);
-                leaderboard.add(rankCard);
+                Span teamScoreSpan = new Span(translationService.translate("quizSession.leaderboard.teamScore",
+                    translationService.translate("quizSession.teamMode.team." + teamName), String.valueOf(teamScore)));
+                teamScoreSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.TextColor.PRIMARY);
+
+                teamHeader.add(teamRankSpan, teamScoreSpan);
+                teamCard.add(teamHeader);
+
+                // Add team members
+                VerticalLayout membersLayout = new VerticalLayout();
+                membersLayout.setPadding(false);
+                membersLayout.setSpacing(false);
+                membersLayout.getStyle().set("margin-left", "var(--lumo-space-m)").set("gap", "var(--lumo-space-xs)");
+
+                java.util.List<QuizParticipant> members = teamMembers.get(teamName);
+                members.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+
+                for (QuizParticipant member : members) {
+                    Span memberSpan = new Span(member.getUser().getName() + " - " +
+                        translationService.translate("quizSession.leaderboard.score", member.getScore()));
+                    memberSpan.getStyle()
+                        .set("font-size", "var(--lumo-font-size-s)")
+                        .set("color", "var(--lumo-secondary-text-color)");
+                    membersLayout.add(memberSpan);
+                }
+
+                teamCard.add(membersLayout);
+                leaderboard.add(teamCard);
                 rank++;
             }
-        }
 
-        add(leaderboardTitle, leaderboard);
+            add(leaderboardTitle, leaderboard);
+
+        } else {
+            // Individual leaderboard
+            H3 leaderboardTitle = new H3(translationService.translate("quizSession.leaderboard.title"));
+            leaderboardTitle.addClassNames(LumoUtility.Margin.Top.XLARGE);
+
+            Div leaderboard = new Div();
+            leaderboard.addClassNames(
+                LumoUtility.Background.PRIMARY_10,
+                LumoUtility.Padding.MEDIUM,
+                LumoUtility.BorderRadius.MEDIUM
+            );
+
+            participants.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+
+            int rank = 1;
+            for (QuizParticipant participant : participants) {
+                if (participant.isCompleted()) {
+                    Div rankCard = new Div();
+                    rankCard.addClassNames(
+                        LumoUtility.Background.BASE,
+                        LumoUtility.Padding.MEDIUM,
+                        LumoUtility.BorderRadius.SMALL,
+                        LumoUtility.Margin.Bottom.SMALL,
+                        LumoUtility.Display.FLEX,
+                        LumoUtility.JustifyContent.BETWEEN
+                    );
+
+                    String medal = rank == 1 ? "🥇" : rank == 2 ? "🥈" : rank == 3 ? "🥉" : String.valueOf(rank);
+
+                    Span rankSpan = new Span(medal + " " + participant.getUser().getName());
+                    rankSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.SEMIBOLD);
+
+                    Span scoreSpan = new Span(translationService.translate("quizSession.leaderboard.score", participant.getScore()));
+                    scoreSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.TextColor.PRIMARY);
+
+                    rankCard.add(rankSpan, scoreSpan);
+                    leaderboard.add(rankCard);
+                    rank++;
+                }
+            }
+
+            add(leaderboardTitle, leaderboard);
+        }
     }
 }
 

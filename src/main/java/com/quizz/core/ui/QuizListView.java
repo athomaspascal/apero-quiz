@@ -10,6 +10,7 @@ import com.quizz.core.service.TranslationService;
 import com.quizz.core.util.QRCodeGenerator;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.server.StreamResource;
@@ -47,6 +48,7 @@ class QuizListView extends Main {
     final TextField name;
     final Button startButton;
     final Button shareBtn;
+    final Checkbox teamModeCheckbox;
     private HorizontalLayout quizCardsContainer;
     private Quiz selectedQuiz = null;
 
@@ -65,8 +67,24 @@ class QuizListView extends Main {
         name.setMaxLength(Quiz.NAME_MAX_LENGTH);
         name.setMinWidth("20em");
 
+        // Team Mode checkbox - initialize before startButton
+        teamModeCheckbox = new Checkbox(translationService.translate("quizSession.teamMode"));
+        teamModeCheckbox.getStyle()
+            .set("margin-left", "10px")
+            .set("align-self", "center");
+
         startButton = new Button(translationService.translate("quizlist.start"), event -> {
             if (selectedQuiz != null) {
+                // Check if Team Mode is selected
+                if (teamModeCheckbox.getValue()) {
+                    Notification notification = Notification.show(
+                        translationService.translate("quizlist.teamMode.warning"),
+                        5000,
+                        Notification.Position.MIDDLE
+                    );
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    return;
+                }
                 getUI().ifPresent(ui -> ui.navigate("quiz-questions/" + selectedQuiz.getId()));
             }
         });
@@ -80,6 +98,7 @@ class QuizListView extends Main {
         });
         shareBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         shareBtn.setEnabled(false);
+
 
         // Create horizontal container for quiz cards
         quizCardsContainer = new HorizontalLayout();
@@ -97,7 +116,7 @@ class QuizListView extends Main {
         VerticalLayout userProfileSection = createUserProfileSection();
 
         add(userProfileSection);
-        add(new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn)));
+        add(new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn, teamModeCheckbox)));
         add(quizCardsContainer);
 
         logger.info("UI components created, about to load quiz cards...");
@@ -378,17 +397,102 @@ class QuizListView extends Main {
         // Create a new session
         QuizSession session = sessionService.createSession(quiz, currentUser.getId());
 
+        // Set team mode based on checkbox
+        if (teamModeCheckbox.getValue()) {
+            session.setTeamMode(true);
+            sessionService.updateSession(session);
+        }
+
         Dialog dialog = new Dialog();
         dialog.setHeaderTitle(translationService.translate("session.share") + ": " + quiz.getName());
-        dialog.setWidth("500px");
+        dialog.setWidth("600px");
 
         VerticalLayout content = new VerticalLayout();
         content.setSpacing(true);
         content.setPadding(false);
-        content.setAlignItems(VerticalLayout.Alignment.CENTER);
+        content.setAlignItems(VerticalLayout.Alignment.STRETCH);
+
+        // Team Mode Section
+        Checkbox teamModeDialogCheckbox = new Checkbox(translationService.translate("quizSession.teamMode.enable"));
+        teamModeDialogCheckbox.setValue(session.isTeamMode());
+        teamModeDialogCheckbox.getStyle().set("margin-bottom", "10px");
+
+        // Team selection section
+        VerticalLayout teamSelectionLayout = new VerticalLayout();
+        teamSelectionLayout.setPadding(false);
+        teamSelectionLayout.setSpacing(true);
+        teamSelectionLayout.setVisible(session.isTeamMode());
+        teamSelectionLayout.getStyle()
+            .set("background", "var(--lumo-contrast-5pct)")
+            .set("padding", "var(--lumo-space-m)")
+            .set("border-radius", "var(--lumo-border-radius-m)");
+
+        H4 teamSelectionTitle = new H4(translationService.translate("quizSession.teamMode.selectTeams"));
+        teamSelectionTitle.getStyle().set("margin", "0 0 var(--lumo-space-s) 0");
+
+        String[] availableTeams = {"stark", "lannister", "targaryen", "baratheon", "tyrell", "martell", "arryn", "tully", "greyjoy"};
+        java.util.Set<String> selectedTeamsSet = new java.util.HashSet<>();
+        if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
+            selectedTeamsSet.addAll(java.util.Arrays.asList(session.getSelectedTeams().split(",")));
+        }
+
+        HorizontalLayout teamsCheckboxLayout = new HorizontalLayout();
+        teamsCheckboxLayout.setSpacing(true);
+        teamsCheckboxLayout.getStyle().set("flex-wrap", "wrap");
+
+        java.util.Map<String, Checkbox> teamCheckboxes = new java.util.HashMap<>();
+
+        for (String team : availableTeams) {
+            Checkbox teamCheckbox = new Checkbox(
+                translationService.translate("quizSession.teamMode.team." + team)
+            );
+            teamCheckbox.setValue(selectedTeamsSet.contains(team));
+            teamCheckboxes.put(team, teamCheckbox);
+            teamsCheckboxLayout.add(teamCheckbox);
+        }
+
+        teamSelectionLayout.add(teamSelectionTitle, teamsCheckboxLayout);
+
+        // Team mode checkbox change listener
+        teamModeDialogCheckbox.addValueChangeListener(event -> {
+            boolean teamMode = event.getValue();
+            session.setTeamMode(teamMode);
+            teamSelectionLayout.setVisible(teamMode);
+            if (!teamMode) {
+                session.setSelectedTeams(null);
+            } else {
+                // Auto-select previously selected teams or default teams
+                java.util.List<String> selectedTeamsList = new java.util.ArrayList<>();
+                teamCheckboxes.forEach((t, cb) -> {
+                    if (cb.getValue()) {
+                        selectedTeamsList.add(t);
+                    }
+                });
+                if (!selectedTeamsList.isEmpty()) {
+                    session.setSelectedTeams(String.join(",", selectedTeamsList));
+                }
+            }
+            sessionService.updateSession(session);
+        });
+
+        // Update selected teams when checkboxes change
+        teamCheckboxes.forEach((team, checkbox) -> {
+            checkbox.addValueChangeListener(event -> {
+                if (session.isTeamMode()) {
+                    java.util.List<String> selectedTeamsList = new java.util.ArrayList<>();
+                    teamCheckboxes.forEach((t, cb) -> {
+                        if (cb.getValue()) {
+                            selectedTeamsList.add(t);
+                        }
+                    });
+                    session.setSelectedTeams(selectedTeamsList.isEmpty() ? null : String.join(",", selectedTeamsList));
+                    sessionService.updateSession(session);
+                }
+            });
+        });
 
         H3 instructionTitle = new H3(translationService.translate("session.scan"));
-        instructionTitle.getStyle().set("margin-top", "0");
+        instructionTitle.getStyle().set("margin-top", "var(--lumo-space-m)");
 
         // Generate QR code with session URL
         Properties appProperties = new Properties();
@@ -451,7 +555,7 @@ class QuizListView extends Main {
         HorizontalLayout buttonLayout = new HorizontalLayout(goToSessionButton, copyLinkButton, closeButton);
         buttonLayout.setSpacing(true);
 
-        content.add(instructionTitle, qrCode, codeContainer, instructions, buttonLayout);
+        content.add(teamModeDialogCheckbox, teamSelectionLayout, instructionTitle, qrCode, codeContainer, instructions, buttonLayout);
         dialog.add(content);
         dialog.open();
     }
