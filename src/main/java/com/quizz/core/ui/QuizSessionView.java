@@ -398,7 +398,7 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
             .set("border-radius", "var(--lumo-border-radius-m)")
             .set("text-align", "center");
 
-        H2 sessionCodeDisplay = new H2("Code: " + session.getSessionCode());
+        H2 sessionCodeDisplay = new H2(translationService.translate("quizSession.code", session.getSessionCode()));
         sessionCodeDisplay.getStyle()
             .set("margin", "0")
             .set("color", "var(--lumo-primary-color)")

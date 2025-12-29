@@ -87,7 +87,7 @@ class UserListView extends Main implements BeforeEnterObserver {
         if (currentUser == null || !currentUser.isAdmin()) {
             // Redirect to quiz list if not admin
             event.rerouteTo("");
-            Notification.show("Access denied. Admins only.", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("auth.accessDenied"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }

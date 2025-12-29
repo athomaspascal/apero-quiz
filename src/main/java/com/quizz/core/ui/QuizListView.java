@@ -229,7 +229,7 @@ class QuizListView extends Main {
 
         if (quizzes.isEmpty()) {
             logger.info("WARNING: No quizzes found in database!");
-            Paragraph noQuizMessage = new Paragraph("No quizzes available. Please check the database.");
+            Paragraph noQuizMessage = new Paragraph(translationService.translate("shareDialog.noQuizzesAvailable"));
             noQuizMessage.getStyle().set("color", "red").set("font-weight", "bold");
             quizCardsContainer.add(noQuizMessage);
             return;
@@ -363,14 +363,14 @@ class QuizListView extends Main {
         quizService.createQuiz(name.getValue());
         loadQuizCards();
         name.clear();
-        Notification.show("Quiz added", 3000, Notification.Position.BOTTOM_END)
+        Notification.show(translationService.translate("quiz.added"), 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 
     private void showShareDialog(Quiz quiz) {
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         if (currentUser == null || currentUser.getId() == null) {
-            Notification.show("Please login to share a quiz", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("shareDialog.loginRequired"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
@@ -414,7 +414,7 @@ class QuizListView extends Main {
             .set("border-radius", "var(--lumo-border-radius-m)")
             .set("text-align", "center");
 
-        H2 sessionCodeDisplay = new H2("Code: " + session.getSessionCode());
+        H2 sessionCodeDisplay = new H2(translationService.translate("quizSession.code", session.getSessionCode()));
         sessionCodeDisplay.getStyle()
             .set("margin", "0")
             .set("color", "var(--lumo-primary-color)")
@@ -422,31 +422,28 @@ class QuizListView extends Main {
 
         codeContainer.add(sessionCodeDisplay);
 
-        Paragraph instructions = new Paragraph(
-            "Share this QR code or session code with other participants. " +
-            "They can scan it or enter the code to join the quiz session."
-        );
+        Paragraph instructions = new Paragraph(translationService.translate("shareDialog.instructions"));
         instructions.getStyle()
             .set("text-align", "center")
             .set("color", "var(--lumo-secondary-text-color)");
 
-        Button goToSessionButton = new Button("Go to Session Room", event -> {
+        Button goToSessionButton = new Button(translationService.translate("shareDialog.goToSessionRoom"), event -> {
             dialog.close();
             getUI().ifPresent(ui -> ui.navigate("quiz-session/" + session.getSessionCode()));
         });
         goToSessionButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button copyLinkButton = new Button("Copy Link", event -> {
+        Button copyLinkButton = new Button(translationService.translate("shareDialog.copyLink"), event -> {
             getUI().ifPresent(ui -> ui.getPage().executeJs(
                 "navigator.clipboard.writeText($0).then(() => {}, () => {})",
                 sessionUrl
             ));
-            Notification.show("Link copied to clipboard!", 2000, Notification.Position.BOTTOM_CENTER)
+            Notification.show(translationService.translate("shareDialog.linkCopied"), 2000, Notification.Position.BOTTOM_CENTER)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         });
         copyLinkButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        Button closeButton = new Button("Close", event -> dialog.close());
+        Button closeButton = new Button(translationService.translate("shareDialog.close"), event -> dialog.close());
 
         HorizontalLayout buttonLayout = new HorizontalLayout(goToSessionButton, copyLinkButton, closeButton);
         buttonLayout.setSpacing(true);
