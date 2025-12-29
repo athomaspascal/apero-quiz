@@ -1,5 +1,6 @@
 package com.quizz.core.security;
 
+import com.quizz.core.service.TranslationService;
 import com.quizz.core.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -27,38 +28,38 @@ public class ForgotPasswordView extends VerticalLayout {
     private static final Logger logger = LoggerFactory.getLogger(ForgotPasswordView.class);
 
     private final UserService userService;
+    private final TranslationService translationService;
     private final EmailField emailField;
     private final Button resetButton;
 
-    public ForgotPasswordView(UserService userService) {
+    public ForgotPasswordView(UserService userService, TranslationService translationService) {
         this.userService = userService;
+        this.translationService = translationService;
 
         addClassName("forgot-password-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        H1 title = new H1("Forgot Password");
+        H1 title = new H1(translationService.translate("forgot.title"));
 
-        Paragraph instruction = new Paragraph(
-            "Enter your email address and we'll send you instructions to reset your password."
-        );
+        Paragraph instruction = new Paragraph(translationService.translate("forgot.instruction"));
         instruction.getStyle()
             .set("color", "var(--lumo-secondary-text-color)")
             .set("text-align", "center")
             .set("margin", "var(--lumo-space-m) 0");
 
-        emailField = new EmailField("Email");
-        emailField.setPlaceholder("your.email@example.com");
+        emailField = new EmailField(translationService.translate("forgot.email"));
+        emailField.setPlaceholder(translationService.translate("forgot.emailPlaceholder"));
         emailField.setWidthFull();
         emailField.setRequired(true);
-        emailField.setErrorMessage("Please enter a valid email address");
+        emailField.setErrorMessage(translationService.translate("forgot.emailError"));
 
-        resetButton = new Button("Send Reset Instructions", event -> handlePasswordReset());
+        resetButton = new Button(translationService.translate("forgot.sendButton"), event -> handlePasswordReset());
         resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         resetButton.setWidthFull();
 
-        RouterLink backToLogin = new RouterLink("Back to Login", LoginView.class);
+        RouterLink backToLogin = new RouterLink(translationService.translate("forgot.backtologin"), LoginView.class);
         backToLogin.getStyle()
             .set("margin-top", "var(--lumo-space-m)")
             .set("text-align", "center")
@@ -108,7 +109,7 @@ public class ForgotPasswordView extends VerticalLayout {
             // 3. Send an email with reset link
 
             Notification.show(
-                "If an account exists with this email, you will receive password reset instructions.",
+                translationService.translate("forgot.successMessage"),
                 5000,
                 Notification.Position.MIDDLE
             ).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -118,7 +119,7 @@ public class ForgotPasswordView extends VerticalLayout {
         } else {
             // Still show success message to prevent email enumeration
             Notification.show(
-                "If an account exists with this email, you will receive password reset instructions.",
+                translationService.translate("forgot.successMessage"),
                 5000,
                 Notification.Position.MIDDLE
             ).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
