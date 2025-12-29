@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Fond dégradé sombre -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="throneGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="crownGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="200" height="200" fill="url(#bgGradient)"/>
+
+  <!-- Trône de fer stylisé (simple) -->
+  <g id="throne">
+    <!-- Base du trône -->
+    <path d="M 60 160 L 70 120 L 130 120 L 140 160 Z" fill="url(#throneGradient)" stroke="#1a1a1a" stroke-width="2"/>
+
+    <!-- Dossier du trône -->
+    <path d="M 70 120 L 65 80 L 100 60 L 135 80 L 130 120 Z" fill="url(#throneGradient)" stroke="#1a1a1a" stroke-width="2"/>
+
+    <!-- Épées (traits simples pour représenter les épées du trône) -->
+    <line x1="75" y1="100" x2="85" y2="70" stroke="#6a6a6a" stroke-width="2"/>
+    <line x1="85" y1="105" x2="92" y2="65" stroke="#6a6a6a" stroke-width="2"/>
+    <line x1="95" y1="100" x2="100" y2="60" stroke="#6a6a6a" stroke-width="2"/>
+    <line x1="105" y1="100" x2="108" y2="65" stroke="#6a6a6a" stroke-width="2"/>
+    <line x1="115" y1="105" x2="115" y2="70" stroke="#6a6a6a" stroke-width="2"/>
+    <line x1="125" y1="100" x2="122" y2="75" stroke="#6a6a6a" stroke-width="2"/>
+
+    <!-- Épées supplémentaires sur les côtés -->
+    <line x1="60" y1="120" x2="50" y2="100" stroke="#6a6a6a" stroke-width="1.5"/>
+    <line x1="65" y1="110" x2="55" y2="90" stroke="#6a6a6a" stroke-width="1.5"/>
+    <line x1="140" y1="120" x2="150" y2="100" stroke="#6a6a6a" stroke-width="1.5"/>
+    <line x1="135" y1="110" x2="145" y2="90" stroke="#6a6a6a" stroke-width="1.5"/>
+  </g>
+
+  <!-- Couronne stylisée au-dessus -->
+  <g id="crown" transform="translate(100, 45)">
+    <circle cx="0" cy="0" r="8" fill="url(#crownGradient)" stroke="#8B7500" stroke-width="1"/>
+    <path d="M -12 0 L -8 -8 L -4 -2 L 0 -10 L 4 -2 L 8 -8 L 12 0 Z" fill="url(#crownGradient)" stroke="#8B7500" stroke-width="1"/>
+    <!-- Pierres précieuses sur la couronne -->
+    <circle cx="-8" cy="-8" r="2" fill="#FF0000"/>
+    <circle cx="0" cy="-10" r="2" fill="#FF0000"/>
+    <circle cx="8" cy="-8" r="2" fill="#FF0000"/>
+  </g>
+
+  <!-- Dragons stylisés (silhouettes simples) -->
+  <g id="dragons">
+    <!-- Dragon gauche -->
+    <path d="M 30 40 Q 25 35 20 40 L 15 38 L 20 36 Q 25 32 30 35 Q 28 38 30 40" fill="#8B0000" opacity="0.6"/>
+    <circle cx="18" cy="37" r="1.5" fill="#FF4500"/>
+
+    <!-- Dragon droit -->
+    <path d="M 170 40 Q 175 35 180 40 L 185 38 L 180 36 Q 175 32 170 35 Q 172 38 170 40" fill="#8B0000" opacity="0.6"/>
+    <circle cx="182" cy="37" r="1.5" fill="#FF4500"/>
+  </g>
+
+  <!-- Texte "GOT" stylisé -->
+  <text x="100" y="185" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#FFD700" text-anchor="middle" stroke="#8B7500" stroke-width="0.5">
+    GoT
+  </text>
+
+  <!-- Sous-titre -->
+  <text x="100" y="195" font-family="Georgia, serif" font-size="8" fill="#C0C0C0" text-anchor="middle">
+    Game of Thrones
+  </text>
+</svg>
+

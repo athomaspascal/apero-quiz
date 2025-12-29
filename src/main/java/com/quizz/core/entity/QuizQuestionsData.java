@@ -1,5 +1,6 @@
 package com.quizz.core.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuizQuestionsData {
@@ -56,6 +57,7 @@ public class QuizQuestionsData {
         private List<String> options;
         private String answer;
         private int difficulty_level = 1; // Valeur par défaut
+        private LocalDateTime dateUpdate;
 
         public QuestionData() {
         }
@@ -106,6 +108,14 @@ public class QuizQuestionsData {
 
         public void setDifficulty_level(int difficulty_level) {
             this.difficulty_level = difficulty_level;
+        }
+
+        public LocalDateTime getDateUpdate() {
+            return dateUpdate;
+        }
+
+        public void setDateUpdate(LocalDateTime dateUpdate) {
+            this.dateUpdate = dateUpdate;
         }
     }
 }

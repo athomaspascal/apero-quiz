@@ -88,6 +88,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     // Timer components
     private final ProgressBar timeProgressBar;
     private final Paragraph timeLabel;
+    private final Paragraph scoreLabel;
     private Timer timer;
     private long startTime;
     private volatile int elapsedSeconds = 0; // volatile pour assurer la synchronisation entre threads
@@ -152,9 +153,24 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             .set("text-align", "center")
             .set("margin", "0");
 
+        // Score label with smaller font
+        scoreLabel = new Paragraph(translationService.translate("quiz.yourScore") + ": 0 / 0");
+        scoreLabel.getStyle()
+            .set("font-size", "0.875rem")
+            .set("text-align", "center")
+            .set("margin", "0")
+            .set("color", "var(--lumo-secondary-text-color)");
+
+        // Container for timer and score labels side by side
+        HorizontalLayout timerScoreLayout = new HorizontalLayout(timeLabel, scoreLabel);
+        timerScoreLayout.setWidthFull();
+        timerScoreLayout.setJustifyContentMode(HorizontalLayout.JustifyContentMode.BETWEEN);
+        timerScoreLayout.setAlignItems(HorizontalLayout.Alignment.CENTER);
+        timerScoreLayout.getStyle().set("margin", "0");
+
         Div timerContainer = new Div();
         timerContainer.addClassNames(LumoUtility.Margin.Bottom.LARGE);
-        timerContainer.add(timeLabel, timeProgressBar);
+        timerContainer.add(timerScoreLayout, timeProgressBar);
 
         previousButton = new Button(translationService.translate("quiz.previous"), event -> showPreviousQuestion());
         previousButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -334,6 +350,9 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
             // Load first question
             displayQuestion();
+
+            // Initialize score display
+            updateScoreDisplay();
 
             // Start the timer
             startTimer();
@@ -588,6 +607,9 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 correctAnswers++;
             }
 
+            // Update the score display
+            updateScoreDisplay();
+
             // Hide the feedback message (user only sees the icons)
             answerFeedback.setVisible(false);
 
@@ -653,6 +675,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         } else {
             // Quiz finished - show final score
             displayFinalScore();
+        }
+    }
+
+    private void updateScoreDisplay() {
+        if (scoreLabel != null) {
+            int answeredQuestions = currentQuestionIndex + 1;
+            scoreLabel.setText(translationService.translate("quiz.yourScore") + ": " + correctAnswers + " / " + answeredQuestions);
         }
     }
 
@@ -838,6 +867,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             );
 
             displayQuestion();
+            updateScoreDisplay(); // Initialize score display on restart
             startTimer();
         } finally {
             isRestarting = false;

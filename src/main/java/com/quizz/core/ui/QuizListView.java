@@ -246,8 +246,8 @@ class QuizListView extends Main {
 
     private VerticalLayout createQuizCard(Quiz quiz) {
         VerticalLayout card = new VerticalLayout();
-        card.setWidth("60px");
-        card.setHeight("100px");
+        card.setWidth("73px");  // 66px * 1.10 = 72.6 ≈ 73px
+        card.setHeight("121px");  // 110px * 1.10 = 121px
         card.setPadding(false);
         card.setSpacing(false);
         card.getStyle()
@@ -261,7 +261,7 @@ class QuizListView extends Main {
         // Image container - keep same size as before
         Div imageContainer = new Div();
         imageContainer.setWidth("100%");
-        imageContainer.setHeight("80px");
+        imageContainer.setHeight("97px");  // 88px * 1.10 = 96.8 ≈ 97px
         imageContainer.getStyle()
             .set("display", "flex")
             .set("align-items", "center")

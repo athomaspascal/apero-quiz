@@ -38,15 +38,20 @@ public class QuizQuestionService {
     }
 
     @Transactional
-    public void createQuestion(Quiz quiz, String question, List<String> options, String answer) {
+    public QuizQuestion createQuestion(Quiz quiz, String question, List<String> options, String answer) {
         QuizQuestion quizQuestion = new QuizQuestion(quiz, question, options, answer);
-        quizQuestionRepository.save(quizQuestion);
+        return quizQuestionRepository.save(quizQuestion);
     }
 
     @Transactional
-    public void createQuestion(Quiz quiz, String question, List<String> options, String answer, Integer difficultyLevel) {
+    public QuizQuestion createQuestion(Quiz quiz, String question, List<String> options, String answer, Integer difficultyLevel) {
         QuizQuestion quizQuestion = new QuizQuestion(quiz, question, options, answer, difficultyLevel);
-        quizQuestionRepository.save(quizQuestion);
+        return quizQuestionRepository.save(quizQuestion);
+    }
+
+    @Transactional
+    public QuizQuestion save(QuizQuestion question) {
+        return quizQuestionRepository.save(question);
     }
 }
 

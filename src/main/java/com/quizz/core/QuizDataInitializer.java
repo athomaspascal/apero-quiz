@@ -1,6 +1,7 @@
 package com.quizz.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.quizz.core.entity.Quiz;
 import com.quizz.core.entity.QuizQuestionsData;
 import com.quizz.core.service.QuizQuestionService;
@@ -55,6 +56,9 @@ public class QuizDataInitializer {
             logger.info("Starting to load quiz data from quiz-questions.json...");
 
             ObjectMapper objectMapper = new ObjectMapper();
+            // Register module to support Java 8 date/time types
+            objectMapper.registerModule(new JavaTimeModule());
+
             ClassPathResource resource = new ClassPathResource("quiz-questions.json");
 
             logger.info("Resource exists: {}", resource.exists());
@@ -87,11 +91,17 @@ public class QuizDataInitializer {
                         ? questionData.getDifficulty_level()
                         : 1;
 
-                    quizQuestionService.createQuestion(quiz,
+                    var question = quizQuestionService.createQuestion(quiz,
                         questionData.getQuestion(),
                         questionData.getOptions(),
                         questionData.getAnswer(),
                         difficultyLevel);
+
+                    // Si dateUpdate existe dans le JSON, l'utiliser
+                    if (questionData.getDateUpdate() != null) {
+                        question.setDateUpdate(questionData.getDateUpdate());
+                        quizQuestionService.save(question);
+                    }
 
                     if (questionCount % 50 == 0) {
                         logger.info("  - Processed {} questions...", questionCount);

@@ -3,6 +3,7 @@ package com.quizz.core.entity;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,9 @@ public class QuizQuestion {
     @Column(name = "difficulty_level")
     private Integer difficultyLevel;
 
+    @Column(name = "date_update")
+    private LocalDateTime dateUpdate;
+
     protected QuizQuestion() {
     }
 
@@ -42,6 +46,7 @@ public class QuizQuestion {
         this.options = options;
         this.answer = answer;
         this.difficultyLevel = null; // Default value
+        this.dateUpdate = LocalDateTime.now();
     }
 
     public QuizQuestion(Quiz quiz, String question, List<String> options, String answer, Integer difficultyLevel) {
@@ -50,6 +55,7 @@ public class QuizQuestion {
         this.options = options;
         this.answer = answer;
         this.difficultyLevel = difficultyLevel;
+        this.dateUpdate = LocalDateTime.now();
     }
 
     public @Nullable Long getId() {
@@ -70,6 +76,7 @@ public class QuizQuestion {
 
     public void setQuestion(String question) {
         this.question = question;
+        this.dateUpdate = LocalDateTime.now();
     }
 
     public List<String> getOptions() {
@@ -78,6 +85,7 @@ public class QuizQuestion {
 
     public void setOptions(List<String> options) {
         this.options = options;
+        this.dateUpdate = LocalDateTime.now();
     }
 
     public String getAnswer() {
@@ -86,6 +94,7 @@ public class QuizQuestion {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+        this.dateUpdate = LocalDateTime.now();
     }
 
     public Integer getDifficultyLevel() {
@@ -94,6 +103,15 @@ public class QuizQuestion {
 
     public void setDifficultyLevel(Integer difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
+        this.dateUpdate = LocalDateTime.now();
+    }
+
+    public LocalDateTime getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(LocalDateTime dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 
     @Override
