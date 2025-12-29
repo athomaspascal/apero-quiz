@@ -48,17 +48,17 @@ class QuestionLogsView extends Main implements BeforeEnterObserver {
         });
 
         logGrid.addColumn(log -> log.getAskedAt().format(DATE_FORMATTER))
-            .setHeader("Date/Time")
+            .setHeader(translationService.translate("questionLogs.grid.dateTime"))
             .setSortable(true)
             .setAutoWidth(true);
 
         logGrid.addColumn(log -> log.getQuiz().getName())
-            .setHeader("Quiz")
+            .setHeader(translationService.translate("questionLogs.grid.quiz"))
             .setSortable(true)
             .setAutoWidth(true);
 
         logGrid.addColumn(QuizQuestionLog::getQuestionText)
-            .setHeader("Question")
+            .setHeader(translationService.translate("questionLogs.grid.question"))
             .setAutoWidth(true)
             .setFlexGrow(2);
 
@@ -70,24 +70,24 @@ class QuestionLogsView extends Main implements BeforeEnterObserver {
             if (log.getOption4() != null) options.append("4:").append(log.getOption4());
             return options.toString();
         })
-            .setHeader("Options Proposed")
+            .setHeader(translationService.translate("questionLogs.grid.optionsProposed"))
             .setAutoWidth(true)
             .setFlexGrow(3);
 
         logGrid.addColumn(QuizQuestionLog::getCorrectAnswer)
-            .setHeader("Correct Answer")
+            .setHeader(translationService.translate("questionLogs.grid.correctAnswer"))
             .setAutoWidth(true);
 
         logGrid.addColumn(QuizQuestionLog::getUserAnswer)
-            .setHeader("Your Answer")
+            .setHeader(translationService.translate("questionLogs.grid.yourAnswer"))
             .setAutoWidth(true);
 
         logGrid.addColumn(log -> log.isCorrect() ? "✓" : "✗")
-            .setHeader("Result")
+            .setHeader(translationService.translate("questionLogs.grid.result"))
             .setAutoWidth(true);
 
         logGrid.addColumn(log -> log.getTimeTakenSeconds() + "s")
-            .setHeader("Time")
+            .setHeader(translationService.translate("questionLogs.grid.time"))
             .setAutoWidth(true);
 
         logGrid.setSizeFull();
@@ -96,7 +96,7 @@ class QuestionLogsView extends Main implements BeforeEnterObserver {
         addClassNames(LumoUtility.BoxSizing.BORDER, LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN,
                 LumoUtility.Padding.MEDIUM, LumoUtility.Gap.SMALL);
 
-        add(new ViewToolbar("Question Logs - Debug View"));
+        add(new ViewToolbar(translationService.translate("questionLogs.toolbarTitle")));
         add(logGrid);
     }
 
@@ -108,7 +108,7 @@ class QuestionLogsView extends Main implements BeforeEnterObserver {
         if (currentUser == null || !currentUser.isAdmin()) {
             // Redirect to quiz list if not admin
             event.rerouteTo("");
-            Notification.show("Access denied. Admins only.", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("questionLogs.accessDenied"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }

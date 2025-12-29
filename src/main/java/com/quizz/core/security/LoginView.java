@@ -467,7 +467,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("overflow-y", "auto")
             .set("max-height", "500px");
 
-        Button cancelButton = new Button("Cancel", event -> dialog.close());
+        Button cancelButton = new Button(translationService.translate("common.cancel"), event -> dialog.close());
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         dialog.add(scrollContainer);
