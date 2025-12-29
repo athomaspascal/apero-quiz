@@ -307,7 +307,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             User user = authenticationService.getCurrentUser();
 
             if (user != null) {
-                Notification.show("Welcome back, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
+                Notification.show(translationService.translate("auth.welcomeBack", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }
 
@@ -327,7 +327,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             }
         } else {
             loginForm.setError(true);
-            Notification.show("Invalid email or password", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("auth.invalidCredentials"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
@@ -525,7 +525,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             // Login with this public user
             boolean authenticated = authenticationService.authenticate(user.getEmail(), "public123");
             if (authenticated) {
-                Notification.show("Welcome, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
+                Notification.show(translationService.translate("auth.welcome", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 dialog.close();
 
@@ -540,7 +540,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                     getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
                 }
             } else {
-                Notification.show("Authentication failed", 3000, Notification.Position.MIDDLE)
+                Notification.show(translationService.translate("auth.authenticationFailed"), 3000, Notification.Position.MIDDLE)
                     .addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });

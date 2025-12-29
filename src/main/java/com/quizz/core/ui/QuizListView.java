@@ -363,14 +363,14 @@ class QuizListView extends Main {
         quizService.createQuiz(name.getValue());
         loadQuizCards();
         name.clear();
-        Notification.show("Quiz added", 3000, Notification.Position.BOTTOM_END)
+        Notification.show(translationService.translate("quiz.added"), 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 
     private void showShareDialog(Quiz quiz) {
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         if (currentUser == null || currentUser.getId() == null) {
-            Notification.show("Please login to share a quiz", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("shareDialog.loginRequired"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
