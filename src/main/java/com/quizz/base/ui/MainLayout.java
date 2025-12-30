@@ -58,7 +58,26 @@ public final class MainLayout extends AppLayout {
         menuEntries = MenuConfiguration.getMenuEntries();
         menuEntries.forEach(entry -> logger.info("Menu Entry:" + entry.title()));
         sideNav.removeAll();
-        menuEntries.forEach(entry -> sideNav.addItem(createSideNavItem(entry)));
+
+        // Get current user from session
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        boolean isAdmin = currentUser != null && currentUser.isAdmin();
+
+        // Filter menu entries based on user role
+        menuEntries.forEach(entry -> {
+            String path = entry.path();
+
+            // Admin-only menus
+            boolean isAdminMenu = "users".equals(path)
+                || "question-logs".equals(path)
+                || "admin/quiz-editor".equals(path);
+
+            // Add menu item only if user is admin or menu is not admin-only
+            if (!isAdminMenu || isAdmin) {
+                sideNav.addItem(createSideNavItem(entry));
+            }
+        });
+
         return sideNav;
     }
 

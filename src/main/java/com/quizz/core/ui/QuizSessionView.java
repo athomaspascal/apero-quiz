@@ -87,6 +87,15 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
         getUI().ifPresent(ui -> ui.getPage().setTitle(translationService.translate("quizSession.title", session.getQuiz().getName())));
 
         buildUI();
+
+        // If team mode is enabled and user hasn't selected a team yet, force selection
+        if (session.isTeamMode()) {
+            QuizParticipant participant = sessionService.getParticipant(session, currentUser);
+            if (participant != null && (participant.getTeamName() == null || participant.getTeamName().isEmpty())) {
+                // Force team selection immediately after joining
+                showTeamSelectionDialogOnJoin(currentUser);
+            }
+        }
     }
 
     @Override
@@ -115,12 +124,8 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
             return;
         }
 
-        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
-        boolean isHost = currentUser != null && currentUser.getId() != null &&
-                         currentUser.getId().equals(session.getHostUserId());
-
-        // Only auto-refresh for invited players (not host)
-        if (!isHost && participantsListDiv != null) {
+        // Auto-refresh for ALL players (including host) to show new participants joining
+        if (participantsListDiv != null) {
             UI ui = getUI().orElse(null);
             if (ui != null) {
                 refreshTask = scheduler.scheduleAtFixedRate(() -> {
@@ -421,6 +426,18 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
     }
 
     private void startQuizSession() {
+        // Check if team mode is enabled and host has selected a team
+        if (session.isTeamMode()) {
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            QuizParticipant hostParticipant = sessionService.getParticipant(session, currentUser);
+
+            if (hostParticipant == null || hostParticipant.getTeamName() == null || hostParticipant.getTeamName().isEmpty()) {
+                // Host must select a team first
+                showTeamSelectionDialogForHost(currentUser);
+                return;
+            }
+        }
+
         sessionService.updateSessionStatus(session, QuizSession.SessionStatus.ACTIVE);
         buildUI();
     }
@@ -459,6 +476,8 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
         Dialog dialog = new Dialog();
         dialog.setHeaderTitle(translationService.translate("quizSession.teamMode.selectTeam"));
         dialog.setWidth("400px");
+        dialog.setCloseOnOutsideClick(false);
+        dialog.setCloseOnEsc(false);
 
         VerticalLayout content = new VerticalLayout();
         content.setSpacing(true);
@@ -512,9 +531,142 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
             confirmButton.setEnabled(event.getValue() != null);
         });
 
-        Button cancelButton = new Button(translationService.translate("common.cancel"), event -> dialog.close());
+        // No cancel button - team selection is mandatory in team mode
+        buttonLayout.add(confirmButton);
 
-        buttonLayout.add(confirmButton, cancelButton);
+        content.add(instruction, teamRadioGroup, buttonLayout);
+        dialog.add(content);
+        dialog.open();
+    }
+
+    private void showTeamSelectionDialogOnJoin(User currentUser) {
+        Dialog dialog = new Dialog();
+        dialog.setHeaderTitle(translationService.translate("quizSession.teamMode.selectTeam"));
+        dialog.setWidth("400px");
+        dialog.setCloseOnOutsideClick(false);
+        dialog.setCloseOnEsc(false);
+
+        VerticalLayout content = new VerticalLayout();
+        content.setSpacing(true);
+        content.setPadding(false);
+
+        // Get participant
+        QuizParticipant participant = sessionService.getParticipant(session, currentUser);
+
+        Paragraph instruction = new Paragraph(translationService.translate("quizSession.teamMode.selectTeamMessage"));
+        instruction.getStyle().set("color", "var(--lumo-secondary-text-color)");
+
+        com.vaadin.flow.component.radiobutton.RadioButtonGroup<String> teamRadioGroup =
+            new com.vaadin.flow.component.radiobutton.RadioButtonGroup<>();
+        teamRadioGroup.setLabel(translationService.translate("quizSession.teamMode"));
+
+        // Get available teams
+        if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
+            String[] teams = session.getSelectedTeams().split(",");
+            java.util.Map<String, String> teamItems = new java.util.LinkedHashMap<>();
+            for (String team : teams) {
+                teamItems.put(team, translationService.translate("quizSession.teamMode.team." + team));
+            }
+            teamRadioGroup.setItems(teamItems.keySet());
+            teamRadioGroup.setItemLabelGenerator(team -> teamItems.get(team));
+
+            // Pre-select team if already chosen
+            if (participant != null && participant.getTeamName() != null) {
+                teamRadioGroup.setValue(participant.getTeamName());
+            }
+        }
+
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setSpacing(true);
+
+        Button confirmButton = new Button(translationService.translate("quizSession.teamMode.confirmTeam"), event -> {
+            String selectedTeam = teamRadioGroup.getValue();
+            if (selectedTeam != null && participant != null) {
+                // Update participant's team
+                sessionService.updateParticipantTeam(participant, selectedTeam);
+
+                // Close dialog and refresh UI
+                dialog.close();
+                buildUI();
+            }
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        confirmButton.setEnabled(teamRadioGroup.getValue() != null);
+
+        teamRadioGroup.addValueChangeListener(event -> {
+            confirmButton.setEnabled(event.getValue() != null);
+        });
+
+        // No cancel button - team selection is mandatory in team mode
+        buttonLayout.add(confirmButton);
+
+        content.add(instruction, teamRadioGroup, buttonLayout);
+        dialog.add(content);
+        dialog.open();
+    }
+
+    private void showTeamSelectionDialogForHost(User currentUser) {
+        Dialog dialog = new Dialog();
+        dialog.setHeaderTitle(translationService.translate("quizSession.teamMode.selectTeam"));
+        dialog.setWidth("400px");
+        dialog.setCloseOnOutsideClick(false);
+        dialog.setCloseOnEsc(false);
+
+        VerticalLayout content = new VerticalLayout();
+        content.setSpacing(true);
+        content.setPadding(false);
+
+        // Get participant
+        QuizParticipant participant = sessionService.getParticipant(session, currentUser);
+
+        Paragraph instruction = new Paragraph(translationService.translate("quizSession.teamMode.host.selectTeamBeforeStart"));
+        instruction.getStyle()
+            .set("color", "var(--lumo-error-color)")
+            .set("font-weight", "bold");
+
+        com.vaadin.flow.component.radiobutton.RadioButtonGroup<String> teamRadioGroup =
+            new com.vaadin.flow.component.radiobutton.RadioButtonGroup<>();
+        teamRadioGroup.setLabel(translationService.translate("quizSession.teamMode"));
+
+        // Get available teams
+        if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
+            String[] teams = session.getSelectedTeams().split(",");
+            java.util.Map<String, String> teamItems = new java.util.LinkedHashMap<>();
+            for (String team : teams) {
+                teamItems.put(team, translationService.translate("quizSession.teamMode.team." + team));
+            }
+            teamRadioGroup.setItems(teamItems.keySet());
+            teamRadioGroup.setItemLabelGenerator(team -> teamItems.get(team));
+
+            // Pre-select team if already chosen
+            if (participant != null && participant.getTeamName() != null) {
+                teamRadioGroup.setValue(participant.getTeamName());
+            }
+        }
+
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setSpacing(true);
+
+        Button confirmButton = new Button(translationService.translate("quizSession.teamMode.confirmTeam"), event -> {
+            String selectedTeam = teamRadioGroup.getValue();
+            if (selectedTeam != null && participant != null) {
+                // Update participant's team
+                sessionService.updateParticipantTeam(participant, selectedTeam);
+
+                // Now start the session
+                dialog.close();
+                sessionService.updateSessionStatus(session, QuizSession.SessionStatus.ACTIVE);
+                buildUI();
+            }
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        confirmButton.setEnabled(teamRadioGroup.getValue() != null);
+
+        teamRadioGroup.addValueChangeListener(event -> {
+            confirmButton.setEnabled(event.getValue() != null);
+        });
+
+        buttonLayout.add(confirmButton);
 
         content.add(instruction, teamRadioGroup, buttonLayout);
         dialog.add(content);
