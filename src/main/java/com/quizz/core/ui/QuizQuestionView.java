@@ -160,6 +160,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             .set("text-align", "center")
             .set("margin", "0")
             .set("color", "var(--lumo-secondary-text-color)");
+        scoreLabel.setVisible(false); // Hide until first answer
 
         // Container for timer and score labels side by side
         HorizontalLayout timerScoreLayout = new HorizontalLayout(timeLabel, scoreLabel);
@@ -351,8 +352,6 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             // Load first question
             displayQuestion();
 
-            // Initialize score display
-            updateScoreDisplay();
 
             // Start the timer
             startTimer();
@@ -682,6 +681,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         if (scoreLabel != null) {
             int answeredQuestions = currentQuestionIndex + 1;
             scoreLabel.setText(translationService.translate("quiz.yourScore") + ": " + correctAnswers + " / " + answeredQuestions);
+            scoreLabel.setVisible(true); // Show after first answer
         }
     }
 
@@ -705,8 +705,6 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         double percentage = (totalQuestions > 0) ? ((double) correctAnswers / totalQuestions) * 100 : 0;
         String scoreMessage = translationService.translate("quiz.finalScore.message", correctAnswers, totalQuestions, String.format("%.1f", percentage), elapsedSeconds);
 
-        questionText.setText(scoreMessage);
-
         // Add performance message
         String performanceMessage;
         if (percentage >= 90) {
@@ -719,16 +717,19 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             performanceMessage = translationService.translate("quiz.performance.keepLearning");
         }
 
-        answerFeedback.setText(performanceMessage);
-        answerFeedback.getStyle().set("color", "#1976d2");
-        answerFeedback.getStyle().set("font-size", "1.2em");
-        answerFeedback.getStyle().set("font-weight", "bold");
-        answerFeedback.setVisible(true);
+        // Combine score and performance message on the same line
+        questionText.setText(scoreMessage + " - " + performanceMessage);
+
+        // Hide the separate feedback div
+        answerFeedback.setVisible(false);
 
         optionsContainer.setVisible(false);
         previousButton.setVisible(false);
         stopButton.setVisible(false);
         progressText.setVisible(false);
+
+        // Hide the progress bar to save space
+        timeProgressBar.setVisible(false);
 
         // Check if this is part of a session
         Object sessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
@@ -854,10 +855,15 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             answerFeedback.setVisible(false);
             answerFeedback.setText("");
 
+            // Re-show and reset the progress bar
+            timeProgressBar.setVisible(true);
             timeProgressBar.setValue(0);
             timeProgressBar.setMax(TIME_LIMIT_SECONDS);
             timeProgressBar.getStyle().set("--lumo-primary-color", "#1976d2");
             timeLabel.setText(translationService.translate("quiz.timer.initial"));
+
+            // Hide the score label until first answer
+            scoreLabel.setVisible(false);
 
             getElement().executeJs(
                 "const reviewSection = this.querySelector('#review-section');" +
@@ -867,7 +873,6 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             );
 
             displayQuestion();
-            updateScoreDisplay(); // Initialize score display on restart
             startTimer();
         } finally {
             isRestarting = false;

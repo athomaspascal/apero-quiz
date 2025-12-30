@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#FFE5E5"/>
+
+  <!-- Book pages -->
+  <rect x="60" y="40" width="80" height="120" fill="white" stroke="#333" stroke-width="2"/>
+  <rect x="65" y="40" width="70" height="120" fill="#FFF8DC" stroke="#333" stroke-width="1.5"/>
+
+  <!-- Book spine -->
+  <rect x="95" y="40" width="10" height="120" fill="#FF6B6B" stroke="#333" stroke-width="2"/>
+
+  <!-- Manga eyes (typical manga style) -->
+  <ellipse cx="80" cy="80" rx="8" ry="12" fill="black"/>
+  <ellipse cx="120" cy="80" rx="8" ry="12" fill="black"/>
+  <circle cx="78" cy="78" r="3" fill="white"/>
+  <circle cx="118" cy="78" r="3" fill="white"/>
+
+  <!-- Speed lines (typical manga effect) -->
+  <line x1="30" y1="60" x2="50" y2="70" stroke="#FF6B6B" stroke-width="2"/>
+  <line x1="25" y1="80" x2="45" y2="85" stroke="#FF6B6B" stroke-width="2"/>
+  <line x1="30" y1="100" x2="50" y2="100" stroke="#FF6B6B" stroke-width="2"/>
+  <line x1="150" y1="70" x2="170" y2="60" stroke="#FF6B6B" stroke-width="2"/>
+  <line x1="155" y1="85" x2="175" y2="80" stroke="#FF6B6B" stroke-width="2"/>
+  <line x1="150" y1="100" x2="170" y2="100" stroke="#FF6B6B" stroke-width="2"/>
+
+  <!-- Speech bubble -->
+  <ellipse cx="140" cy="120" rx="25" ry="18" fill="white" stroke="#333" stroke-width="2"/>
+  <polygon points="140,135 135,145 145,138" fill="white" stroke="#333" stroke-width="2"/>
+
+  <!-- Japanese character style -->
+  <text x="100" y="115" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">漫画</text>
+
+  <!-- Text "MANGA" -->
+  <text x="100" y="180" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#FF6B6B">MANGA</text>
+
+  <!-- Stars (manga sparkle effect) -->
+  <polygon points="45,30 47,35 52,35 48,38 50,43 45,40 40,43 42,38 38,35 43,35" fill="#FFD700"/>
+  <polygon points="155,30 157,35 162,35 158,38 160,43 155,40 150,43 152,38 148,35 153,35" fill="#FFD700"/>
+  <polygon points="100,25 102,30 107,30 103,33 105,38 100,35 95,38 97,33 93,30 98,30" fill="#FFD700"/>
+</svg>
+

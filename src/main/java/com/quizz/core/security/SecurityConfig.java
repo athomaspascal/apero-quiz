@@ -27,6 +27,11 @@ public class SecurityConfig {
         // Disable CSRF - Vaadin has its own CSRF protection
         http.csrf(AbstractHttpConfigurer::disable);
 
+        // Configure headers - disable X-Frame-Options to allow display in all contexts
+        http.headers(headers -> headers
+            .frameOptions(frameOptions -> frameOptions.disable())
+        );
+
         // Let Vaadin handle view security with annotations
         http.authorizeHttpRequests(auth -> auth
             .anyRequest().permitAll()

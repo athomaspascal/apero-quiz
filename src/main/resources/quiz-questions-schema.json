@@ -95,6 +95,11 @@
           "description": "The correct answer (must match exactly one of the options)",
           "minLength": 1,
           "examples": ["Paris", "William Shakespeare"]
+        },
+        "dateUpdate": {
+          "type": "string",
+          "description": "Date of last update for the question (optional)",
+          "examples": ["2025-01-15", "2024-12-30"]
         }
       },
       "additionalProperties": false
