@@ -101,7 +101,7 @@ public class QuizJsonService {
         }
         
         // En production, utiliser le classpath
-        ClassPathResource resource = new ClassPathResource("quiz-questions.json");
+        ClassPathResource resource = new ClassPathResource("tools/quiz-questions.json");
         return resource.getFile();
     }
 

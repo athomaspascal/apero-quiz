@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#f5f5dc"/>
+
+  <!-- Musical staff -->
+  <line x1="20" y1="60" x2="180" y2="60" stroke="#333" stroke-width="2"/>
+  <line x1="20" y1="75" x2="180" y2="75" stroke="#333" stroke-width="2"/>
+  <line x1="20" y1="90" x2="180" y2="90" stroke="#333" stroke-width="2"/>
+  <line x1="20" y1="105" x2="180" y2="105" stroke="#333" stroke-width="2"/>
+  <line x1="20" y1="120" x2="180" y2="120" stroke="#333" stroke-width="2"/>
+
+  <!-- Treble clef -->
+  <path d="M 45,100 Q 42,85 48,75 Q 54,65 54,55 Q 54,45 48,40 Q 42,35 37,40 Q 32,45 37,50 Q 42,55 42,65 Q 42,85 38,100 Q 35,115 38,125 Q 40,130 45,125 Q 48,122 48,118 Q 48,114 45,112 Q 42,110 40,112 M 45,100 Q 50,90 55,85 Q 60,80 60,75"
+        fill="#8B4513" stroke="#8B4513" stroke-width="1.5"/>
+
+  <!-- Musical notes -->
+  <!-- Note 1 -->
+  <ellipse cx="85" cy="88" rx="6" ry="5" fill="#000" transform="rotate(-20 85 88)"/>
+  <rect x="90" y="60" width="2" height="28" fill="#000"/>
+  <path d="M 92,60 Q 95,62 98,60 Q 101,58 104,60 Q 101,65 98,67 Q 95,69 92,67 Z" fill="#000"/>
+
+  <!-- Note 2 -->
+  <ellipse cx="110" cy="98" rx="6" ry="5" fill="#000" transform="rotate(-20 110 98)"/>
+  <rect x="115" y="70" width="2" height="28" fill="#000"/>
+  <path d="M 117,70 Q 120,72 123,70 Q 126,68 129,70 Q 126,75 123,77 Q 120,79 117,77 Z" fill="#000"/>
+
+  <!-- Note 3 -->
+  <ellipse cx="135" cy="83" rx="6" ry="5" fill="#000" transform="rotate(-20 135 83)"/>
+  <rect x="140" y="55" width="2" height="28" fill="#000"/>
+  <path d="M 142,55 Q 145,57 148,55 Q 151,53 154,55 Q 151,60 148,62 Q 145,64 142,62 Z" fill="#000"/>
+
+  <!-- Piano keys decoration -->
+  <g transform="translate(30, 135)">
+    <!-- White keys -->
+    <rect x="0" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="15" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="30" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="45" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="60" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="75" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="90" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="105" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="120" y="0" width="15" height="45" fill="#fff" stroke="#000" stroke-width="1"/>
+
+    <!-- Black keys -->
+    <rect x="10" y="0" width="10" height="28" fill="#000"/>
+    <rect x="25" y="0" width="10" height="28" fill="#000"/>
+    <rect x="55" y="0" width="10" height="28" fill="#000"/>
+    <rect x="70" y="0" width="10" height="28" fill="#000"/>
+    <rect x="85" y="0" width="10" height="28" fill="#000"/>
+    <rect x="115" y="0" width="10" height="28" fill="#000"/>
+    <rect x="130" y="0" width="10" height="28" fill="#000"/>
+  </g>
+
+  <!-- Title -->
+  <text x="100" y="25" font-family="serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Classical Music</text>
+</svg>
+

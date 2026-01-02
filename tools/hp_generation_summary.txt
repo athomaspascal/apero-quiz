@@ -1,0 +1,8 @@
+GENERATION DU QUIZ HARRY POTTER
+============================================================
+
+Date: 20251231_020940
+Questions creees: 1000
+Backup: src/main/resources/quiz-questions-backup-hp-20251231_020940.json
+
+Statut: [OK] SUCCES

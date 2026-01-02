@@ -1,0 +1,43 @@
+Disney quiz found!
+Name: Disney Animation Movies
+Image: disney.svg
+Number of questions: 452
+
+First 5 questions:
+
+1. Q1: En quelle année le film 'Blanche-Neige et les Sept Nains' est-il sorti ?
+   Options: ['1937', '1934', '1939', '1942']
+   Answer: 1937
+   Difficulty: 2
+
+2. Q2: En quelle année le film 'Pinocchio' est-il sorti ?
+   Options: ['1940', '1937', '1942', '1945']
+   Answer: 1940
+   Difficulty: 2
+
+3. Q3: En quelle année le film 'Fantasia' est-il sorti ?
+   Options: ['1940', '1937', '1942', '1945']
+   Answer: 1940
+   Difficulty: 2
+
+4. Q4: En quelle année le film 'Dumbo' est-il sorti ?
+   Options: ['1941', '1938', '1943', '1946']
+   Answer: 1941
+   Difficulty: 2
+
+5. Q5: En quelle année le film 'Bambi' est-il sorti ?
+   Options: ['1942', '1939', '1944', '1947']
+   Answer: 1942
+   Difficulty: 2
+
+Last question:
+Q452: Qui convainc Simba de revenir ?
+Options: ['Nala et Rafiki', 'Timon et Pumbaa', 'Zazu', 'Scar']
+Answer: Nala et Rafiki
+Traceback (most recent call last):
+  File "C:\Users\athom\IdeaProjects\quizz1\check_disney.py", line 36, in <module>
+    print("\n\u2713 All IDs are unique")
+  File "C:\Users\athom\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 2: character maps to <undefined>

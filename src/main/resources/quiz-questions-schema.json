@@ -1,4 +1,4 @@
-{
+²{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://apero-quiz.com/schemas/quiz-questions-schema.json",
   "title": "Quiz Questions Schema",
