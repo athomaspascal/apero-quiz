@@ -137,6 +137,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public long countPublicUsers() {
+        return userRepository.countByIsPublicTrue();
+    }
+
+    @Transactional(readOnly = true)
     public @Nullable User getById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -165,6 +170,16 @@ public class UserService {
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setAdmin(isAdmin);
         userRepository.saveAndFlush(user);
+    }
+
+    /**
+     * Save or update a user
+     * @param user The user to save
+     * @return The saved user
+     */
+    @Transactional
+    public User save(User user) {
+        return userRepository.saveAndFlush(user);
     }
 
     @Transactional(readOnly = true)

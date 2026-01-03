@@ -21,19 +21,25 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import com.vaadin.flow.server.StreamResource;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Route("quiz-session/:sessionCode")
 @PageTitle("Quiz Session")
 @AnonymousAllowed
 @SuppressWarnings({"deprecation", "removal"})
 public class QuizSessionView extends Main implements BeforeEnterObserver {
+
+    private static final Logger logger = LoggerFactory.getLogger(QuizSessionView.class);
 
     private final QuizSessionService sessionService;
     private final TranslationService translationService;
@@ -398,9 +404,58 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
                 nameTeamLayout.setSpacing(false);
                 nameTeamLayout.getStyle().set("gap", "2px");
 
+                // Create horizontal layout for name and flag
+                HorizontalLayout nameAndFlagLayout = new HorizontalLayout();
+                nameAndFlagLayout.setSpacing(true);
+                nameAndFlagLayout.setDefaultVerticalComponentAlignment(HorizontalLayout.Alignment.CENTER);
+                nameAndFlagLayout.getStyle().set("gap", "8px");
+
                 Span name = new Span(participant.getUser().getName());
                 name.addClassNames(LumoUtility.FontWeight.SEMIBOLD);
-                nameTeamLayout.add(name);
+                nameAndFlagLayout.add(name);
+
+                // Add country flag if available
+                User participantUser = participant.getUser();
+                logger.info("Checking country flag for participant: {}", participantUser.getName());
+                if (participantUser.getCountry() != null) {
+                    logger.info("Participant has country: {}", participantUser.getCountry().getCountryName());
+                    String flagSvg = participantUser.getCountry().getCountryFlag();
+                    logger.info("Flag SVG length: {}", flagSvg != null ? flagSvg.length() : 0);
+                    if (flagSvg != null && !flagSvg.isEmpty()) {
+                        logger.info("Creating flag display for country: {}", participantUser.getCountry().getCountryName());
+                        Div flagContainer = new Div();
+                        flagContainer.getStyle()
+                            .set("width", "30px")
+                            .set("height", "20px")
+                            .set("display", "flex")
+                            .set("align-items", "center")
+                            .set("justify-content", "center")
+                            .set("border", "1px solid #e0e0e0")
+                            .set("border-radius", "3px")
+                            .set("box-shadow", "0 1px 2px rgba(0,0,0,0.1)");
+
+                        // Create StreamResource from SVG content
+                        StreamResource flagResource = new StreamResource("flag.svg",
+                            () -> new ByteArrayInputStream(flagSvg.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                        flagResource.setContentType("image/svg+xml");
+
+                        Image flagImage = new Image(flagResource, "Country flag");
+                        flagImage.setWidth("30px");
+                        flagImage.setHeight("20px");
+                        flagImage.getStyle()
+                            .set("object-fit", "contain");
+
+                        flagContainer.add(flagImage);
+                        nameAndFlagLayout.add(flagContainer);
+                        logger.info("Flag container added to layout for participant: {}", participantUser.getName());
+                    } else {
+                        logger.warn("Flag SVG is null or empty for country: {}", participantUser.getCountry().getCountryName());
+                    }
+                } else {
+                    logger.warn("Participant {} has no country associated", participantUser.getName());
+                }
+
+                nameTeamLayout.add(nameAndFlagLayout);
 
                 if (session.isTeamMode() && participant.getTeamName() != null) {
                     Span team = new Span(translationService.translate("quizSession.teamMode.teamSelected",

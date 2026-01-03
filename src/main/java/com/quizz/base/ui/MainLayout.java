@@ -2,6 +2,7 @@ package com.quizz.base.ui;
 
 import com.quizz.core.entity.User;
 import com.quizz.core.service.TranslationService;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -32,11 +33,35 @@ public final class MainLayout extends AppLayout {
     // Keep references to refresh labels on locale change
     private SideNav sideNav;
     private List<MenuEntry> menuEntries = new ArrayList<>();
+    private Scroller sideNavScroller;
+    private Div footerDiv;
 
     MainLayout(@Autowired TranslationService translationService) {
         this.translationService = translationService;
         setPrimarySection(Section.DRAWER);
-        addToDrawer(createHeader(), new Scroller(createSideNav()), createFooter());
+        footerDiv = createFooter();
+        sideNavScroller = new Scroller(createSideNav());
+        addToDrawer(createHeader(), sideNavScroller, footerDiv);
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        // Refresh the menu when the layout is attached to ensure current user state
+        refreshMenu();
+    }
+
+    private void refreshMenu() {
+        // Remove old sidenav and footer
+        remove(sideNavScroller);
+        remove(footerDiv);
+
+        // Recreate them with current user state
+        sideNavScroller = new Scroller(createSideNav());
+        footerDiv = createFooter();
+
+        // Add them back
+        addToDrawer(sideNavScroller, footerDiv);
     }
 
     private Div createHeader() {
@@ -56,12 +81,14 @@ public final class MainLayout extends AppLayout {
         sideNav = new SideNav();
         sideNav.addClassNames(Margin.Horizontal.MEDIUM);
         menuEntries = MenuConfiguration.getMenuEntries();
-        menuEntries.forEach(entry -> logger.info("Menu Entry:" + entry.title()));
+        menuEntries.forEach(entry -> logger.info("Menu Entry: title=" + entry.title() + ", path=" + entry.path()));
         sideNav.removeAll();
 
         // Get current user from session
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         boolean isAdmin = currentUser != null && currentUser.isAdmin();
+
+        logger.info("Current user: " + (currentUser != null ? currentUser.getName() : "null") + ", isAdmin: " + isAdmin);
 
         // Filter menu entries based on user role
         menuEntries.forEach(entry -> {
@@ -71,6 +98,8 @@ public final class MainLayout extends AppLayout {
             boolean isAdminMenu = "users".equals(path)
                 || "question-logs".equals(path)
                 || "admin/quiz-editor".equals(path);
+
+            logger.info("Menu path=" + path + ", isAdminMenu=" + isAdminMenu + ", willBeAdded=" + (!isAdminMenu || isAdmin));
 
             // Add menu item only if user is admin or menu is not admin-only
             if (!isAdminMenu || isAdmin) {

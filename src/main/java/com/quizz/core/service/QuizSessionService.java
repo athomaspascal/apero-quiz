@@ -48,7 +48,7 @@ public class QuizSessionService {
 
     @Transactional(readOnly = true)
     public List<QuizParticipant> getParticipants(QuizSession session) {
-        return participantRepository.findBySession(session);
+        return participantRepository.findBySessionWithUserAndCountry(session);
     }
 
     @Transactional

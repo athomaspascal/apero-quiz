@@ -1,13 +1,16 @@
 package com.quizz.core.ui;
 
 import com.quizz.base.ui.component.ViewToolbar;
+import com.quizz.core.entity.Country;
 import com.quizz.core.entity.User;
 import com.quizz.core.entity.Gender;
+import com.quizz.core.service.CountryService;
 import com.quizz.core.service.UserService;
 import com.quizz.core.service.TranslationService;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -31,11 +34,13 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 class UserListView extends Main implements BeforeEnterObserver {
 
     private final UserService userService;
+    private final CountryService countryService;
     private final TranslationService translationService;
     private final Grid<User> userGrid;
 
-    UserListView(UserService userService, TranslationService translationService) {
+    UserListView(UserService userService, CountryService countryService, TranslationService translationService) {
         this.userService = userService;
+        this.countryService = countryService;
         this.translationService = translationService;
 
         Button createUserBtn = new Button(translationService.translate("users.create"), event -> openUserDialog(null));
@@ -46,6 +51,8 @@ class UserListView extends Main implements BeforeEnterObserver {
         userGrid.addColumn(User::getName).setHeader(translationService.translate("users.name")).setSortable(true);
         userGrid.addColumn(User::getEmail).setHeader(translationService.translate("users.email")).setSortable(true);
         userGrid.addColumn(User::getTelephone).setHeader(translationService.translate("users.telephone"));
+        userGrid.addColumn(user -> user.getCountry() != null ? user.getCountry().getCountryName() : "")
+            .setHeader(translationService.translate("users.country")).setSortable(true);
         userGrid.addComponentColumn(user -> {
             // Disable edit/delete for public users
             if (user.isPublic()) {
@@ -119,30 +126,121 @@ class UserListView extends Main implements BeforeEnterObserver {
         passwordField.setMaxLength(User.PASSWORD_MAX_LENGTH);
         passwordField.setRequired(true);
 
+        // Add country selection ComboBox with flag display
+        ComboBox<Country> countryComboBox = new ComboBox<>(translationService.translate("users.country"));
+        countryComboBox.setItems(countryService.findAll());
+        countryComboBox.setItemLabelGenerator(Country::getCountryName);
+
+        // Container to display the selected country flag
+        com.vaadin.flow.component.html.Div selectedFlagContainer = new com.vaadin.flow.component.html.Div();
+        selectedFlagContainer.getStyle()
+            .set("width", "30px")
+            .set("height", "20px")
+            .set("display", "flex")
+            .set("align-items", "center")
+            .set("justify-content", "center")
+            .set("border", "1px solid #e0e0e0")
+            .set("border-radius", "2px")
+            .set("margin-top", "8px");
+
+        // Custom renderer to display flag and country name in dropdown
+        countryComboBox.setRenderer(new com.vaadin.flow.data.renderer.ComponentRenderer<>(country -> {
+            com.vaadin.flow.component.orderedlayout.HorizontalLayout layout = new com.vaadin.flow.component.orderedlayout.HorizontalLayout();
+            layout.setAlignItems(com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment.CENTER);
+            layout.setSpacing(true);
+            layout.getStyle().set("line-height", "var(--lumo-line-height-xs)");
+
+            // Create flag container for dropdown
+            if (country.getCountryFlag() != null && !country.getCountryFlag().isEmpty()) {
+                com.vaadin.flow.component.html.Div flagContainer = new com.vaadin.flow.component.html.Div();
+                flagContainer.getStyle()
+                    .set("width", "24px")
+                    .set("height", "16px")
+                    .set("display", "flex")
+                    .set("align-items", "center")
+                    .set("justify-content", "center")
+                    .set("border", "1px solid #e0e0e0")
+                    .set("border-radius", "2px")
+                    .set("flex-shrink", "0");
+
+                // Embed SVG directly as HTML
+                flagContainer.getElement().setProperty("innerHTML", country.getCountryFlag());
+                flagContainer.getElement().getStyle()
+                    .set("width", "24px")
+                    .set("height", "16px");
+
+                layout.add(flagContainer);
+            }
+
+            // Add country name
+            com.vaadin.flow.component.html.Span nameSpan = new com.vaadin.flow.component.html.Span(country.getCountryName());
+            layout.add(nameSpan);
+
+            return layout;
+        }));
+
+        // Add value change listener to update the selected flag display
+        countryComboBox.addValueChangeListener(event -> {
+            selectedFlagContainer.removeAll();
+            Country selectedCountry = event.getValue();
+            if (selectedCountry != null && selectedCountry.getCountryFlag() != null && !selectedCountry.getCountryFlag().isEmpty()) {
+                // Embed SVG directly as HTML for the selected flag
+                selectedFlagContainer.getElement().setProperty("innerHTML", selectedCountry.getCountryFlag());
+            }
+        });
+
+        countryComboBox.setRequired(true);
+        countryComboBox.setRequiredIndicatorVisible(true);
+        countryComboBox.setPlaceholder(translationService.translate("users.selectCountry"));
+
+        // Create a layout to hold the combobox and the selected flag
+        com.vaadin.flow.component.orderedlayout.VerticalLayout countryLayout = new com.vaadin.flow.component.orderedlayout.VerticalLayout();
+        countryLayout.setSpacing(false);
+        countryLayout.setPadding(false);
+        countryLayout.add(countryComboBox, selectedFlagContainer);
+
         if (user != null) {
             nameField.setValue(user.getName());
             emailField.setValue(user.getEmail());
             telephoneField.setValue(user.getTelephone());
             passwordField.setValue(user.getPassword());
+            if (user.getCountry() != null) {
+                countryComboBox.setValue(user.getCountry());
+                // Display the flag for the existing country
+                if (user.getCountry().getCountryFlag() != null && !user.getCountry().getCountryFlag().isEmpty()) {
+                    selectedFlagContainer.getElement().setProperty("innerHTML", user.getCountry().getCountryFlag());
+                }
+            }
         }
 
         FormLayout formLayout = new FormLayout();
-        formLayout.add(nameField, emailField, telephoneField, passwordField);
+        formLayout.add(nameField, emailField, telephoneField, passwordField, countryLayout);
         formLayout.setResponsiveSteps(
             new FormLayout.ResponsiveStep("0", 1),
             new FormLayout.ResponsiveStep("500px", 2)
         );
 
         Button saveButton = new Button(translationService.translate("common.save"), event -> {
+            // Validate that country is selected
+            if (countryComboBox.getValue() == null) {
+                Notification.show(translationService.translate("users.countryRequired"), 3000, Notification.Position.BOTTOM_END)
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                return;
+            }
+
             try {
                 if (user == null) {
-                    userService.createUser(
+                    User newUser = userService.createUser(
                         nameField.getValue(),
                         emailField.getValue(),
                         telephoneField.getValue(),
                         passwordField.getValue(),
                         Gender.MALE  // Default gender for admin-created users
                     );
+                    // Set the country and save
+                    newUser.setCountry(countryComboBox.getValue());
+                    userService.save(newUser);
+
                     Notification.show(translationService.translate("users.created"), 3000, Notification.Position.BOTTOM_END)
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 } else {
@@ -156,6 +254,13 @@ class UserListView extends Main implements BeforeEnterObserver {
                         telephoneField.getValue(),
                         passwordField.getValue()
                     );
+                    // Update the country
+                    User updatedUser = userService.getById(user.getId());
+                    if (updatedUser != null) {
+                        updatedUser.setCountry(countryComboBox.getValue());
+                        userService.save(updatedUser);
+                    }
+
                     Notification.show(translationService.translate("users.updated"), 3000, Notification.Position.BOTTOM_END)
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 }

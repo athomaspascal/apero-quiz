@@ -2,12 +2,15 @@ package com.quizz.core;
 
 import com.quizz.core.entity.Gender;
 import com.quizz.core.entity.User;
+import com.quizz.core.service.CountryService;
 import com.quizz.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,19 +24,35 @@ public class DataInitializer {
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
     @Bean
-    CommandLineRunner initDatabase(UserService userService) {
+    @Order(2) // Execute after CountryService
+    @DependsOn("countryService") // Wait for CountryService to be initialized
+    CommandLineRunner initDatabase(UserService userService, CountryService countryService) {
         return args -> {
-            createAdminUser(userService);
-            createPublicUsers(userService);
+            logger.info("=== DataInitializer: Starting user and country initialization ===");
+            createAdminUser(userService, countryService);
+            createPublicUsers(userService, countryService);
+            logger.info("=== DataInitializer: Completed ===");
         };
     }
 
-    private void createAdminUser(UserService userService) {
+    private void createAdminUser(UserService userService, CountryService countryService) {
         String adminEmail = "administrateur@quiz.admin";
 
         // Check if admin user already exists
         if (userService.findByEmail(adminEmail).isPresent()) {
-            logger.info("Admin user already exists, skipping creation.");
+            logger.info("Admin user already exists, checking country association...");
+            User existingAdmin = userService.findByEmail(adminEmail).get();
+
+            // If admin doesn't have a country, link to France
+            if (existingAdmin.getCountry() == null) {
+                countryService.findBySigle("FRA").ifPresent(country -> {
+                    existingAdmin.setCountry(country);
+                    userService.save(existingAdmin);
+                    logger.info("Existing admin user linked to France");
+                });
+            } else {
+                logger.info("Admin user already linked to country: {}", existingAdmin.getCountry().getCountryName());
+            }
             return;
         }
 
@@ -49,116 +68,129 @@ public class DataInitializer {
                 generateAvatarImage("AD", adminColor)
             );
 
-            // Mark as admin
+            // Mark as admin FIRST
             userService.updateAdminFlag(admin.getId(), true);
-            logger.info("Default admin user created: {} / quizz2025!!", adminEmail);
+
+            // Reload admin to get updated isAdmin flag
+            User updatedAdmin = userService.getById(admin.getId());
+
+            // Then link admin to France (after admin flag is set)
+            if (updatedAdmin != null) {
+                countryService.findBySigle("FRA").ifPresent(country -> {
+                    updatedAdmin.setCountry(country);
+                    userService.save(updatedAdmin); // Save the admin user with the country association
+                    logger.info("Admin user linked to France");
+                });
+            }
+
+            logger.info("Default admin user created: {} / quizz2025!! (linked to France)", adminEmail);
         } catch (Exception e) {
             logger.error("Error creating admin user: {}", e.getMessage(), e);
         }
     }
 
-    private void createPublicUsers(UserService userService) {
+    private void createPublicUsers(UserService userService, CountryService countryService) {
         String[][] famousPeople = {
-            // Format: {Name, Initials, Gender}
-            {"Barack Obama", "BO", "MALE"},
-            {"Nelson Mandela", "NM", "MALE"},
-            {"Marie Curie", "MC", "FEMALE"},
-            {"Albert Einstein", "AE", "MALE"},
-            {"Leonardo da Vinci", "LV", "MALE"},
-            {"Cleopatra", "CL", "FEMALE"},
-            {"Martin Luther King Jr", "MK", "MALE"},
-            {"Mother Teresa", "MT", "FEMALE"},
-            {"Mahatma Gandhi", "MG", "MALE"},
-            {"Winston Churchill", "WC", "MALE"},
-            {"Abraham Lincoln", "AL", "MALE"},
-            {"Charles Darwin", "CD", "MALE"},
-            {"Isaac Newton", "IN", "MALE"},
-            {"William Shakespeare", "WS", "MALE"},
-            {"Ludwig van Beethoven", "LB", "MALE"},
-            {"Wolfgang Mozart", "WM", "MALE"},
-            {"Pablo Picasso", "PP", "MALE"},
-            {"Vincent van Gogh", "VG", "MALE"},
-            {"Frida Kahlo", "FK", "FEMALE"},
-            {"Coco Chanel", "CC", "FEMALE"},
-            {"Steve Jobs", "SJ", "MALE"},
-            {"Bill Gates", "BG", "MALE"},
-            {"Elon Musk", "EM", "MALE"},
-            {"Mark Zuckerberg", "MZ", "MALE"},
-            {"Oprah Winfrey", "OW", "FEMALE"},
-            {"Walt Disney", "WD", "MALE"},
-            {"Michael Jackson", "MJ", "MALE"},
-            {"Elvis Presley", "EP", "MALE"},
-            {"The Beatles", "TB", "MALE"},
-            {"Madonna", "MA", "FEMALE"},
-            {"Beyoncé", "BE", "FEMALE"},
-            {"Muhammad Ali", "MA", "MALE"},
-            {"Pelé", "PE", "MALE"},
-            {"Cristiano Ronaldo", "CR", "MALE"},
-            {"Lionel Messi", "LM", "MALE"},
-            {"Serena Williams", "SW", "FEMALE"},
-            {"Michael Jordan", "MJ", "MALE"},
-            {"Tiger Woods", "TW", "MALE"},
-            {"Roger Federer", "RF", "MALE"},
-            {"Usain Bolt", "UB", "MALE"},
-            {"Neil Armstrong", "NA", "MALE"},
-            {"Yuri Gagarin", "YG", "MALE"},
-            {"Stephen Hawking", "SH", "MALE"},
-            {"Carl Sagan", "CS", "MALE"},
-            {"Jane Goodall", "JG", "FEMALE"},
-            {"Rosa Parks", "RP", "FEMALE"},
-            {"Malala Yousafzai", "MY", "FEMALE"},
-            {"Anne Frank", "AF", "FEMALE"},
-            {"Helen Keller", "HK", "FEMALE"},
-            {"Florence Nightingale", "FN", "FEMALE"},
-            {"Sigmund Freud", "SF", "MALE"},
-            {"Karl Marx", "KM", "MALE"},
-            {"Friedrich Nietzsche", "FN", "MALE"},
-            {"Socrates", "SO", "MALE"},
-            {"Plato", "PL", "MALE"},
-            {"Aristotle", "AR", "MALE"},
-            {"Confucius", "CO", "MALE"},
-            {"Buddha", "BU", "MALE"},
-            {"Jesus Christ", "JC", "MALE"},
-            {"Prophet Muhammad", "PM", "MALE"},
-            {"Pope Francis", "PF", "MALE"},
-            {"Dalai Lama", "DL", "MALE"},
-            {"Elizabeth II", "E2", "FEMALE"},
-            {"Napoleon Bonaparte", "NB", "MALE"},
-            {"Julius Caesar", "JC", "MALE"},
-            {"Alexander the Great", "AG", "MALE"},
-            {"Genghis Khan", "GK", "MALE"},
-            {"Joan of Arc", "JA", "FEMALE"},
-            {"George Washington", "GW", "MALE"},
-            {"Thomas Jefferson", "TJ", "MALE"},
-            {"Franklin D Roosevelt", "FR", "MALE"},
-            {"John F Kennedy", "JK", "MALE"},
-            {"Margaret Thatcher", "MT", "FEMALE"},
-            {"Angela Merkel", "AM", "FEMALE"},
-            {"Indira Gandhi", "IG", "FEMALE"},
-            {"Eva Perón", "EP", "FEMALE"},
-            {"Che Guevara", "CG", "MALE"},
-            {"Vladimir Lenin", "VL", "MALE"},
-            {"Joseph Stalin", "JS", "MALE"},
-            {"Mao Zedong", "MZ", "MALE"},
-            {"Charles de Gaulle", "CG", "MALE"},
-            {"Simone de Beauvoir", "SB", "FEMALE"},
-            {"Virginia Woolf", "VW", "FEMALE"},
-            {"Jane Austen", "JA", "FEMALE"},
-            {"Mark Twain", "MT", "MALE"},
-            {"Ernest Hemingway", "EH", "MALE"},
-            {"Victor Hugo", "VH", "MALE"},
-            {"Voltaire", "VO", "MALE"},
-            {"Molière", "MO", "MALE"},
-            {"Dante Alighieri", "DA", "MALE"},
-            {"Miguel de Cervantes", "MC", "MALE"},
-            {"Leo Tolstoy", "LT", "MALE"},
-            {"Fyodor Dostoevsky", "FD", "MALE"},
-            {"Gabriel García Márquez", "GM", "MALE"},
-            {"Toni Morrison", "TM", "FEMALE"},
-            {"Maya Angelou", "MA", "FEMALE"},
-            {"J.K. Rowling", "JR", "FEMALE"},
-            {"George Orwell", "GO", "MALE"},
-            {"Agatha Christie", "AC", "FEMALE"}
+            // Format: {Name, Initials, Gender, CountryCode}
+            {"Barack Obama", "BO", "MALE", "USA"},
+            {"Nelson Mandela", "NM", "MALE", "ZAF"},
+            {"Marie Curie", "MC", "FEMALE", "POL"},
+            {"Albert Einstein", "AE", "MALE", "DEU"},
+            {"Leonardo da Vinci", "LV", "MALE", "ITA"},
+            {"Cleopatra", "CL", "FEMALE", "EGY"},
+            {"Martin Luther King Jr", "MK", "MALE", "USA"},
+            {"Mother Teresa", "MT", "FEMALE", "IND"},
+            {"Mahatma Gandhi", "MG", "MALE", "IND"},
+            {"Winston Churchill", "WC", "MALE", "GBR"},
+            {"Abraham Lincoln", "AL", "MALE", "USA"},
+            {"Charles Darwin", "CD", "MALE", "GBR"},
+            {"Isaac Newton", "IN", "MALE", "GBR"},
+            {"William Shakespeare", "WS", "MALE", "GBR"},
+            {"Ludwig van Beethoven", "LB", "MALE", "DEU"},
+            {"Wolfgang Mozart", "WM", "MALE", "AUT"},
+            {"Pablo Picasso", "PP", "MALE", "ESP"},
+            {"Vincent van Gogh", "VG", "MALE", "NLD"},
+            {"Frida Kahlo", "FK", "FEMALE", "MEX"},
+            {"Coco Chanel", "CC", "FEMALE", "FRA"},
+            {"Steve Jobs", "SJ", "MALE", "USA"},
+            {"Bill Gates", "BG", "MALE", "USA"},
+            {"Elon Musk", "EM", "MALE", "ZAF"},
+            {"Mark Zuckerberg", "MZ", "MALE", "USA"},
+            {"Oprah Winfrey", "OW", "FEMALE", "USA"},
+            {"Walt Disney", "WD", "MALE", "USA"},
+            {"Michael Jackson", "MJ", "MALE", "USA"},
+            {"Elvis Presley", "EP", "MALE", "USA"},
+            {"The Beatles", "TB", "MALE", "GBR"},
+            {"Madonna", "MA", "FEMALE", "USA"},
+            {"Beyoncé", "BE", "FEMALE", "USA"},
+            {"Muhammad Ali", "MA", "MALE", "USA"},
+            {"Pelé", "PE", "MALE", "BRA"},
+            {"Cristiano Ronaldo", "CR", "MALE", "PRT"},
+            {"Lionel Messi", "LM", "MALE", "ARG"},
+            {"Serena Williams", "SW", "FEMALE", "USA"},
+            {"Michael Jordan", "MJ", "MALE", "USA"},
+            {"Tiger Woods", "TW", "MALE", "USA"},
+            {"Roger Federer", "RF", "MALE", "CHE"},
+            {"Usain Bolt", "UB", "MALE", "JAM"},
+            {"Neil Armstrong", "NA", "MALE", "USA"},
+            {"Yuri Gagarin", "YG", "MALE", "RUS"},
+            {"Stephen Hawking", "SH", "MALE", "GBR"},
+            {"Carl Sagan", "CS", "MALE", "USA"},
+            {"Jane Goodall", "JG", "FEMALE", "GBR"},
+            {"Rosa Parks", "RP", "FEMALE", "USA"},
+            {"Malala Yousafzai", "MY", "FEMALE", "PAK"},
+            {"Anne Frank", "AF", "FEMALE", "DEU"},
+            {"Helen Keller", "HK", "FEMALE", "USA"},
+            {"Florence Nightingale", "FN", "FEMALE", "GBR"},
+            {"Sigmund Freud", "SF", "MALE", "AUT"},
+            {"Karl Marx", "KM", "MALE", "DEU"},
+            {"Friedrich Nietzsche", "FN", "MALE", "DEU"},
+            {"Socrates", "SO", "MALE", "GRC"},
+            {"Plato", "PL", "MALE", "GRC"},
+            {"Aristotle", "AR", "MALE", "GRC"},
+            {"Confucius", "CO", "MALE", "CHN"},
+            {"Buddha", "BU", "MALE", "IND"},
+            {"Jesus Christ", "JC", "MALE", "ISR"},
+            {"Prophet Muhammad", "PM", "MALE", "SAU"},
+            {"Pope Francis", "PF", "MALE", "ARG"},
+            {"Dalai Lama", "DL", "MALE", "IND"},
+            {"Elizabeth II", "E2", "FEMALE", "GBR"},
+            {"Napoleon Bonaparte", "NB", "MALE", "FRA"},
+            {"Julius Caesar", "JC", "MALE", "ITA"},
+            {"Alexander the Great", "AG", "MALE", "GRC"},
+            {"Genghis Khan", "GK", "MALE", "MNG"},
+            {"Joan of Arc", "JA", "FEMALE", "FRA"},
+            {"George Washington", "GW", "MALE", "USA"},
+            {"Thomas Jefferson", "TJ", "MALE", "USA"},
+            {"Franklin D Roosevelt", "FR", "MALE", "USA"},
+            {"John F Kennedy", "JK", "MALE", "USA"},
+            {"Margaret Thatcher", "MT", "FEMALE", "GBR"},
+            {"Angela Merkel", "AM", "FEMALE", "DEU"},
+            {"Indira Gandhi", "IG", "FEMALE", "IND"},
+            {"Eva Perón", "EP", "FEMALE", "ARG"},
+            {"Che Guevara", "CG", "MALE", "ARG"},
+            {"Vladimir Lenin", "VL", "MALE", "RUS"},
+            {"Joseph Stalin", "JS", "MALE", "RUS"},
+            {"Mao Zedong", "MZ", "MALE", "CHN"},
+            {"Charles de Gaulle", "CG", "MALE", "FRA"},
+            {"Simone de Beauvoir", "SB", "FEMALE", "FRA"},
+            {"Virginia Woolf", "VW", "FEMALE", "GBR"},
+            {"Jane Austen", "JA", "FEMALE", "GBR"},
+            {"Mark Twain", "MT", "MALE", "USA"},
+            {"Ernest Hemingway", "EH", "MALE", "USA"},
+            {"Victor Hugo", "VH", "MALE", "FRA"},
+            {"Voltaire", "VO", "MALE", "FRA"},
+            {"Molière", "MO", "MALE", "FRA"},
+            {"Dante Alighieri", "DA", "MALE", "ITA"},
+            {"Miguel de Cervantes", "MC", "MALE", "ESP"},
+            {"Leo Tolstoy", "LT", "MALE", "RUS"},
+            {"Fyodor Dostoevsky", "FD", "MALE", "RUS"},
+            {"Gabriel García Márquez", "GM", "MALE", "COL"},
+            {"Toni Morrison", "TM", "FEMALE", "USA"},
+            {"Maya Angelou", "MA", "FEMALE", "USA"},
+            {"J.K. Rowling", "JR", "FEMALE", "GBR"},
+            {"George Orwell", "GO", "MALE", "GBR"},
+            {"Agatha Christie", "AC", "FEMALE", "GBR"}
         };
 
         Color[] avatarColors = {
@@ -179,6 +211,7 @@ public class DataInitializer {
             String name = person[0];
             String initials = person[1];
             Gender gender = person[2].equals("MALE") ? Gender.MALE : Gender.FEMALE;
+            String countryCode = person[3];
 
             // Create email from name
             String email = name.toLowerCase().replace(" ", ".").replaceAll("[^a-z.]", "") + "@public.quiz";
@@ -195,8 +228,27 @@ public class DataInitializer {
                     gender,
                     generateAvatarImage(initials, color)
                 );
-                // Mark as public user and save again
+
+                // Mark as public user FIRST
                 userService.updatePublicFlag(user.getId(), true);
+                logger.info("Set isPublic=true for user: {}", name);
+
+                // Then link user to their country (after public flag is set)
+                boolean countryLinked = false;
+                var countryOpt = countryService.findBySigle(countryCode);
+                if (countryOpt.isPresent()) {
+                    // Reload user to ensure we have the latest state with isPublic=true
+                    User updatedUser = userService.getById(user.getId());
+                    if (updatedUser != null) {
+                        updatedUser.setCountry(countryOpt.get());
+                        userService.save(updatedUser); // Save the user with the country association
+                        logger.info("Linked {} to {} ({}), isPublic={}", name, countryOpt.get().getCountryName(), countryCode, updatedUser.isPublic());
+                        countryLinked = true;
+                    }
+                } else {
+                    logger.warn("Country with code {} not found for user {}", countryCode, name);
+                }
+
                 successCount++;
 
                 if ((i + 1) % 20 == 0) {
@@ -208,6 +260,10 @@ public class DataInitializer {
         }
 
         logger.info("Public users initialization complete: {} created, {} skipped (already exist)", successCount, skipCount);
+
+        // Verify how many public users are in the database
+        long publicUserCount = userService.countPublicUsers();
+        logger.info("Total public users in database after initialization: {}", publicUserCount);
     }
 
     /**

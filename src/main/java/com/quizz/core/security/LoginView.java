@@ -24,6 +24,8 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.PermitAll;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
 import java.io.ByteArrayInputStream;
@@ -36,6 +38,8 @@ import java.util.Locale;
 @PermitAll
 @SuppressWarnings({"deprecation", "removal"})
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginView.class);
 
     private final LoginForm loginForm = new LoginForm();
     private final AuthenticationService authenticationService;
@@ -447,6 +451,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         // Load public users
         List<User> publicUsers = userService.listPublicUsers(Pageable.ofSize(100));
+        logger.info("Loading public avatars dialog - found {} public users", publicUsers.size());
 
         // Create a flex layout to display avatars as a grid
         FlexLayout avatarGrid = new FlexLayout();
@@ -457,6 +462,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("justify-content", "center");
 
         for (User user : publicUsers) {
+            logger.info("Creating avatar card for user: {} - hasPhoto: {}, hasCountry: {}",
+                user.getName(),
+                user.getPhotoBytes() != null && user.getPhotoBytes().length > 0,
+                user.getCountry() != null);
             VerticalLayout avatarCard = createAvatarCard(user, dialog);
             avatarGrid.add(avatarCard);
         }
@@ -506,6 +515,56 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             avatarImage.setHeight("100%");
             avatarImage.getStyle().set("object-fit", "cover");
             avatarContainer.add(avatarImage);
+        } else {
+            // Add a placeholder if no photo
+            logger.warn("No photo found for user: {}", user.getName());
+            Div placeholder = new Div();
+            placeholder.setText(user.getName().substring(0, 1));
+            placeholder.getStyle()
+                .set("width", "100%")
+                .set("height", "100%")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("background-color", "#e0e0e0")
+                .set("font-size", "24px")
+                .set("font-weight", "bold")
+                .set("color", "#666");
+            avatarContainer.add(placeholder);
+        }
+
+        card.add(avatarContainer);
+
+        // Add country flag if available
+        if (user.getCountry() != null) {
+            String flagSvg = user.getCountry().getCountryFlag();
+            if (flagSvg != null && !flagSvg.isEmpty()) {
+                Div flagContainer = new Div();
+                flagContainer.getStyle()
+                    .set("width", "30px")
+                    .set("height", "20px")
+                    .set("display", "flex")
+                    .set("align-items", "center")
+                    .set("justify-content", "center")
+                    .set("border", "1px solid #e0e0e0")
+                    .set("border-radius", "2px")
+                    .set("margin-top", "4px")
+                    .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+
+                // Create StreamResource from SVG content
+                StreamResource flagResource = new StreamResource("flag.svg",
+                    () -> new ByteArrayInputStream(flagSvg.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                flagResource.setContentType("image/svg+xml");
+
+                Image flagImage = new Image(flagResource, "Country flag");
+                flagImage.setWidth("30px");
+                flagImage.setHeight("20px");
+                flagImage.getStyle()
+                    .set("object-fit", "contain");
+
+                flagContainer.add(flagImage);
+                card.add(flagContainer);
+            }
         }
 
         // User name
@@ -518,7 +577,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("text-overflow", "ellipsis")
             .set("white-space", "nowrap");
 
-        card.add(avatarContainer, nameLabel);
+        card.add(nameLabel);
 
         // Hover effect
         card.addClickListener(event -> {

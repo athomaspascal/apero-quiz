@@ -165,6 +165,12 @@ class QuizListView extends Main {
         // Get current user
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
+        // Create horizontal layout for avatar and flag
+        HorizontalLayout avatarAndFlagLayout = new HorizontalLayout();
+        avatarAndFlagLayout.setAlignItems(HorizontalLayout.Alignment.CENTER);
+        avatarAndFlagLayout.setSpacing(true);
+        avatarAndFlagLayout.getStyle().set("gap", "10px");
+
         // Create avatar container
         Div avatarContainer = new Div();
         avatarContainer.getStyle()
@@ -208,7 +214,55 @@ class QuizListView extends Main {
             avatarContainer.add(defaultIcon);
         }
 
-        // User name below avatar (optional)
+        avatarAndFlagLayout.add(avatarContainer);
+
+        // Add country flag if available
+        logger.info("Checking country flag for user: {}", currentUser != null ? currentUser.getName() : "null");
+        if (currentUser != null && currentUser.getCountry() != null) {
+            logger.info("User has country: {}", currentUser.getCountry().getCountryName());
+            String flagSvg = currentUser.getCountry().getCountryFlag();
+            logger.info("Flag SVG length: {}", flagSvg != null ? flagSvg.length() : 0);
+            if (flagSvg != null && !flagSvg.isEmpty()) {
+                logger.info("Creating flag display for country: {}", currentUser.getCountry().getCountryName());
+                Div flagContainer = new Div();
+                flagContainer.getStyle()
+                    .set("width", "45px")
+                    .set("height", "30px")
+                    .set("display", "flex")
+                    .set("align-items", "center")
+                    .set("justify-content", "center")
+                    .set("border", "1px solid #e0e0e0")
+                    .set("border-radius", "4px")
+                    .set("box-shadow", "0 2px 4px rgba(0,0,0,0.1)");
+
+                // Create StreamResource from SVG content
+                StreamResource flagResource = new StreamResource("flag.svg",
+                    () -> new ByteArrayInputStream(flagSvg.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                flagResource.setContentType("image/svg+xml");
+
+                Image flagImage = new Image(flagResource, "Country flag");
+                flagImage.setWidth("45px");
+                flagImage.setHeight("30px");
+                flagImage.getStyle()
+                    .set("object-fit", "contain");
+
+                flagContainer.add(flagImage);
+                avatarAndFlagLayout.add(flagContainer);
+                logger.info("Flag container added to layout");
+            } else {
+                logger.warn("Flag SVG is null or empty for country: {}", currentUser.getCountry().getCountryName());
+            }
+        } else {
+            if (currentUser == null) {
+                logger.warn("Current user is null");
+            } else {
+                logger.warn("User {} has no country associated", currentUser.getName());
+            }
+        }
+
+        profileSection.add(avatarAndFlagLayout);
+
+        // User name below avatar and flag
         if (currentUser != null && currentUser.getName() != null) {
             Paragraph userName = new Paragraph(currentUser.getName());
             userName.getStyle()
@@ -217,9 +271,7 @@ class QuizListView extends Main {
                 .set("font-size", "14px")
                 .set("font-weight", "500")
                 .set("color", "#333");
-            profileSection.add(avatarContainer, userName);
-        } else {
-            profileSection.add(avatarContainer);
+            profileSection.add(userName);
         }
 
         return profileSection;

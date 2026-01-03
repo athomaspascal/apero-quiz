@@ -41,7 +41,7 @@ public class User {
     private Gender gender;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.EAGER)
     @Column(name = "photo_bytes")
     private byte[] photoBytes;
 
@@ -50,6 +50,10 @@ public class User {
 
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin = false;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     public User() { // To keep Hibernate happy
     }
@@ -163,6 +167,14 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     @Override
