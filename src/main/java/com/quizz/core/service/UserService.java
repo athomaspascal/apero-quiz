@@ -77,6 +77,11 @@ public class UserService {
 
     @Transactional
     public User createUser(String name, String email, String telephone, String password, Gender gender, byte[] photoBytes) {
+        return createUser(name, email, telephone, password, gender, photoBytes, null);
+    }
+
+    @Transactional
+    public User createUser(String name, String email, String telephone, String password, Gender gender, byte[] photoBytes, com.quizz.core.entity.Country country) {
         // Check if email already exists
         if (userRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
@@ -84,6 +89,11 @@ public class UserService {
         // Encode password before saving
         String encodedPassword = passwordEncoder.encode(password);
         var user = new User(name, email, telephone, encodedPassword, gender);
+
+        // Set country if provided
+        if (country != null) {
+            user.setCountry(country);
+        }
 
         // Resize photo if provided
         if (photoBytes != null && photoBytes.length > 0) {
