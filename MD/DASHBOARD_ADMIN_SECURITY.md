@@ -7,9 +7,28 @@ Le menu Dashboard était visible par tous les utilisateurs, mais devait être r�
 
 ## Solution implémentée
 
-### Modifications dans DashboardView.java
+### 1. Masquage du menu (MainLayout.java)
 
-#### 1. Ajout de BeforeEnterObserver
+Le menu Dashboard est maintenant ajouté à la liste des menus admin-only dans `MainLayout.java` :
+
+```java
+// Admin-only menus
+boolean isAdminMenu = "users".equals(path)
+    || "question-logs".equals(path)
+    || "admin/quiz-editor".equals(path)
+    || "dashboard".equals(path);  // ← Ajouté
+
+// Add menu item only if user is admin or menu is not admin-only
+if (!isAdminMenu || isAdmin) {
+    sideNav.addItem(createSideNavItem(entry));
+}
+```
+
+**Résultat** : Le menu "Dashboard" n'apparaît que pour les utilisateurs admin dans la barre latérale.
+
+### 2. Protection d'accès (DashboardView.java)
+
+#### 2.1. Ajout de BeforeEnterObserver
 
 La classe implémente maintenant `BeforeEnterObserver` pour vérifier l'accès avant d'entrer dans la vue :
 
@@ -17,7 +36,7 @@ La classe implémente maintenant `BeforeEnterObserver` pour vérifier l'accès a
 public class DashboardView extends VerticalLayout implements BeforeEnterObserver
 ```
 
-#### 2. Import des classes nécessaires
+#### 2.2. Import des classes nécessaires
 
 Ajout des imports :
 - `User` - Pour vérifier le rôle de l'utilisateur
@@ -25,7 +44,7 @@ Ajout des imports :
 - `VaadinSession` - Pour récupérer l'utilisateur courant
 - `Notification` et `NotificationVariant` - Pour afficher le message d'erreur
 
-#### 3. Méthode beforeEnter()
+#### 2.3. Méthode beforeEnter()
 
 Ajout de la vérification d'accès :
 
@@ -161,21 +180,31 @@ WARN  DashboardView - Non-admin user attempted to access dashboard: unknown
 
 ## Fichiers modifiés
 
-1. **DashboardView.java**
+1. **MainLayout.java**
+   - Ajout de "dashboard" à la liste `isAdminMenu`
+   - Le menu Dashboard n'apparaît que pour les admins
+
+2. **DashboardView.java**
    - Ajout de `implements BeforeEnterObserver`
    - Ajout des imports nécessaires
    - Ajout de la méthode `beforeEnter()`
 
-2. **messages_en.properties**
+3. **messages_en.properties**
    - Ajout de `common.accessDenied=Access denied. Admins only.`
 
-3. **messages_fr.properties**
+4. **messages_fr.properties**
    - Ajout de `common.accessDenied=Accès refusé. Réservé aux administrateurs.`
 
-4. **messages_it.properties**
+5. **messages_it.properties**
    - Ajout de `common.accessDenied=Accesso negato. Solo per amministratori.`
 
 ## Statut
 
-✅ **IMPLÉMENTÉ ET SÉCURISÉ** - Le Dashboard est maintenant correctement protégé et accessible uniquement aux administrateurs, avec un double niveau de sécurité et des messages d'erreur traduits.
+✅ **IMPLÉMENTÉ ET SÉCURISÉ** - Le Dashboard est maintenant correctement protégé et accessible uniquement aux administrateurs, avec :
+- **Masquage du menu** pour les non-admins (MainLayout)
+- **Double niveau de sécurité** (@RolesAllowed + beforeEnter)
+- **Messages d'erreur traduits** en 3 langues
+- **Logs de sécurité** pour les tentatives d'accès non autorisées
+
+Le comportement est maintenant **100% identique** au menu "Users".
 

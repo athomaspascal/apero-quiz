@@ -39,19 +39,30 @@ public final class MainLayout extends AppLayout {
     MainLayout(@Autowired TranslationService translationService) {
         this.translationService = translationService;
         setPrimarySection(Section.DRAWER);
-        footerDiv = createFooter();
-        sideNavScroller = new Scroller(createSideNav());
-        addToDrawer(createHeader(), sideNavScroller, footerDiv);
+        // Don't create menu here - it will be created in onAttach() with correct user
+        logger.info("MainLayout constructor called");
     }
 
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        // Refresh the menu when the layout is attached to ensure current user state
-        refreshMenu();
+        logger.info("MainLayout onAttach() called - creating/refreshing menu");
+        // Create or refresh the menu when the layout is attached to ensure current user state
+        if (sideNavScroller == null) {
+            // First time - create everything
+            logger.info("First attach - creating menu from scratch");
+            footerDiv = createFooter();
+            sideNavScroller = new Scroller(createSideNav());
+            addToDrawer(createHeader(), sideNavScroller, footerDiv);
+        } else {
+            // Subsequent attach - refresh menu
+            logger.info("Subsequent attach - refreshing menu");
+            refreshMenu();
+        }
     }
 
-    private void refreshMenu() {
+    public void refreshMenu() {
+        logger.info("refreshMenu() called - rebuilding side navigation");
         // Remove old sidenav and footer
         remove(sideNavScroller);
         remove(footerDiv);
@@ -62,6 +73,7 @@ public final class MainLayout extends AppLayout {
 
         // Add them back
         addToDrawer(sideNavScroller, footerDiv);
+        logger.info("refreshMenu() completed");
     }
 
     private Div createHeader() {
@@ -88,25 +100,38 @@ public final class MainLayout extends AppLayout {
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         boolean isAdmin = currentUser != null && currentUser.isAdmin();
 
+        logger.info("=== createSideNav called ===");
         logger.info("Current user: " + (currentUser != null ? currentUser.getName() : "null") + ", isAdmin: " + isAdmin);
+        logger.info("Current user isPublic: " + (currentUser != null ? currentUser.isPublic() : "n/a"));
 
         // Filter menu entries based on user role
         menuEntries.forEach(entry -> {
             String path = entry.path();
+            String title = entry.title();
 
-            // Admin-only menus
+            // Admin-only menus - check both path and title
             boolean isAdminMenu = "users".equals(path)
                 || "question-logs".equals(path)
-                || "admin/quiz-editor".equals(path);
+                || "admin/quiz-editor".equals(path)
+                || "dashboard".equals(path)
+                || "menu.users".equals(title)
+                || "menu.questionlogs".equals(title)
+                || "menu.editquizzes".equals(title)
+                || "menu.dashboard".equals(title);
 
-            logger.info("Menu path=" + path + ", isAdminMenu=" + isAdminMenu + ", willBeAdded=" + (!isAdminMenu || isAdmin));
+            boolean willBeAdded = !isAdminMenu || isAdmin;
+            logger.info("Menu: path='" + path + "', title='" + title + "', isAdminMenu=" + isAdminMenu + ", isAdmin=" + isAdmin + ", willBeAdded=" + willBeAdded);
 
             // Add menu item only if user is admin or menu is not admin-only
-            if (!isAdminMenu || isAdmin) {
+            if (willBeAdded) {
+                logger.info("  -> ADDING menu: " + title);
                 sideNav.addItem(createSideNavItem(entry));
+            } else {
+                logger.info("  -> SKIPPING menu: " + title);
             }
         });
 
+        logger.info("=== createSideNav finished ===");
         return sideNav;
     }
 

@@ -326,14 +326,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             if (redirectUrl != null) {
                 // Clear the saved URL
                 VaadinSession.getCurrent().setAttribute("redirectAfterLogin", null);
-                // Redirect to the saved URL
+                // Force full page reload to refresh menu with correct user
                 getUI().ifPresent(ui -> ui.getPage().setLocation("/" + redirectUrl));
             } else {
-                // Navigate to main page - use navigate() instead of setLocation() to stay in Vaadin context
-                getUI().ifPresent(ui -> {
-                    // Force a page reload to ensure security context is updated
-                    ui.getPage().setLocation("/");
-                });
+                // Force full page reload to refresh menu with correct user
+                getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
             }
         } else {
             loginForm.setError(true);
@@ -602,9 +599,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 if (redirectUrl != null) {
                     // Clear the saved URL
                     VaadinSession.getCurrent().setAttribute("redirectAfterLogin", null);
-                    // Redirect to the saved URL
+                    // Force full page reload to refresh menu with correct user
                     getUI().ifPresent(ui -> ui.getPage().setLocation("/" + redirectUrl));
                 } else {
+                    // Force full page reload to refresh menu with correct user
                     getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
                 }
             } else {
