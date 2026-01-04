@@ -84,6 +84,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private final Button stopButton;
     private final Paragraph progressText;
     private final Div answerFeedback;
+    private final Paragraph playerInfoLabel; // Display player name and team
 
     // Timer components
     private final ProgressBar timeProgressBar;
@@ -169,9 +170,19 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         timerScoreLayout.setAlignItems(HorizontalLayout.Alignment.CENTER);
         timerScoreLayout.getStyle().set("margin", "0");
 
+        // Player info label (will be populated in beforeEnter if in team mode)
+        playerInfoLabel = new Paragraph();
+        playerInfoLabel.getStyle()
+            .set("font-size", "0.875rem")
+            .set("text-align", "center")
+            .set("margin", "var(--lumo-space-xs) 0")
+            .set("color", "var(--lumo-primary-text-color)")
+            .set("font-weight", "500");
+        playerInfoLabel.setVisible(false); // Will be shown if in team mode
+
         Div timerContainer = new Div();
         timerContainer.addClassNames(LumoUtility.Margin.Bottom.LARGE);
-        timerContainer.add(timerScoreLayout, timeProgressBar);
+        timerContainer.add(timerScoreLayout, playerInfoLabel, timeProgressBar);
 
         previousButton = new Button(translationService.translate("quiz.previous"), event -> showPreviousQuestion());
         previousButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -298,27 +309,72 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             // Charger toutes les questions en une fois (pas par index)
             List<QuizQuestion> allQuestions = new ArrayList<>(quizQuestionService.getQuestionsByQuizId(quizId));
 
+            // Check if we're coming from a session or starting a simple quiz
             // Get current participant if in a session
             Object sessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
             String sessionCode = sessionCodeAttr != null ? sessionCodeAttr.toString() : null;
             QuizSession session = null;
+            boolean isSessionQuiz = false;
 
             if (sessionCode != null) {
                 session = sessionService.getSessionByCode(sessionCode);
-                User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
-                if (session != null && currentUser != null && currentUser.getId() != null) {
-                    var participants = sessionService.getParticipants(session);
-                    currentParticipant = participants.stream()
-                        .filter(p -> p.getUser() != null && p.getUser().getId() != null
-                                  && p.getUser().getId().equals(currentUser.getId()))
-                        .findFirst()
-                        .orElse(null);
+                // Verify the session is still active and valid
+                if (session != null && session.getQuiz() != null
+                    && session.getQuiz().getId() != null
+                    && session.getQuiz().getId().equals(quizId)) {
+                    isSessionQuiz = true;
+                    User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+                    if (currentUser != null && currentUser.getId() != null) {
+                        var participants = sessionService.getParticipants(session);
+                        currentParticipant = participants.stream()
+                            .filter(p -> p.getUser() != null && p.getUser().getId() != null
+                                      && p.getUser().getId().equals(currentUser.getId()))
+                            .findFirst()
+                            .orElse(null);
+                    }
+                } else {
+                    // Session doesn't exist or quiz ID doesn't match - clear the session code
+                    logger.info("Clearing stale activeSessionCode. Session: {}, Quiz ID mismatch or session not found", sessionCode);
+                    VaadinSession.getCurrent().setAttribute("activeSessionCode", null);
+                    session = null;
+                }
+            }
+
+            // If NOT in a session quiz, ensure we clear any stale session data
+            if (!isSessionQuiz) {
+                VaadinSession.getCurrent().setAttribute("activeSessionCode", null);
+                currentParticipant = null;
+                logger.info("Starting simple quiz (non-session) for quiz ID: {}", quizId);
+                // Hide player info for simple quiz
+                playerInfoLabel.setVisible(false);
+            } else {
+                // Update player info label for session quiz
+                if (currentParticipant != null) {
+                    User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+                    if (currentUser != null) {
+                        String playerInfo = "👤 " + currentUser.getName();
+
+                        // Add team info if in team mode
+                        if (session != null && session.isTeamMode() && currentParticipant.getTeamName() != null && !currentParticipant.getTeamName().isEmpty()) {
+                            String teamName = currentParticipant.getTeamName();
+                            // Capitalize first letter of team name
+                            String displayTeamName = teamName.substring(0, 1).toUpperCase() + teamName.substring(1);
+                            playerInfo += " | 🏆 " + displayTeamName;
+                        }
+
+                        playerInfoLabel.setText(playerInfo);
+                        playerInfoLabel.setVisible(true);
+                        logger.info("Displaying player info: {}", playerInfo);
+                    }
+                } else {
+                    playerInfoLabel.setVisible(false);
                 }
             }
 
             // If in a session, use the session's questions (same for all participants)
-            if (session != null && session.getSelectedQuestionIds() != null && !session.getSelectedQuestionIds().isEmpty()) {
+            if (isSessionQuiz && session != null && session.getSelectedQuestionIds() != null && !session.getSelectedQuestionIds().isEmpty()) {
                 // Load questions from session
                 this.randomQuestions = loadQuestionsFromSession(session, allQuestions);
                 logger.debug("Loaded {} questions from session {}", randomQuestions.size(), session.getSessionCode());
@@ -327,7 +383,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 this.randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
 
                 // If in a session, save the selected questions
-                if (session != null) {
+                if (isSessionQuiz && session != null) {
                     saveQuestionsToSession(session, randomQuestions);
                     logger.info("Saved {} questions to session {}", randomQuestions.size(), session.getSessionCode());
                 }

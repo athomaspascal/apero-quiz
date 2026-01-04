@@ -299,75 +299,83 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
         actionButtonsLayout.getStyle().set("flex-wrap", "wrap");
 
         if (isHost && session.getStatus() == QuizSession.SessionStatus.WAITING) {
-            // Add Team Mode section
-            VerticalLayout teamModeSection = new VerticalLayout();
-            teamModeSection.setPadding(false);
-            teamModeSection.setSpacing(true);
-            teamModeSection.setWidthFull();
+            // Only show Team Mode section if teams haven't been configured yet
+            // (i.e., coming from regular quiz list, not from Team Mode menu)
+            boolean teamsAlreadyConfigured = session.isTeamMode() &&
+                                            session.getSelectedTeams() != null &&
+                                            !session.getSelectedTeams().isEmpty();
 
-            com.vaadin.flow.component.checkbox.Checkbox teamModeCheckbox = new com.vaadin.flow.component.checkbox.Checkbox(
-                translationService.translate("quizSession.teamMode.enable")
-            );
-            teamModeCheckbox.setValue(session.isTeamMode());
+            if (!teamsAlreadyConfigured) {
+                // Add Team Mode section
+                VerticalLayout teamModeSection = new VerticalLayout();
+                teamModeSection.setPadding(false);
+                teamModeSection.setSpacing(true);
+                teamModeSection.setWidthFull();
 
-            // Team selection checkboxes
-            VerticalLayout teamSelectionLayout = new VerticalLayout();
-            teamSelectionLayout.setPadding(false);
-            teamSelectionLayout.setSpacing(false);
-            teamSelectionLayout.setVisible(session.isTeamMode());
-
-            H4 teamSelectionTitle = new H4(translationService.translate("quizSession.teamMode.selectTeams"));
-            teamSelectionTitle.getStyle().set("margin", "var(--lumo-space-s) 0");
-
-            String[] availableTeams = {"stark", "lannister", "targaryen", "baratheon", "tyrell", "martell", "arryn", "tully", "greyjoy"};
-            java.util.Set<String> selectedTeamsSet = new java.util.HashSet<>();
-            if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
-                selectedTeamsSet.addAll(java.util.Arrays.asList(session.getSelectedTeams().split(",")));
-            }
-
-            HorizontalLayout teamsCheckboxLayout = new HorizontalLayout();
-            teamsCheckboxLayout.setSpacing(true);
-            teamsCheckboxLayout.getStyle().set("flex-wrap", "wrap");
-
-            java.util.Map<String, com.vaadin.flow.component.checkbox.Checkbox> teamCheckboxes = new java.util.HashMap<>();
-
-            for (String team : availableTeams) {
-                com.vaadin.flow.component.checkbox.Checkbox teamCheckbox = new com.vaadin.flow.component.checkbox.Checkbox(
-                    translationService.translate("quizSession.teamMode.team." + team)
+                com.vaadin.flow.component.checkbox.Checkbox teamModeCheckbox = new com.vaadin.flow.component.checkbox.Checkbox(
+                    translationService.translate("quizSession.teamMode.enable")
                 );
-                teamCheckbox.setValue(selectedTeamsSet.contains(team));
-                teamCheckboxes.put(team, teamCheckbox);
-                teamsCheckboxLayout.add(teamCheckbox);
-            }
+                teamModeCheckbox.setValue(session.isTeamMode());
 
-            teamSelectionLayout.add(teamSelectionTitle, teamsCheckboxLayout);
+                // Team selection checkboxes
+                VerticalLayout teamSelectionLayout = new VerticalLayout();
+                teamSelectionLayout.setPadding(false);
+                teamSelectionLayout.setSpacing(false);
+                teamSelectionLayout.setVisible(session.isTeamMode());
 
-            teamModeCheckbox.addValueChangeListener(event -> {
-                boolean teamMode = event.getValue();
-                session.setTeamMode(teamMode);
-                teamSelectionLayout.setVisible(teamMode);
-                if (!teamMode) {
-                    session.setSelectedTeams(null);
+                H4 teamSelectionTitle = new H4(translationService.translate("quizSession.teamMode.selectTeams"));
+                teamSelectionTitle.getStyle().set("margin", "var(--lumo-space-s) 0");
+
+                String[] availableTeams = {"stark", "lannister", "targaryen", "baratheon", "tyrell", "martell", "arryn", "tully", "greyjoy"};
+                java.util.Set<String> selectedTeamsSet = new java.util.HashSet<>();
+                if (session.getSelectedTeams() != null && !session.getSelectedTeams().isEmpty()) {
+                    selectedTeamsSet.addAll(java.util.Arrays.asList(session.getSelectedTeams().split(",")));
                 }
-                sessionService.updateSession(session);
-            });
 
-            // Update selected teams when checkboxes change
-            teamCheckboxes.forEach((team, checkbox) -> {
-                checkbox.addValueChangeListener(event -> {
-                    java.util.List<String> selectedTeamsList = new java.util.ArrayList<>();
-                    teamCheckboxes.forEach((t, cb) -> {
-                        if (cb.getValue()) {
-                            selectedTeamsList.add(t);
-                        }
-                    });
-                    session.setSelectedTeams(selectedTeamsList.isEmpty() ? null : String.join(",", selectedTeamsList));
+                HorizontalLayout teamsCheckboxLayout = new HorizontalLayout();
+                teamsCheckboxLayout.setSpacing(true);
+                teamsCheckboxLayout.getStyle().set("flex-wrap", "wrap");
+
+                java.util.Map<String, com.vaadin.flow.component.checkbox.Checkbox> teamCheckboxes = new java.util.HashMap<>();
+
+                for (String team : availableTeams) {
+                    com.vaadin.flow.component.checkbox.Checkbox teamCheckbox = new com.vaadin.flow.component.checkbox.Checkbox(
+                        translationService.translate("quizSession.teamMode.team." + team)
+                    );
+                    teamCheckbox.setValue(selectedTeamsSet.contains(team));
+                    teamCheckboxes.put(team, teamCheckbox);
+                    teamsCheckboxLayout.add(teamCheckbox);
+                }
+
+                teamSelectionLayout.add(teamSelectionTitle, teamsCheckboxLayout);
+
+                teamModeCheckbox.addValueChangeListener(event -> {
+                    boolean teamMode = event.getValue();
+                    session.setTeamMode(teamMode);
+                    teamSelectionLayout.setVisible(teamMode);
+                    if (!teamMode) {
+                        session.setSelectedTeams(null);
+                    }
                     sessionService.updateSession(session);
                 });
-            });
 
-            teamModeSection.add(teamModeCheckbox, teamSelectionLayout);
-            contentWrapper.add(teamModeSection);
+                // Update selected teams when checkboxes change
+                teamCheckboxes.forEach((team, checkbox) -> {
+                    checkbox.addValueChangeListener(event -> {
+                        java.util.List<String> selectedTeamsList = new java.util.ArrayList<>();
+                        teamCheckboxes.forEach((t, cb) -> {
+                            if (cb.getValue()) {
+                                selectedTeamsList.add(t);
+                            }
+                        });
+                        session.setSelectedTeams(selectedTeamsList.isEmpty() ? null : String.join(",", selectedTeamsList));
+                        sessionService.updateSession(session);
+                    });
+                });
+
+                teamModeSection.add(teamModeCheckbox, teamSelectionLayout);
+                contentWrapper.add(teamModeSection);
+            }
 
             Button startButton = new Button(translationService.translate("quizSession.startAll"), event -> startQuizSession());
             startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);

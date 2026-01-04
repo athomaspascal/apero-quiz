@@ -170,7 +170,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("position", "relative")
             .set("z-index", "10");
 
-        Span orText = new Span("Or sign in with");
+        Span orText = new Span(translationService.translate("login.orloginwith"));
         orText.getStyle()
             .set("color", "var(--lumo-secondary-text-color)")
             .set("font-size", "var(--lumo-font-size-s)")
@@ -311,7 +311,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             User user = authenticationService.getCurrentUser();
 
             if (user != null) {
-                Notification.show("Welcome back, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
+                Notification.show(translationService.translate("login.welcomeback", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }
 
@@ -331,7 +331,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             }
         } else {
             loginForm.setError(true);
-            Notification.show("Invalid email or password", 3000, Notification.Position.MIDDLE)
+            Notification.show(translationService.translate("login.error.message"), 3000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
@@ -476,7 +476,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             .set("overflow-y", "auto")
             .set("max-height", "500px");
 
-        Button cancelButton = new Button("Cancel", event -> dialog.close());
+        Button cancelButton = new Button(translationService.translate("login.cancel"), event -> dialog.close());
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         dialog.add(scrollContainer);
@@ -584,7 +584,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             // Login with this public user
             boolean authenticated = authenticationService.authenticate(user.getEmail(), "public123");
             if (authenticated) {
-                Notification.show("Welcome, " + user.getName() + "!", 3000, Notification.Position.BOTTOM_END)
+                Notification.show(translationService.translate("login.welcome", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 dialog.close();
 
@@ -599,7 +599,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                     getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
                 }
             } else {
-                Notification.show("Authentication failed", 3000, Notification.Position.MIDDLE)
+                Notification.show(translationService.translate("login.authenticationfailed"), 3000, Notification.Position.MIDDLE)
                     .addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
