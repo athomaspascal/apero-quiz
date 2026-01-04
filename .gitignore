@@ -1,5 +1,5 @@
 /target/
-.idea/
+/.idea/
 .vscode/
 .settings
 .project
@@ -33,3 +33,10 @@ oauth2-credentials.properties
 /TestTranslation.class
 /src/main/resources/keystore.p12.backup.before-letsencrypt.20251228
 /src/main/resources/quiz-questions-backup-20251228-204117.json
+/src/main/resources/quiz-questions-backup-20251230_011355.json
+/tools/quiz-questions-backup-20260101-172546.json
+/logs/application-2025-12-31.0.log
+/.idea/.gitignore
+/data/quizdb.lock.db
+/logs/application-2026-01-03.0.log
+/data/quizdb.mv.db

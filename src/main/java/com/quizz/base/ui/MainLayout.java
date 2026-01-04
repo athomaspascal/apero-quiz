@@ -134,8 +134,34 @@ public final class MainLayout extends AppLayout {
             Span userInfo = new Span(translationService.translate("app.loggedinas"));
             userInfo.addClassNames(FontSize.SMALL, TextColor.SECONDARY);
 
+            // User name with flag
+            com.vaadin.flow.component.orderedlayout.HorizontalLayout userNameLayout = new com.vaadin.flow.component.orderedlayout.HorizontalLayout();
+            userNameLayout.setSpacing(true);
+            userNameLayout.setAlignItems(com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment.CENTER);
+            userNameLayout.getStyle().set("gap", "8px");
+
+            // Display country flag if available
+            if (currentUser.getCountry() != null && currentUser.getCountry().getCountryFlag() != null && !currentUser.getCountry().getCountryFlag().isEmpty()) {
+                Div flagContainer = new Div();
+                flagContainer.getStyle()
+                    .set("width", "20px")
+                    .set("height", "14px")
+                    .set("display", "inline-flex")
+                    .set("align-items", "center")
+                    .set("justify-content", "center")
+                    .set("border", "1px solid #e0e0e0")
+                    .set("border-radius", "2px")
+                    .set("flex-shrink", "0");
+
+                // Embed SVG directly as HTML
+                flagContainer.getElement().setProperty("innerHTML", currentUser.getCountry().getCountryFlag());
+
+                userNameLayout.add(flagContainer);
+            }
+
             Span userName = new Span(currentUser.getName());
             userName.addClassNames(FontSize.SMALL, FontWeight.SEMIBOLD);
+            userNameLayout.add(userName);
 
             // Logout button
             Button logoutButton = new Button(translationService.translate("app.logout"), VaadinIcon.SIGN_OUT.create());
@@ -147,7 +173,7 @@ public final class MainLayout extends AppLayout {
                 getUI().ifPresent(ui -> ui.getPage().setLocation("login"));
             });
 
-            footer.add(userInfo, userName, logoutButton);
+            footer.add(userInfo, userNameLayout, logoutButton);
         }
 
         return footer;

@@ -321,7 +321,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             if (session != null && session.getSelectedQuestionIds() != null && !session.getSelectedQuestionIds().isEmpty()) {
                 // Load questions from session
                 this.randomQuestions = loadQuestionsFromSession(session, allQuestions);
-                logger.info("Loaded {} questions from session {}", randomQuestions.size(), session.getSessionCode());
+                logger.debug("Loaded {} questions from session {}", randomQuestions.size(), session.getSessionCode());
             } else {
                 // Select questions randomly
                 this.randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
@@ -336,7 +336,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             // Set total questions to the number we're actually showing
             this.totalQuestions = Math.min(MAX_QUESTIONS, this.randomQuestions.size());
 
-            logger.info("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}",
+            logger.debug("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}",
                 quizId, totalQuestions, randomQuestions.size(), currentRunSeed);
 
             quizCompleted = false;
@@ -407,7 +407,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         final long thisTimerId = currentTimerId;
         final long runIdSnapshot = activeRunId;
 
-        logger.info("Starting new timer - timerId: {} runId: {}", thisTimerId, runIdSnapshot);
+        logger.debug("Starting new timer - timerId: {} runId: {}", thisTimerId, runIdSnapshot);
 
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -642,7 +642,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                         sessionCode
                     );
 
-                    logger.info("QUESTION LOGGED - User: {}, Quiz: {}, Question ID: {}, Question: {}, Correct Answer: {}, User Answer: {}, Options: {}",
+                    logger.debug("QUESTION LOGGED - User: {}, Quiz: {}, Question ID: {}, Question: {}, Correct Answer: {}, User Answer: {}, Options: {}",
                         currentUser.getEmail(),
                         currentQuiz.getName(),
                         currentQuestion.getId(),
@@ -768,21 +768,18 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             boolean isHost = currentUser != null && currentUser.getId() != null &&
                              session != null && currentUser.getId().equals(session.getHostUserId());
 
-            // Bouton "Start New Round" for host - resets the entire session
-            if (isHost) {
-                stopButton.setText(translationService.translate("quiz.startNewRound"));
-                stopButton.setVisible(true);
-                stopButton.setEnabled(true);
-                stopButton.removeThemeVariants(ButtonVariant.LUMO_ERROR);
-                stopButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-                stopButton.setIcon(VaadinIcon.REFRESH.create());
+            // Debug logs to troubleshoot isHost detection
+            logger.info("showFinalScore - Checking isHost: currentUser={}, currentUserId={}, session={}, sessionHostUserId={}, isHost={}",
+                currentUser != null ? currentUser.getName() : "null",
+                currentUser != null ? currentUser.getId() : "null",
+                session != null ? session.getSessionCode() : "null",
+                session != null ? session.getHostUserId() : "null",
+                isHost);
 
-                if (stopClickReg != null) stopClickReg.remove();
-                stopClickReg = stopButton.addClickListener(event -> startNewRoundForSession(session, sessionCode));
-            } else {
-                // Invited participants can't start a new round - hide the button
-                stopButton.setVisible(false);
-            }
+            // Hide the Restart Session button - it will be shown in QuizSessionView after the scoreboard
+            // This ensures the button appears at the bottom of the scoreboard, not on the quiz completion page
+            logger.info("Session quiz completed - user will see Restart Session button on the scoreboard page (QuizSessionView)");
+            stopButton.setVisible(false);
         } else {
             nextButton.setText(translationService.translate("quiz.backToList"));
             nextButton.setVisible(true);

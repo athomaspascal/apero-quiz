@@ -9,7 +9,6 @@ import com.quizz.core.service.TranslationService;
 import com.quizz.core.util.QRCodeGenerator;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.DetachEvent;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -49,6 +48,8 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private ScheduledFuture<?> refreshTask;
     private Div participantsListDiv; // Keep reference for updates
+    private int lastParticipantCount = 0; // Track participant count for change detection
+
 
     public QuizSessionView(QuizSessionService sessionService, TranslationService translationService) {
         this.sessionService = sessionService;
@@ -127,40 +128,95 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
     private void startAutoRefreshIfNeeded() {
         if (session == null) {
+            logger.warn("Cannot start auto-refresh: session is null");
             return;
         }
 
+        // Don't start if already running
+        if (refreshTask != null && !refreshTask.isCancelled()) {
+            logger.debug("Auto-refresh already running, skipping start");
+            return;
+        }
+
+        logger.info("Starting auto-refresh for session: {}", session.getSessionCode());
+
         // Auto-refresh for ALL players (including host) to show new participants joining
-        if (participantsListDiv != null) {
-            UI ui = getUI().orElse(null);
-            if (ui != null) {
-                refreshTask = scheduler.scheduleAtFixedRate(() -> {
+        // and to detect session status changes
+        refreshTask = scheduler.scheduleAtFixedRate(() -> {
+            try {
+                getUI().ifPresent(ui -> {
                     ui.access(() -> {
-                        // Refresh session data
-                        session = sessionService.getSessionByCode(session.getSessionCode());
-                        if (session != null && participantsListDiv != null) {
-                            updateParticipantsList(participantsListDiv);
-                            ui.push();
+                        try {
+                            logger.debug("Auto-refresh tick - checking session status and participants");
+                            // Refresh session data
+                            QuizSession updatedSession = sessionService.getSessionByCode(session.getSessionCode());
+                            if (updatedSession != null) {
+                                // Check if session status has changed
+                                boolean statusChanged = !updatedSession.getStatus().equals(session.getStatus());
+
+                                // Check if number of participants has changed
+                                int currentParticipantCount = sessionService.getParticipants(updatedSession).size();
+                                boolean participantsChanged = currentParticipantCount != lastParticipantCount;
+
+                                logger.debug("Auto-refresh: current status={}, new status={}, status changed={}",
+                                    session.getStatus(), updatedSession.getStatus(), statusChanged);
+                                logger.debug("Auto-refresh: participant count: {} -> {}, changed={}",
+                                    lastParticipantCount, currentParticipantCount, participantsChanged);
+
+                                // Update session reference
+                                session = updatedSession;
+                                lastParticipantCount = currentParticipantCount;
+
+                                if (statusChanged) {
+                                    // Session status changed (e.g., WAITING -> ACTIVE)
+                                    // Rebuild entire UI to enable/disable buttons appropriately
+                                    logger.info("Session status changed to: {}. Rebuilding UI for all participants.", session.getStatus());
+                                    buildUI();
+                                } else if (participantsChanged && participantsListDiv != null) {
+                                    // Participant count changed - update participants list immediately
+                                    logger.info("Participant count changed: {} participants. Updating participants list for all players.", currentParticipantCount);
+                                    updateParticipantsList(participantsListDiv);
+                                } else if (participantsListDiv != null) {
+                                    // Just update participants list if nothing changed (to update scores, etc.)
+                                    updateParticipantsList(participantsListDiv);
+                                }
+                            } else {
+                                logger.warn("Auto-refresh: session not found in database");
+                            }
+                        } catch (Exception e) {
+                            logger.error("Error in auto-refresh UI update", e);
                         }
                     });
-                }, 2, 2, TimeUnit.SECONDS);
+                });
+            } catch (Exception e) {
+                logger.error("Error in auto-refresh", e);
             }
-        }
+        }, 2, 2, TimeUnit.SECONDS);
+        logger.info("Auto-refresh task scheduled successfully");
     }
 
     private void stopAutoRefresh() {
         if (refreshTask != null && !refreshTask.isCancelled()) {
+            logger.info("Stopping auto-refresh task");
             refreshTask.cancel(true);
             refreshTask = null;
+        } else {
+            logger.debug("Auto-refresh task already stopped or null");
         }
     }
 
     private void buildUI() {
+
         removeAll();
 
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         boolean isHost = currentUser != null && currentUser.getId() != null &&
                          currentUser.getId().equals(session.getHostUserId());
+
+        logger.info("=== buildUI() Debug ===");
+        logger.info("Current user: {}", currentUser != null ? currentUser.getName() : "null");
+        logger.info("Is host: {}", isHost);
+        logger.info("Session status: {}", session.getStatus());
 
         // Add ViewToolbar with just the title
         add(new ViewToolbar(translationService.translate("quizSession.title", session.getQuiz().getName())));
@@ -232,12 +288,15 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
         updateParticipantsList(participantsListDiv);
 
+        // Initialize participant count for change detection
+        lastParticipantCount = sessionService.getParticipants(session).size();
+
         // Create action buttons below participants list
-        HorizontalLayout actionButtons = new HorizontalLayout();
-        actionButtons.setSpacing(true);
-        actionButtons.addClassNames(LumoUtility.Margin.Top.LARGE);
-        actionButtons.setWidthFull();
-        actionButtons.getStyle().set("flex-wrap", "wrap");
+        HorizontalLayout actionButtonsLayout = new HorizontalLayout();
+        actionButtonsLayout.setSpacing(true);
+        actionButtonsLayout.addClassNames(LumoUtility.Margin.Top.LARGE);
+        actionButtonsLayout.setWidthFull();
+        actionButtonsLayout.getStyle().set("flex-wrap", "wrap");
 
         if (isHost && session.getStatus() == QuizSession.SessionStatus.WAITING) {
             // Add Team Mode section
@@ -312,71 +371,93 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
             Button startButton = new Button(translationService.translate("quizSession.startAll"), event -> startQuizSession());
             startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
-            actionButtons.add(startButton);
+            actionButtonsLayout.add(startButton);
         }
 
-        if (isHost && session.getStatus() == QuizSession.SessionStatus.COMPLETED) {
-            Button resetButton = new Button(translationService.translate("quizSession.resetSession"), event -> resetQuizSession());
-            resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-            resetButton.setIcon(VaadinIcon.REFRESH.create());
-            actionButtons.add(resetButton);
-        }
+        // Note: When session is COMPLETED, the "Restart session" button will be shown in the leaderboard
+        // so we don't add it here in the main action buttons layout
 
-        if (session.getStatus() == QuizSession.SessionStatus.ACTIVE ||
-            session.getStatus() == QuizSession.SessionStatus.WAITING) {
-
-            // Create a vertical layout to group button and help message
-            VerticalLayout joinButtonContainer = new VerticalLayout();
-            joinButtonContainer.setPadding(false);
-            joinButtonContainer.setSpacing(false);
-            joinButtonContainer.getStyle().set("gap", "var(--lumo-space-xs)");
-
-            Button joinButton = new Button(translationService.translate("quizSession.startMine"), event -> startPersonalQuiz());
-            joinButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-            // Create help message
-            Span helpMessage = new Span(translationService.translate("quizSession.waitForHostMessage"));
-            helpMessage.getStyle()
-                .set("font-size", "var(--lumo-font-size-s)")
-                .set("color", "var(--lumo-secondary-text-color)")
-                .set("font-style", "italic");
-
-            if (session.getStatus() == QuizSession.SessionStatus.WAITING) {
-                joinButton.setEnabled(false);
-                joinButton.setTooltipText(translationService.translate("quizSession.waitingForHost"));
-                // Show help message when waiting
-                joinButtonContainer.add(joinButton, helpMessage);
-            } else {
-                // Active: no help message needed
-                joinButtonContainer.add(joinButton);
+        // Check if leaderboard will be shown (either session completed or current user completed)
+        boolean willShowLeaderboard = session.getStatus() == QuizSession.SessionStatus.COMPLETED;
+        if (!willShowLeaderboard) {
+            QuizParticipant currentParticipant = sessionService.getParticipant(session, currentUser);
+            if (currentParticipant != null && currentParticipant.isCompleted()) {
+                willShowLeaderboard = true;
             }
-
-            actionButtons.add(joinButtonContainer);
         }
 
-        Button showQRButton = new Button(translationService.translate("quizSession.showQRCode"), event -> showQRCodeDialog());
-        showQRButton.setIcon(VaadinIcon.QRCODE.create());
-        showQRButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        actionButtons.add(showQRButton);
+        // "Start my quiz" button logic
+        // Show for ALL users (including host) when session is ACTIVE
+        // For non-hosts in WAITING state, show disabled button with help message
+        // When leaderboard will be shown, don't create the button here
+        if (!willShowLeaderboard) {
+            if (!isHost || session.getStatus() == QuizSession.SessionStatus.ACTIVE) {
+                logger.info("Creating 'Start my quiz' button - isHost: {}, status: {}", isHost, session.getStatus());
 
-        Button refreshButton = new Button(translationService.translate("common.refresh"), event -> {
-            session = sessionService.getSessionByCode(session.getSessionCode());
-            updateParticipantsList(participantsListDiv);
-            getUI().ifPresent(UI::push);
-        });
-        refreshButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        actionButtons.add(refreshButton);
+                // Create a vertical layout to group button and help message
+                VerticalLayout joinButtonContainer = new VerticalLayout();
+                joinButtonContainer.setPadding(false);
+                joinButtonContainer.setSpacing(false);
+                joinButtonContainer.getStyle().set("gap", "var(--lumo-space-xs)");
 
-        if (session.getStatus() == QuizSession.SessionStatus.COMPLETED) {
-            showLeaderboard();
+                Button joinButton = new Button(translationService.translate("quizSession.startMine"), event -> startPersonalQuiz());
+                joinButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+                // Create help message
+                Span helpMessage = new Span(translationService.translate("quizSession.waitForHostMessage"));
+                helpMessage.getStyle()
+                    .set("font-size", "var(--lumo-font-size-s)")
+                    .set("color", "var(--lumo-secondary-text-color)")
+                    .set("font-style", "italic");
+
+                if (session.getStatus() == QuizSession.SessionStatus.WAITING && !isHost) {
+                    logger.info("Session is WAITING - disabling button and showing help message");
+                    // WAITING: button disabled, show help message (only for non-hosts)
+                    joinButton.setEnabled(false);
+                    joinButton.setTooltipText(translationService.translate("quizSession.waitingForHost"));
+                    joinButtonContainer.add(joinButton, helpMessage);
+                } else {
+                    logger.info("Session is ACTIVE - enabling button without help message");
+                    // ACTIVE: button enabled, no help message
+                    joinButton.setEnabled(true);
+                    joinButtonContainer.add(joinButton);
+                }
+
+                actionButtonsLayout.add(joinButtonContainer);
+                logger.info("'Start my quiz' button added to actionButtonsLayout");
+            } else {
+                logger.info("Host in WAITING state - not showing 'Start my quiz' button yet");
+            }
+        } else {
+            logger.info("Leaderboard will be shown - not creating 'Start my quiz' button in main form");
         }
 
-        contentWrapper.add(backButton, sessionInfo, participantsTitle, participantsListDiv, actionButtons);
+        // Only show QR Code and Refresh buttons when leaderboard is NOT shown
+        if (!willShowLeaderboard) {
+            Button showQRButton = new Button(translationService.translate("quizSession.showQRCode"), event -> showQRCodeDialog());
+            showQRButton.setIcon(VaadinIcon.QRCODE.create());
+            showQRButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+            actionButtonsLayout.add(showQRButton);
+
+            Button refreshButton = new Button(translationService.translate("common.refresh"), event -> {
+                session = sessionService.getSessionByCode(session.getSessionCode());
+                // Rebuild entire UI to reflect any status changes
+                buildUI();
+            });
+            refreshButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+            actionButtonsLayout.add(refreshButton);
+        } else {
+            logger.info("Leaderboard will be shown - not creating QR Code and Refresh buttons");
+        }
+
+        contentWrapper.add(backButton, sessionInfo, participantsTitle, participantsListDiv, actionButtonsLayout);
         add(contentWrapper);
 
-        // Start auto-refresh after UI is built
-        startAutoRefreshIfNeeded();
+        if (willShowLeaderboard) {
+            showLeaderboard();
+        }
     }
+
 
     private void updateParticipantsList(Div participantsList) {
         participantsList.removeAll();
@@ -416,13 +497,13 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
                 // Add country flag if available
                 User participantUser = participant.getUser();
-                logger.info("Checking country flag for participant: {}", participantUser.getName());
+                logger.debug("Checking country flag for participant: {}", participantUser.getName());
                 if (participantUser.getCountry() != null) {
-                    logger.info("Participant has country: {}", participantUser.getCountry().getCountryName());
+                    logger.debug("Participant has country: {}", participantUser.getCountry().getCountryName());
                     String flagSvg = participantUser.getCountry().getCountryFlag();
-                    logger.info("Flag SVG length: {}", flagSvg != null ? flagSvg.length() : 0);
+                    logger.debug("Flag SVG length: {}", flagSvg != null ? flagSvg.length() : 0);
                     if (flagSvg != null && !flagSvg.isEmpty()) {
-                        logger.info("Creating flag display for country: {}", participantUser.getCountry().getCountryName());
+                        logger.debug("Creating flag display for country: {}", participantUser.getCountry().getCountryName());
                         Div flagContainer = new Div();
                         flagContainer.getStyle()
                             .set("width", "30px")
@@ -447,7 +528,7 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
                         flagContainer.add(flagImage);
                         nameAndFlagLayout.add(flagContainer);
-                        logger.info("Flag container added to layout for participant: {}", participantUser.getName());
+                        logger.debug("Flag container added to layout for participant: {}", participantUser.getName());
                     } else {
                         logger.warn("Flag SVG is null or empty for country: {}", participantUser.getCountry().getCountryName());
                     }
@@ -481,6 +562,9 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
     }
 
     private void startQuizSession() {
+        logger.info("=== startQuizSession() called ===");
+        logger.info("Current session status: {}", session.getStatus());
+
         // Check if team mode is enabled and host has selected a team
         if (session.isTeamMode()) {
             User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
@@ -493,7 +577,10 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
             }
         }
 
+        logger.info("Updating session status to ACTIVE");
         sessionService.updateSessionStatus(session, QuizSession.SessionStatus.ACTIVE);
+        logger.info("Session status updated to: {}", session.getStatus());
+        logger.info("Rebuilding UI for host");
         buildUI();
     }
 
@@ -791,6 +878,23 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
     private void showLeaderboard() {
         var participants = sessionService.getParticipants(session);
 
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        boolean isHost = currentUser != null && currentUser.getId() != null &&
+                         currentUser.getId().equals(session.getHostUserId());
+
+        logger.info("=== showLeaderboard() - Host Detection Debug ===");
+        logger.info("Current user: {}", currentUser != null ? currentUser.getName() : "null");
+        logger.info("Current user ID: {}", currentUser != null ? currentUser.getId() : "null");
+        logger.info("Session host user ID: {}", session != null ? session.getHostUserId() : "null");
+        logger.info("Is host: {}", isHost);
+        logger.info("Session status: {}", session != null ? session.getStatus() : "null");
+
+        // Create a container for the entire leaderboard section
+        VerticalLayout leaderboardContainer = new VerticalLayout();
+        leaderboardContainer.setPadding(false);
+        leaderboardContainer.setSpacing(true);
+        leaderboardContainer.setWidthFull();
+
         if (session.isTeamMode()) {
             // Team leaderboard
             H3 leaderboardTitle = new H3(translationService.translate("quizSession.leaderboard.teamTitle"));
@@ -871,7 +975,7 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
                 rank++;
             }
 
-            add(leaderboardTitle, leaderboard);
+            leaderboardContainer.add(leaderboardTitle, leaderboard);
 
         } else {
             // Individual leaderboard
@@ -904,18 +1008,40 @@ public class QuizSessionView extends Main implements BeforeEnterObserver {
 
                     Span rankSpan = new Span(medal + " " + participant.getUser().getName());
                     rankSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.SEMIBOLD);
+                    rankSpan.setWidth("150px");
 
                     Span scoreSpan = new Span(translationService.translate("quizSession.leaderboard.score", participant.getScore()));
                     scoreSpan.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.TextColor.PRIMARY);
-
-                    rankCard.add(rankSpan, scoreSpan);
+                    Span separationSpan = new Span("");
+                    separationSpan.setWidth("20px");
+                    rankCard.add(rankSpan, separationSpan,scoreSpan);
                     leaderboard.add(rankCard);
                     rank++;
                 }
             }
 
-            add(leaderboardTitle, leaderboard);
+            leaderboardContainer.add(leaderboardTitle, leaderboard);
         }
+
+        // Add "Restart the session" button for the host at the bottom of the scoreboard
+        if (isHost) {
+            logger.info("Host detected - adding Restart Session button to scoreboard");
+            Button restartSessionButton = new Button(translationService.translate("quizSession.restartSession"), event -> {
+                logger.info("Restart Session button clicked by host");
+                resetQuizSession();
+            });
+            restartSessionButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            restartSessionButton.setIcon(VaadinIcon.REFRESH.create());
+            restartSessionButton.addClassNames(LumoUtility.Margin.Top.LARGE);
+            leaderboardContainer.add(restartSessionButton);
+
+        } else {
+            logger.info("Not host - no Restart Session button shown");
+        }
+
+
+        // Add the entire leaderboard container to the view
+        add(leaderboardContainer);
     }
 }
 

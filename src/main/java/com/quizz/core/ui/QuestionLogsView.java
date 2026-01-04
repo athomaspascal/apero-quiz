@@ -19,7 +19,7 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 
 @Route("question-logs")
 @PageTitle("Question Logs")
-@Menu(order = 3, icon = "vaadin:records", title = "Question Logs")
+@Menu(order = 3, icon = "vaadin:records", title = "menu.questionlogs")
 class QuestionLogsView extends Main implements BeforeEnterObserver {
 
     private final QuizQuestionLogService logService;
