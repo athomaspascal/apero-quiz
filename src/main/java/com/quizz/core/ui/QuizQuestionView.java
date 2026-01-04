@@ -115,15 +115,19 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private com.vaadin.flow.shared.Registration nextClickReg;
     private com.vaadin.flow.shared.Registration stopClickReg;
 
+    private final com.quizz.core.service.PlayerTraceService traceService;
+
     QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
                      QuizSessionService sessionService, QuizAnswerService answerService,
-                     QuizQuestionLogService questionLogService, TranslationService translationService) {
+                     QuizQuestionLogService questionLogService, TranslationService translationService,
+                     com.quizz.core.service.PlayerTraceService traceService) {
         this.quizQuestionService = quizQuestionService;
         this.quizService = quizService;
         this.sessionService = sessionService;
         this.answerService = answerService;
         this.questionLogService = questionLogService;
         this.translationService = translationService;
+        this.traceService = traceService;
 
         //questionTitle = new H2();
         //questionTitle.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
@@ -396,6 +400,16 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 quizId, totalQuestions, randomQuestions.size(), currentRunSeed);
 
             quizCompleted = false;
+
+            // Record quiz start trace
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            if (currentUser != null && quiz != null) {
+                String quizMode = isSessionQuiz && session != null && session.isTeamMode() ? "TEAM" : "NORMAL";
+                String sessionCodeForTrace = isSessionQuiz && session != null ? session.getSessionCode() : null;
+                String teamNameForTrace = currentParticipant != null ? currentParticipant.getTeamName() : null;
+
+                traceService.recordQuizStart(currentUser, quiz, quizMode, sessionCodeForTrace, teamNameForTrace);
+            }
 
             // restaurer l'état des boutons (au cas où la vue revient depuis l'écran final)
             optionsContainer.setVisible(true);
@@ -750,6 +764,23 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
     private void showFinalScore() {
         //questionTitle.setText("Quiz Completed!");
+
+        // Record quiz completion trace
+        User traceUser = VaadinSession.getCurrent().getAttribute(User.class);
+        Object traceSessionCodeAttr = VaadinSession.getCurrent().getAttribute("activeSessionCode");
+        String traceSessionCode = traceSessionCodeAttr != null ? traceSessionCodeAttr.toString() : null;
+
+        if (traceUser != null && currentQuiz != null) {
+            QuizSession traceSession = null;
+            if (traceSessionCode != null) {
+                traceSession = sessionService.getSessionByCode(traceSessionCode);
+            }
+
+            String traceQuizMode = (traceSession != null && traceSession.isTeamMode()) ? "TEAM" : "NORMAL";
+            String traceTeamName = currentParticipant != null ? currentParticipant.getTeamName() : null;
+
+            traceService.recordQuizComplete(traceUser, currentQuiz, traceQuizMode, correctAnswers, traceSessionCode, traceTeamName);
+        }
 
         // Update toolbar to show completion
         if (toolbar != null) {

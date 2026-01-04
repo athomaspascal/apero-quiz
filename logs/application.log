@@ -11898,3 +11898,549 @@ Update your application's configuration
 2026-01-04 22:40:31.516 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
 2026-01-04 22:40:31.516 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:126) - Quiz cards loaded
 2026-01-04 22:40:31.516 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:131) - === QuizListView Constructor: Completed ===
+2026-01-04 23:00:30.113 [background-preinit] INFO  o.h.validator.internal.util.Version.<clinit>(Version.java:21) - HV000001: Hibernate Validator 8.0.3.Final
+2026-01-04 23:00:30.157 [main] INFO  com.quizz.Application.logStarting(StartupInfoLogger.java:53) - Starting Application using Java 23.0.2 with PID 13208 (C:\Users\athom\IdeaProjects\quizz1\target\classes started by athom in C:\Users\athom\IdeaProjects\quizz1)
+2026-01-04 23:00:30.157 [main] INFO  com.quizz.Application.logStartupProfileInfo(SpringApplication.java:652) - No active profile set, falling back to 1 default profile: "default"
+2026-01-04 23:00:30.774 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:145) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04 23:00:30.885 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:213) - Finished Spring Data repository scanning in 109 ms. Found 10 JPA repository interfaces.
+2026-01-04 23:00:31.376 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:111) - Tomcat initialized with port 8443 (https)
+2026-01-04 23:00:31.392 [main] INFO  o.a.coyote.http11.Http11NioProtocol.log(DirectJDKLog.java:168) - Initializing ProtocolHandler ["https-jsse-nio-192.168.1.138-8443"]
+2026-01-04 23:00:31.400 [main] INFO  o.a.catalina.core.StandardService.log(DirectJDKLog.java:168) - Starting service [Tomcat]
+2026-01-04 23:00:31.400 [main] INFO  o.a.catalina.core.StandardEngine.log(DirectJDKLog.java:168) - Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-01-04 23:00:31.471 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log(DirectJDKLog.java:168) - Initializing Spring embedded WebApplicationContext
+2026-01-04 23:00:31.471 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext(ServletWebServerApplicationContext.java:301) - Root WebApplicationContext: initialization completed in 1276 ms
+2026-01-04 23:00:31.583 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log(DirectJDKLog.java:168) - Initializing AtmosphereFramework
+2026-01-04 23:00:31.870 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04 23:00:31.902 [main] INFO  org.hibernate.Version.logVersion(Version.java:44) - HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-01-04 23:00:31.934 [main] INFO  o.h.c.i.RegionFactoryInitiator.initiateService(RegionFactoryInitiator.java:50) - HHH000026: Second-level cache disabled
+2026-01-04 23:00:32.126 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer(SpringPersistenceUnitInfo.java:87) - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04 23:00:32.142 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:109) - HikariPool-1 - Starting...
+2026-01-04 23:00:36.445 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:580) - HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./data/quizdb user=SA
+2026-01-04 23:00:36.447 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:122) - HikariPool-1 - Start completed.
+2026-01-04 23:00:36.463 [main] WARN  org.hibernate.orm.deprecation.constructDialect(DialectFactoryImpl.java:153) - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04 23:00:36.477 [main] INFO  o.hibernate.orm.connections.pooling.logConnectionInfo(JdbcEnvironmentInitiator.java:163) - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04 23:00:37.297 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:59) - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04 23:00:37.342 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:447) - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04 23:00:37.537 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit>(QueryEnhancerFactory.java:49) - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-04 23:00:37.854 [main] INFO  c.quizz.core.service.CountryService.init(CountryService.java:30) - Initializing countries...
+2026-01-04 23:00:37.987 [main] INFO  c.quizz.core.service.CountryService.init(CountryService.java:32) - Countries initialization completed.
+2026-01-04 23:00:38.015 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:32) - === QuizDataInitializer: Starting initialization check ===
+2026-01-04 23:00:38.032 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:36) - Found 20 existing quizzes in database
+2026-01-04 23:00:38.033 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:42) - Quizzes already exist - skipping initialization. Quiz names:
+2026-01-04 23:00:38.048 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - General Knowledge (ID: 1, Questions: 10)
+2026-01-04 23:00:38.053 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Physics (ID: 2, Questions: 10)
+2026-01-04 23:00:38.058 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - US Civil War (ID: 3, Questions: 100)
+2026-01-04 23:00:38.062 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Painting (ID: 4, Questions: 10)
+2026-01-04 23:00:38.067 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - French Revolution (ID: 5, Questions: 1000)
+2026-01-04 23:00:38.072 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - French Literature (ID: 6, Questions: 473)
+2026-01-04 23:00:38.077 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Famous Battles (ID: 7, Questions: 1000)
+2026-01-04 23:00:38.086 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Famous French Quotes (ID: 8, Questions: 1000)
+2026-01-04 23:00:38.092 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - French History 1000 (ID: 9, Questions: 256)
+2026-01-04 23:00:38.102 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Europe Quiz (ID: 10, Questions: 145)
+2026-01-04 23:00:38.107 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Japan Quiz - Culture & Geography (ID: 11, Questions: 1000)
+2026-01-04 23:00:38.111 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - World Cities - Latitude & Longitude (ID: 12, Questions: 50)
+2026-01-04 23:00:38.115 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Periodic Table of Elements - Complete (ID: 13, Questions: 472)
+2026-01-04 23:00:38.119 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Mythology Quiz (ID: 14, Questions: 100)
+2026-01-04 23:00:38.123 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Greek Mythology - Complete (ID: 15, Questions: 533)
+2026-01-04 23:00:38.127 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Game of Thrones - Complete (ID: 16, Questions: 138)
+2026-01-04 23:00:38.131 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Famous Manga Series (ID: 17, Questions: 1000)
+2026-01-04 23:00:38.136 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Disney Animation Movies (ID: 18, Questions: 1000)
+2026-01-04 23:00:38.140 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Harry Potter (ID: 19, Questions: 1000)
+2026-01-04 23:00:38.143 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Classical Music Composers (ID: 20, Questions: 340)
+2026-01-04 23:00:38.143 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:51) - === QuizDataInitializer: Initialization check completed ===
+2026-01-04 23:00:38.408 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:258) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04 23:00:38.675 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration.log(H2ConsoleAutoConfiguration.java:133) - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/quizdb'
+2026-01-04 23:00:38.799 [main] INFO  o.a.coyote.http11.Http11NioProtocol.log(DirectJDKLog.java:168) - Starting ProtocolHandler ["https-jsse-nio-192.168.1.138-8443"]
+2026-01-04 23:00:38.941 [main] INFO  o.a.t.u.net.NioEndpoint.certificate.log(DirectJDKLog.java:168) - Connector [https-jsse-nio-192.168.1.138-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\athom\.keystore] using alias [quiz-app] with trust store [null]
+2026-01-04 23:00:39.116 [https-jsse-nio-192.168.1.138-8443-exec-9] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log(DirectJDKLog.java:168) - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04 23:00:39.116 [https-jsse-nio-192.168.1.138-8443-exec-9] INFO  o.s.web.servlet.DispatcherServlet.initServletBean(FrameworkServlet.java:532) - Initializing Servlet 'dispatcherServlet'
+2026-01-04 23:00:39.117 [https-jsse-nio-192.168.1.138-8443-exec-9] INFO  o.s.web.servlet.DispatcherServlet.initServletBean(FrameworkServlet.java:554) - Completed initialization in 1 ms
+2026-01-04 23:00:39.161 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  c.v.f.s.DefaultDeploymentConfiguration.logMessages(DefaultDeploymentConfiguration.java:166) - Vaadin is running in production mode.
+2026-01-04 23:00:39.178 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  c.v.flow.spring.SpringInstantiator.getI18NProvider(SpringInstantiator.java:101) - The number of beans implementing 'I18NProvider' is 0. Cannot use Spring beans for I18N, falling back to the default behavior
+2026-01-04 23:00:41.255 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start(TomcatWebServer.java:243) - Tomcat started on port 8443 (https) with context path '/'
+2026-01-04 23:00:41.260 [main] INFO  com.quizz.Application.logStarted(StartupInfoLogger.java:59) - Started Application in 11.498 seconds (process running for 11.782)
+2026-01-04 23:00:41.263 [main] INFO  com.quizz.core.DataInitializer.lambda$initDatabase$0(DataInitializer.java:31) - === DataInitializer: Starting user and country initialization ===
+2026-01-04 23:00:41.274 [main] INFO  com.quizz.core.DataInitializer.createAdminUser(DataInitializer.java:43) - Admin user already exists, checking country association...
+2026-01-04 23:00:41.276 [main] INFO  com.quizz.core.DataInitializer.createAdminUser(DataInitializer.java:54) - Admin user already linked to country: France
+2026-01-04 23:00:41.828 [main] INFO  com.quizz.core.DataInitializer.createPublicUsers(DataInitializer.java:262) - Public users initialization complete: 0 created, 99 skipped (already exist)
+2026-01-04 23:00:41.831 [main] INFO  com.quizz.core.DataInitializer.createPublicUsers(DataInitializer.java:266) - Total public users in database after initialization: 99
+2026-01-04 23:00:41.831 [main] INFO  com.quizz.core.DataInitializer.lambda$initDatabase$0(DataInitializer.java:34) - === DataInitializer: Completed ===
+2026-01-04 23:00:41.831 [main] INFO  c.q.c.migration.UserCountryMigration.run(UserCountryMigration.java:36) - === UserCountryMigration: Starting ===
+2026-01-04 23:00:41.848 [main] INFO  c.q.c.migration.UserCountryMigration.run(UserCountryMigration.java:40) - Found 102 users to check
+2026-01-04 23:00:41.849 [main] INFO  c.q.c.migration.UserCountryMigration.run(UserCountryMigration.java:186) - === UserCountryMigration: Completed. Updated 0 users ===
+2026-01-04 23:01:04.042 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:460) - Loading public avatars dialog - found 99 public users
+2026-01-04 23:01:04.046 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Barack Obama - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.055 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Nelson Mandela - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.056 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Marie Curie - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.058 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Albert Einstein - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.059 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Leonardo da Vinci - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.060 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Cleopatra - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.061 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Martin Luther King Jr - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.063 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mother Teresa - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.064 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mahatma Gandhi - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.065 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Winston Churchill - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.066 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Abraham Lincoln - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.066 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Charles Darwin - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.067 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Isaac Newton - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.068 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: William Shakespeare - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.068 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Ludwig van Beethoven - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.070 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Wolfgang Mozart - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.070 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Pablo Picasso - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.071 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Vincent van Gogh - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.071 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Frida Kahlo - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.071 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Coco Chanel - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.072 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Steve Jobs - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.073 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Bill Gates - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.074 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Elon Musk - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.075 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mark Zuckerberg - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.076 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Oprah Winfrey - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.076 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Walt Disney - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.077 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Michael Jackson - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.079 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Elvis Presley - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.079 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: The Beatles - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.080 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Madonna - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.081 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Beyoncé - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.081 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Muhammad Ali - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.082 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Pelé - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.082 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Cristiano Ronaldo - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.083 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Lionel Messi - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.083 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Serena Williams - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.083 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Michael Jordan - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.084 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Tiger Woods - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.084 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Roger Federer - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.084 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Usain Bolt - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.085 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Neil Armstrong - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.085 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Yuri Gagarin - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.086 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Stephen Hawking - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.086 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Carl Sagan - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.087 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Jane Goodall - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.088 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Rosa Parks - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.089 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Malala Yousafzai - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.089 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Anne Frank - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.090 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Helen Keller - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.090 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Florence Nightingale - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.090 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Sigmund Freud - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.090 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Karl Marx - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.091 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Friedrich Nietzsche - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.092 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Socrates - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.093 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Plato - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.094 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Aristotle - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.094 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Confucius - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.096 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Buddha - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.096 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Jesus Christ - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.097 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Prophet Muhammad - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.097 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Pope Francis - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.098 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Dalai Lama - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.098 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Elizabeth II - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.099 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Napoleon Bonaparte - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.100 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Julius Caesar - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.100 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Alexander the Great - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.101 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Genghis Khan - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.102 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Joan of Arc - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.102 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: George Washington - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.103 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Thomas Jefferson - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.104 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Franklin D Roosevelt - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.104 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: John F Kennedy - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.105 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Margaret Thatcher - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.105 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Angela Merkel - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.106 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Indira Gandhi - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.107 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Eva Perón - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.107 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Che Guevara - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.108 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Vladimir Lenin - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.109 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Joseph Stalin - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.109 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mao Zedong - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.110 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Charles de Gaulle - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.110 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Simone de Beauvoir - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.111 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Virginia Woolf - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.111 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Jane Austen - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.113 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mark Twain - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.114 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Ernest Hemingway - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.115 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Victor Hugo - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.115 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Voltaire - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.116 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Molière - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.117 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Dante Alighieri - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.118 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Miguel de Cervantes - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.118 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Leo Tolstoy - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.119 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Fyodor Dostoevsky - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.120 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Gabriel García Márquez - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.120 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Toni Morrison - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.121 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Maya Angelou - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.122 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: J.K. Rowling - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.123 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: George Orwell - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:04.123 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Agatha Christie - hasPhoto: true, hasCountry: true
+2026-01-04 23:01:05.966 [https-jsse-nio-192.168.1.138-8443-exec-9] INFO  c.q.core.service.PlayerTraceService.recordLogin(PlayerTraceService.java:48) - Recorded LOGIN for user: Cleopatra
+2026-01-04 23:01:06.287 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:56) - === QuizListView Constructor: Starting ===
+2026-01-04 23:01:06.287 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:62) - Services injected successfully
+2026-01-04 23:01:06.311 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:220) - Checking country flag for user: Cleopatra
+2026-01-04 23:01:06.312 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:222) - User has country: Egypt
+2026-01-04 23:01:06.312 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:224) - Flag SVG length: 275
+2026-01-04 23:01:06.312 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:226) - Creating flag display for country: Egypt
+2026-01-04 23:01:06.313 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:251) - Flag container added to layout
+2026-01-04 23:01:06.319 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:122) - UI components created, about to load quiz cards...
+2026-01-04 23:01:06.323 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:298) - === QuizListView: Loading Quiz Cards ===
+2026-01-04 23:01:06.323 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:299) - Number of quizzes retrieved: 20
+2026-01-04 23:01:06.323 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: General Knowledge (ID: 1)
+2026-01-04 23:01:06.324 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Physics (ID: 2)
+2026-01-04 23:01:06.325 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: US Civil War (ID: 3)
+2026-01-04 23:01:06.327 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Painting (ID: 4)
+2026-01-04 23:01:06.327 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Revolution (ID: 5)
+2026-01-04 23:01:06.328 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Literature (ID: 6)
+2026-01-04 23:01:06.329 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Battles (ID: 7)
+2026-01-04 23:01:06.330 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous French Quotes (ID: 8)
+2026-01-04 23:01:06.330 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French History 1000 (ID: 9)
+2026-01-04 23:01:06.331 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Europe Quiz (ID: 10)
+2026-01-04 23:01:06.331 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Japan Quiz - Culture & Geography (ID: 11)
+2026-01-04 23:01:06.332 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: World Cities - Latitude & Longitude (ID: 12)
+2026-01-04 23:01:06.333 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Periodic Table of Elements - Complete (ID: 13)
+2026-01-04 23:01:06.334 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Mythology Quiz (ID: 14)
+2026-01-04 23:01:06.334 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Greek Mythology - Complete (ID: 15)
+2026-01-04 23:01:06.335 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Game of Thrones - Complete (ID: 16)
+2026-01-04 23:01:06.336 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Manga Series (ID: 17)
+2026-01-04 23:01:06.336 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Disney Animation Movies (ID: 18)
+2026-01-04 23:01:06.337 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Harry Potter (ID: 19)
+2026-01-04 23:01:06.337 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Classical Music Composers (ID: 20)
+2026-01-04 23:01:06.338 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
+2026-01-04 23:01:06.338 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:126) - Quiz cards loaded
+2026-01-04 23:01:06.339 [https-jsse-nio-192.168.1.138-8443-exec-8] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:131) - === QuizListView Constructor: Completed ===
+2026-01-04 23:01:21.937 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  c.q.core.service.PlayerTraceService.recordLogin(PlayerTraceService.java:48) - Recorded LOGIN for user: Administrateur
+2026-01-04 23:01:22.101 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:56) - === QuizListView Constructor: Starting ===
+2026-01-04 23:01:22.101 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:62) - Services injected successfully
+2026-01-04 23:01:22.104 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:220) - Checking country flag for user: Administrateur
+2026-01-04 23:01:22.104 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:222) - User has country: France
+2026-01-04 23:01:22.104 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:224) - Flag SVG length: 218
+2026-01-04 23:01:22.104 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:226) - Creating flag display for country: France
+2026-01-04 23:01:22.105 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:251) - Flag container added to layout
+2026-01-04 23:01:22.106 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:122) - UI components created, about to load quiz cards...
+2026-01-04 23:01:22.108 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:298) - === QuizListView: Loading Quiz Cards ===
+2026-01-04 23:01:22.108 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:299) - Number of quizzes retrieved: 20
+2026-01-04 23:01:22.108 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: General Knowledge (ID: 1)
+2026-01-04 23:01:22.109 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Physics (ID: 2)
+2026-01-04 23:01:22.110 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: US Civil War (ID: 3)
+2026-01-04 23:01:22.110 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Painting (ID: 4)
+2026-01-04 23:01:22.111 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Revolution (ID: 5)
+2026-01-04 23:01:22.112 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Literature (ID: 6)
+2026-01-04 23:01:22.112 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Battles (ID: 7)
+2026-01-04 23:01:22.113 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous French Quotes (ID: 8)
+2026-01-04 23:01:22.114 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French History 1000 (ID: 9)
+2026-01-04 23:01:22.114 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Europe Quiz (ID: 10)
+2026-01-04 23:01:22.115 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Japan Quiz - Culture & Geography (ID: 11)
+2026-01-04 23:01:22.116 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: World Cities - Latitude & Longitude (ID: 12)
+2026-01-04 23:01:22.117 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Periodic Table of Elements - Complete (ID: 13)
+2026-01-04 23:01:22.117 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Mythology Quiz (ID: 14)
+2026-01-04 23:01:22.117 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Greek Mythology - Complete (ID: 15)
+2026-01-04 23:01:22.118 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Game of Thrones - Complete (ID: 16)
+2026-01-04 23:01:22.118 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Manga Series (ID: 17)
+2026-01-04 23:01:22.119 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Disney Animation Movies (ID: 18)
+2026-01-04 23:01:22.120 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Harry Potter (ID: 19)
+2026-01-04 23:01:22.120 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Classical Music Composers (ID: 20)
+2026-01-04 23:01:22.121 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
+2026-01-04 23:01:22.121 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:126) - Quiz cards loaded
+2026-01-04 23:01:22.121 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:131) - === QuizListView Constructor: Completed ===
+2026-01-04 23:01:24.543 [https-jsse-nio-192.168.1.138-8443-exec-6] INFO  com.quizz.core.ui.DashboardView.refreshDashboard(DashboardView.java:114) - Refreshing dashboard for last 24 hours
+2026-01-04 23:01:49.612 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:298) - === QuizListView: Loading Quiz Cards ===
+2026-01-04 23:01:49.613 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:299) - Number of quizzes retrieved: 20
+2026-01-04 23:01:49.613 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: General Knowledge (ID: 1)
+2026-01-04 23:01:49.614 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Physics (ID: 2)
+2026-01-04 23:01:49.615 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: US Civil War (ID: 3)
+2026-01-04 23:01:49.616 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Painting (ID: 4)
+2026-01-04 23:01:49.616 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Revolution (ID: 5)
+2026-01-04 23:01:49.616 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Literature (ID: 6)
+2026-01-04 23:01:49.616 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Battles (ID: 7)
+2026-01-04 23:01:49.617 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous French Quotes (ID: 8)
+2026-01-04 23:01:49.617 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French History 1000 (ID: 9)
+2026-01-04 23:01:49.618 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Europe Quiz (ID: 10)
+2026-01-04 23:01:49.618 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Japan Quiz - Culture & Geography (ID: 11)
+2026-01-04 23:01:49.619 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: World Cities - Latitude & Longitude (ID: 12)
+2026-01-04 23:01:49.620 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Periodic Table of Elements - Complete (ID: 13)
+2026-01-04 23:01:49.620 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Mythology Quiz (ID: 14)
+2026-01-04 23:01:49.621 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Greek Mythology - Complete (ID: 15)
+2026-01-04 23:01:49.622 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Game of Thrones - Complete (ID: 16)
+2026-01-04 23:01:49.622 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Manga Series (ID: 17)
+2026-01-04 23:01:49.623 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Disney Animation Movies (ID: 18)
+2026-01-04 23:01:49.623 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Harry Potter (ID: 19)
+2026-01-04 23:01:49.623 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Classical Music Composers (ID: 20)
+2026-01-04 23:01:49.624 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
+2026-01-04 23:01:52.064 [https-jsse-nio-192.168.1.138-8443-exec-4] INFO  com.quizz.core.ui.QuizQuestionView.beforeEnter(QuizQuestionView.java:353) - Starting simple quiz (non-session) for quiz ID: 4
+2026-01-04 23:01:52.069 [https-jsse-nio-192.168.1.138-8443-exec-4] INFO  c.q.core.service.PlayerTraceService.recordQuizStart(PlayerTraceService.java:75) - Recorded START_QUIZ for user: Cleopatra, quiz: Painting, mode: NORMAL
+2026-01-04 23:01:54.258 [https-jsse-nio-192.168.1.138-8443-exec-1] INFO  com.quizz.core.ui.DashboardView.refreshDashboard(DashboardView.java:114) - Refreshing dashboard for last 24 hours
+2026-01-04 23:07:33.875 [background-preinit] INFO  o.h.validator.internal.util.Version.<clinit>(Version.java:21) - HV000001: Hibernate Validator 8.0.3.Final
+2026-01-04 23:07:33.913 [main] INFO  com.quizz.Application.logStarting(StartupInfoLogger.java:53) - Starting Application using Java 23.0.2 with PID 11132 (C:\Users\athom\IdeaProjects\quizz1\target\classes started by athom in C:\Users\athom\IdeaProjects\quizz1)
+2026-01-04 23:07:33.913 [main] INFO  com.quizz.Application.logStartupProfileInfo(SpringApplication.java:652) - No active profile set, falling back to 1 default profile: "default"
+2026-01-04 23:07:34.503 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:145) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04 23:07:34.621 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:213) - Finished Spring Data repository scanning in 112 ms. Found 10 JPA repository interfaces.
+2026-01-04 23:07:35.065 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:111) - Tomcat initialized with port 8443 (https)
+2026-01-04 23:07:35.080 [main] INFO  o.a.coyote.http11.Http11NioProtocol.log(DirectJDKLog.java:168) - Initializing ProtocolHandler ["https-jsse-nio-192.168.1.138-8443"]
+2026-01-04 23:07:35.080 [main] INFO  o.a.catalina.core.StandardService.log(DirectJDKLog.java:168) - Starting service [Tomcat]
+2026-01-04 23:07:35.080 [main] INFO  o.a.catalina.core.StandardEngine.log(DirectJDKLog.java:168) - Starting Servlet engine: [Apache Tomcat/10.1.49]
+2026-01-04 23:07:35.144 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log(DirectJDKLog.java:168) - Initializing Spring embedded WebApplicationContext
+2026-01-04 23:07:35.144 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext(ServletWebServerApplicationContext.java:301) - Root WebApplicationContext: initialization completed in 1183 ms
+2026-01-04 23:07:35.256 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log(DirectJDKLog.java:168) - Initializing AtmosphereFramework
+2026-01-04 23:07:35.525 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04 23:07:35.556 [main] INFO  org.hibernate.Version.logVersion(Version.java:44) - HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-01-04 23:07:35.588 [main] INFO  o.h.c.i.RegionFactoryInitiator.initiateService(RegionFactoryInitiator.java:50) - HHH000026: Second-level cache disabled
+2026-01-04 23:07:35.762 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer(SpringPersistenceUnitInfo.java:87) - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04 23:07:35.794 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:109) - HikariPool-1 - Starting...
+2026-01-04 23:07:40.069 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:580) - HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./data/quizdb user=SA
+2026-01-04 23:07:40.071 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:122) - HikariPool-1 - Start completed.
+2026-01-04 23:07:40.086 [main] WARN  org.hibernate.orm.deprecation.constructDialect(DialectFactoryImpl.java:153) - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04 23:07:40.103 [main] INFO  o.hibernate.orm.connections.pooling.logConnectionInfo(JdbcEnvironmentInitiator.java:163) - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04 23:07:40.881 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:59) - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04 23:07:40.925 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:447) - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04 23:07:41.125 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit>(QueryEnhancerFactory.java:49) - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-04 23:07:41.459 [main] INFO  c.quizz.core.service.CountryService.init(CountryService.java:30) - Initializing countries...
+2026-01-04 23:07:41.597 [main] INFO  c.quizz.core.service.CountryService.init(CountryService.java:32) - Countries initialization completed.
+2026-01-04 23:07:41.627 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:32) - === QuizDataInitializer: Starting initialization check ===
+2026-01-04 23:07:41.644 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:36) - Found 20 existing quizzes in database
+2026-01-04 23:07:41.644 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:42) - Quizzes already exist - skipping initialization. Quiz names:
+2026-01-04 23:07:41.659 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - General Knowledge (ID: 1, Questions: 10)
+2026-01-04 23:07:41.664 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Physics (ID: 2, Questions: 10)
+2026-01-04 23:07:41.669 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - US Civil War (ID: 3, Questions: 100)
+2026-01-04 23:07:41.673 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Painting (ID: 4, Questions: 10)
+2026-01-04 23:07:41.680 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - French Revolution (ID: 5, Questions: 1000)
+2026-01-04 23:07:41.684 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - French Literature (ID: 6, Questions: 473)
+2026-01-04 23:07:41.689 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Famous Battles (ID: 7, Questions: 1000)
+2026-01-04 23:07:41.693 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Famous French Quotes (ID: 8, Questions: 1000)
+2026-01-04 23:07:41.698 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - French History 1000 (ID: 9, Questions: 256)
+2026-01-04 23:07:41.702 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Europe Quiz (ID: 10, Questions: 145)
+2026-01-04 23:07:41.707 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Japan Quiz - Culture & Geography (ID: 11, Questions: 1000)
+2026-01-04 23:07:41.711 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - World Cities - Latitude & Longitude (ID: 12, Questions: 50)
+2026-01-04 23:07:41.715 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Periodic Table of Elements - Complete (ID: 13, Questions: 472)
+2026-01-04 23:07:41.719 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Mythology Quiz (ID: 14, Questions: 100)
+2026-01-04 23:07:41.723 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Greek Mythology - Complete (ID: 15, Questions: 533)
+2026-01-04 23:07:41.727 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Game of Thrones - Complete (ID: 16, Questions: 138)
+2026-01-04 23:07:41.731 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Famous Manga Series (ID: 17, Questions: 1000)
+2026-01-04 23:07:41.738 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Disney Animation Movies (ID: 18, Questions: 1000)
+2026-01-04 23:07:41.742 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Harry Potter (ID: 19, Questions: 1000)
+2026-01-04 23:07:41.747 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:44) -   - Classical Music Composers (ID: 20, Questions: 340)
+2026-01-04 23:07:41.747 [main] INFO  com.quizz.core.QuizDataInitializer.init(QuizDataInitializer.java:51) - === QuizDataInitializer: Initialization check completed ===
+2026-01-04 23:07:42.024 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:258) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04 23:07:42.303 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration.log(H2ConsoleAutoConfiguration.java:133) - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/quizdb'
+2026-01-04 23:07:42.420 [main] INFO  o.a.coyote.http11.Http11NioProtocol.log(DirectJDKLog.java:168) - Starting ProtocolHandler ["https-jsse-nio-192.168.1.138-8443"]
+2026-01-04 23:07:42.523 [main] INFO  o.a.t.u.net.NioEndpoint.certificate.log(DirectJDKLog.java:168) - Connector [https-jsse-nio-192.168.1.138-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\athom\.keystore] using alias [quiz-app] with trust store [null]
+2026-01-04 23:07:42.693 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log(DirectJDKLog.java:168) - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04 23:07:42.693 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  o.s.web.servlet.DispatcherServlet.initServletBean(FrameworkServlet.java:532) - Initializing Servlet 'dispatcherServlet'
+2026-01-04 23:07:42.694 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  o.s.web.servlet.DispatcherServlet.initServletBean(FrameworkServlet.java:554) - Completed initialization in 1 ms
+2026-01-04 23:07:42.733 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  c.v.f.s.DefaultDeploymentConfiguration.logMessages(DefaultDeploymentConfiguration.java:166) - Vaadin is running in production mode.
+2026-01-04 23:07:42.748 [https-jsse-nio-192.168.1.138-8443-exec-5] INFO  c.v.flow.spring.SpringInstantiator.getI18NProvider(SpringInstantiator.java:101) - The number of beans implementing 'I18NProvider' is 0. Cannot use Spring beans for I18N, falling back to the default behavior
+2026-01-04 23:07:44.710 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start(TomcatWebServer.java:243) - Tomcat started on port 8443 (https) with context path '/'
+2026-01-04 23:07:44.714 [main] INFO  com.quizz.Application.logStarted(StartupInfoLogger.java:59) - Started Application in 11.211 seconds (process running for 11.51)
+2026-01-04 23:07:44.717 [main] INFO  com.quizz.core.DataInitializer.lambda$initDatabase$0(DataInitializer.java:31) - === DataInitializer: Starting user and country initialization ===
+2026-01-04 23:07:44.728 [main] INFO  com.quizz.core.DataInitializer.createAdminUser(DataInitializer.java:43) - Admin user already exists, checking country association...
+2026-01-04 23:07:44.729 [main] INFO  com.quizz.core.DataInitializer.createAdminUser(DataInitializer.java:54) - Admin user already linked to country: France
+2026-01-04 23:07:45.245 [main] INFO  com.quizz.core.DataInitializer.createPublicUsers(DataInitializer.java:262) - Public users initialization complete: 0 created, 99 skipped (already exist)
+2026-01-04 23:07:45.248 [main] INFO  com.quizz.core.DataInitializer.createPublicUsers(DataInitializer.java:266) - Total public users in database after initialization: 99
+2026-01-04 23:07:45.248 [main] INFO  com.quizz.core.DataInitializer.lambda$initDatabase$0(DataInitializer.java:34) - === DataInitializer: Completed ===
+2026-01-04 23:07:45.249 [main] INFO  c.q.c.migration.UserCountryMigration.run(UserCountryMigration.java:36) - === UserCountryMigration: Starting ===
+2026-01-04 23:07:45.270 [main] INFO  c.q.c.migration.UserCountryMigration.run(UserCountryMigration.java:40) - Found 102 users to check
+2026-01-04 23:07:45.271 [main] INFO  c.q.c.migration.UserCountryMigration.run(UserCountryMigration.java:186) - === UserCountryMigration: Completed. Updated 0 users ===
+2026-01-04 23:07:58.221 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  c.q.core.service.PlayerTraceService.recordLogin(PlayerTraceService.java:48) - Recorded LOGIN for user: Administrateur
+2026-01-04 23:07:58.460 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:56) - === QuizListView Constructor: Starting ===
+2026-01-04 23:07:58.460 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:62) - Services injected successfully
+2026-01-04 23:07:58.484 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:220) - Checking country flag for user: Administrateur
+2026-01-04 23:07:58.485 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:222) - User has country: France
+2026-01-04 23:07:58.485 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:224) - Flag SVG length: 218
+2026-01-04 23:07:58.485 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:226) - Creating flag display for country: France
+2026-01-04 23:07:58.486 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:251) - Flag container added to layout
+2026-01-04 23:07:58.494 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:122) - UI components created, about to load quiz cards...
+2026-01-04 23:07:58.498 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:298) - === QuizListView: Loading Quiz Cards ===
+2026-01-04 23:07:58.499 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:299) - Number of quizzes retrieved: 20
+2026-01-04 23:07:58.499 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: General Knowledge (ID: 1)
+2026-01-04 23:07:58.502 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Physics (ID: 2)
+2026-01-04 23:07:58.504 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: US Civil War (ID: 3)
+2026-01-04 23:07:58.509 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Painting (ID: 4)
+2026-01-04 23:07:58.511 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Revolution (ID: 5)
+2026-01-04 23:07:58.513 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Literature (ID: 6)
+2026-01-04 23:07:58.514 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Battles (ID: 7)
+2026-01-04 23:07:58.515 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous French Quotes (ID: 8)
+2026-01-04 23:07:58.516 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French History 1000 (ID: 9)
+2026-01-04 23:07:58.516 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Europe Quiz (ID: 10)
+2026-01-04 23:07:58.518 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Japan Quiz - Culture & Geography (ID: 11)
+2026-01-04 23:07:58.519 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: World Cities - Latitude & Longitude (ID: 12)
+2026-01-04 23:07:58.608 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Periodic Table of Elements - Complete (ID: 13)
+2026-01-04 23:07:58.611 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Mythology Quiz (ID: 14)
+2026-01-04 23:07:58.613 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Greek Mythology - Complete (ID: 15)
+2026-01-04 23:07:58.614 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Game of Thrones - Complete (ID: 16)
+2026-01-04 23:07:58.615 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Manga Series (ID: 17)
+2026-01-04 23:07:58.616 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Disney Animation Movies (ID: 18)
+2026-01-04 23:07:58.617 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Harry Potter (ID: 19)
+2026-01-04 23:07:58.617 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Classical Music Composers (ID: 20)
+2026-01-04 23:07:58.617 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
+2026-01-04 23:07:58.617 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:126) - Quiz cards loaded
+2026-01-04 23:07:58.618 [https-jsse-nio-192.168.1.138-8443-exec-10] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:131) - === QuizListView Constructor: Completed ===
+2026-01-04 23:08:00.243 [https-jsse-nio-192.168.1.138-8443-exec-3] INFO  com.quizz.core.ui.DashboardView.refreshDashboard(DashboardView.java:120) - Refreshing dashboard for last 24 hours
+2026-01-04 23:08:04.166 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:460) - Loading public avatars dialog - found 99 public users
+2026-01-04 23:08:04.169 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Barack Obama - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.171 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Nelson Mandela - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.171 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Marie Curie - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.173 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Albert Einstein - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.173 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Leonardo da Vinci - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.173 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Cleopatra - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.173 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Martin Luther King Jr - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.173 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mother Teresa - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.173 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mahatma Gandhi - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.174 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Winston Churchill - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.174 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Abraham Lincoln - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.174 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Charles Darwin - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.174 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Isaac Newton - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.175 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: William Shakespeare - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.175 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Ludwig van Beethoven - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.176 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Wolfgang Mozart - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.176 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Pablo Picasso - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.177 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Vincent van Gogh - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.178 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Frida Kahlo - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.178 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Coco Chanel - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.179 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Steve Jobs - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.180 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Bill Gates - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.181 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Elon Musk - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.181 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mark Zuckerberg - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.182 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Oprah Winfrey - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.183 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Walt Disney - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.183 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Michael Jackson - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.184 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Elvis Presley - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.184 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: The Beatles - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.185 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Madonna - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.185 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Beyoncé - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.185 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Muhammad Ali - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.186 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Pelé - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.186 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Cristiano Ronaldo - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.186 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Lionel Messi - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.187 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Serena Williams - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.187 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Michael Jordan - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.187 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Tiger Woods - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.187 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Roger Federer - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.188 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Usain Bolt - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.188 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Neil Armstrong - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.188 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Yuri Gagarin - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.189 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Stephen Hawking - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.189 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Carl Sagan - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.189 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Jane Goodall - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.189 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Rosa Parks - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.190 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Malala Yousafzai - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.190 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Anne Frank - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.190 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Helen Keller - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.190 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Florence Nightingale - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.191 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Sigmund Freud - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.191 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Karl Marx - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.191 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Friedrich Nietzsche - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.191 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Socrates - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.192 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Plato - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.192 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Aristotle - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.193 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Confucius - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.193 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Buddha - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.194 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Jesus Christ - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.195 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Prophet Muhammad - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.195 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Pope Francis - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.196 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Dalai Lama - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.196 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Elizabeth II - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.196 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Napoleon Bonaparte - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.196 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Julius Caesar - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.197 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Alexander the Great - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.197 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Genghis Khan - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.198 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Joan of Arc - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.198 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: George Washington - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.199 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Thomas Jefferson - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.199 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Franklin D Roosevelt - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.199 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: John F Kennedy - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.199 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Margaret Thatcher - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.200 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Angela Merkel - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.200 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Indira Gandhi - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.200 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Eva Perón - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.200 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Che Guevara - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.201 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Vladimir Lenin - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.201 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Joseph Stalin - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.201 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mao Zedong - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.202 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Charles de Gaulle - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.202 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Simone de Beauvoir - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.202 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Virginia Woolf - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.202 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Jane Austen - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.203 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Mark Twain - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.203 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Ernest Hemingway - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.203 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Victor Hugo - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.203 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Voltaire - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.204 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Molière - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.204 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Dante Alighieri - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.205 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Miguel de Cervantes - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.205 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Leo Tolstoy - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.206 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Fyodor Dostoevsky - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.206 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Gabriel García Márquez - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.206 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Toni Morrison - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.206 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Maya Angelou - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.207 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: J.K. Rowling - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.207 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: George Orwell - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:04.208 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.security.LoginView.showPublicAvatarDialog(LoginView.java:471) - Creating avatar card for user: Agatha Christie - hasPhoto: true, hasCountry: true
+2026-01-04 23:08:05.646 [https-jsse-nio-192.168.1.138-8443-exec-1] INFO  c.q.core.service.PlayerTraceService.recordLogin(PlayerTraceService.java:48) - Recorded LOGIN for user: Isaac Newton
+2026-01-04 23:08:05.949 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:56) - === QuizListView Constructor: Starting ===
+2026-01-04 23:08:05.949 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:62) - Services injected successfully
+2026-01-04 23:08:05.950 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:220) - Checking country flag for user: Isaac Newton
+2026-01-04 23:08:05.950 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:222) - User has country: United Kingdom
+2026-01-04 23:08:05.950 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:224) - Flag SVG length: 394
+2026-01-04 23:08:05.951 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:226) - Creating flag display for country: United Kingdom
+2026-01-04 23:08:05.951 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.createUserProfileSection(QuizListView.java:251) - Flag container added to layout
+2026-01-04 23:08:05.951 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:122) - UI components created, about to load quiz cards...
+2026-01-04 23:08:05.952 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:298) - === QuizListView: Loading Quiz Cards ===
+2026-01-04 23:08:05.952 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:299) - Number of quizzes retrieved: 20
+2026-01-04 23:08:05.952 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: General Knowledge (ID: 1)
+2026-01-04 23:08:05.953 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Physics (ID: 2)
+2026-01-04 23:08:05.953 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: US Civil War (ID: 3)
+2026-01-04 23:08:05.953 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Painting (ID: 4)
+2026-01-04 23:08:05.953 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Revolution (ID: 5)
+2026-01-04 23:08:05.954 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Literature (ID: 6)
+2026-01-04 23:08:05.954 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Battles (ID: 7)
+2026-01-04 23:08:05.954 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous French Quotes (ID: 8)
+2026-01-04 23:08:05.955 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French History 1000 (ID: 9)
+2026-01-04 23:08:05.955 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Europe Quiz (ID: 10)
+2026-01-04 23:08:05.955 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Japan Quiz - Culture & Geography (ID: 11)
+2026-01-04 23:08:05.955 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: World Cities - Latitude & Longitude (ID: 12)
+2026-01-04 23:08:05.956 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Periodic Table of Elements - Complete (ID: 13)
+2026-01-04 23:08:05.956 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Mythology Quiz (ID: 14)
+2026-01-04 23:08:05.956 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Greek Mythology - Complete (ID: 15)
+2026-01-04 23:08:05.957 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Game of Thrones - Complete (ID: 16)
+2026-01-04 23:08:05.957 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Manga Series (ID: 17)
+2026-01-04 23:08:05.957 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Disney Animation Movies (ID: 18)
+2026-01-04 23:08:05.957 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Harry Potter (ID: 19)
+2026-01-04 23:08:05.957 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Classical Music Composers (ID: 20)
+2026-01-04 23:08:05.958 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
+2026-01-04 23:08:05.958 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:126) - Quiz cards loaded
+2026-01-04 23:08:05.958 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.<init>(QuizListView.java:131) - === QuizListView Constructor: Completed ===
+2026-01-04 23:08:10.470 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.DashboardView.refreshDashboard(DashboardView.java:120) - Refreshing dashboard for last 24 hours
+2026-01-04 23:08:13.481 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:298) - === QuizListView: Loading Quiz Cards ===
+2026-01-04 23:08:13.482 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:299) - Number of quizzes retrieved: 20
+2026-01-04 23:08:13.482 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: General Knowledge (ID: 1)
+2026-01-04 23:08:13.483 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Physics (ID: 2)
+2026-01-04 23:08:13.484 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: US Civil War (ID: 3)
+2026-01-04 23:08:13.484 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Painting (ID: 4)
+2026-01-04 23:08:13.485 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Revolution (ID: 5)
+2026-01-04 23:08:13.486 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French Literature (ID: 6)
+2026-01-04 23:08:13.487 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Battles (ID: 7)
+2026-01-04 23:08:13.488 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous French Quotes (ID: 8)
+2026-01-04 23:08:13.489 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: French History 1000 (ID: 9)
+2026-01-04 23:08:13.489 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Europe Quiz (ID: 10)
+2026-01-04 23:08:13.490 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Japan Quiz - Culture & Geography (ID: 11)
+2026-01-04 23:08:13.491 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: World Cities - Latitude & Longitude (ID: 12)
+2026-01-04 23:08:13.491 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Periodic Table of Elements - Complete (ID: 13)
+2026-01-04 23:08:13.492 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Mythology Quiz (ID: 14)
+2026-01-04 23:08:13.493 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Greek Mythology - Complete (ID: 15)
+2026-01-04 23:08:13.494 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Game of Thrones - Complete (ID: 16)
+2026-01-04 23:08:13.494 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Famous Manga Series (ID: 17)
+2026-01-04 23:08:13.495 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Disney Animation Movies (ID: 18)
+2026-01-04 23:08:13.495 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Harry Potter (ID: 19)
+2026-01-04 23:08:13.496 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:310) - Creating card for quiz: Classical Music Composers (ID: 20)
+2026-01-04 23:08:13.497 [https-jsse-nio-192.168.1.138-8443-exec-7] INFO  com.quizz.core.ui.QuizListView.loadQuizCards(QuizListView.java:315) - === Quiz Cards Loading Completed ===
+2026-01-04 23:08:14.546 [https-jsse-nio-192.168.1.138-8443-exec-6] INFO  com.quizz.core.ui.QuizQuestionView.beforeEnter(QuizQuestionView.java:353) - Starting simple quiz (non-session) for quiz ID: 6
+2026-01-04 23:08:14.549 [https-jsse-nio-192.168.1.138-8443-exec-6] INFO  c.q.core.service.PlayerTraceService.recordQuizStart(PlayerTraceService.java:75) - Recorded START_QUIZ for user: Isaac Newton, quiz: French Literature, mode: NORMAL
+2026-01-04 23:08:16.229 [https-jsse-nio-192.168.1.138-8443-exec-2] INFO  com.quizz.core.ui.DashboardView.refreshDashboard(DashboardView.java:120) - Refreshing dashboard for last 24 hours
+2026-01-04 23:09:16.561 [quiz-scheduler] INFO  c.q.core.service.PlayerTraceService.recordQuizComplete(PlayerTraceService.java:93) - Recorded COMPLETE_QUIZ for user: Isaac Newton, quiz: French Literature, score: 0

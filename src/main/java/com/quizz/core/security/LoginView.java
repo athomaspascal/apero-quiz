@@ -45,16 +45,19 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final AuthenticationService authenticationService;
     private final TranslationService translationService;
     private final UserService userService;
+    private final com.quizz.core.service.PlayerTraceService traceService;
 
     // Flag buttons for highlighting
     private Button frenchButton;
     private Button englishButton;
     private Button italianButton;
 
-    public LoginView(AuthenticationService authenticationService, TranslationService translationService, UserService userService) {
+    public LoginView(AuthenticationService authenticationService, TranslationService translationService,
+                    UserService userService, com.quizz.core.service.PlayerTraceService traceService) {
         this.authenticationService = authenticationService;
         this.translationService = translationService;
         this.userService = userService;
+        this.traceService = traceService;
 
         addClassName("login-view");
         setSizeFull();
@@ -311,6 +314,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             User user = authenticationService.getCurrentUser();
 
             if (user != null) {
+                // Record login trace
+                traceService.recordLogin(user);
+
                 Notification.show(translationService.translate("login.welcomeback", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }
@@ -584,6 +590,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             // Login with this public user
             boolean authenticated = authenticationService.authenticate(user.getEmail(), "public123");
             if (authenticated) {
+                // Record login trace
+                traceService.recordLogin(user);
+
                 Notification.show(translationService.translate("login.welcome", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 dialog.close();

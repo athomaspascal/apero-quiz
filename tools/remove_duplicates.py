@@ -1,116 +1,55 @@
-import json
-import os
-from datetime import datetime
-from collections import OrderedDict
+import re
+from pathlib import Path
 
-def remove_duplicates():
-    """Nettoie les doublons du fichier quiz-questions.json"""
+def remove_duplicates(file_path):
+    """Remove duplicate property keys from a properties file, keeping the first occurrence."""
+    print(f"\nProcessing {file_path}...")
 
-    file_path = r'src\main\resources\quiz-questions.json'
-
-    if not os.path.exists(file_path):
-        print(f"ERREUR: Fichier non trouve: {file_path}")
-        return
-
-    # Faire une sauvegarde
-    timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
-    backup_path = f'quiz-questions-backup-{timestamp}.json'
-
-    print(f"Creation de la sauvegarde: {backup_path}")
     with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    with open(backup_path, 'w', encoding='utf-8') as f:
-        f.write(content)
+        lines = f.readlines()
 
-    # Charger le fichier JSON
-    print("Chargement du fichier JSON...")
-    with open(file_path, 'r', encoding='utf-8') as f:
-        root = json.load(f)
+    seen_keys = set()
+    output_lines = []
+    duplicates_removed = 0
 
-    # Gerer la structure
-    if isinstance(root, dict) and 'quizzes' in root:
-        data = root['quizzes']
-    elif isinstance(root, list):
-        data = root
-    else:
-        print("ERREUR: Structure JSON inconnue!")
-        return
+    for line in lines:
+        stripped = line.strip()
 
-    print(f"\nNombre de quiz: {len(data)}\n")
+        # Keep comments and empty lines
+        if not stripped or stripped.startswith('#'):
+            output_lines.append(line)
+            continue
 
-    total_before = 0
-    total_after = 0
-    total_removed = 0
+        # Extract key
+        if '=' in stripped:
+            key = stripped.split('=')[0].strip()
 
-    for quiz in data:
-        quiz_name = quiz.get('name', 'Sans nom')
-        questions = quiz.get('questions', [])
-
-        original_count = len(questions)
-        total_before += original_count
-
-        print(f"Quiz: {quiz_name}")
-        print(f"  Questions originales: {original_count}")
-
-        # Nettoyer les doublons en gardant la premiere occurrence
-        seen = OrderedDict()
-        unique_questions = []
-
-        for q in questions:
-            question_text = q.get('question', '').strip().lower()
-            if question_text not in seen:
-                seen[question_text] = True
-                unique_questions.append(q)
-
-        new_count = len(unique_questions)
-        removed = original_count - new_count
-
-        if removed > 0:
-            print(f"  NETTOYAGE: {removed} doublons supprimes")
-            quiz['questions'] = unique_questions
-            total_removed += removed
-
-            # Reassigner les IDs pour maintenir la sequence
-            for idx, q in enumerate(unique_questions, 1):
-                q['id'] = idx
-
-            print(f"  Questions restantes: {new_count}")
+            if key in seen_keys:
+                print(f"  Removing duplicate: {key}")
+                duplicates_removed += 1
+                continue
+            else:
+                seen_keys.add(key)
+                output_lines.append(line)
         else:
-            print(f"  OK: Aucun doublon")
+            output_lines.append(line)
 
-        total_after += new_count
+    # Write back
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.writelines(output_lines)
 
-    print(f"\n{'='*60}")
-    print(f"RESUME")
-    print(f"{'='*60}")
-    print(f"Questions avant nettoyage: {total_before}")
-    print(f"Questions apres nettoyage: {total_after}")
-    print(f"Total doublons supprimes: {total_removed}")
-    print(f"{'='*60}")
+    print(f"  Removed {duplicates_removed} duplicates")
+    print(f"  Total unique keys: {len(seen_keys)}")
 
-    if total_removed > 0:
-        # Sauvegarder le fichier nettoye
-        print(f"\nEnregistrement du fichier nettoye...")
+# Process all properties files
+files = [
+    'src/main/resources/messages_en.properties',
+    'src/main/resources/messages_fr.properties',
+    'src/main/resources/messages_it.properties'
+]
 
-        if isinstance(root, dict) and 'quizzes' in root:
-            root['quizzes'] = data
-            output = root
-        else:
-            output = data
+for file_path in files:
+    remove_duplicates(file_path)
 
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(output, f, ensure_ascii=False, indent=2)
-
-        print(f"OK: Fichier nettoye enregistre!")
-        print(f"Sauvegarde disponible: {backup_path}")
-    else:
-        print("\nAucun nettoyage necessaire.")
-
-if __name__ == "__main__":
-    try:
-        remove_duplicates()
-    except Exception as e:
-        print(f"ERREUR: {e}")
-        import traceback
-        traceback.print_exc()
+print("\n✓ All files processed successfully!")
 
