@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Migration to link existing users to their countries
+ * OPTIMIZATION: This migration is now disabled as all users are persisted with their countries in the database
  */
 @Component
 @Order(100) // Run after other initializers
@@ -33,6 +34,9 @@ public class UserCountryMigration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        logger.info("=== UserCountryMigration: SKIPPED (optimization - data persisted in database) ===");
+        // Migration disabled - all users are already linked to their countries in the database
+        /*
         logger.info("=== UserCountryMigration: Starting ===");
 
         // Get all users
@@ -184,6 +188,7 @@ public class UserCountryMigration implements CommandLineRunner {
         }
 
         logger.info("=== UserCountryMigration: Completed. Updated {} users ===", updatedCount);
+        */
     }
 }
 

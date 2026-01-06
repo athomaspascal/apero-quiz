@@ -24,6 +24,9 @@ public class CountryService {
         this.countryRepository = countryRepository;
     }
 
+    // OPTIMIZATION: Countries are now persisted in the database
+    // No need to re-initialize on every startup
+    /*
     @PostConstruct
     @Transactional
     public void init() {
@@ -31,6 +34,7 @@ public class CountryService {
         initializeCountries();
         logger.info("Countries initialization completed.");
     }
+    */
 
     private void initializeCountries() {
         // Countries with their flags

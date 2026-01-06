@@ -23,6 +23,9 @@ public class DataInitializer {
 
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
+    // OPTIMIZATION: Users (admin and public avatars) are now persisted in the database
+    // No need to re-initialize on every startup
+    /*
     @Bean
     @Order(2) // Execute after CountryService
     @DependsOn("countryService") // Wait for CountryService to be initialized
@@ -34,6 +37,7 @@ public class DataInitializer {
             logger.info("=== DataInitializer: Completed ===");
         };
     }
+    */
 
     private void createAdminUser(UserService userService, CountryService countryService) {
         String adminEmail = "administrateur@quiz.admin";
