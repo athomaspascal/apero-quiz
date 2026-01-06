@@ -46,6 +46,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final TranslationService translationService;
     private final UserService userService;
     private final com.quizz.core.service.PlayerTraceService traceService;
+    private final com.quizz.core.service.UserActivityService userActivityService;
 
     // Flag buttons for highlighting
     private Button frenchButton;
@@ -53,11 +54,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private Button italianButton;
 
     public LoginView(AuthenticationService authenticationService, TranslationService translationService,
-                    UserService userService, com.quizz.core.service.PlayerTraceService traceService) {
+                    UserService userService, com.quizz.core.service.PlayerTraceService traceService,
+                    com.quizz.core.service.UserActivityService userActivityService) {
         this.authenticationService = authenticationService;
         this.translationService = translationService;
         this.userService = userService;
         this.traceService = traceService;
+        this.userActivityService = userActivityService;
 
         addClassName("login-view");
         setSizeFull();
@@ -316,6 +319,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             if (user != null) {
                 // Record login trace
                 traceService.recordLogin(user);
+
+                // Update user activity
+                userActivityService.updateActivity(user, "LOGIN", "login");
 
                 Notification.show(translationService.translate("login.welcomeback", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -589,6 +595,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             if (authenticated) {
                 // Record login trace
                 traceService.recordLogin(user);
+
+                // Update user activity
+                userActivityService.updateActivity(user, "LOGIN", "login");
 
                 Notification.show(translationService.translate("login.welcome", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);

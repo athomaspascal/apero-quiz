@@ -6,10 +6,12 @@ import com.vaadin.flow.shared.communication.PushMode;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @Theme("default")
 @Push(PushMode.AUTOMATIC)
+@EnableScheduling
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {

@@ -52,7 +52,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Route("quiz-questions/:quizId")
 @PageTitle("Quiz Questions")
-class  QuizQuestionView extends Main implements BeforeEnterObserver {
+public class QuizQuestionView extends Main implements BeforeEnterObserver {
 
     private static final Logger logger = LoggerFactory.getLogger(QuizQuestionView.class);
     private static final int MAX_QUESTIONS = 5; // Limit to 5 questions
@@ -67,6 +67,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     private final QuizQuestionLogService questionLogService;
     private final TranslationService translationService;
     private final DuelService duelService;
+    private final com.quizz.core.service.UserActivityService userActivityService;
 
     private Long quizId;
     private Long duelId; // Track if this is a duel quiz
@@ -118,16 +119,20 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
     private volatile boolean quizCompleted = false;
 
+    // Duel polling task
+    private ScheduledFuture<?> duelPollingTask;
+
     // Garde les registrations pour pouvoir retirer proprement les listeners
     private com.vaadin.flow.shared.Registration nextClickReg;
     private com.vaadin.flow.shared.Registration stopClickReg;
 
     private final com.quizz.core.service.PlayerTraceService traceService;
 
-    QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
+    public QuizQuestionView(QuizQuestionService quizQuestionService, QuizService quizService,
                      QuizSessionService sessionService, QuizAnswerService answerService,
                      QuizQuestionLogService questionLogService, TranslationService translationService,
-                     com.quizz.core.service.PlayerTraceService traceService, DuelService duelService) {
+                     com.quizz.core.service.PlayerTraceService traceService, DuelService duelService,
+                     com.quizz.core.service.UserActivityService userActivityService) {
         this.quizQuestionService = quizQuestionService;
         this.quizService = quizService;
         this.sessionService = sessionService;
@@ -136,6 +141,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         this.translationService = translationService;
         this.traceService = traceService;
         this.duelService = duelService;
+        this.userActivityService = userActivityService;
 
         //questionTitle = new H2();
         //questionTitle.addClassNames(LumoUtility.Margin.Bottom.MEDIUM);
@@ -263,6 +269,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             LumoUtility.Padding.LARGE,
             LumoUtility.MaxWidth.SCREEN_MEDIUM
         );
+        content.setVisible(true); // Ensure content container is always visible
 
         setSizeFull();
         addClassNames(
@@ -280,19 +287,34 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             startNewRun();
             cancelPendingDelay();
             stopTimer();
+            stopDuelPolling(); // Stop duel polling if active
         });
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
+        logger.info("=== QuizQuestionView.beforeEnter() CALLED ===");
+        logger.info("Thread: {}", Thread.currentThread().getName());
+
+        User sessionUser = VaadinSession.getCurrent().getAttribute(User.class);
+        logger.info("Session user: {}", sessionUser != null ? sessionUser.getName() : "null");
+
+        // CRITICAL: Reset UI completely to avoid reuse issues
+        resetUIState();
+
         String quizIdParam = event.getRouteParameters().get("quizId").orElse(null);
+        logger.info("QuizIdParam received: {}", quizIdParam);
+
         if (quizIdParam == null) {
+            logger.warn("QuizIdParam is null, rerouting to home");
             event.rerouteTo("");
             return;
         }
 
         // Check if this is a duel quiz
         Object duelIdAttr = VaadinSession.getCurrent().getAttribute("activeDuelId");
+        logger.info("activeDuelId attribute from session: {}", duelIdAttr);
+
         if (duelIdAttr != null) {
             try {
                 this.duelId = (Long) duelIdAttr;
@@ -300,7 +322,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                 // Clear the attribute after retrieving it
                 VaadinSession.getCurrent().setAttribute("activeDuelId", null);
             } catch (ClassCastException e) {
-                logger.error("Invalid duel ID in session: {}", duelIdAttr);
+                logger.error("Invalid duel ID in session: {}", duelIdAttr, e);
             }
         } else {
             logger.info("Starting quiz in NORMAL mode (not a duel)");
@@ -438,6 +460,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             }
 
             // restaurer l'état des boutons (au cas où la vue revient depuis l'écran final)
+            questionText.setVisible(true); // Essential for duel mode
             optionsContainer.setVisible(true);
             previousButton.setVisible(true);
             stopButton.setVisible(true);
@@ -449,11 +472,13 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             logger.info("About to display first question. Total questions: {}, isDuel: {}",
                 this.totalQuestions, this.duelId != null);
             displayQuestion();
-
+            logger.info("First question displayed successfully");
 
             // Start the timer
             startTimer();
+            logger.info("=== QuizQuestionView.beforeEnter() COMPLETED SUCCESSFULLY ===");
         } catch (NumberFormatException e) {
+            logger.error("NumberFormatException in beforeEnter", e);
             event.rerouteTo("");
         }
     }
@@ -573,6 +598,10 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         if (currentQuestionIndex < randomQuestions.size()) {
             currentQuestion = randomQuestions.get(currentQuestionIndex);
 
+            // Make sure all UI elements are visible (important for duel mode)
+            questionText.setVisible(true);
+            optionsContainer.setVisible(true);
+
             // Update toolbar with question progress
             if (toolbar != null) {
                 remove(toolbar);
@@ -607,6 +636,12 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
                     .set("border", "2px solid #90caf9");  // Light blue border
 
                 optionButton.addClickListener(event -> {
+                    // Update user activity
+                    User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+                    if (currentUser != null) {
+                        userActivityService.updateActivity(currentUser, "ANSWER_QUESTION", "quiz-questions/" + quizId);
+                    }
+
                     // Toggle selection
                     if (selectedAnswer != null && selectedAnswer.equals(option)) {
                         // Deselect
@@ -878,8 +913,12 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
 
                             if (nextClickReg != null) nextClickReg.remove();
                             nextClickReg = nextButton.addClickListener(event -> {
+                                stopDuelPolling(); // Stop polling before navigating
                                 getUI().ifPresent(ui -> ui.navigate("duel-quiz"));
                             });
+
+                            // Start polling to check when the other player finishes
+                            startDuelPolling(duelId);
                         }
                     }
 
@@ -968,6 +1007,14 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             duel.getPlayer1().getName(), duel.getPlayer1Score(),
             duel.getPlayer2().getName(), duel.getPlayer2Score());
 
+        // Clear question text instead of hiding it
+        questionText.setText("");
+        questionText.setVisible(true); // Keep it visible but empty
+
+        // Hide player info and feedback
+        playerInfoLabel.setVisible(false);
+        answerFeedback.setVisible(false);
+
         // Clear the options container and use it for the scoreboard
         optionsContainer.removeAll();
         optionsContainer.setVisible(true);
@@ -977,6 +1024,8 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         title.getStyle().set("text-align", "center").set("margin-top", "20px");
         optionsContainer.add(title);
 
+        logger.info("Duel scoreboard title added");
+
         // Display scores
         HorizontalLayout scoresLayout = new HorizontalLayout();
         scoresLayout.setWidthFull();
@@ -985,14 +1034,38 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
         scoresLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         scoresLayout.getStyle().set("margin", "30px 0");
 
-        // Player 1 layout
+        // Player 1 layout with country flag
         VerticalLayout player1Layout = new VerticalLayout();
         player1Layout.setAlignItems(FlexComponent.Alignment.CENTER);
         player1Layout.setSpacing(false);
+
+        HorizontalLayout player1NameLayout = new HorizontalLayout();
+        player1NameLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        player1NameLayout.setSpacing(true);
         H3 player1Name = new H3(duel.getPlayer1().getName());
+        player1NameLayout.add(player1Name);
+
+        // Add country flag for player 1
+        if (duel.getPlayer1().getCountry() != null && duel.getPlayer1().getCountry().getCountryFlag() != null
+            && !duel.getPlayer1().getCountry().getCountryFlag().isEmpty()) {
+            Div flag1Container = new Div();
+            flag1Container.getStyle()
+                .set("width", "30px")
+                .set("height", "20px")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("border", "1px solid #e0e0e0")
+                .set("border-radius", "2px")
+                .set("margin-left", "10px")
+                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+            flag1Container.getElement().setProperty("innerHTML", duel.getPlayer1().getCountry().getCountryFlag());
+            player1NameLayout.add(flag1Container);
+        }
+
         H1 player1Score = new H1(String.valueOf(duel.getPlayer1Score()));
         player1Score.getStyle().set("color", "#1976d2").set("margin", "0");
-        player1Layout.add(player1Name, player1Score);
+        player1Layout.add(player1NameLayout, player1Score);
 
         // VS span
         Span vsSpan = new Span("VS");
@@ -1002,14 +1075,38 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             .set("color", "#666")
             .set("margin", "0 30px");
 
-        // Player 2 layout
+        // Player 2 layout with country flag
         VerticalLayout player2Layout = new VerticalLayout();
         player2Layout.setAlignItems(FlexComponent.Alignment.CENTER);
         player2Layout.setSpacing(false);
+
+        HorizontalLayout player2NameLayout = new HorizontalLayout();
+        player2NameLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        player2NameLayout.setSpacing(true);
         H3 player2Name = new H3(duel.getPlayer2().getName());
+        player2NameLayout.add(player2Name);
+
+        // Add country flag for player 2
+        if (duel.getPlayer2().getCountry() != null && duel.getPlayer2().getCountry().getCountryFlag() != null
+            && !duel.getPlayer2().getCountry().getCountryFlag().isEmpty()) {
+            Div flag2Container = new Div();
+            flag2Container.getStyle()
+                .set("width", "30px")
+                .set("height", "20px")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("border", "1px solid #e0e0e0")
+                .set("border-radius", "2px")
+                .set("margin-left", "10px")
+                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+            flag2Container.getElement().setProperty("innerHTML", duel.getPlayer2().getCountry().getCountryFlag());
+            player2NameLayout.add(flag2Container);
+        }
+
         H1 player2Score = new H1(String.valueOf(duel.getPlayer2Score()));
         player2Score.getStyle().set("color", "#1976d2").set("margin", "0");
-        player2Layout.add(player2Name, player2Score);
+        player2Layout.add(player2NameLayout, player2Score);
 
         scoresLayout.add(player1Layout, vsSpan, player2Layout);
         optionsContainer.add(scoresLayout);
@@ -1033,27 +1130,58 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             .set("margin", "20px 0");
         optionsContainer.add(result);
 
-        // Rematch info
-        Paragraph rematchInfo = new Paragraph(
-            translationService.translate("duelquiz.rematch.available") +
-            " (" + (duel.getRematchCount() + 1) + "/3)"
-        );
-        rematchInfo.getStyle().set("text-align", "center").set("margin-bottom", "20px");
-        optionsContainer.add(rematchInfo);
-
         // Buttons
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         buttonsLayout.setWidthFull();
         buttonsLayout.setJustifyContentMode(HorizontalLayout.JustifyContentMode.CENTER);
         buttonsLayout.setSpacing(true);
+        buttonsLayout.getStyle().set("margin-top", "30px");
 
-        // View full results button
-        Button viewResultsButton = new Button(translationService.translate("duelquiz.viewresults"), event -> {
-            getUI().ifPresent(ui -> ui.navigate("duel-quiz"));
+        // Only show rematch button if rematch is still possible
+        if (duel.getRematchCount() < 2) {
+            // Start a rematch button
+            Button rematchButton = new Button(translationService.translate("duelquiz.rematch.start"), event -> {
+                stopDuelPolling(); // Stop polling before navigating
+                try {
+                    // Request rematch
+                    duelService.requestRematch(duel.getId(), currentUser);
+                    logger.info("Rematch requested by user {} for duel {}", currentUser.getName(), duel.getId());
+
+                    // Navigate back to DuelQuizView to handle the rematch
+                    VaadinSession.getCurrent().setAttribute("activeDuelId", null);
+                    getUI().ifPresent(ui -> {
+                        logger.info("Navigating to duel-quiz view for rematch");
+                        ui.navigate("duel-quiz");
+                    });
+                } catch (Exception e) {
+                    logger.error("Error requesting rematch", e);
+                }
+            });
+            rematchButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
+            buttonsLayout.add(rematchButton);
+        }
+
+        // Stop the duel button
+        Button stopDuelButton = new Button(translationService.translate("duelquiz.stop"), event -> {
+            stopDuelPolling(); // Stop polling before cancelling
+            try {
+                // Cancel the duel - this will notify the other player
+                duelService.cancelDuel(duel.getId());
+                logger.info("Duel {} cancelled by user {}", duel.getId(), currentUser.getName());
+
+                // Navigate back to home or duel quiz view
+                VaadinSession.getCurrent().setAttribute("activeDuelId", null);
+                getUI().ifPresent(ui -> {
+                    logger.info("Navigating to home after stopping duel");
+                    ui.navigate("");
+                });
+            } catch (Exception e) {
+                logger.error("Error cancelling duel", e);
+            }
         });
-        viewResultsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        stopDuelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        buttonsLayout.add(stopDuelButton);
 
-        buttonsLayout.add(viewResultsButton);
         optionsContainer.add(buttonsLayout);
 
         // Hide other buttons
@@ -1100,6 +1228,7 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
             randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
             totalQuestions = Math.min(MAX_QUESTIONS, randomQuestions.size());
 
+            questionText.setVisible(true); // Essential for proper display
             optionsContainer.setVisible(true);
             previousButton.setVisible(true);
             previousButton.setEnabled(false);
@@ -1513,6 +1642,123 @@ class  QuizQuestionView extends Main implements BeforeEnterObserver {
     // Ancienne signature conservée si appelée ailleurs dans le fichier
     private List<QuizQuestion> selectQuestionsAvoidingSeen(List<QuizQuestion> allQuestions) {
         return selectQuestionsAvoidingSeen(allQuestions, new Random(System.nanoTime()));
+    }
+
+    /**
+     * Start polling to check if the other player has finished the duel
+     */
+    private void startDuelPolling(Long duelIdToCheck) {
+        if (duelPollingTask != null && !duelPollingTask.isDone()) {
+            logger.info("Duel polling already running for duel {}", duelIdToCheck);
+            return;
+        }
+
+        logger.info("Starting duel polling for duel {}", duelIdToCheck);
+
+        duelPollingTask = scheduler.scheduleAtFixedRate(() -> {
+            try {
+                var duelOpt = duelService.getDuelById(duelIdToCheck);
+                if (duelOpt.isPresent()) {
+                    var duel = duelOpt.get();
+
+                    // Check if both players have finished
+                    if (duel.getPlayer1Score() != null && duel.getPlayer2Score() != null) {
+                        logger.info("Both players finished! Player1: {}, Player2: {}",
+                            duel.getPlayer1Score(), duel.getPlayer2Score());
+
+                        // Stop polling
+                        stopDuelPolling();
+
+                        // Update UI on the UI thread
+                        getUI().ifPresent(ui -> {
+                            ui.access(() -> {
+                                try {
+                                    User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+                                    showDuelScoreboard(duel, currentUser);
+                                } catch (Exception e) {
+                                    logger.error("Error showing duel scoreboard", e);
+                                }
+                            });
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("Error during duel polling", e);
+            }
+        }, 2, 2, TimeUnit.SECONDS); // Poll every 2 seconds
+    }
+
+    /**
+     * Stop duel polling
+     */
+    private void stopDuelPolling() {
+        if (duelPollingTask != null && !duelPollingTask.isDone()) {
+            logger.info("Stopping duel polling");
+            duelPollingTask.cancel(false);
+            duelPollingTask = null;
+        }
+    }
+
+    /**
+     * Reset UI state completely to avoid instance reuse issues
+     * This is critical for duel mode where two players navigate almost simultaneously
+     */
+    private void resetUIState() {
+        logger.info("Resetting UI state for clean navigation");
+
+        // Reset quiz state
+        currentQuestionIndex = 0;
+        correctAnswers = 0;
+        selectedAnswer = null;
+        quizCompleted = false;
+        currentQuestion = null;
+        this.duelId = null;
+
+        // Clear collections
+        if (userAnswers != null) {
+            userAnswers.clear();
+        }
+        if (optionButtons != null) {
+            optionButtons.clear();
+        }
+
+        // Reset and show all UI elements
+        questionText.setText("");
+        questionText.setVisible(true);
+
+        optionsContainer.removeAll();
+        optionsContainer.setVisible(true);
+
+        answerFeedback.setText("");
+        answerFeedback.setVisible(false);
+
+        progressText.setText("");
+        progressText.setVisible(true);
+
+        playerInfoLabel.setText("");
+        playerInfoLabel.setVisible(false);
+
+        // Reset buttons
+        previousButton.setVisible(true);
+        previousButton.setEnabled(false);
+
+        nextButton.setVisible(true);
+        nextButton.setEnabled(false);
+        nextButton.setText(translationService.translate("quiz.next"));
+
+        stopButton.setVisible(true);
+        stopButton.setEnabled(true);
+
+        // Reset timer
+        timeProgressBar.setValue(0);
+        timeProgressBar.setVisible(true);
+        timeLabel.setText(translationService.translate("quiz.timer.initial"));
+
+        // Hide score label until first answer
+        scoreLabel.setVisible(false);
+        scoreLabel.setText(translationService.translate("quiz.yourScore") + ": 0 / 0");
+
+        logger.info("UI state reset complete");
     }
 
 }

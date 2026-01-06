@@ -21,11 +21,14 @@ public class DuelService {
     private static final Logger logger = LoggerFactory.getLogger(DuelService.class);
     private final DuelMatchRepository duelMatchRepository;
     private final QuizRepository quizRepository;
+    private final UserActivityService userActivityService;
     private final Random random = new Random();
 
-    public DuelService(DuelMatchRepository duelMatchRepository, QuizRepository quizRepository) {
+    public DuelService(DuelMatchRepository duelMatchRepository, QuizRepository quizRepository,
+                      UserActivityService userActivityService) {
         this.duelMatchRepository = duelMatchRepository;
         this.quizRepository = quizRepository;
+        this.userActivityService = userActivityService;
     }
 
     /**
@@ -35,6 +38,9 @@ public class DuelService {
     public DuelMatch startSearching(User user) {
         logger.info("User {} starting duel search", user.getName());
 
+        // First, clean up any old inactive duels for this user
+        cleanupInactiveDuels(user);
+
         // Check if user already has an active duel
         Optional<DuelMatch> existingDuel = duelMatchRepository.findActiveDuelForUser(user.getId());
         if (existingDuel.isPresent()) {
@@ -42,8 +48,12 @@ public class DuelService {
             return existingDuel.get();
         }
 
-        // Try to find an existing searching match
-        Optional<DuelMatch> searchingMatch = duelMatchRepository.findFirstSearchingMatch(user.getId());
+        // Clean up all old searching/matched duels (older than 2 minutes)
+        cleanupOldSearchingDuels();
+
+        // Try to find an existing searching match (only recent ones - last 2 minutes)
+        LocalDateTime cutoffTime = LocalDateTime.now().minusMinutes(2);
+        Optional<DuelMatch> searchingMatch = duelMatchRepository.findFirstSearchingMatch(user.getId(), cutoffTime);
 
         if (searchingMatch.isPresent()) {
             // Match found! Join this duel
@@ -64,6 +74,45 @@ public class DuelService {
             DuelMatch newDuel = new DuelMatch(user);
             logger.info("No opponent found, creating new searching duel for {}", user.getName());
             return duelMatchRepository.save(newDuel);
+        }
+    }
+
+    /**
+     * Clean up inactive duels for a specific user
+     */
+    @Transactional
+    private void cleanupInactiveDuels(User user) {
+        logger.info("Cleaning up inactive duels for user {}", user.getName());
+        Optional<DuelMatch> existingDuel = duelMatchRepository.findActiveDuelForUser(user.getId());
+        if (existingDuel.isPresent()) {
+            DuelMatch duel = existingDuel.get();
+            // Cancel any duel that is in SEARCHING, MATCHED, or COUNTDOWN for more than 5 minutes
+            if (duel.getCreatedAt().isBefore(LocalDateTime.now().minusMinutes(5)) &&
+                (duel.getStatus() == DuelMatch.DuelStatus.SEARCHING ||
+                 duel.getStatus() == DuelMatch.DuelStatus.MATCHED ||
+                 duel.getStatus() == DuelMatch.DuelStatus.COUNTDOWN)) {
+                logger.info("Cancelling old inactive duel {} for user {}", duel.getId(), user.getName());
+                duel.setStatus(DuelMatch.DuelStatus.CANCELLED);
+                duel.setFinishedAt(LocalDateTime.now());
+                duelMatchRepository.save(duel);
+            }
+        }
+    }
+
+    /**
+     * Clean up all old searching/matched duels system-wide
+     */
+    @Transactional
+    private void cleanupOldSearchingDuels() {
+        LocalDateTime cutoffTime = LocalDateTime.now().minusMinutes(5);
+        List<DuelMatch> oldDuels = duelMatchRepository.findOldIncompleteDuels(cutoffTime);
+        if (!oldDuels.isEmpty()) {
+            logger.info("Cleaning up {} old incomplete duels", oldDuels.size());
+            for (DuelMatch duel : oldDuels) {
+                duel.setStatus(DuelMatch.DuelStatus.CANCELLED);
+                duel.setFinishedAt(LocalDateTime.now());
+            }
+            duelMatchRepository.saveAll(oldDuels);
         }
     }
 
@@ -220,6 +269,56 @@ public class DuelService {
             throw new RuntimeException("No quizzes available");
         }
         return allQuizzes.get(random.nextInt(allQuizzes.size()));
+    }
+
+    /**
+     * Cancel duels for inactive users (no activity for more than specified seconds)
+     */
+    @Transactional
+    public int cancelDuelsForInactiveUsers(int inactiveSeconds) {
+        // Get all inactive user IDs
+        List<Long> inactiveUserIds = userActivityService.getInactiveUserIds(inactiveSeconds);
+
+        if (inactiveUserIds.isEmpty()) {
+            return 0;
+        }
+
+        logger.info("Found {} inactive users, checking for active duels", inactiveUserIds.size());
+
+        // Find all active duels for these users
+        List<DuelMatch> activeDuels = duelMatchRepository.findActiveDuelsForUsers(inactiveUserIds);
+
+        int cancelledCount = 0;
+        for (DuelMatch duel : activeDuels) {
+            // Check if any player in the duel is inactive
+            boolean player1Inactive = duel.getPlayer1() != null &&
+                                     inactiveUserIds.contains(duel.getPlayer1().getId());
+            boolean player2Inactive = duel.getPlayer2() != null &&
+                                     inactiveUserIds.contains(duel.getPlayer2().getId());
+
+            if (player1Inactive || player2Inactive) {
+                String inactivePlayers = "";
+                if (player1Inactive && player2Inactive) {
+                    inactivePlayers = "both players";
+                } else if (player1Inactive) {
+                    inactivePlayers = duel.getPlayer1().getName();
+                } else {
+                    inactivePlayers = duel.getPlayer2().getName();
+                }
+
+                logger.info("Cancelling duel {} due to inactivity of: {}", duel.getId(), inactivePlayers);
+                duel.setStatus(DuelMatch.DuelStatus.CANCELLED);
+                duel.setFinishedAt(LocalDateTime.now());
+                duelMatchRepository.save(duel);
+                cancelledCount++;
+            }
+        }
+
+        if (cancelledCount > 0) {
+            logger.info("Cancelled {} duels due to user inactivity", cancelledCount);
+        }
+
+        return cancelledCount;
     }
 }
 

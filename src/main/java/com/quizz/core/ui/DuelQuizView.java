@@ -42,6 +42,7 @@ public class DuelQuizView extends Main {
 
     private final DuelService duelService;
     private final TranslationService translationService;
+    private final com.quizz.core.service.UserActivityService userActivityService;
 
     private DuelMatch currentDuel;
     private VerticalLayout mainContent;
@@ -49,9 +50,13 @@ public class DuelQuizView extends Main {
     private ScheduledFuture<?> pollingTask;
     private ScheduledFuture<?> countdownTask;
 
-    public DuelQuizView(DuelService duelService, TranslationService translationService) {
+    public DuelQuizView(DuelService duelService, TranslationService translationService,
+                       com.quizz.core.service.UserActivityService userActivityService) {
+        logger.info("=== DuelQuizView Constructor CALLED ===");
         this.duelService = duelService;
         this.translationService = translationService;
+        this.userActivityService = userActivityService;
+        logger.info("DuelQuizView services injected successfully");
 
         setSizeFull();
         addClassNames(LumoUtility.BoxSizing.BORDER, LumoUtility.Display.FLEX,
@@ -69,19 +74,30 @@ public class DuelQuizView extends Main {
 
         // Check if user already has an active duel
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        logger.info("Current user: {}", currentUser != null ? currentUser.getName() : "null");
         Optional<DuelMatch> activeDuel = duelService.getActiveDuel(currentUser);
 
         if (activeDuel.isPresent()) {
+            logger.info("Active duel found for user, showing match view");
             currentDuel = activeDuel.get();
             updateView();
         } else {
+            logger.info("No active duel, showing initial view");
             showInitialView();
         }
+        logger.info("=== DuelQuizView Constructor COMPLETED ===");
     }
 
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
+
+        // Update user activity
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        if (currentUser != null) {
+            userActivityService.updateActivity(currentUser, "DUEL_QUIZ_VIEW", "duel-quiz");
+        }
+
         executor = Executors.newScheduledThreadPool(2);
         startPolling();
     }
@@ -112,51 +128,84 @@ public class DuelQuizView extends Main {
 
     private void startSearching() {
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+        // Update user activity
+        if (currentUser != null) {
+            userActivityService.updateActivity(currentUser, "START_DUEL_SEARCH", "duel-quiz");
+        }
+
         currentDuel = duelService.startSearching(currentUser);
         updateView();
     }
 
     private void updateView() {
+        logger.info("=== updateView() CALLED ===");
         if (currentDuel == null) {
+            logger.warn("currentDuel is NULL, showing initial view");
             showInitialView();
             return;
         }
 
-        UI ui = getUI().orElse(null);
-        if (ui != null) {
-            ui.access(() -> {
-                mainContent.removeAll();
+        logger.info("Current duel status: {}, ID: {}", currentDuel.getStatus(), currentDuel.getId());
 
-                switch (currentDuel.getStatus()) {
-                    case SEARCHING:
-                        showSearchingView();
-                        break;
-                    case MATCHED:
-                        showMatchedView();
-                        break;
-                    case COUNTDOWN:
-                        showCountdownView();
-                        break;
-                    case IN_PROGRESS:
-                        navigateToQuiz();
-                        break;
-                    case REMATCH_PENDING:
-                        showRematchView();
-                        break;
-                    case FINISHED:
-                        showFinishedView();
-                        break;
-                    case CANCELLED:
-                        showCancelledView();
-                        break;
-                }
-
-                ui.push();
-            });
+        // Special case: IN_PROGRESS status requires navigation OUTSIDE of ui.access()
+        if (currentDuel.getStatus() == com.quizz.core.entity.DuelMatch.DuelStatus.IN_PROGRESS) {
+            logger.info("Status is IN_PROGRESS, navigating to quiz");
+            navigateToQuiz();
+            return;
         }
+
+        UI ui = getUI().orElse(null);
+        if (ui == null) {
+            logger.error("UI is NULL! Cannot update view");
+            return;
+        }
+
+        logger.info("UI is present, calling ui.access()");
+        ui.access(() -> {
+            logger.info("Inside ui.access(), removing all content");
+            mainContent.removeAll();
+
+            logger.info("Switching on status: {}", currentDuel.getStatus());
+            switch (currentDuel.getStatus()) {
+                case SEARCHING:
+                    logger.info("Showing SEARCHING view");
+                    showSearchingView();
+                    break;
+                case MATCHED:
+                    logger.info("Showing MATCHED view");
+                    showMatchedView();
+                    break;
+                case COUNTDOWN:
+                    logger.info("Showing COUNTDOWN view");
+                    showCountdownView();
+                    break;
+                case REMATCH_PENDING:
+                    logger.info("Showing REMATCH view");
+                    showRematchView();
+                    break;
+                case FINISHED:
+                    logger.info("Showing FINISHED view");
+                    showFinishedView();
+                    break;
+                case CANCELLED:
+                    logger.info("Showing CANCELLED view");
+                    showCancelledView();
+                    break;
+                default:
+                    logger.error("UNKNOWN STATUS: {} - showing initial view", currentDuel.getStatus());
+                    showInitialView();
+                    break;
+            }
+
+            logger.info("Calling ui.push()");
+            ui.push();
+        });
+        logger.info("=== updateView() COMPLETED ===");
     }
 
     private void showSearchingView() {
+        logger.info("=== showSearchingView() START ===");
         H2 title = new H2(translationService.translate("duelquiz.searching"));
 
         // Spinner (using CSS animation)
@@ -187,27 +236,67 @@ public class DuelQuizView extends Main {
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         mainContent.add(title, spinner, waitingText, cancelButton);
+        logger.info("=== showSearchingView() END - components added ===");
     }
 
     private void showMatchedView() {
+        logger.info("=== showMatchedView() START ===");
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
         User opponent = currentUser.getId().equals(currentDuel.getPlayer1().getId())
             ? currentDuel.getPlayer2()
             : currentDuel.getPlayer1();
 
+        logger.info("Current user: {}, Opponent: {}", currentUser.getName(), opponent.getName());
+
         H2 title = new H2(translationService.translate("duelquiz.matched"));
-        Paragraph opponentInfo = new Paragraph(
-            translationService.translate("duelquiz.opponent") + ": " + opponent.getName()
-        );
+
+        // Create opponent info with country flag
+        HorizontalLayout opponentLayout = new HorizontalLayout();
+        opponentLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        opponentLayout.setSpacing(true);
+
+        Span opponentLabel = new Span(translationService.translate("duelquiz.opponent") + ": " + opponent.getName());
+        opponentLayout.add(opponentLabel);
+
+        // Add country flag if available
+        if (opponent.getCountry() != null && opponent.getCountry().getCountryFlag() != null
+            && !opponent.getCountry().getCountryFlag().isEmpty()) {
+            Div flagContainer = new Div();
+            flagContainer.getStyle()
+                .set("width", "30px")
+                .set("height", "20px")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("border", "1px solid #e0e0e0")
+                .set("border-radius", "2px")
+                .set("margin-left", "10px")
+                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+
+            // Set SVG content directly
+            flagContainer.getElement().setProperty("innerHTML", opponent.getCountry().getCountryFlag());
+
+            opponentLayout.add(flagContainer);
+        }
+
         Paragraph quizInfo = new Paragraph(
             translationService.translate("duelquiz.quiz") + ": " + currentDuel.getQuiz().getName()
         );
 
-        Button acceptButton = new Button(translationService.translate("duelquiz.accept"), event -> {
+        Button acceptButton = new Button(translationService.translate("duelquiz.accept"));
+        acceptButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
+
+        acceptButton.addClickListener(event -> {
+            // Change button appearance immediately
+            acceptButton.setText(translationService.translate("duelquiz.waiting.acceptance"));
+            acceptButton.setEnabled(false);
+            acceptButton.removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            acceptButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+
+            // Accept the match
             currentDuel = duelService.acceptMatch(currentDuel.getId(), currentUser);
             updateView();
         });
-        acceptButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
 
         Button declineButton = new Button(translationService.translate("duelquiz.decline"), event -> {
             duelService.cancelDuel(currentDuel.getId());
@@ -216,7 +305,8 @@ public class DuelQuizView extends Main {
         });
         declineButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-        mainContent.add(title, opponentInfo, quizInfo, acceptButton, declineButton);
+        mainContent.add(title, opponentLayout, quizInfo, acceptButton, declineButton);
+        logger.info("=== showMatchedView() END - components added ===");
     }
 
     private void showCountdownView() {
@@ -277,17 +367,30 @@ public class DuelQuizView extends Main {
     }
 
     private void navigateToQuiz() {
-        logger.info("Navigating to quiz: {}, duelId: {}",
-            currentDuel.getQuiz().getId(), currentDuel.getId());
+        logger.info("=== NAVIGATING TO DUEL QUIZ ===");
+        logger.info("Current duel ID: {}", currentDuel.getId());
+        logger.info("Quiz ID: {}", currentDuel.getQuiz().getId());
+        logger.info("Quiz name: {}", currentDuel.getQuiz().getName());
+
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        logger.info("Current user: {}", currentUser != null ? currentUser.getName() : "null");
+
         stopPolling();
 
         // Store duel ID in session for QuizQuestionView to retrieve
         VaadinSession.getCurrent().setAttribute("activeDuelId", currentDuel.getId());
+        logger.info("Stored activeDuelId in session: {}", currentDuel.getId());
 
         getUI().ifPresent(ui -> {
+            logger.info("Attempting navigation to QuizQuestionView with quizId: {}", currentDuel.getQuiz().getId());
             ui.navigate(QuizQuestionView.class,
                 new RouteParameters("quizId", String.valueOf(currentDuel.getQuiz().getId())));
+            logger.info("Navigation command sent");
         });
+
+        if (!getUI().isPresent()) {
+            logger.error("ERROR: UI is not present! Cannot navigate.");
+        }
     }
 
     private void showRematchView() {
@@ -303,22 +406,72 @@ public class DuelQuizView extends Main {
         scoresLayout.setSpacing(true);
         scoresLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
+        // Player 1 layout with country flag
         VerticalLayout player1Layout = new VerticalLayout();
         player1Layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        player1Layout.add(
-            new H3(currentDuel.getPlayer1().getName()),
-            new H1(String.valueOf(currentDuel.getPlayer1Score()))
-        );
+
+        HorizontalLayout player1NameLayout = new HorizontalLayout();
+        player1NameLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        player1NameLayout.setSpacing(true);
+        H3 player1Name = new H3(currentDuel.getPlayer1().getName());
+        player1NameLayout.add(player1Name);
+
+        // Add country flag for player 1
+        if (currentDuel.getPlayer1().getCountry() != null && currentDuel.getPlayer1().getCountry().getCountryFlag() != null
+            && !currentDuel.getPlayer1().getCountry().getCountryFlag().isEmpty()) {
+            Div flag1Container = new Div();
+            flag1Container.getStyle()
+                .set("width", "30px")
+                .set("height", "20px")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("border", "1px solid #e0e0e0")
+                .set("border-radius", "2px")
+                .set("margin-left", "10px")
+                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+            flag1Container.getElement().setProperty("innerHTML", currentDuel.getPlayer1().getCountry().getCountryFlag());
+            player1NameLayout.add(flag1Container);
+        }
+
+        H1 player1Score = new H1(String.valueOf(currentDuel.getPlayer1Score()));
+        player1Score.getStyle().set("color", "#1976d2").set("margin", "0");
+        player1Layout.add(player1NameLayout, player1Score);
 
         Span vsSpan = new Span("VS");
         vsSpan.getStyle().set("font-size", "32px").set("font-weight", "bold");
 
+        // Player 2 layout with country flag
         VerticalLayout player2Layout = new VerticalLayout();
         player2Layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        player2Layout.add(
-            new H3(currentDuel.getPlayer2().getName()),
-            new H1(String.valueOf(currentDuel.getPlayer2Score()))
-        );
+
+        HorizontalLayout player2NameLayout = new HorizontalLayout();
+        player2NameLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        player2NameLayout.setSpacing(true);
+        H3 player2Name = new H3(currentDuel.getPlayer2().getName());
+        player2NameLayout.add(player2Name);
+
+        // Add country flag for player 2
+        if (currentDuel.getPlayer2().getCountry() != null && currentDuel.getPlayer2().getCountry().getCountryFlag() != null
+            && !currentDuel.getPlayer2().getCountry().getCountryFlag().isEmpty()) {
+            Div flag2Container = new Div();
+            flag2Container.getStyle()
+                .set("width", "30px")
+                .set("height", "20px")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("border", "1px solid #e0e0e0")
+                .set("border-radius", "2px")
+                .set("margin-left", "10px")
+                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+            flag2Container.getElement().setProperty("innerHTML", currentDuel.getPlayer2().getCountry().getCountryFlag());
+            player2NameLayout.add(flag2Container);
+        }
+
+        H1 player2Score = new H1(String.valueOf(currentDuel.getPlayer2Score()));
+        player2Score.getStyle().set("color", "#1976d2").set("margin", "0");
+        player2Layout.add(player2NameLayout, player2Score);
 
         scoresLayout.add(player1Layout, vsSpan, player2Layout);
 
