@@ -23,9 +23,9 @@ public class InactivityMonitorService {
     }
 
     /**
-     * Check for inactive users and cancel their duels every 30 seconds
+     * Check for inactive users and cancel their duels every 60 seconds
      */
-    @Scheduled(fixedDelay = 30000, initialDelay = 30000) // Every 30 seconds
+    @Scheduled(fixedDelay = 60000, initialDelay = 60000) // Every 60 seconds
     public void monitorInactiveUsers() {
         logger.debug("Monitoring user activity for inactive duel participants");
 

@@ -55,7 +55,7 @@ echo      ✓ Back-end compilé
 echo.
 
 REM === ÉTAPE 5 : Vérifier que le front-end a été généré ===
-echo [5/6] Vérification des fichiers générés...
+echo [5/7] Vérification des fichiers générés...
 if exist "target\classes\META-INF\VAADIN\webapp\index.html" (
     echo      ✓ index.html trouvé !
 ) else (
@@ -65,8 +65,18 @@ if exist "target\classes\META-INF\VAADIN\webapp\index.html" (
 )
 echo.
 
-REM === ÉTAPE 6 : Démarrer l'application ===
-echo [6/6] Démarrage de l'application...
+REM === ÉTAPE 6 : Nettoyage des logs ===
+echo [6/7] Nettoyage du fichier application.log...
+if exist "logs\application.log" (
+    del /F /Q "logs\application.log" >nul 2>&1
+    echo      ✓ application.log nettoyé
+) else (
+    echo      - application.log n'existe pas (déjà propre)
+)
+echo.
+
+REM === ÉTAPE 7 : Démarrer l'application ===
+echo [7/7] Démarrage de l'application...
 echo.
 echo ╔═══════════════════════════════════════════════════════════╗
 echo ║  L'application va démarrer...                             ║
@@ -75,6 +85,7 @@ echo ║  ATTENDEZ le message "Started Application"                ║
 echo ║  puis testez le Duel Quiz avec 2 utilisateurs            ║
 echo ║                                                           ║
 echo ║  Vérifiez qu'il n'y a PLUS d'erreur "index.html"         ║
+echo ║  Les nouveaux logs seront écrits dans application.log    ║
 echo ╚═══════════════════════════════════════════════════════════╝
 echo.
 pause

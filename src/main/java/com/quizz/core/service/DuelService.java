@@ -5,6 +5,7 @@ import com.quizz.core.entity.Quiz;
 import com.quizz.core.entity.User;
 import com.quizz.core.repository.DuelMatchRepository;
 import com.quizz.core.repository.QuizRepository;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,39 @@ public class DuelService {
         this.duelMatchRepository = duelMatchRepository;
         this.quizRepository = quizRepository;
         this.userActivityService = userActivityService;
+    }
+
+    /**
+     * Clean up all pending duels and waiting users at application startup
+     */
+    @PostConstruct
+    @Transactional
+    public void initializeCleanup() {
+        logger.info("=== DuelService: Starting cleanup at application startup ===");
+
+        // Cancel all duels that are not finished or cancelled
+        List<DuelMatch> pendingDuels = duelMatchRepository.findAll().stream()
+            .filter(duel -> duel.getStatus() != DuelMatch.DuelStatus.FINISHED &&
+                           duel.getStatus() != DuelMatch.DuelStatus.CANCELLED)
+            .toList();
+
+        if (!pendingDuels.isEmpty()) {
+            logger.info("Cancelling {} pending duels at startup", pendingDuels.size());
+            for (DuelMatch duel : pendingDuels) {
+                logger.info("Cancelling duel {} - Status: {}, Player1: {}, Player2: {}",
+                    duel.getId(),
+                    duel.getStatus(),
+                    duel.getPlayer1() != null ? duel.getPlayer1().getName() : "null",
+                    duel.getPlayer2() != null ? duel.getPlayer2().getName() : "null");
+                duel.setStatus(DuelMatch.DuelStatus.CANCELLED);
+                duel.setFinishedAt(LocalDateTime.now());
+            }
+            duelMatchRepository.saveAll(pendingDuels);
+        } else {
+            logger.info("No pending duels to cancel at startup");
+        }
+
+        logger.info("=== DuelService: Cleanup completed ===");
     }
 
     /**
@@ -80,7 +114,6 @@ public class DuelService {
     /**
      * Clean up inactive duels for a specific user
      */
-    @Transactional
     private void cleanupInactiveDuels(User user) {
         logger.info("Cleaning up inactive duels for user {}", user.getName());
         Optional<DuelMatch> existingDuel = duelMatchRepository.findActiveDuelForUser(user.getId());
@@ -102,7 +135,6 @@ public class DuelService {
     /**
      * Clean up all old searching/matched duels system-wide
      */
-    @Transactional
     private void cleanupOldSearchingDuels() {
         LocalDateTime cutoffTime = LocalDateTime.now().minusMinutes(5);
         List<DuelMatch> oldDuels = duelMatchRepository.findOldIncompleteDuels(cutoffTime);

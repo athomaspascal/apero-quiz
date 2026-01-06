@@ -10,6 +10,7 @@ import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -49,6 +50,8 @@ public class DuelQuizView extends Main {
     private ScheduledExecutorService executor;
     private ScheduledFuture<?> pollingTask;
     private ScheduledFuture<?> countdownTask;
+    private ScheduledFuture<?> waitingConfirmationTask;
+    private LocalDateTime lastConfirmationTime;
 
     public DuelQuizView(DuelService duelService, TranslationService translationService,
                        com.quizz.core.service.UserActivityService userActivityService) {
@@ -78,9 +81,9 @@ public class DuelQuizView extends Main {
         Optional<DuelMatch> activeDuel = duelService.getActiveDuel(currentUser);
 
         if (activeDuel.isPresent()) {
-            logger.info("Active duel found for user, showing match view");
+            logger.info("Active duel found for user, will update view after attach");
             currentDuel = activeDuel.get();
-            updateView();
+            // Don't call updateView() here - wait for onAttach
         } else {
             logger.info("No active duel, showing initial view");
             showInitialView();
@@ -91,21 +94,37 @@ public class DuelQuizView extends Main {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
+        logger.info("=== onAttach() CALLED ===");
 
         // Update user activity
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        logger.info("Current user in onAttach: {}", currentUser != null ? currentUser.getName() : "null");
         if (currentUser != null) {
             userActivityService.updateActivity(currentUser, "DUEL_QUIZ_VIEW", "duel-quiz");
         }
 
+        logger.info("Creating executor with 2 threads");
         executor = Executors.newScheduledThreadPool(2);
+        logger.info("Executor created successfully");
+
+        // Now that the UI is attached, update the view if there's an active duel
+        if (currentDuel != null) {
+            logger.info("View attached, updating view for active duel with ID: {}", currentDuel.getId());
+            updateView();
+        } else {
+            logger.info("No active duel in onAttach");
+        }
+
+        logger.info("Calling startPolling()");
         startPolling();
+        logger.info("=== onAttach() COMPLETED ===");
     }
 
     @Override
     protected void onDetach(DetachEvent detachEvent) {
         super.onDetach(detachEvent);
         stopPolling();
+        stopWaitingConfirmationTimer();
         if (executor != null && !executor.isShutdown()) {
             executor.shutdown();
         }
@@ -127,15 +146,33 @@ public class DuelQuizView extends Main {
     }
 
     private void startSearching() {
+        logger.info("=== startSearching() CALLED ===");
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        logger.info("Current user starting search: {}", currentUser != null ? currentUser.getName() : "null");
 
         // Update user activity
         if (currentUser != null) {
             userActivityService.updateActivity(currentUser, "START_DUEL_SEARCH", "duel-quiz");
         }
 
+        logger.info("Calling duelService.startSearching()");
         currentDuel = duelService.startSearching(currentUser);
+        logger.info("Duel created/found: ID={}, Status={}",
+            currentDuel != null ? currentDuel.getId() : "null",
+            currentDuel != null ? currentDuel.getStatus() : "null");
+
+        lastConfirmationTime = LocalDateTime.now();
+        logger.info("Starting waiting confirmation timer");
+        startWaitingConfirmationTimer();
+
+        // IMPORTANT: Restart polling now that currentDuel is set
+        logger.info("Restarting polling to track the new duel");
+        stopPolling();
+        startPolling();
+
+        logger.info("Calling updateView() from startSearching()");
         updateView();
+        logger.info("=== startSearching() COMPLETED ===");
     }
 
     private void updateView() {
@@ -148,16 +185,18 @@ public class DuelQuizView extends Main {
 
         logger.info("Current duel status: {}, ID: {}", currentDuel.getStatus(), currentDuel.getId());
 
-        // Special case: IN_PROGRESS status requires navigation OUTSIDE of ui.access()
-        if (currentDuel.getStatus() == com.quizz.core.entity.DuelMatch.DuelStatus.IN_PROGRESS) {
-            logger.info("Status is IN_PROGRESS, navigating to quiz");
-            navigateToQuiz();
-            return;
-        }
-
         UI ui = getUI().orElse(null);
         if (ui == null) {
             logger.error("UI is NULL! Cannot update view");
+            return;
+        }
+
+        // Special case: IN_PROGRESS status requires navigation
+        if (currentDuel.getStatus() == com.quizz.core.entity.DuelMatch.DuelStatus.IN_PROGRESS) {
+            logger.info("Status is IN_PROGRESS, navigating to quiz");
+            ui.access(() -> {
+                navigateToQuizInUIThread(ui);
+            });
             return;
         }
 
@@ -174,10 +213,12 @@ public class DuelQuizView extends Main {
                     break;
                 case MATCHED:
                     logger.info("Showing MATCHED view");
+                    stopWaitingConfirmationTimer(); // Stop timer when opponent found
                     showMatchedView();
                     break;
                 case COUNTDOWN:
                     logger.info("Showing COUNTDOWN view");
+                    stopWaitingConfirmationTimer(); // Stop timer when countdown starts
                     showCountdownView();
                     break;
                 case REMATCH_PENDING:
@@ -229,6 +270,11 @@ public class DuelQuizView extends Main {
         Paragraph waitingText = new Paragraph(translationService.translate("duelquiz.searching.text"));
 
         Button cancelButton = new Button(translationService.translate("duelquiz.cancel"), event -> {
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            if (currentUser != null) {
+                userActivityService.updateActivity(currentUser, "CANCEL_DUEL_SEARCH", "duel-quiz");
+            }
+            stopWaitingConfirmationTimer();
             duelService.cancelDuel(currentDuel.getId());
             currentDuel = null;
             showInitialView();
@@ -287,6 +333,9 @@ public class DuelQuizView extends Main {
         acceptButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
 
         acceptButton.addClickListener(event -> {
+            // Track activity
+            userActivityService.updateActivity(currentUser, "ACCEPT_DUEL", "duel-quiz");
+
             // Change button appearance immediately
             acceptButton.setText(translationService.translate("duelquiz.waiting.acceptance"));
             acceptButton.setEnabled(false);
@@ -299,6 +348,7 @@ public class DuelQuizView extends Main {
         });
 
         Button declineButton = new Button(translationService.translate("duelquiz.decline"), event -> {
+            userActivityService.updateActivity(currentUser, "DECLINE_DUEL", "duel-quiz");
             duelService.cancelDuel(currentDuel.getId());
             currentDuel = null;
             showInitialView();
@@ -366,7 +416,7 @@ public class DuelQuizView extends Main {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    private void navigateToQuiz() {
+    private void navigateToQuizInUIThread(UI ui) {
         logger.info("=== NAVIGATING TO DUEL QUIZ ===");
         logger.info("Current duel ID: {}", currentDuel.getId());
         logger.info("Quiz ID: {}", currentDuel.getQuiz().getId());
@@ -381,16 +431,10 @@ public class DuelQuizView extends Main {
         VaadinSession.getCurrent().setAttribute("activeDuelId", currentDuel.getId());
         logger.info("Stored activeDuelId in session: {}", currentDuel.getId());
 
-        getUI().ifPresent(ui -> {
-            logger.info("Attempting navigation to QuizQuestionView with quizId: {}", currentDuel.getQuiz().getId());
-            ui.navigate(QuizQuestionView.class,
-                new RouteParameters("quizId", String.valueOf(currentDuel.getQuiz().getId())));
-            logger.info("Navigation command sent");
-        });
-
-        if (!getUI().isPresent()) {
-            logger.error("ERROR: UI is not present! Cannot navigate.");
-        }
+        logger.info("Attempting navigation to QuizQuestionView with quizId: {}", currentDuel.getQuiz().getId());
+        ui.navigate(QuizQuestionView.class,
+            new RouteParameters("quizId", String.valueOf(currentDuel.getQuiz().getId())));
+        logger.info("Navigation command sent");
     }
 
     private void showRematchView() {
@@ -494,6 +538,7 @@ public class DuelQuizView extends Main {
         );
 
         Button rematchButton = new Button(translationService.translate("duelquiz.rematch"), event -> {
+            userActivityService.updateActivity(currentUser, "REQUEST_REMATCH", "duel-quiz");
             currentDuel = duelService.requestRematch(currentDuel.getId(), currentUser);
             if (currentDuel.getStatus() == DuelMatch.DuelStatus.COUNTDOWN) {
                 Notification.show(translationService.translate("duelquiz.rematch.accepted"),
@@ -507,8 +552,9 @@ public class DuelQuizView extends Main {
         rematchButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         Button exitButton = new Button(translationService.translate("duelquiz.exit"), event -> {
+            userActivityService.updateActivity(currentUser, "EXIT_DUEL", "duel-quiz");
             currentDuel = null;
-            getUI().ifPresent(ui -> ui.navigate(""));
+            getUI().ifPresent(ui -> ui.navigate(QuizListView.class));
         });
 
         mainContent.add(title, scoresLayout, result, rematchInfo, rematchButton, exitButton);
@@ -541,25 +587,63 @@ public class DuelQuizView extends Main {
     }
 
     private void startPolling() {
-        if (pollingTask != null && !pollingTask.isDone()) {
+        logger.info("=== startPolling() CALLED ===");
+
+        if (executor == null) {
+            logger.error("EXECUTOR IS NULL! Cannot start polling. This should not happen after onAttach()");
             return;
         }
 
-        pollingTask = executor.scheduleAtFixedRate(() -> {
-            if (currentDuel != null && currentDuel.getId() != null) {
-                Optional<DuelMatch> updated = duelService.getDuelById(currentDuel.getId());
-                if (updated.isPresent()) {
-                    DuelMatch oldStatus = currentDuel;
-                    currentDuel = updated.get();
+        if (pollingTask != null && !pollingTask.isDone()) {
+            logger.info("Polling task already running, skipping");
+            return;
+        }
 
-                    // Only update view if status changed
-                    if (oldStatus.getStatus() != currentDuel.getStatus() ||
-                        (currentDuel.getStatus() == DuelMatch.DuelStatus.MATCHED && !oldStatus.isBothPlayersReady() && currentDuel.isBothPlayersReady())) {
-                        updateView();
-                    }
-                }
+        logger.info("Starting polling task for currentDuel: {}",
+            currentDuel != null ? "ID=" + currentDuel.getId() : "null");
+
+        pollingTask = executor.scheduleAtFixedRate(() -> {
+            UI ui = getUI().orElse(null);
+            if (ui == null) {
+                logger.warn("UI not available for polling");
+                return;
             }
+
+            ui.access(() -> {
+                try {
+                    // Update user activity to keep them active while waiting
+                    User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+                    if (currentUser != null) {
+                        userActivityService.updateActivity(currentUser, "DUEL_POLLING", "duel-quiz");
+                        logger.debug("Polling for user: {}, currentDuel: {}",
+                            currentUser.getName(),
+                            currentDuel != null ? currentDuel.getId() : "null");
+                    }
+
+                    if (currentDuel != null && currentDuel.getId() != null) {
+                        Optional<DuelMatch> updated = duelService.getDuelById(currentDuel.getId());
+                        if (updated.isPresent()) {
+                            DuelMatch oldStatus = currentDuel;
+                            currentDuel = updated.get();
+
+                            // Only update view if status changed
+                            if (oldStatus.getStatus() != currentDuel.getStatus() ||
+                                (currentDuel.getStatus() == DuelMatch.DuelStatus.MATCHED &&
+                                 !oldStatus.isBothPlayersReady() && currentDuel.isBothPlayersReady())) {
+                                logger.info("Duel status changed from {} to {}, updating view",
+                                    oldStatus.getStatus(), currentDuel.getStatus());
+                                updateView();
+                            }
+                        }
+                    }
+                    ui.push();
+                } catch (Exception e) {
+                    logger.error("Error during polling", e);
+                }
+            });
         }, 1, 2, TimeUnit.SECONDS);
+
+        logger.info("Polling task started successfully");
     }
 
     private void stopPolling() {
@@ -569,6 +653,78 @@ public class DuelQuizView extends Main {
         if (countdownTask != null && !countdownTask.isDone()) {
             countdownTask.cancel(false);
         }
+    }
+
+    private void startWaitingConfirmationTimer() {
+        if (waitingConfirmationTask != null && !waitingConfirmationTask.isDone()) {
+            return; // Timer already running
+        }
+
+        waitingConfirmationTask = executor.scheduleAtFixedRate(() -> {
+            if (currentDuel != null && currentDuel.getStatus() == DuelMatch.DuelStatus.SEARCHING) {
+                long secondsWaiting = Duration.between(lastConfirmationTime, LocalDateTime.now()).getSeconds();
+
+                if (secondsWaiting >= 60) {
+                    // Ask confirmation after 60 seconds
+                    UI ui = getUI().orElse(null);
+                    if (ui != null) {
+                        ui.access(() -> {
+                            showWaitingConfirmationDialog();
+                            ui.push();
+                        });
+                    }
+                }
+            }
+        }, 10, 10, TimeUnit.SECONDS); // Check every 10 seconds
+    }
+
+    private void stopWaitingConfirmationTimer() {
+        if (waitingConfirmationTask != null && !waitingConfirmationTask.isDone()) {
+            waitingConfirmationTask.cancel(false);
+        }
+    }
+
+    private void showWaitingConfirmationDialog() {
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setHeader(translationService.translate("duelquiz.waiting.confirmation.title"));
+        dialog.setText(translationService.translate("duelquiz.waiting.confirmation.text"));
+
+        dialog.setCancelable(false);
+        dialog.setConfirmText(translationService.translate("duelquiz.waiting.confirmation.continue"));
+        dialog.setCancelText(translationService.translate("duelquiz.waiting.confirmation.cancel"));
+
+        dialog.addConfirmListener(event -> {
+            // Track activity when user clicks "Continue waiting"
+            if (currentUser != null) {
+                userActivityService.updateActivity(currentUser, "CONTINUE_WAITING", "duel-quiz");
+            }
+
+            // Reset the confirmation timer
+            lastConfirmationTime = LocalDateTime.now();
+            logger.info("User {} chose to continue waiting for opponent",
+                currentUser != null ? currentUser.getName() : "unknown");
+        });
+
+        dialog.addCancelListener(event -> {
+            // Track activity when user clicks "Cancel"
+            if (currentUser != null) {
+                userActivityService.updateActivity(currentUser, "CANCEL_WAITING", "duel-quiz");
+            }
+
+            // Cancel the duel and return to initial view
+            stopWaitingConfirmationTimer();
+            if (currentDuel != null) {
+                duelService.cancelDuel(currentDuel.getId());
+            }
+            currentDuel = null;
+            showInitialView();
+            logger.info("User {} cancelled waiting for opponent",
+                currentUser != null ? currentUser.getName() : "unknown");
+        });
+
+        dialog.open();
     }
 }
 
