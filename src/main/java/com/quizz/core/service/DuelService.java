@@ -2,6 +2,7 @@ package com.quizz.core.service;
 
 import com.quizz.core.entity.DuelMatch;
 import com.quizz.core.entity.Quiz;
+import com.quizz.core.entity.QuizQuestion;
 import com.quizz.core.entity.User;
 import com.quizz.core.repository.DuelMatchRepository;
 import com.quizz.core.repository.QuizRepository;
@@ -12,24 +13,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class DuelService {
 
     private static final Logger logger = LoggerFactory.getLogger(DuelService.class);
+    private static final int MAX_QUESTIONS = 5; // Same as QuizQuestionView
+
     private final DuelMatchRepository duelMatchRepository;
     private final QuizRepository quizRepository;
     private final UserActivityService userActivityService;
+    private final QuizQuestionService quizQuestionService;
     private final Random random = new Random();
 
     public DuelService(DuelMatchRepository duelMatchRepository, QuizRepository quizRepository,
-                      UserActivityService userActivityService) {
+                      UserActivityService userActivityService, QuizQuestionService quizQuestionService) {
         this.duelMatchRepository = duelMatchRepository;
         this.quizRepository = quizRepository;
         this.userActivityService = userActivityService;
+        this.quizQuestionService = quizQuestionService;
     }
 
     /**
@@ -99,8 +107,13 @@ public class DuelService {
             Quiz randomQuiz = selectRandomQuiz();
             duel.setQuiz(randomQuiz);
 
-            logger.info("Match found! Player1: {}, Player2: {}, Quiz: {}",
-                duel.getPlayer1().getName(), duel.getPlayer2().getName(), randomQuiz.getName());
+            // Select and store the same questions for both players
+            String questionIds = selectAndStoreQuestions(duel, randomQuiz);
+            duel.setSelectedQuestionIds(questionIds);
+
+            logger.info("Match found! Player1: {}, Player2: {}, Quiz: {}, Questions: {}",
+                duel.getPlayer1().getName(), duel.getPlayer2().getName(),
+                randomQuiz.getName(), questionIds);
 
             return duelMatchRepository.save(duel);
         } else {
@@ -256,8 +269,14 @@ public class DuelService {
         if (duel.isBothPlayersWantRematch()) {
             Quiz newQuiz = selectRandomQuiz();
             duel.setQuiz(newQuiz);
+
+            // Select new questions for the rematch
+            String questionIds = selectAndStoreQuestions(duel, newQuiz);
+            duel.setSelectedQuestionIds(questionIds);
+
             duel.resetForRematch();
-            logger.info("Both players want rematch, starting new round for duel {}", duelId);
+            logger.info("Both players want rematch, starting new round for duel {} with new questions: {}",
+                duelId, questionIds);
         }
 
         return duelMatchRepository.save(duel);
@@ -313,6 +332,37 @@ public class DuelService {
             throw new RuntimeException("No quizzes available");
         }
         return allQuizzes.get(random.nextInt(allQuizzes.size()));
+    }
+
+    /**
+     * Select random questions for the duel and return their IDs as a comma-separated string
+     */
+    private String selectAndStoreQuestions(DuelMatch duel, Quiz quiz) {
+        // Get all questions for this quiz
+        List<QuizQuestion> allQuestions = quizQuestionService.getQuestionsByQuizId(quiz.getId());
+
+        if (allQuestions.isEmpty()) {
+            logger.warn("No questions found for quiz {}", quiz.getName());
+            return "";
+        }
+
+        // Shuffle and select up to MAX_QUESTIONS
+        List<QuizQuestion> shuffled = new ArrayList<>(allQuestions);
+        Collections.shuffle(shuffled, random);
+
+        int numQuestions = Math.min(MAX_QUESTIONS, shuffled.size());
+        List<Long> selectedIds = shuffled.stream()
+            .limit(numQuestions)
+            .map(QuizQuestion::getId)
+            .collect(Collectors.toList());
+
+        // Convert to comma-separated string
+        String questionIds = selectedIds.stream()
+            .map(String::valueOf)
+            .collect(Collectors.joining(","));
+
+        logger.info("Selected {} questions for duel {}: {}", numQuestions, duel.getId(), questionIds);
+        return questionIds;
     }
 
     /**

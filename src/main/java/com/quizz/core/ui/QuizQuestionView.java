@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
@@ -430,6 +431,10 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver, com.v
                 // Load questions from session
                 this.randomQuestions = loadQuestionsFromSession(session, allQuestions);
                 logger.debug("Loaded {} questions from session {}", randomQuestions.size(), session.getSessionCode());
+            } else if (this.duelId != null) {
+                // If this is a duel, load questions from the duel
+                this.randomQuestions = loadQuestionsFromDuel(this.duelId, allQuestions);
+                logger.info("Loaded {} questions from duel {}", randomQuestions.size(), this.duelId);
             } else {
                 // Select questions randomly
                 this.randomQuestions = selectQuestionsAvoidingSeen(allQuestions, new Random(currentRunSeed));
@@ -444,15 +449,16 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver, com.v
             // Set total questions to the number we're actually showing
             this.totalQuestions = Math.min(MAX_QUESTIONS, this.randomQuestions.size());
 
-            logger.debug("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}",
-                quizId, totalQuestions, randomQuestions.size(), currentRunSeed);
+            logger.debug("Starting quiz - ID: {}, Total questions: {}, Selected questions: {}, seed: {}, isDuel: {}",
+                quizId, totalQuestions, randomQuestions.size(), currentRunSeed, this.duelId != null);
 
             quizCompleted = false;
 
             // Record quiz start trace
             User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
             if (currentUser != null && quiz != null) {
-                String quizMode = isSessionQuiz && session != null && session.isTeamMode() ? "TEAM" : "NORMAL";
+                String quizMode = (isSessionQuiz && session != null && session.isTeamMode()) ? "TEAM" :
+                                 (this.duelId != null) ? "DUEL" : "NORMAL";
                 String sessionCodeForTrace = isSessionQuiz && session != null ? session.getSessionCode() : null;
                 String teamNameForTrace = currentParticipant != null ? currentParticipant.getTeamName() : null;
 
@@ -1658,6 +1664,50 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver, com.v
                 .findFirst()
                 .ifPresent(questions::add);
         }
+
+        return questions;
+    }
+
+    private List<QuizQuestion> loadQuestionsFromDuel(Long duelIdToLoad, List<QuizQuestion> allQuestions) {
+        // Get the duel match
+        Optional<com.quizz.core.entity.DuelMatch> duelOpt = duelService.getDuelById(duelIdToLoad);
+        if (!duelOpt.isPresent()) {
+            logger.error("Duel {} not found", duelIdToLoad);
+            return new ArrayList<>();
+        }
+
+        com.quizz.core.entity.DuelMatch duel = duelOpt.get();
+        String questionIdsStr = duel.getSelectedQuestionIds();
+
+        if (questionIdsStr == null || questionIdsStr.isEmpty()) {
+            logger.error("No questions selected for duel {}", duelIdToLoad);
+            return new ArrayList<>();
+        }
+
+        logger.info("Loading questions for duel {} with IDs: {}", duelIdToLoad, questionIdsStr);
+
+        // Parse comma-separated IDs
+        String[] idStrs = questionIdsStr.split(",");
+        List<Long> questionIds = new ArrayList<>();
+        for (String idStr : idStrs) {
+            try {
+                questionIds.add(Long.parseLong(idStr.trim()));
+            } catch (NumberFormatException e) {
+                logger.error("Invalid question ID in duel: {}", idStr);
+            }
+        }
+
+        // Find questions by IDs in the same order
+        List<QuizQuestion> questions = new ArrayList<>();
+        for (Long questionId : questionIds) {
+            allQuestions.stream()
+                .filter(q -> q.getId() != null && q.getId().equals(questionId))
+                .findFirst()
+                .ifPresent(questions::add);
+        }
+
+        logger.info("Loaded {} questions for duel {} (expected {})",
+            questions.size(), duelIdToLoad, questionIds.size());
 
         return questions;
     }

@@ -338,18 +338,35 @@ public class DuelQuizView extends Main {
         acceptButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
 
         acceptButton.addClickListener(event -> {
+            logger.info("Accept button clicked by user: {}", currentUser.getName());
+
             // Track activity
             userActivityService.updateActivity(currentUser, "ACCEPT_DUEL", "duel-quiz");
 
-            // Change button appearance immediately
-            acceptButton.setText(translationService.translate("duelquiz.waiting.acceptance"));
+            // Change button appearance immediately to look pressed
+            acceptButton.setText("Waiting ....");
             acceptButton.setEnabled(false);
             acceptButton.removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
-            acceptButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+            acceptButton.getStyle()
+                .set("background-color", "#90CAF9") // Light blue
+                .set("color", "#0D47A1") // Dark blue text for contrast
+                .set("border", "3px solid #1976D2") // Thick blue outline
+                .set("box-shadow", "inset 0 3px 6px rgba(0,0,0,0.3)") // Pressed effect
+                .set("cursor", "not-allowed");
 
-            // Accept the match
-            currentDuel = duelService.acceptMatch(currentDuel.getId(), currentUser);
-            updateView();
+            logger.info("Button style changed, pushing to UI");
+
+            // Push the UI changes immediately so user sees the button change
+            getUI().ifPresent(UI::push);
+
+            // Accept the match in background - don't call updateView() here
+            // Let the polling mechanism detect the status change
+            executor.schedule(() -> {
+                logger.info("Accepting match for duel: {}", currentDuel.getId());
+                currentDuel = duelService.acceptMatch(currentDuel.getId(), currentUser);
+                logger.info("Match accepted, new status: {}", currentDuel.getStatus());
+                // Don't call updateView() - let polling handle it so the "Waiting ...." button stays visible
+            }, 50, TimeUnit.MILLISECONDS);
         });
 
         Button declineButton = new Button(translationService.translate("duelquiz.decline"), event -> {

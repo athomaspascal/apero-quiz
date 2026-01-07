@@ -65,6 +65,9 @@ public class DuelMatch {
     @JoinColumn(name = "cancelled_by_user_id")
     private User cancelledBy;
 
+    @Column(name = "selected_question_ids", length = 1000)
+    private String selectedQuestionIds; // Comma-separated list of question IDs
+
     public enum DuelStatus {
         SEARCHING,      // Waiting for opponent
         MATCHED,        // Opponent found, waiting for acceptance
@@ -213,6 +216,14 @@ public class DuelMatch {
         this.cancelledBy = cancelledBy;
     }
 
+    public String getSelectedQuestionIds() {
+        return selectedQuestionIds;
+    }
+
+    public void setSelectedQuestionIds(String selectedQuestionIds) {
+        this.selectedQuestionIds = selectedQuestionIds;
+    }
+
     public boolean isBothPlayersReady() {
         return player1Ready && player2Ready;
     }
@@ -237,6 +248,7 @@ public class DuelMatch {
         this.finishedAt = null;
         this.countdownStartedAt = LocalDateTime.now();
         this.rematchCount++;
+        this.selectedQuestionIds = null; // Reset questions for new rematch
     }
 }
 
