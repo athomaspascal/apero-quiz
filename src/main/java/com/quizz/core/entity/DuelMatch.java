@@ -61,6 +61,10 @@ public class DuelMatch {
     @Column(name = "countdown_started_at")
     private LocalDateTime countdownStartedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "cancelled_by_user_id")
+    private User cancelledBy;
+
     public enum DuelStatus {
         SEARCHING,      // Waiting for opponent
         MATCHED,        // Opponent found, waiting for acceptance
@@ -199,6 +203,14 @@ public class DuelMatch {
 
     public void setCountdownStartedAt(LocalDateTime countdownStartedAt) {
         this.countdownStartedAt = countdownStartedAt;
+    }
+
+    public User getCancelledBy() {
+        return cancelledBy;
+    }
+
+    public void setCancelledBy(User cancelledBy) {
+        this.cancelledBy = cancelledBy;
     }
 
     public boolean isBothPlayersReady() {

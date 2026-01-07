@@ -267,15 +267,27 @@ public class DuelService {
      * Cancel the duel
      */
     @Transactional
-    public void cancelDuel(Long duelId) {
-        logger.info("Cancelling duel {}", duelId);
+    public void cancelDuel(Long duelId, User cancelledByUser) {
+        logger.info("Cancelling duel {} by user {}", duelId,
+            cancelledByUser != null ? cancelledByUser.getName() : "system");
 
         DuelMatch duel = duelMatchRepository.findById(duelId)
             .orElseThrow(() -> new RuntimeException("Duel not found"));
 
         duel.setStatus(DuelMatch.DuelStatus.CANCELLED);
         duel.setFinishedAt(LocalDateTime.now());
+        duel.setCancelledBy(cancelledByUser);
         duelMatchRepository.save(duel);
+
+        logger.info("Duel {} cancelled successfully. Status changed to CANCELLED", duelId);
+    }
+
+    /**
+     * Cancel the duel (without user - for system cleanup)
+     */
+    @Transactional
+    public void cancelDuel(Long duelId) {
+        cancelDuel(duelId, null);
     }
 
     /**

@@ -52,7 +52,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Route("quiz-questions/:quizId")
 @PageTitle("Quiz Questions")
-public class QuizQuestionView extends Main implements BeforeEnterObserver {
+public class QuizQuestionView extends Main implements BeforeEnterObserver, com.vaadin.flow.router.BeforeLeaveObserver {
 
     private static final Logger logger = LoggerFactory.getLogger(QuizQuestionView.class);
     private static final int MAX_QUESTIONS = 5; // Limit to 5 questions
@@ -476,6 +476,13 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver {
 
             // Start the timer
             startTimer();
+
+            // If this is a duel, start polling to detect if opponent cancels
+            if (this.duelId != null) {
+                logger.info("Starting duel polling to detect opponent cancellation for duel {}", this.duelId);
+                startDuelPolling(this.duelId);
+            }
+
             logger.info("=== QuizQuestionView.beforeEnter() COMPLETED SUCCESSFULLY ===");
         } catch (NumberFormatException e) {
             logger.error("NumberFormatException in beforeEnter", e);
@@ -1143,6 +1150,11 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver {
             Button rematchButton = new Button(translationService.translate("duelquiz.rematch.start"), event -> {
                 stopDuelPolling(); // Stop polling before navigating
                 try {
+                    // Track user activity
+                    if (currentUser != null) {
+                        userActivityService.updateActivity(currentUser, "REQUEST_REMATCH_FROM_QUIZ", "quiz-questions/" + quizId);
+                    }
+
                     // Request rematch
                     duelService.requestRematch(duel.getId(), currentUser);
                     logger.info("Rematch requested by user {} for duel {}", currentUser.getName(), duel.getId());
@@ -1165,6 +1177,11 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver {
         Button stopDuelButton = new Button(translationService.translate("duelquiz.stop"), event -> {
             stopDuelPolling(); // Stop polling before cancelling
             try {
+                // Track user activity
+                if (currentUser != null) {
+                    userActivityService.updateActivity(currentUser, "STOP_DUEL_FROM_SCOREBOARD", "quiz-questions/" + quizId);
+                }
+
                 // Cancel the duel - this will notify the other player
                 duelService.cancelDuel(duel.getId());
                 logger.info("Duel {} cancelled by user {}", duel.getId(), currentUser.getName());
@@ -1321,6 +1338,33 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver {
     }
 
     private void stopQuiz() {
+        logger.info("stopQuiz() called - isDuel: {}, duelId: {}", duelId != null, duelId);
+
+        // If this is a duel, cancel it
+        if (duelId != null) {
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            if (currentUser != null && duelService != null) {
+                try {
+                    // Track user activity - stopping duel
+                    userActivityService.updateActivity(currentUser, "STOP_DUEL_QUIZ", "quiz-questions/" + quizId);
+
+                    duelService.cancelDuel(duelId, currentUser);
+                    logger.info("Duel {} cancelled by user {} who stopped the quiz",
+                        duelId, currentUser.getName());
+
+                    // Clean up session
+                    VaadinSession.getCurrent().setAttribute("activeDuelId", null);
+
+                    // Navigate back to duel view
+                    stopTimer();
+                    getUI().ifPresent(ui -> ui.navigate("duel-quiz"));
+                    return; // Exit early, don't show final score
+                } catch (Exception e) {
+                    logger.error("Error cancelling duel on stop", e);
+                }
+            }
+        }
+
         // Stop the timer
         stopTimer();
 
@@ -1661,6 +1705,86 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver {
                 if (duelOpt.isPresent()) {
                     var duel = duelOpt.get();
 
+                    // Check if duel was cancelled
+                    if (duel.getStatus() == com.quizz.core.entity.DuelMatch.DuelStatus.CANCELLED) {
+                        logger.info("Duel {} was cancelled, stopping quiz", duelIdToCheck);
+
+                        // Stop polling
+                        stopDuelPolling();
+
+                        // Update UI on the UI thread
+                        getUI().ifPresent(ui -> {
+                            ui.access(() -> {
+                                try {
+                                    User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+                                    // Check if current user is the one who cancelled
+                                    if (duel.getCancelledBy() != null &&
+                                        currentUser != null &&
+                                        !duel.getCancelledBy().getId().equals(currentUser.getId())) {
+
+                                        // Opponent cancelled the duel
+                                        String opponentName = duel.getCancelledBy().getName();
+                                        String message = translationService.translate("duelquiz.opponent.quit")
+                                            .replace("{opponent}", opponentName);
+
+                                        logger.info("Showing cancellation dialog to {}: opponent {} quit",
+                                            currentUser.getName(), opponentName);
+
+                                        // Stop the quiz timer
+                                        stopTimer();
+
+                                        // Create a Dialog with close button
+                                        com.vaadin.flow.component.dialog.Dialog dialog = new com.vaadin.flow.component.dialog.Dialog();
+                                        dialog.setModal(true);
+                                        dialog.setCloseOnEsc(false);
+                                        dialog.setCloseOnOutsideClick(false);
+
+                                        com.vaadin.flow.component.html.Div content = new com.vaadin.flow.component.html.Div();
+                                        com.vaadin.flow.component.html.H2 title = new com.vaadin.flow.component.html.H2(
+                                            translationService.translate("duelquiz.cancelled"));
+                                        title.getStyle().set("margin-top", "0");
+
+                                        com.vaadin.flow.component.html.Paragraph text =
+                                            new com.vaadin.flow.component.html.Paragraph(message);
+                                        text.getStyle()
+                                            .set("font-size", "16px")
+                                            .set("color", "#d32f2f");
+
+                                        com.vaadin.flow.component.button.Button closeButton =
+                                            new com.vaadin.flow.component.button.Button(
+                                                translationService.translate("button.close"),
+                                                event -> {
+                                                    // Track user activity
+                                                    if (currentUser != null) {
+                                                        userActivityService.updateActivity(currentUser,
+                                                            "CLOSE_DUEL_CANCEL_DIALOG_FROM_QUIZ", "quiz-questions/" + quizId);
+                                                    }
+                                                    dialog.close();
+                                                    // Navigate to duel view
+                                                    getUI().ifPresent(ui2 -> ui2.navigate("duel-quiz"));
+                                                });
+                                        closeButton.addThemeVariants(
+                                            com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY);
+                                        closeButton.getStyle().set("width", "100%").set("margin-top", "20px");
+
+                                        content.add(title, text, closeButton);
+                                        content.getStyle()
+                                            .set("padding", "20px")
+                                            .set("text-align", "center");
+
+                                        dialog.add(content);
+                                        dialog.open();
+                                    }
+                                    ui.push();
+                                } catch (Exception e) {
+                                    logger.error("Error handling duel cancellation", e);
+                                }
+                            });
+                        });
+                        return;
+                    }
+
                     // Check if both players have finished
                     if (duel.getPlayer1Score() != null && duel.getPlayer2Score() != null) {
                         logger.info("Both players finished! Player1: {}, Player2: {}",
@@ -1761,4 +1885,29 @@ public class QuizQuestionView extends Main implements BeforeEnterObserver {
         logger.info("UI state reset complete");
     }
 
+    @Override
+    public void beforeLeave(com.vaadin.flow.router.BeforeLeaveEvent event) {
+        // Check if user is leaving during an active duel
+        if (duelId != null && !quizCompleted) {
+            logger.info("User leaving during active duel {} - cancelling duel", duelId);
+
+            // Get current user
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+
+            // Cancel the duel
+            if (currentUser != null && duelService != null) {
+                try {
+                    duelService.cancelDuel(duelId, currentUser);
+                    logger.info("Duel {} cancelled by user {} who left during quiz",
+                        duelId, currentUser.getName());
+
+                    // Clean up session
+                    VaadinSession.getCurrent().setAttribute("activeDuelId", null);
+
+                } catch (Exception e) {
+                    logger.error("Error cancelling duel on leave", e);
+                }
+            }
+        }
+    }
 }

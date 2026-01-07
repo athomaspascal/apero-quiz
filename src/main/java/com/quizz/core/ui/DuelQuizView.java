@@ -139,8 +139,13 @@ public class DuelQuizView extends Main {
         Button searchButton = new Button(translationService.translate("duelquiz.search"), event -> startSearching());
         searchButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
 
-        Button cancelButton = new Button(translationService.translate("duelquiz.back"), event ->
-            getUI().ifPresent(ui -> ui.navigate("")));
+        Button cancelButton = new Button(translationService.translate("duelquiz.back"), event -> {
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            if (currentUser != null) {
+                userActivityService.updateActivity(currentUser, "BACK_FROM_DUEL", "duel-quiz");
+            }
+            getUI().ifPresent(ui -> ui.navigate(""));
+        });
 
         mainContent.add(title, description, searchButton, cancelButton);
     }
@@ -275,7 +280,7 @@ public class DuelQuizView extends Main {
                 userActivityService.updateActivity(currentUser, "CANCEL_DUEL_SEARCH", "duel-quiz");
             }
             stopWaitingConfirmationTimer();
-            duelService.cancelDuel(currentDuel.getId());
+            duelService.cancelDuel(currentDuel.getId(), currentUser);
             currentDuel = null;
             showInitialView();
         });
@@ -349,7 +354,7 @@ public class DuelQuizView extends Main {
 
         Button declineButton = new Button(translationService.translate("duelquiz.decline"), event -> {
             userActivityService.updateActivity(currentUser, "DECLINE_DUEL", "duel-quiz");
-            duelService.cancelDuel(currentDuel.getId());
+            duelService.cancelDuel(currentDuel.getId(), currentUser);
             currentDuel = null;
             showInitialView();
         });
@@ -578,6 +583,10 @@ public class DuelQuizView extends Main {
         Paragraph message = new Paragraph(translationService.translate("duelquiz.cancelled.message"));
 
         Button backButton = new Button(translationService.translate("duelquiz.back"), event -> {
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            if (currentUser != null) {
+                userActivityService.updateActivity(currentUser, "BACK_FROM_CANCELLED_DUEL", "duel-quiz");
+            }
             currentDuel = null;
             showInitialView();
         });
@@ -623,15 +632,73 @@ public class DuelQuizView extends Main {
                     if (currentDuel != null && currentDuel.getId() != null) {
                         Optional<DuelMatch> updated = duelService.getDuelById(currentDuel.getId());
                         if (updated.isPresent()) {
-                            DuelMatch oldStatus = currentDuel;
+                            DuelMatch oldDuel = currentDuel;
                             currentDuel = updated.get();
 
+                            // Check if duel was cancelled by opponent
+                            if (oldDuel.getStatus() != DuelMatch.DuelStatus.CANCELLED &&
+                                currentDuel.getStatus() == DuelMatch.DuelStatus.CANCELLED &&
+                                currentDuel.getCancelledBy() != null) {
+
+                                // Get opponent's name
+                                User cancelledByUser = currentDuel.getCancelledBy();
+                                if (!cancelledByUser.getId().equals(currentUser.getId())) {
+                                    // Opponent cancelled the duel
+                                    logger.info("Duel cancelled by opponent: {}", cancelledByUser.getName());
+
+                                    String message = translationService.translate("duelquiz.opponent.quit")
+                                        .replace("{opponent}", cancelledByUser.getName());
+
+                                    // Create a Dialog with close button
+                                    com.vaadin.flow.component.dialog.Dialog dialog = new com.vaadin.flow.component.dialog.Dialog();
+                                    dialog.setModal(true);
+                                    dialog.setCloseOnEsc(false);
+                                    dialog.setCloseOnOutsideClick(false);
+
+                                    com.vaadin.flow.component.html.Div content = new com.vaadin.flow.component.html.Div();
+                                    com.vaadin.flow.component.html.H2 title = new com.vaadin.flow.component.html.H2(
+                                        translationService.translate("duelquiz.cancelled"));
+                                    title.getStyle().set("margin-top", "0");
+
+                                    com.vaadin.flow.component.html.Paragraph text = new com.vaadin.flow.component.html.Paragraph(message);
+                                    text.getStyle()
+                                        .set("font-size", "16px")
+                                        .set("color", "#d32f2f");
+
+                                    com.vaadin.flow.component.button.Button closeButton =
+                                        new com.vaadin.flow.component.button.Button(
+                                            translationService.translate("button.close"),
+                                            event -> {
+                                                // Track user activity
+                                                if (currentUser != null) {
+                                                    userActivityService.updateActivity(currentUser, "CLOSE_DUEL_CANCEL_DIALOG", "duel-quiz");
+                                                }
+                                                dialog.close();
+                                                // Navigate to initial view after closing
+                                                currentDuel = null;
+                                                showInitialView();
+                                            });
+                                    closeButton.addThemeVariants(com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY);
+                                    closeButton.getStyle().set("width", "100%").set("margin-top", "20px");
+
+                                    content.add(title, text, closeButton);
+                                    content.getStyle()
+                                        .set("padding", "20px")
+                                        .set("text-align", "center");
+
+                                    dialog.add(content);
+                                    dialog.open();
+
+                                    return;
+                                }
+                            }
+
                             // Only update view if status changed
-                            if (oldStatus.getStatus() != currentDuel.getStatus() ||
+                            if (oldDuel.getStatus() != currentDuel.getStatus() ||
                                 (currentDuel.getStatus() == DuelMatch.DuelStatus.MATCHED &&
-                                 !oldStatus.isBothPlayersReady() && currentDuel.isBothPlayersReady())) {
+                                 !oldDuel.isBothPlayersReady() && currentDuel.isBothPlayersReady())) {
                                 logger.info("Duel status changed from {} to {}, updating view",
-                                    oldStatus.getStatus(), currentDuel.getStatus());
+                                    oldDuel.getStatus(), currentDuel.getStatus());
                                 updateView();
                             }
                         }
