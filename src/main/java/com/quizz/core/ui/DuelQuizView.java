@@ -136,11 +136,17 @@ public class DuelQuizView extends Main {
         H2 title = new H2(translationService.translate("duelquiz.welcome"));
         Paragraph description = new Paragraph(translationService.translate("duelquiz.description"));
 
+        // Add user profile section (avatar, flag, and name)
+        User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+        if (currentUser != null) {
+            VerticalLayout userProfileSection = createUserProfileSection(currentUser);
+            mainContent.add(userProfileSection);
+        }
+
         Button searchButton = new Button(translationService.translate("duelquiz.search"), event -> startSearching());
         searchButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
 
         Button cancelButton = new Button(translationService.translate("duelquiz.back"), event -> {
-            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
             if (currentUser != null) {
                 userActivityService.updateActivity(currentUser, "BACK_FROM_DUEL", "duel-quiz");
             }
@@ -301,13 +307,20 @@ public class DuelQuizView extends Main {
 
         H2 title = new H2(translationService.translate("duelquiz.matched"));
 
-        // Create opponent info with country flag
+        // Create opponent info with play icon, country flag and name (like in quiz list)
         HorizontalLayout opponentLayout = new HorizontalLayout();
         opponentLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         opponentLayout.setSpacing(true);
+        opponentLayout.getStyle()
+            .set("padding", "var(--lumo-space-m)")
+            .set("background", "var(--lumo-contrast-5pct)")
+            .set("border-radius", "var(--lumo-border-radius-m)");
 
-        Span opponentLabel = new Span(translationService.translate("duelquiz.opponent") + ": " + opponent.getName());
-        opponentLayout.add(opponentLabel);
+        // Add play icon
+        com.vaadin.flow.component.icon.Icon playIcon = com.vaadin.flow.component.icon.VaadinIcon.PLAY.create();
+        playIcon.setSize("24px");
+        playIcon.getStyle().set("color", "#1976d2");
+        opponentLayout.add(playIcon);
 
         // Add country flag if available
         if (opponent.getCountry() != null && opponent.getCountry().getCountryFlag() != null
@@ -321,7 +334,6 @@ public class DuelQuizView extends Main {
                 .set("justify-content", "center")
                 .set("border", "1px solid #e0e0e0")
                 .set("border-radius", "2px")
-                .set("margin-left", "10px")
                 .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
 
             // Set SVG content directly
@@ -329,6 +341,14 @@ public class DuelQuizView extends Main {
 
             opponentLayout.add(flagContainer);
         }
+
+        // Add opponent name with bold and larger font
+        Span opponentName = new Span(opponent.getName());
+        opponentName.getStyle()
+            .set("font-weight", "bold")
+            .set("font-size", "1.2em")
+            .set("color", "var(--lumo-primary-text-color)");
+        opponentLayout.add(opponentName);
 
         Paragraph quizInfo = new Paragraph(
             translationService.translate("duelquiz.quiz") + ": " + currentDuel.getQuiz().getName()
@@ -466,77 +486,122 @@ public class DuelQuizView extends Main {
             : currentDuel.getPlayer1();
 
         H2 title = new H2(translationService.translate("duelquiz.finished"));
+        title.getStyle().set("margin-bottom", "10px");
 
-        // Display scores
+        // Display scores - optimized for mobile
         HorizontalLayout scoresLayout = new HorizontalLayout();
         scoresLayout.setSpacing(true);
         scoresLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        scoresLayout.setWidthFull();
+        scoresLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        scoresLayout.getStyle()
+            .set("gap", "5px")
+            .set("max-width", "350px")
+            .set("margin", "0 auto");
 
         // Player 1 layout with country flag
         VerticalLayout player1Layout = new VerticalLayout();
         player1Layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        player1Layout.setSpacing(false);
+        player1Layout.setPadding(false);
+        player1Layout.getStyle().set("flex", "1");
 
         HorizontalLayout player1NameLayout = new HorizontalLayout();
         player1NameLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        player1NameLayout.setSpacing(true);
-        H3 player1Name = new H3(currentDuel.getPlayer1().getName());
+        player1NameLayout.setSpacing(false);
+        player1NameLayout.getStyle().set("gap", "5px");
+
+        // Shorter name for mobile
+        String player1NameText = currentDuel.getPlayer1().getName();
+        if (player1NameText.length() > 12) {
+            player1NameText = player1NameText.substring(0, 12) + "...";
+        }
+        Paragraph player1Name = new Paragraph(player1NameText);
+        player1Name.getStyle()
+            .set("margin", "0")
+            .set("font-size", "0.9rem")
+            .set("font-weight", "bold");
         player1NameLayout.add(player1Name);
 
-        // Add country flag for player 1
+        // Add country flag for player 1 - smaller size
         if (currentDuel.getPlayer1().getCountry() != null && currentDuel.getPlayer1().getCountry().getCountryFlag() != null
             && !currentDuel.getPlayer1().getCountry().getCountryFlag().isEmpty()) {
             Div flag1Container = new Div();
             flag1Container.getStyle()
-                .set("width", "30px")
-                .set("height", "20px")
+                .set("width", "20px")
+                .set("height", "14px")
                 .set("display", "flex")
                 .set("align-items", "center")
                 .set("justify-content", "center")
                 .set("border", "1px solid #e0e0e0")
                 .set("border-radius", "2px")
-                .set("margin-left", "10px")
-                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+                .set("flex-shrink", "0")
+                .set("box-shadow", "0 1px 2px rgba(0,0,0,0.1)");
             flag1Container.getElement().setProperty("innerHTML", currentDuel.getPlayer1().getCountry().getCountryFlag());
             player1NameLayout.add(flag1Container);
         }
 
-        H1 player1Score = new H1(String.valueOf(currentDuel.getPlayer1Score()));
-        player1Score.getStyle().set("color", "#1976d2").set("margin", "0");
+        H2 player1Score = new H2(String.valueOf(currentDuel.getPlayer1Score()));
+        player1Score.getStyle()
+            .set("color", "#1976d2")
+            .set("margin", "5px 0 0 0")
+            .set("font-size", "2rem");
         player1Layout.add(player1NameLayout, player1Score);
 
         Span vsSpan = new Span("VS");
-        vsSpan.getStyle().set("font-size", "32px").set("font-weight", "bold");
+        vsSpan.getStyle()
+            .set("font-size", "1.2rem")
+            .set("font-weight", "bold")
+            .set("color", "#666")
+            .set("padding", "0 5px");
 
         // Player 2 layout with country flag
         VerticalLayout player2Layout = new VerticalLayout();
         player2Layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        player2Layout.setSpacing(false);
+        player2Layout.setPadding(false);
+        player2Layout.getStyle().set("flex", "1");
 
         HorizontalLayout player2NameLayout = new HorizontalLayout();
         player2NameLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        player2NameLayout.setSpacing(true);
-        H3 player2Name = new H3(currentDuel.getPlayer2().getName());
+        player2NameLayout.setSpacing(false);
+        player2NameLayout.getStyle().set("gap", "5px");
+
+        // Shorter name for mobile
+        String player2NameText = currentDuel.getPlayer2().getName();
+        if (player2NameText.length() > 12) {
+            player2NameText = player2NameText.substring(0, 12) + "...";
+        }
+        Paragraph player2Name = new Paragraph(player2NameText);
+        player2Name.getStyle()
+            .set("margin", "0")
+            .set("font-size", "0.9rem")
+            .set("font-weight", "bold");
         player2NameLayout.add(player2Name);
 
-        // Add country flag for player 2
+        // Add country flag for player 2 - smaller size
         if (currentDuel.getPlayer2().getCountry() != null && currentDuel.getPlayer2().getCountry().getCountryFlag() != null
             && !currentDuel.getPlayer2().getCountry().getCountryFlag().isEmpty()) {
             Div flag2Container = new Div();
             flag2Container.getStyle()
-                .set("width", "30px")
-                .set("height", "20px")
+                .set("width", "20px")
+                .set("height", "14px")
                 .set("display", "flex")
                 .set("align-items", "center")
                 .set("justify-content", "center")
                 .set("border", "1px solid #e0e0e0")
                 .set("border-radius", "2px")
-                .set("margin-left", "10px")
-                .set("box-shadow", "0 1px 3px rgba(0,0,0,0.1)");
+                .set("flex-shrink", "0")
+                .set("box-shadow", "0 1px 2px rgba(0,0,0,0.1)");
             flag2Container.getElement().setProperty("innerHTML", currentDuel.getPlayer2().getCountry().getCountryFlag());
             player2NameLayout.add(flag2Container);
         }
 
-        H1 player2Score = new H1(String.valueOf(currentDuel.getPlayer2Score()));
-        player2Score.getStyle().set("color", "#1976d2").set("margin", "0");
+        H2 player2Score = new H2(String.valueOf(currentDuel.getPlayer2Score()));
+        player2Score.getStyle()
+            .set("color", "#1976d2")
+            .set("margin", "5px 0 0 0")
+            .set("font-size", "2rem");
         player2Layout.add(player2NameLayout, player2Score);
 
         scoresLayout.add(player1Layout, vsSpan, player2Layout);
@@ -544,20 +609,38 @@ public class DuelQuizView extends Main {
         // Determine winner
         String resultMessage;
         if (currentDuel.getPlayer1Score() > currentDuel.getPlayer2Score()) {
-            resultMessage = translationService.translate("duelquiz.winner") + ": " + currentDuel.getPlayer1().getName();
+            // Shorter name for winner display
+            String winnerName = currentDuel.getPlayer1().getName();
+            if (winnerName.length() > 15) {
+                winnerName = winnerName.substring(0, 15) + "...";
+            }
+            resultMessage = translationService.translate("duelquiz.winner") + ": " + winnerName;
         } else if (currentDuel.getPlayer2Score() > currentDuel.getPlayer1Score()) {
-            resultMessage = translationService.translate("duelquiz.winner") + ": " + currentDuel.getPlayer2().getName();
+            // Shorter name for winner display
+            String winnerName = currentDuel.getPlayer2().getName();
+            if (winnerName.length() > 15) {
+                winnerName = winnerName.substring(0, 15) + "...";
+            }
+            resultMessage = translationService.translate("duelquiz.winner") + ": " + winnerName;
         } else {
             resultMessage = translationService.translate("duelquiz.draw");
         }
 
         Paragraph result = new Paragraph(resultMessage);
-        result.getStyle().set("font-size", "24px").set("font-weight", "bold");
+        result.getStyle()
+            .set("font-size", "1.2rem")
+            .set("font-weight", "bold")
+            .set("margin", "10px 0")
+            .set("text-align", "center");
 
         Paragraph rematchInfo = new Paragraph(
             translationService.translate("duelquiz.rematch.available") +
             " (" + (currentDuel.getRematchCount() + 1) + "/3)"
         );
+        rematchInfo.getStyle()
+            .set("font-size", "0.9rem")
+            .set("margin", "5px 0")
+            .set("text-align", "center");
 
         Button rematchButton = new Button(translationService.translate("duelquiz.rematch"), event -> {
             userActivityService.updateActivity(currentUser, "REQUEST_REMATCH", "duel-quiz");
@@ -809,6 +892,127 @@ public class DuelQuizView extends Main {
         });
 
         dialog.open();
+    }
+
+    /**
+     * Create user profile section with avatar, flag, and name
+     */
+    private VerticalLayout createUserProfileSection(User currentUser) {
+        VerticalLayout profileSection = new VerticalLayout();
+        profileSection.setAlignItems(FlexComponent.Alignment.CENTER);
+        profileSection.setSpacing(false);
+        profileSection.setPadding(false);
+        profileSection.getStyle()
+            .set("margin-bottom", "20px");
+
+        // Create horizontal layout for avatar and flag
+        HorizontalLayout avatarAndFlagLayout = new HorizontalLayout();
+        avatarAndFlagLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        avatarAndFlagLayout.setSpacing(true);
+        avatarAndFlagLayout.getStyle().set("gap", "10px");
+
+        // Create avatar container
+        Div avatarContainer = new Div();
+        avatarContainer.getStyle()
+            .set("width", "80px")
+            .set("height", "80px")
+            .set("border-radius", "50%")
+            .set("overflow", "hidden")
+            .set("display", "flex")
+            .set("align-items", "center")
+            .set("justify-content", "center")
+            .set("box-shadow", "0 4px 12px rgba(0,0,0,0.15)")
+            .set("cursor", "pointer");
+
+        // Display user photo if available, otherwise initials or default icon
+        if (currentUser.getPhotoBytes() != null && currentUser.getPhotoBytes().length > 0) {
+            // User has uploaded a photo - display it as base64
+            String base64Image = java.util.Base64.getEncoder().encodeToString(currentUser.getPhotoBytes());
+            Div photoDiv = new Div();
+            photoDiv.getStyle()
+                .set("width", "100%")
+                .set("height", "100%")
+                .set("background-image", "url(data:image/jpeg;base64," + base64Image + ")")
+                .set("background-size", "cover")
+                .set("background-position", "center");
+            avatarContainer.add(photoDiv);
+        } else if (currentUser.getName() != null && !currentUser.getName().isEmpty()) {
+            // No photo - display initials on gradient background
+            avatarContainer.getStyle()
+                .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+                .set("color", "white")
+                .set("font-size", "32px")
+                .set("font-weight", "bold");
+            String initials = getInitials(currentUser.getName());
+            Span initialsSpan = new Span(initials);
+            avatarContainer.add(initialsSpan);
+        } else {
+            // No user or no name - display default icon
+            avatarContainer.getStyle()
+                .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+                .set("color", "white")
+                .set("font-size", "32px");
+            Span defaultIcon = new Span("👤");
+            avatarContainer.add(defaultIcon);
+        }
+
+        avatarAndFlagLayout.add(avatarContainer);
+
+        // Add country flag if available
+        if (currentUser.getCountry() != null) {
+            String flagSvg = currentUser.getCountry().getCountryFlag();
+            if (flagSvg != null && !flagSvg.isEmpty()) {
+                Div flagContainer = new Div();
+                flagContainer.getStyle()
+                    .set("width", "45px")
+                    .set("height", "30px")
+                    .set("display", "flex")
+                    .set("align-items", "center")
+                    .set("justify-content", "center")
+                    .set("border", "1px solid #e0e0e0")
+                    .set("border-radius", "4px")
+                    .set("box-shadow", "0 2px 4px rgba(0,0,0,0.1)");
+
+                // Set SVG content directly via innerHTML
+                flagContainer.getElement().setProperty("innerHTML", flagSvg);
+                avatarAndFlagLayout.add(flagContainer);
+            }
+        }
+
+        profileSection.add(avatarAndFlagLayout);
+
+        // User name below avatar and flag
+        if (currentUser.getName() != null) {
+            Paragraph userName = new Paragraph(currentUser.getName());
+            userName.getStyle()
+                .set("margin-top", "8px")
+                .set("margin-bottom", "0")
+                .set("font-size", "14px")
+                .set("font-weight", "500")
+                .set("color", "#333");
+            profileSection.add(userName);
+        }
+
+        return profileSection;
+    }
+
+    /**
+     * Get initials from user name (first letters of first and last name)
+     */
+    private String getInitials(String name) {
+        if (name == null || name.isEmpty()) {
+            return "?";
+        }
+
+        String[] parts = name.trim().split("\\s+");
+        if (parts.length == 0) {
+            return "?";
+        } else if (parts.length == 1) {
+            return parts[0].substring(0, Math.min(2, parts[0].length())).toUpperCase();
+        } else {
+            return String.valueOf(parts[0].charAt(0)).toUpperCase() +
+                   String.valueOf(parts[parts.length - 1].charAt(0)).toUpperCase();
+        }
     }
 }
 
