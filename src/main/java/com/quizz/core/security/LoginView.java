@@ -310,9 +310,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     private void handleLogin(String email, String password) {
-        boolean authenticated = authenticationService.authenticate(email, password);
+        AuthenticationService.AuthenticationResult result = authenticationService.authenticateWithResult(email, password);
 
-        if (authenticated) {
+        if (result == AuthenticationService.AuthenticationResult.SUCCESS) {
             // Get the authenticated user
             User user = authenticationService.getCurrentUser();
 
@@ -320,8 +320,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 // Record login trace
                 traceService.recordLogin(user);
 
-                // Update user activity
-                userActivityService.updateActivity(user, "LOGIN", "login");
+                // Update user activity with session ID
+                String sessionId = VaadinSession.getCurrent() != null && VaadinSession.getCurrent().getSession() != null
+                    ? VaadinSession.getCurrent().getSession().getId() : null;
+                userActivityService.updateActivity(user, "LOGIN", "login", sessionId);
 
                 Notification.show(translationService.translate("login.welcomeback", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -338,6 +340,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 // Force full page reload to refresh menu with correct user
                 getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
             }
+        } else if (result == AuthenticationService.AuthenticationResult.USER_ALREADY_ACTIVE) {
+            loginForm.setError(true);
+            Notification.show(translationService.translate("login.error.useralreadyactive"), 5000, Notification.Position.MIDDLE)
+                .addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
             loginForm.setError(true);
             Notification.show(translationService.translate("login.error.message"), 3000, Notification.Position.MIDDLE)
@@ -591,13 +597,15 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         // Hover effect
         card.addClickListener(event -> {
             // Login with this public user
-            boolean authenticated = authenticationService.authenticate(user.getEmail(), "public123");
-            if (authenticated) {
+            AuthenticationService.AuthenticationResult result = authenticationService.authenticateWithResult(user.getEmail(), "public123");
+            if (result == AuthenticationService.AuthenticationResult.SUCCESS) {
                 // Record login trace
                 traceService.recordLogin(user);
 
-                // Update user activity
-                userActivityService.updateActivity(user, "LOGIN", "login");
+                // Update user activity with session ID
+                String sessionId = VaadinSession.getCurrent() != null && VaadinSession.getCurrent().getSession() != null
+                    ? VaadinSession.getCurrent().getSession().getId() : null;
+                userActivityService.updateActivity(user, "LOGIN", "login", sessionId);
 
                 Notification.show(translationService.translate("login.welcome", user.getName()), 3000, Notification.Position.BOTTOM_END)
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -614,6 +622,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                     // Force full page reload to refresh menu with correct user
                     getUI().ifPresent(ui -> ui.getPage().setLocation("/"));
                 }
+            } else if (result == AuthenticationService.AuthenticationResult.USER_ALREADY_ACTIVE) {
+                Notification.show(translationService.translate("login.error.useralreadyactive"), 5000, Notification.Position.MIDDLE)
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 Notification.show(translationService.translate("login.authenticationfailed"), 3000, Notification.Position.MIDDLE)
                     .addThemeVariants(NotificationVariant.LUMO_ERROR);

@@ -1,7 +1,10 @@
 package com.quizz.base.ui;
 
+import com.quizz.core.config.InactivityConfig;
 import com.quizz.core.entity.User;
 import com.quizz.core.service.TranslationService;
+import com.quizz.core.service.UserActivityService;
+import com.quizz.core.ui.component.InactivityMonitor;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
@@ -29,15 +32,22 @@ import static org.atmosphere.annotation.AnnotationUtil.logger;
 public final class MainLayout extends AppLayout {
 
     private final TranslationService translationService;
+    private final UserActivityService userActivityService;
+    private final InactivityConfig inactivityConfig;
 
     // Keep references to refresh labels on locale change
     private SideNav sideNav;
     private List<MenuEntry> menuEntries = new ArrayList<>();
     private Scroller sideNavScroller;
     private Div footerDiv;
+    private InactivityMonitor inactivityMonitor;
 
-    MainLayout(@Autowired TranslationService translationService) {
+    MainLayout(@Autowired TranslationService translationService,
+               @Autowired UserActivityService userActivityService,
+               @Autowired InactivityConfig inactivityConfig) {
         this.translationService = translationService;
+        this.userActivityService = userActivityService;
+        this.inactivityConfig = inactivityConfig;
         setPrimarySection(Section.DRAWER);
         // Don't create menu here - it will be created in onAttach() with correct user
         logger.info("MainLayout constructor called");
@@ -54,6 +64,16 @@ public final class MainLayout extends AppLayout {
             footerDiv = createFooter();
             sideNavScroller = new Scroller(createSideNav());
             addToDrawer(createHeader(), sideNavScroller, footerDiv);
+
+            // Add inactivity monitor for logged-in users
+            User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
+            if (currentUser != null && inactivityMonitor == null) {
+                logger.info("MainLayout: Adding inactivity monitor for user: {}", currentUser.getName());
+                inactivityMonitor = new InactivityMonitor(userActivityService, translationService, inactivityConfig);
+                // Add to navbar to ensure it's attached to the UI
+                addToNavbar(inactivityMonitor);
+                logger.info("MainLayout: Inactivity monitor added to navbar");
+            }
         } else {
             // Subsequent attach - refresh menu
             logger.info("Subsequent attach - refreshing menu");

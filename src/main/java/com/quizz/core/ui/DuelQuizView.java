@@ -860,10 +860,10 @@ public class DuelQuizView extends Main {
 
             ui.access(() -> {
                 try {
-                    // Update user activity to keep them active while waiting
+                    // Note: Don't update user activity during polling - it's not a real user interaction
+                    // The inactivity monitor should detect when the user is not actively interacting
                     User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
                     if (currentUser != null) {
-                        userActivityService.updateActivity(currentUser, "DUEL_POLLING", "duel-quiz");
                         logger.debug("Polling for user: {}, currentDuel: {}",
                             currentUser.getName(),
                             currentDuel != null ? currentDuel.getId() : "null");

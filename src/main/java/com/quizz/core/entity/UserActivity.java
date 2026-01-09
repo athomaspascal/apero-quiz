@@ -23,6 +23,9 @@ public class UserActivity {
     @Column(name = "page_url", length = 500)
     private String pageUrl;
 
+    @Column(name = "session_id", length = 100)
+    private String sessionId;
+
     public UserActivity() {
     }
 
@@ -36,6 +39,14 @@ public class UserActivity {
         this.lastActivity = lastActivity;
         this.activityType = activityType;
         this.pageUrl = pageUrl;
+    }
+
+    public UserActivity(Long userId, LocalDateTime lastActivity, String activityType, String pageUrl, String sessionId) {
+        this.userId = userId;
+        this.lastActivity = lastActivity;
+        this.activityType = activityType;
+        this.pageUrl = pageUrl;
+        this.sessionId = sessionId;
     }
 
     public Long getUserId() {
@@ -70,11 +81,38 @@ public class UserActivity {
         this.pageUrl = pageUrl;
     }
 
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
     /**
      * Check if the user is inactive (no activity for more than specified seconds)
      */
     public boolean isInactive(int seconds) {
         return lastActivity.plusSeconds(seconds).isBefore(LocalDateTime.now());
+    }
+
+    /**
+     * Check if the user is active with a different session
+     * @param currentSessionId the session ID of the user trying to connect
+     * @param inactivityThresholdSeconds the number of seconds after which a user is considered inactive
+     * @return true if the user is active with a different session
+     */
+    public boolean isActiveWithDifferentSession(String currentSessionId, int inactivityThresholdSeconds) {
+        // If same session, allow connection
+        if (currentSessionId != null && currentSessionId.equals(this.sessionId)) {
+            return false;
+        }
+        // If activity is older than threshold, user is inactive
+        if (isInactive(inactivityThresholdSeconds)) {
+            return false;
+        }
+        // User is active with a different session
+        return true;
     }
 }
 

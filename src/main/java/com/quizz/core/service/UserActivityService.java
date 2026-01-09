@@ -26,11 +26,13 @@ public class UserActivityService {
         this.userActivityRepository = userActivityRepository;
     }
 
+    private static final int INACTIVITY_THRESHOLD_SECONDS = 180;
+
     /**
-     * Update user activity timestamp
+     * Update user activity timestamp with session ID
      */
     @Transactional
-    public void updateActivity(User user, String activityType, String pageUrl) {
+    public void updateActivity(User user, String activityType, String pageUrl, String sessionId) {
         if (user == null || user.getId() == null) {
             return;
         }
@@ -43,12 +45,24 @@ public class UserActivityService {
             activity.setLastActivity(LocalDateTime.now());
             activity.setActivityType(activityType);
             activity.setPageUrl(pageUrl);
+            if (sessionId != null) {
+                activity.setSessionId(sessionId);
+            }
         } else {
-            activity = new UserActivity(user.getId(), LocalDateTime.now(), activityType, pageUrl);
+            activity = new UserActivity(user.getId(), LocalDateTime.now(), activityType, pageUrl, sessionId);
         }
 
         userActivityRepository.save(activity);
-        logger.debug("Updated activity for user {} - Type: {}, Page: {}", user.getName(), activityType, pageUrl);
+        logger.debug("Updated activity for user {} - Type: {}, Page: {}, Session: {}",
+            user.getName(), activityType, pageUrl, sessionId);
+    }
+
+    /**
+     * Update user activity timestamp (without session ID)
+     */
+    @Transactional
+    public void updateActivity(User user, String activityType, String pageUrl) {
+        updateActivity(user, activityType, pageUrl, null);
     }
 
     /**
@@ -56,7 +70,32 @@ public class UserActivityService {
      */
     @Transactional
     public void updateActivity(User user) {
-        updateActivity(user, "INTERACTION", null);
+        updateActivity(user, "INTERACTION", null, null);
+    }
+
+    /**
+     * Check if user is already active with a different session
+     * @param userId the user ID to check
+     * @param currentSessionId the session ID of the user trying to connect
+     * @return true if the user is active with a different session (connection should be denied)
+     */
+    public boolean isUserActiveWithDifferentSession(Long userId, String currentSessionId) {
+        if (userId == null) {
+            return false;
+        }
+
+        Optional<UserActivity> activity = userActivityRepository.findByUserId(userId);
+        if (activity.isEmpty()) {
+            // No activity record = user can connect
+            return false;
+        }
+
+        boolean isActiveWithDifferent = activity.get().isActiveWithDifferentSession(currentSessionId, INACTIVITY_THRESHOLD_SECONDS);
+        if (isActiveWithDifferent) {
+            logger.warn("User {} is already active with a different session. Last activity: {}, Session: {}",
+                userId, activity.get().getLastActivity(), activity.get().getSessionId());
+        }
+        return isActiveWithDifferent;
     }
 
     /**
@@ -117,6 +156,16 @@ public class UserActivityService {
         LocalDateTime cutoffTime = LocalDateTime.now().minusHours(hoursOld);
         userActivityRepository.deleteByLastActivityBefore(cutoffTime);
         logger.info("Cleaned up activity records older than {} hours", hoursOld);
+    }
+
+    /**
+     * Reset all user activities at application startup
+     * This clears all session IDs and activity records to ensure clean state
+     */
+    @Transactional
+    public void resetAllUserActivities() {
+        userActivityRepository.deleteAll();
+        logger.info("Reset all user activities at application startup");
     }
 }
 
