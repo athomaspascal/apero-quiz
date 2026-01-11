@@ -799,7 +799,7 @@ public class DuelQuizView extends Main {
         Button exitButton = new Button(translationService.translate("duelquiz.exit"), event -> {
             userActivityService.updateActivity(currentUser, "EXIT_DUEL", "duel-quiz");
             currentDuel = null;
-            getUI().ifPresent(ui -> ui.navigate(QuizListView.class));
+            getUI().ifPresent(ui -> ui.navigate(OneQuizzView.class));
         });
 
         mainContent.add(title, scoresLayout, result, rematchInfo, rematchButton, exitButton);

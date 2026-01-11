@@ -1,6 +1,7 @@
 package com.quizz.core.security;
 
 import com.quizz.core.entity.User;
+import com.quizz.core.ui.WelcomeView;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
@@ -40,8 +41,8 @@ public class SecurityService implements VaadinServiceInitListener {
             User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
 
             if (currentUser == null) {
-                // Redirect to login
-                event.rerouteTo(LoginView.class);
+                // Redirect to welcome page for non-authenticated users
+                event.rerouteTo(WelcomeView.class);
             }
         }
     }

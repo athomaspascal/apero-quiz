@@ -81,35 +81,19 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         loginForm.addLoginListener(event -> handleLogin(event.getUsername(), event.getPassword()));
 
-        H3 title = new H3("🎄 Quiz 🎄");
-        title.getStyle()
-            .set("color", "#ffffff")
-            .set("text-shadow", "2px 2px 4px rgba(0,0,0,0.5)")
-            .set("margin-bottom", "0")
-            .set("margin-right", "var(--lumo-space-s)")
-            .set("z-index", "10")
-            .set("position", "relative");
-
         // Language selector buttons
         HorizontalLayout languageButtons = createLanguageButtons();
         languageButtons.getStyle()
             .set("z-index", "10")
             .set("position", "relative");
 
-        // Title and language buttons in same row
-        HorizontalLayout titleRow = new HorizontalLayout(title, languageButtons);
+        // Language buttons centered
+        HorizontalLayout titleRow = new HorizontalLayout(languageButtons);
         titleRow.setAlignItems(Alignment.CENTER);
         titleRow.setJustifyContentMode(JustifyContentMode.CENTER);
         titleRow.getStyle()
-            .set("margin-bottom", "var(--lumo-space-m)");
-        /*
-                Paragraph subtitle = new Paragraph("Sign in to continue");
-                subtitle.getStyle()
-                    .set("color", "rgba(255, 255, 255, 0.9)")
-                    .set("margin-top", "0")
-                    .set("z-index", "10")
-                    .set("position", "relative");
-        */
+            .set("margin-bottom", "var(--lumo-space-s)");
+
         Paragraph registerLink = new Paragraph();
         registerLink.add(translationService.translate("login.noaccount") + " ");
         com.vaadin.flow.router.RouterLink registerRouterLink = new com.vaadin.flow.router.RouterLink(
@@ -190,116 +174,111 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         Div loginContainer = new Div();
         loginContainer.getStyle()
-            .set("background", "linear-gradient(135deg, #1a472a 0%, #2d5f3f 25%, #c41e3a 50%, #165b33 75%, #0f3823 100%)")
-            .set("background-size", "400% 400%")
-            .set("animation", "christmasGradient 15s ease infinite")
-            .set("padding", "var(--lumo-space-l)")
-            .set("border-radius", "var(--lumo-border-radius-l)")
-            .set("box-shadow", "0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 0 20px rgba(255, 215, 0, 0.3)")
-            .set("border", "2px solid rgba(255, 215, 0, 0.4)")
-            .set("max-width", "400px")
-            .set("width", "100%")
-            .set("max-height", "90vh")
-            .set("overflow-y", "auto")
-            .set("overflow-x", "hidden")
+            .set("background", "rgba(255, 255, 255, 0.95)")
+            .set("padding", "var(--lumo-space-m)")
+            .set("border-radius", "15px")
+            .set("box-shadow", "0 10px 40px rgba(0,0,0,0.3)")
+            .set("max-width", "320px")
+            .set("width", "90%")
             .set("position", "relative");
 
         VerticalLayout content = new VerticalLayout();
-        content.setSpacing(true);
+        content.setSpacing(false);
         content.setPadding(false);
         content.setAlignItems(Alignment.CENTER);
-        content.add(titleRow,
-                //subtitle,
-                formWrapper, oauthWrapper);
+        content.add(titleRow, formWrapper, oauthWrapper);
 
         loginContainer.add(content);
-        add(loginContainer);
 
-        // Style the page background
+        // Add festive decorations (stars, balloons, trophies)
+        Div decorationsContainer = createFestiveDecorations();
+
+        add(decorationsContainer, loginContainer);
+
+        // Style the page background - same as welcome screen
         getStyle()
-            .set("background", "var(--lumo-contrast-5pct)")
-            .set("min-height", "100vh");
+            .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+            .set("min-height", "100vh")
+            .set("position", "relative")
+            .set("overflow", "hidden");
+    }
 
-        // Add CSS for animations and snowflakes inside the container
-        addAttachListener(event -> {
-            getUI().ifPresent(ui -> {
-                ui.getPage().executeJs(
-                    "const style = document.createElement('style');" +
-                    "style.textContent = `" +
-                    "@keyframes christmasGradient {" +
-                    "  0%, 100% { background-position: 0% 50%; }" +
-                    "  50% { background-position: 100% 50%; }" +
-                    "}" +
-                    "@keyframes snowfall {" +
-                    "  0% { transform: translateY(-20px) translateX(0); opacity: 1; }" +
-                    "  100% { transform: translateY(600px) translateX(50px); opacity: 0.3; }" +
-                    "}" +
-                    "@keyframes snowfall2 {" +
-                    "  0% { transform: translateY(-20px) translateX(0); opacity: 1; }" +
-                    "  100% { transform: translateY(600px) translateX(-50px); opacity: 0.3; }" +
-                    "}" +
-                    ".container-snowflake {" +
-                    "  position: absolute;" +
-                    "  top: -20px;" +
-                    "  color: white;" +
-                    "  font-size: 1.2em;" +
-                    "  pointer-events: none;" +
-                    "  user-select: none;" +
-                    "  z-index: 1;" +
-                    "}" +
-                    ".container-ornament {" +
-                    "  position: absolute;" +
-                    "  pointer-events: none;" +
-                    "  user-select: none;" +
-                    "  z-index: 0;" +
-                    "  opacity: 0.2;" +
-                    "}" +
-                    "`;" +
-                    "document.head.appendChild(style);" +
+    private Div createFestiveDecorations() {
+        Div container = new Div();
+        container.getStyle()
+            .set("position", "absolute")
+            .set("top", "0")
+            .set("left", "0")
+            .set("width", "100%")
+            .set("height", "100%")
+            .set("pointer-events", "none")
+            .set("z-index", "1")
+            .set("overflow", "hidden");
 
-                    // Find the login container
-                    "setTimeout(() => {" +
-                    "  const containers = document.querySelectorAll('div');" +
-                    "  let loginContainer = null;" +
-                    "  for(let container of containers) {" +
-                    "    const bg = container.style.background;" +
-                    "    if(bg && bg.includes('1a472a')) {" +
-                    "      loginContainer = container;" +
-                    "      break;" +
-                    "    }" +
-                    "  }" +
-                    "  if(!loginContainer) return;" +
+        // Define decoration items with positions
+        String[][] decorations = {
+            // Stars ⭐
+            {"⭐", "5%", "10%", "20px", "0.7"},
+            {"✨", "15%", "25%", "18px", "0.6"},
+            {"⭐", "85%", "15%", "22px", "0.8"},
+            {"✨", "90%", "40%", "16px", "0.5"},
+            {"⭐", "8%", "70%", "24px", "0.7"},
+            {"✨", "75%", "80%", "20px", "0.6"},
+            {"⭐", "92%", "65%", "18px", "0.8"},
+            {"✨", "20%", "85%", "22px", "0.5"},
+            // Balloons 🎈
+            {"🎈", "3%", "30%", "28px", "0.8"},
+            {"🎈", "95%", "25%", "32px", "0.7"},
+            {"🎈", "10%", "55%", "26px", "0.6"},
+            {"🎈", "88%", "70%", "30px", "0.8"},
+            {"🎈", "5%", "90%", "24px", "0.7"},
+            // Trophies 🏆
+            {"🏆", "12%", "40%", "26px", "0.7"},
+            {"🏆", "82%", "50%", "28px", "0.8"},
+            {"🏆", "6%", "80%", "24px", "0.6"},
+            {"🏆", "90%", "85%", "26px", "0.7"},
+            // Confetti 🎉
+            {"🎉", "18%", "12%", "22px", "0.7"},
+            {"🎉", "78%", "8%", "24px", "0.6"},
+            {"🎉", "25%", "75%", "20px", "0.8"},
+            {"🎉", "70%", "90%", "22px", "0.7"},
+            // Party poppers 🎊
+            {"🎊", "30%", "5%", "20px", "0.6"},
+            {"🎊", "65%", "12%", "22px", "0.7"},
+            {"🎊", "35%", "92%", "24px", "0.6"},
+            // Medals 🥇
+            {"🥇", "22%", "60%", "22px", "0.7"},
+            {"🥇", "72%", "35%", "24px", "0.8"},
+            // Sparkles
+            {"💫", "40%", "8%", "18px", "0.5"},
+            {"💫", "55%", "95%", "16px", "0.6"},
+        };
 
-                    // Create snowflakes inside container
-                    "  for(let i = 0; i < 25; i++) {" +
-                    "    const snowflake = document.createElement('div');" +
-                    "    snowflake.classList.add('container-snowflake');" +
-                    "    snowflake.innerHTML = '❄';" +
-                    "    snowflake.style.left = Math.random() * 100 + '%';" +
-                    "    snowflake.style.animationDuration = (Math.random() * 8 + 8) + 's';" +
-                    "    snowflake.style.animationDelay = Math.random() * 5 + 's';" +
-                    "    snowflake.style.opacity = Math.random() * 0.6 + 0.3;" +
-                    "    snowflake.style.fontSize = (Math.random() * 0.8 + 0.5) + 'em';" +
-                    "    snowflake.style.animation = (i % 2 === 0 ? 'snowfall' : 'snowfall2') + ' ' + snowflake.style.animationDuration + ' linear infinite';" +
-                    "    snowflake.style.animationDelay = snowflake.style.animationDelay;" +
-                    "    loginContainer.appendChild(snowflake);" +
-                    "  }" +
+        for (String[] deco : decorations) {
+            Span item = new Span(deco[0]);
+            item.getStyle()
+                .set("position", "absolute")
+                .set("left", deco[1])
+                .set("top", deco[2])
+                .set("font-size", deco[3])
+                .set("opacity", deco[4])
+                .set("animation", "float 3s ease-in-out infinite")
+                .set("animation-delay", (Math.random() * 2) + "s");
+            container.add(item);
+        }
 
-                    // Add Christmas ornaments inside container
-                    "  const ornaments = ['⭐', '🔔', '🎄', '🎅', '🎁', '🕯️', '🌟'];" +
-                    "  for(let i = 0; i < 12; i++) {" +
-                    "    const ornament = document.createElement('div');" +
-                    "    ornament.classList.add('container-ornament');" +
-                    "    ornament.style.fontSize = (Math.random() * 1.2 + 0.8) + 'em';" +
-                    "    ornament.style.left = Math.random() * 100 + '%';" +
-                    "    ornament.style.top = Math.random() * 100 + '%';" +
-                    "    ornament.innerHTML = ornaments[Math.floor(Math.random() * ornaments.length)];" +
-                    "    loginContainer.appendChild(ornament);" +
-                    "  }" +
-                    "}, 100);"
-                );
-            });
-        });
+        // Add CSS animation for floating effect
+        Div styleElement = new Div();
+        styleElement.getElement().setProperty("innerHTML",
+            "<style>" +
+            "@keyframes float {" +
+            "  0%, 100% { transform: translateY(0px) rotate(0deg); }" +
+            "  50% { transform: translateY(-10px) rotate(5deg); }" +
+            "}" +
+            "</style>");
+        container.add(styleElement);
+
+        return container;
     }
 
     @Override

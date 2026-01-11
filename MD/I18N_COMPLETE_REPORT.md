@@ -89,7 +89,7 @@ spring.messages.fallback-to-system-locale=false
 - Cursor : pointer
 - Espacement entre les boutons
 
-#### `com.quizz.core.ui.QuizListView` (Modifié)
+#### `com.quizz.core.ui.OneQuizzView` (Modifié)
 
 **Changements** :
 - ✅ Ajout du `TranslationService` comme dépendance

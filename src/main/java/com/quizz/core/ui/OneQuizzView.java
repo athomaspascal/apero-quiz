@@ -37,9 +37,9 @@ import java.util.Properties;
 @PageTitle("One Quiz")
 @Menu(order = 1, icon = "vaadin:question-circle", title = "menu.quizlist")
     @SuppressWarnings({"deprecation", "removal"})
-class QuizListView extends Main {
+class OneQuizzView extends Main {
 
-    private static final Logger logger = LoggerFactory.getLogger(QuizListView.class);
+    private static final Logger logger = LoggerFactory.getLogger(OneQuizzView.class);
 
     private final QuizService quizService;
     private final QuizSessionService sessionService;
@@ -52,7 +52,7 @@ class QuizListView extends Main {
     private HorizontalLayout quizCardsContainer;
     private Quiz selectedQuiz = null;
 
-    QuizListView(QuizService quizService, QuizSessionService sessionService, TranslationService translationService) {
+    OneQuizzView(QuizService quizService, QuizSessionService sessionService, TranslationService translationService) {
         logger.info("=== QuizListView Constructor: Starting ===");
 
         this.quizService = quizService;
@@ -100,23 +100,88 @@ class QuizListView extends Main {
         shareBtn.setEnabled(false);
 
 
-        // Create horizontal container for quiz cards
+        // Create horizontal container for quiz cards with colored background
         quizCardsContainer = new HorizontalLayout();
         quizCardsContainer.setSpacing(true);
         quizCardsContainer.getStyle()
             .set("flex-wrap", "wrap")
             .set("gap", "10px")
-            .set("padding", "10px");
+            .set("padding", "15px")
+            .set("background-color", "#F8D9FF")
+            .set("border-radius", "12px")
+            .set("box-shadow", "0 4px 12px rgba(0,0,0,0.1)");
 
         setSizeFull();
         addClassNames(LumoUtility.BoxSizing.BORDER, LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN,
                 LumoUtility.Padding.MEDIUM, LumoUtility.Gap.SMALL);
+        getStyle()
+            .set("overflow-y", "auto")
+            .set("overflow-x", "hidden");
 
         // Create user profile section
         VerticalLayout userProfileSection = createUserProfileSection();
 
-        add(userProfileSection);
-        add(new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn, teamModeCheckbox)));
+        // Create toolbar
+        ViewToolbar toolbar = new ViewToolbar(translationService.translate("quizlist.title"), ViewToolbar.group(name, startButton, shareBtn, teamModeCheckbox));
+
+        // Style toolbar for better mobile display - use vertical layout on small screens
+        toolbar.getStyle()
+            .set("flex-wrap", "wrap")
+            .set("gap", "8px")
+            .set("width", "100%");
+
+        // Add responsive CSS via JavaScript for mobile
+        toolbar.getElement().executeJs(
+            "const style = document.createElement('style');" +
+            "style.textContent = `" +
+            "  @media (max-width: 600px) {" +
+            "    .view-toolbar-group {" +
+            "      flex-direction: column !important;" +
+            "      width: calc(100% - 10px) !important;" +
+            "      align-items: stretch !important;" +
+            "      margin-right: 10px !important;" +
+            "    }" +
+            "    .view-toolbar-group > * {" +
+            "      width: 100% !important;" +
+            "      min-width: unset !important;" +
+            "      box-sizing: border-box !important;" +
+            "    }" +
+            "  }" +
+            "`;" +
+            "document.head.appendChild(style);"
+        );
+
+        // Style text field for mobile - full width on small screens
+        name.getStyle()
+            .set("min-width", "100px")
+            .set("max-width", "100%")
+            .set("font-size", "12px")
+            .set("flex", "1 1 auto");
+        name.setMinWidth("100px");
+        name.setWidthFull();
+
+        // Style buttons for mobile - full width on small screens
+        startButton.getStyle()
+            .set("font-size", "12px")
+            .set("padding", "8px 12px")
+            .set("min-width", "auto")
+            .set("flex", "1 1 auto");
+
+        shareBtn.getStyle()
+            .set("font-size", "12px")
+            .set("padding", "8px 12px")
+            .set("min-width", "auto")
+            .set("flex", "1 1 auto");
+
+        teamModeCheckbox.getStyle()
+            .set("font-size", "11px")
+            .set("--lumo-checkbox-size", "18px")
+            .set("white-space", "nowrap");
+
+        // Wrap user profile AND toolbar in a single festive container
+        Div festiveHeader = createFestiveHeaderContainer(userProfileSection, toolbar);
+
+        add(festiveHeader);
         add(quizCardsContainer);
 
         logger.info("UI components created, about to load quiz cards...");
@@ -154,13 +219,113 @@ class QuizListView extends Main {
         }
     }
 
+    private Div createFestiveHeaderContainer(VerticalLayout userProfile, ViewToolbar toolbar) {
+        Div container = new Div();
+        container.getStyle()
+            .set("position", "relative")
+            .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+            .set("padding", "15px 25px 15px 20px")
+            .set("border-radius", "12px")
+            .set("box-shadow", "0 4px 12px rgba(0,0,0,0.2)")
+            .set("overflow", "visible")
+            .set("margin-bottom", "10px")
+            .set("margin-right", "5px")
+            .set("min-height", "auto")
+            .set("height", "auto")
+            .set("flex-shrink", "0");
+
+        // Create decorations container
+        Div decorations = new Div();
+        decorations.getStyle()
+            .set("position", "absolute")
+            .set("top", "0")
+            .set("left", "0")
+            .set("width", "100%")
+            .set("height", "100%")
+            .set("pointer-events", "none")
+            .set("z-index", "1");
+
+        // Add festive decorations (stars, balloons, trophies)
+        String[][] decoItems = {
+            {"⭐", "2%", "10%", "16px", "0.7"},
+            {"✨", "8%", "85%", "14px", "0.6"},
+            {"🎈", "5%", "45%", "18px", "0.8"},
+            {"⭐", "92%", "15%", "16px", "0.7"},
+            {"✨", "95%", "70%", "14px", "0.6"},
+            {"🎈", "97%", "40%", "18px", "0.8"},
+            {"🏆", "3%", "70%", "16px", "0.7"},
+            {"🏆", "96%", "85%", "16px", "0.7"},
+            {"🎉", "10%", "20%", "14px", "0.6"},
+            {"🎉", "88%", "25%", "14px", "0.6"},
+            {"💫", "15%", "60%", "12px", "0.5"},
+            {"💫", "85%", "55%", "12px", "0.5"},
+            {"🎊", "6%", "30%", "12px", "0.5"},
+            {"🎊", "94%", "65%", "12px", "0.5"},
+        };
+
+        for (String[] deco : decoItems) {
+            Span item = new Span(deco[0]);
+            item.getStyle()
+                .set("position", "absolute")
+                .set("left", deco[1])
+                .set("top", deco[2])
+                .set("font-size", deco[3])
+                .set("opacity", deco[4]);
+            decorations.add(item);
+        }
+
+        // Style user profile section
+        userProfile.getStyle()
+            .set("position", "relative")
+            .set("z-index", "2")
+            .set("margin-bottom", "10px")
+            .set("width", "calc(100% - 20px)")
+            .set("box-sizing", "border-box");
+
+        // Style the toolbar content to be visible above decorations
+        toolbar.getStyle()
+            .set("position", "relative")
+            .set("z-index", "2")
+            .set("background", "rgba(255, 255, 255, 0.95)")
+            .set("padding", "12px 16px")
+            .set("border-radius", "8px")
+            .set("flex-wrap", "wrap")
+            .set("gap", "10px")
+            .set("min-height", "auto")
+            .set("height", "auto")
+            .set("display", "flex")
+            .set("align-items", "center")
+            .set("flex-direction", "row")
+            .set("width", "calc(100% - 20px)")
+            .set("box-sizing", "border-box");
+
+        // Create inner content wrapper - use VerticalLayout for proper flow
+        VerticalLayout contentWrapper = new VerticalLayout();
+        contentWrapper.setPadding(false);
+        contentWrapper.setSpacing(true);
+        contentWrapper.setAlignItems(VerticalLayout.Alignment.CENTER);
+        contentWrapper.getStyle()
+            .set("position", "relative")
+            .set("z-index", "2")
+            .set("width", "100%")
+            .set("padding", "0")
+            .set("box-sizing", "border-box");
+        contentWrapper.add(userProfile, toolbar);
+
+        container.add(decorations, contentWrapper);
+        return container;
+    }
+
     private VerticalLayout createUserProfileSection() {
         VerticalLayout profileSection = new VerticalLayout();
         profileSection.setAlignItems(VerticalLayout.Alignment.CENTER);
-        profileSection.setPadding(false);
+        profileSection.setPadding(true);
         profileSection.setSpacing(false);
         profileSection.getStyle()
-            .set("margin-bottom", "20px");
+            .set("background", "rgba(255, 255, 255, 0.9)")
+            .set("border-radius", "10px")
+            .set("padding", "12px")
+            .set("margin-bottom", "8px");
 
         // Get current user
         User currentUser = VaadinSession.getCurrent().getAttribute(User.class);
@@ -171,11 +336,11 @@ class QuizListView extends Main {
         avatarAndFlagLayout.setSpacing(true);
         avatarAndFlagLayout.getStyle().set("gap", "10px");
 
-        // Create avatar container
+        // Create avatar container - smaller for mobile
         Div avatarContainer = new Div();
         avatarContainer.getStyle()
-            .set("width", "80px")
-            .set("height", "80px")
+            .set("width", "60px")
+            .set("height", "60px")
             .set("border-radius", "50%")
             .set("overflow", "hidden")
             .set("display", "flex")
@@ -199,7 +364,7 @@ class QuizListView extends Main {
             avatarContainer.getStyle()
                 .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
                 .set("color", "white")
-                .set("font-size", "32px")
+                .set("font-size", "24px")
                 .set("font-weight", "bold");
             String initials = getInitials(currentUser.getName());
             Span initialsSpan = new Span(initials);
@@ -209,7 +374,7 @@ class QuizListView extends Main {
             avatarContainer.getStyle()
                 .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
                 .set("color", "white")
-                .set("font-size", "32px");
+                .set("font-size", "24px");
             Span defaultIcon = new Span("👤");
             avatarContainer.add(defaultIcon);
         }
