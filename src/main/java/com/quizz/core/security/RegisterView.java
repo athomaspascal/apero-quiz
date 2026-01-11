@@ -71,8 +71,7 @@ public class RegisterView extends VerticalLayout {
         nameField.setRequired(true);
 
         // Gender radio button group
-        genderField = new RadioButtonGroup<>();
-        genderField.setLabel(translationService.translate("register.gender"));
+        genderField = new RadioButtonGroup<>(translationService.translate("register.gender"));
         genderField.setItems(Gender.MALE, Gender.FEMALE);
 
         // Use item label generator to display symbol + first letter
