@@ -232,7 +232,8 @@ class OneQuizzView extends Main {
             .set("margin-right", "5px")
             .set("min-height", "auto")
             .set("height", "auto")
-            .set("flex-shrink", "0");
+            .set("flex-shrink", "0")
+            .set("isolation", "isolate");
 
         // Create decorations container
         Div decorations = new Div();
